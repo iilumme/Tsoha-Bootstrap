@@ -7,6 +7,7 @@ Yleisiä linkkejä:
 * [Linkki rekisteröitymiseen](http://iilumme.users.cs.helsinki.fi/tsoha/register)
 * [Linkki kirjautumiseen](http://iilumme.users.cs.helsinki.fi/tsoha/login)
 * [Linkki elokuvan lisäykseen](http://iilumme.users.cs.helsinki.fi/tsoha/addmovie)
+* [Linkki elokuvan tekijöiden lisäykseen](http://iilumme.users.cs.helsinki.fi/tsoha/addmovie/addpeople)
 * [Linkki hakuun](http://iilumme.users.cs.helsinki.fi/tsoha/search)
 
 ## Työn aihe
