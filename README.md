@@ -2,8 +2,10 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://iilumme.users.cs.helsinki.fi/tsoha/)
+* [Linkki sovellukseeni/etusivu](http://iilumme.users.cs.helsinki.fi/tsoha/)
 * [Linkki dokumentaatiooni](https://github.com/iilumme/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
+* [Linkki rekisteröitymiseen](http://iilumme.users.cs.helsinki.fi/tsoha/register)
+* [Linkki kirjautumiseen](http://iilumme.users.cs.helsinki.fi/tsoha/login)
 
 ## Työn aihe
 
