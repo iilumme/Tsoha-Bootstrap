@@ -6,6 +6,7 @@ Yleisiä linkkejä:
 * [Linkki dokumentaatiooni](https://github.com/iilumme/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 * [Linkki rekisteröitymiseen](http://iilumme.users.cs.helsinki.fi/tsoha/register)
 * [Linkki kirjautumiseen](http://iilumme.users.cs.helsinki.fi/tsoha/login)
+* [Linkki elokuvan lisäykseen](http://iilumme.users.cs.helsinki.fi/tsoha/addmovie)
 
 ## Työn aihe
 
