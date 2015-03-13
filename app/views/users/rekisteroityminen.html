@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Tervetuloa rekisteröitymään LATLeffaLaariin!</h2>
+<br>
+
+<form>
+    <div class="form-group">
+        <label>Nimi</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Sähköposti</label>
+        <input type="email" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Käyttäjätunnus</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Salasana</label>
+        <input type="password" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Lempigenre</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Kuva</label>
+        <input type="image" class="form-control">
+    </div>
+    <button type="submit" class="btn bg-success">Rekisteröidy</button>
+</form>
+
+{% endblock %}

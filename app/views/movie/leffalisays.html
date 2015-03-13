@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Lisää elokuva</h2>
+<br>
+
+<form>
+    <div class="form-group">
+        <label>Elokuvan nimi</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Julkaisuvuosi</label>
+        <input type="number" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Maa</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Palkinnot</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox">
+            Kuuluuko sarjaan?
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Genre</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox">
+            Genrejä enemmän kuin yksi?
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Kieli</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Traileri</label>
+        <input type="url" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Synopsis</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>DVD:n kansi</label>
+        <input type="image" class="form-control">
+    </div>
+    <button type="submit" class="btn bg-success">Seuraava</button>
+</form>
+
+{% endblock %}

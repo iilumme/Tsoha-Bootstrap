@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat ja näyttelijät</h3>
+<br>
+
+<form>
+    
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="ohjaajaMenu" data-toggle="dropdown">
+            Ohjaajat<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="ohjaajaMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Alejandro González Iñárritu</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Luis Buñuel Portolés</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Alfonso Cuarón Orozco</a></li>
+        </ul>
+    </div>
+    <br>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="kuvaajaMenu" data-toggle="dropdown">
+            Kuvaajat<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="kuvaajaMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Emmanuel Lubezki Morgenstern</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rodrigo Prieto</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Enrique Aular</a></li>
+        </ul>
+    </div>
+    <br>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="kassariMenu" data-toggle="dropdown">
+            Käsikirjoittajat<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="kassariMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Armando Bó Jr</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Miguel Ferrari</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Guillermo del Toro Gómez</a></li>
+        </ul>
+    </div>
+    <br>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="nayttelijaMenu" data-toggle="dropdown">
+            Näyttelijät<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="nayttelijaMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Demián Bichir Nájera</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Diego Luna Alexander</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sofía Vergara Vergara</a></li>
+        </ul>
+    </div>
+    <br>
+    <button type="submit" class="btn bg-success">Lisää</button>
+</form>
+
+{% endblock %}
+
