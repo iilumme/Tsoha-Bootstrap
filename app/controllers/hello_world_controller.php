@@ -43,5 +43,8 @@ class HelloWorldController extends BaseController {
     public static function lists() {
         View::make('users/lista.html');
     }
-
+    
+    public static function mypage() {
+        View::make('users/omasivu.html');
+    }
 }
