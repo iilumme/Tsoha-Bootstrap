@@ -10,6 +10,7 @@ Yleisiä linkkejä:
 * [Linkki elokuvan tekijöiden lisäykseen](http://iilumme.users.cs.helsinki.fi/tsoha/addmovie/addpeople)
 * [Linkki hakuun](http://iilumme.users.cs.helsinki.fi/tsoha/search)
 * [Linkki leffan esittelyyn](http://iilumme.users.cs.helsinki.fi/tsoha/movie)
+* [Linkki käyttäjän listoihin](http://iilumme.users.cs.helsinki.fi/tsoha/lists)
 
 ## Työn aihe
 
