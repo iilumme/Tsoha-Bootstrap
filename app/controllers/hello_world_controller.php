@@ -35,5 +35,13 @@ class HelloWorldController extends BaseController {
     public static function search() {
         View::make('suunnitelmat/haku.html');
     }
+    
+    public static function movie() {
+        View::make('movie/leffaetusivu.html');
+    }
+    
+    public static function lists() {
+        View::make('users/lista.html');
+    }
 
 }

@@ -27,3 +27,11 @@ $routes->get('/register', function() {
 $routes->get('/search', function() {
     HelloWorldController::search();
 });
+
+$routes->get('/movie', function() {
+    HelloWorldController::movie();
+});
+
+$routes->get('/lists', function() {
+    HelloWorldController::lists();
+});
