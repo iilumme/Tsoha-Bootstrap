@@ -1,4 +1,3 @@
--- Lisää CREATE TABLE lauseet tähän tiedostoon
 CREATE TABLE Genre (
   genreID   SERIAL PRIMARY KEY,
   genreNimi VARCHAR(100) NOT NULL
@@ -81,8 +80,7 @@ CREATE TABLE Artisti (
 
 CREATE TABLE Palkinto (
   palkintoID   SERIAL PRIMARY KEY,
-  palkintoNimi VARCHAR(100) NOT NULL,
-  voitettu     CHAR         NOT NULL
+  palkintoNimi VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Kommentti (
@@ -109,15 +107,17 @@ CREATE TABLE ArtistiLaari (
 );
 
 CREATE TABLE LeffaPalkintoLaari (
-  palkintoID INT NOT NULL,
-  leffaID    INT NOT NULL,
+  palkintoID INT  NOT NULL,
+  leffaID    INT  NOT NULL,
+  voitettu   CHAR NOT NULL,
   FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID),
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
 );
 
 CREATE TABLE ArtistiPalkintoLaari (
-  palkintoID INT NOT NULL,
-  artistitID INT NOT NULL,
+  palkintoID INT  NOT NULL,
+  artistitID INT  NOT NULL,
+  voitettu   CHAR NOT NULL,
   FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID),
   FOREIGN KEY (artistitID) REFERENCES Artisti (artistiID)
 );
