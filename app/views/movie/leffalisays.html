@@ -13,29 +13,16 @@
         <label>Julkaisuvuosi</label>
         <input type="number" class="form-control">
     </div>
-    <div class="form-group">
+    <div class="dropdown">
         <label>Maa</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="form-group">
-        <label>Palkinnot</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="checkbox">
-        <label>
-            <input type="checkbox">
-            Kuuluuko sarjaan?
-        </label>
-    </div>
-    <div class="form-group">
-        <label>Genre</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="checkbox">
-        <label>
-            <input type="checkbox">
-            Genrejä enemmän kuin yksi?
-        </label>
+        <button class="btn btn-default dropdown-toggle" type="button" id="valtioMenu" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="valtioMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Argentina</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Brasilia</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Meksiko</a></li>
+        </ul>
     </div>
     <div class="form-group">
         <label>Kieli</label>
@@ -53,7 +40,7 @@
         <label>DVD:n kansi</label>
         <input type="image" class="form-control">
     </div>
-    <button type="submit" class="btn bg-success">Seuraava</button>
+    <button type="submit" class="btn btn-success">Seuraava</button>
 </form>
 
 {% endblock %}

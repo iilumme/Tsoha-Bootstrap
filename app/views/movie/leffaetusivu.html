@@ -1,55 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="col-md-6"><h2>Amores perros</h2></div>
-<div class="col-md-6">
-    <button class="btn bg-warning">Lisää suosikkeihin</button>
-    <button class="btn bg-warning">Lisää katsottuihin</button>
-    <button class="btn bg-warning">Lisää MásTarde-listaan</button>
-    <button class="btn bg-info">Arvioi/Kommentoi</button>
-    <button class="btn bg-success">Muokkaa</button>
-    <button class="btn bg-danger">Poista</button>
+<div class="row">
+    <div class="col-md-6"><h2>Amores perros</h2></div>
+    <div class="col-md-2">
+        <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="listaMenu" data-toggle="dropdown">
+                Lisää listalle
+                <span class="caret">
+                </span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="listaMenu" id="listamenubuttons">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Lisää suosikkeihin</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Lisää katsottuihin</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Lisää MásTarde-listaan</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-info">Arvioi/Kommentoi</button>
+        <button class="btn btn-success">Muokkaa</button>
+        <button class="btn btn-danger">Poista</button>
+    </div>
+
 </div>
 
-<div class="col-md-6">
-    <ul>
-        <li><strong>Maa:</strong> Meksiko</li>
-        <li><strong>Julkaisuvuosi:</strong> 2000</li>
-        <li><strong>Kieli:</strong> espanja</li>
-        <li><strong>Genre:</strong> draama, trilleri</li>
-        <li><strong>Ohjaajat:</strong> Alejandro González Iñárritu</li>
-        <li><strong>Käsikirjoittajat:</strong> Guillermo Arriaga Jordán</li>
-        <li><strong>Kuvaajat:</strong> Rodrigo Prieto</li>
-        <li><strong>Näyttelijät:</strong> Gael García Bernal, Emilio Echevarría, Vanessa Bauche</li>
-        <li><strong>Palkinnot:</strong> BAFTA Award for Best Film Not in the English Language</li>
-    </ul>
-    <br>
-    <h5>Synopsis</h5>
-    <p class="bg-success" style="font-family: monospace">
-        Amores Perros koostuu kolmesta episodista. 
-        Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). 
-        Koirien ja päähenkilöiden kohtalot limittyvät saumattomasti toisiinsa; 
-        lemmikki voi olla tie menestykseen, ihmissuhteen symboli tai ainoa todellinen kiintymyksen kohde.
-    </p>
+<div class="row">
+    <div class="col-md-6">
+        <ul id="tietolaatikko">
+            <li><strong>Maa:</strong> Meksiko</li>
+            <li><strong>Julkaisuvuosi:</strong> 2000</li>
+            <li><strong>Kieli:</strong> espanja</li>
+            <li><strong>Genre:</strong> draama, trilleri</li>
+            <li><strong>Ohjaajat:</strong> Alejandro González Iñárritu</li>
+            <li><strong>Käsikirjoittajat:</strong> Guillermo Arriaga Jordán</li>
+            <li><strong>Kuvaajat:</strong> Rodrigo Prieto</li>
+            <li><strong>Näyttelijät:</strong> Gael García Bernal, Emilio Echevarría, Vanessa Bauche</li>
+            <li><strong>Palkinnot:</strong> BAFTA Award for Best Film Not in the English Language</li>
+        </ul>
+        <br>
+        <h5>Synopsis</h5>
+        <p style="font-family: monospace" id="synopsis">
+            Amores Perros koostuu kolmesta episodista. 
+            Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). 
+            Koirien ja päähenkilöiden kohtalot limittyvät saumattomasti toisiinsa; 
+            lemmikki voi olla tie menestykseen, ihmissuhteen symboli tai ainoa todellinen kiintymyksen kohde.
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p>kuva</p>
+        <p>traileri</p>
+    </div>
 </div>
-<div class="col-md-6">
-    <p>kuva</p>
-    <p>traileri</p>
+<br>
+<div class="row">
+    <div class="col-md-6" id="arviointilaatikko">
+        <h5>Arviot ja kommentit</h5>
+        <ul>
+            <li>Iina antoi <b>5</b> tähteä</li>
+            <li>Iina: <i>"Kuvaa realistisesti Mexico Cityn elämää upealta kuvakulmalta."</i></li>
+            <li>AkuAnkka123 antoi <b>4</b> tähteä</li>
+        </ul>
+    </div>
+    <div class="col-md-6" id="dvdlistaus">
+        <h5>Käyttäjät, jotka omistavat DVD:nä</h5>
+        <ul>
+            <li>admin</li>
+        </ul>
+    </div>
 </div>
-    
-<div class="col-md-6">
-    <h5>Arviot ja kommentit</h5>
-    <ul>
-        <li>Iina antoi <b>5</b> tähteä</li>
-        <li>Iina: <i>"Kuvaa realistisesti Mexico Cityn elämää upealta kuvakulmalta."</i></li>
-        <li>AkuAnkka123 antoi <b>4</b> tähteä</li>
-    </ul>
-</div>
-<div class="col-md-6">
-    <h5>Käyttäjät, jotka omistavat DVD:nä</h5>
-    <ul>
-        <li>admin</li>
-    </ul>
-</div>
+
 
 {% endblock %}

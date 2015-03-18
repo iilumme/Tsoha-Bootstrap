@@ -8,6 +8,10 @@ $routes->get('/hiekkalaatikko', function() {
 HelloWorldController::sandbox();
 });
 
+$routes->get('/register', function() {
+HelloWorldController::register();
+});
+
 $routes->get('/login', function() {
 HelloWorldController::login();
 });
@@ -18,10 +22,6 @@ HelloWorldController::add_movie();
 
 $routes->get('/addmovie/addpeople', function() {
 HelloWorldController::add_people();
-});
-
-$routes->get('/register', function() {
-HelloWorldController::register();
 });
 
 $routes->get('/search', function() {
@@ -38,4 +38,8 @@ HelloWorldController::lists();
 
 $routes->get('/mypage', function() {
 HelloWorldController::mypage();
+});
+
+$routes->get('/artist', function() {
+HelloWorldController::artist();
 });

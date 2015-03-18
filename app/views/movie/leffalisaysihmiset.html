@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat ja näyttelijät</h3>
+<h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät ja genret</h3>
 <br>
 
 <form>
-    
     <div class="dropdown">
+        <label>Ohjaajat</label>
         <button class="btn btn-default dropdown-toggle" type="button" id="ohjaajaMenu" data-toggle="dropdown">
-            Ohjaajat<span class="caret"></span>
+            <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="ohjaajaMenu">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Alejandro González Iñárritu</a></li>
@@ -18,8 +18,9 @@
     </div>
     <br>
     <div class="dropdown">
+        <label>Kuvaajat</label>
         <button class="btn btn-default dropdown-toggle" type="button" id="kuvaajaMenu" data-toggle="dropdown">
-            Kuvaajat<span class="caret"></span>
+            <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="kuvaajaMenu">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Emmanuel Lubezki Morgenstern</a></li>
@@ -29,8 +30,9 @@
     </div>
     <br>
     <div class="dropdown">
+        <label>Käsikirjoittajat</label>
         <button class="btn btn-default dropdown-toggle" type="button" id="kassariMenu" data-toggle="dropdown">
-            Käsikirjoittajat<span class="caret"></span>
+            <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="kassariMenu">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Armando Bó Jr</a></li>
@@ -40,8 +42,9 @@
     </div>
     <br>
     <div class="dropdown">
+        <label>Näyttelijät</label>
         <button class="btn btn-default dropdown-toggle" type="button" id="nayttelijaMenu" data-toggle="dropdown">
-            Näyttelijät<span class="caret"></span>
+            <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="nayttelijaMenu">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Demián Bichir Nájera</a></li>
@@ -49,8 +52,35 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sofía Vergara Vergara</a></li>
         </ul>
     </div>
+    <div class="dropdown">
+        <label>Genret</label>
+        <button class="btn btn-default dropdown-toggle" type="button" id="genreMenu" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="genreMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Draama</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Trilleri</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Romantiikka</a></li>
+        </ul>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox">
+            Kuuluu sarjaan
+        </label>
+    </div>
+    <div class="dropdown">
+        <label>Sarjat</label>
+        <button class="btn btn-default dropdown-toggle" type="button" id="sarjaMenu" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="sarjaMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">La Trilogía de la muerte</a></li>
+        </ul>
+    </div>
     <br>
-    <button type="submit" class="btn bg-success">Lisää</button>
+    <button type="submit" class="btn btn-success">Lisää</button>
 </form>
 
 {% endblock %}

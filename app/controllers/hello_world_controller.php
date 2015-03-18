@@ -47,4 +47,8 @@ class HelloWorldController extends BaseController {
     public static function mypage() {
         View::make('users/omasivu.html');
     }
+    
+    public static function artist() {
+        View::make('movie/artistiesittely.html');
+    }
 }
