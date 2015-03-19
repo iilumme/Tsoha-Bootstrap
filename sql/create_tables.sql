@@ -95,7 +95,7 @@ CREATE TABLE Kommentti (
 
 CREATE TABLE Sarja (
   sarjaID   SERIAL PRIMARY KEY,
-  sarjaNimi VARCHAR(1000) NOT NULL
+  sarjaNimi VARCHAR(100) NOT NULL
 );
 
 

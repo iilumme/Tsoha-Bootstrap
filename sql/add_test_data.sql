@@ -36,7 +36,7 @@ INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='
 
 INSERT INTO Palkinto (palkintoNimi) VALUES ('Oscar, Paras ulkomaalainen elokuva');
 
-INSERT INTO LeffaPalkintoLaari VALUES ((SELECT palkintoID FROM Palkinto WHERE palkintoNimi='Oscar, Paras ulkomaalainen elokuva'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'), 'N');
+INSERT INTO LeffaPalkintoLaari (palkintoID, leffaID, voitettu) VALUES ((SELECT palkintoID FROM Palkinto WHERE palkintoNimi='Oscar, Paras ulkomaalainen elokuva'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'), 'N');
 
 INSERT INTO Sarja (sarjaNimi) VALUES ('la Trilogía de la muerte');
 
