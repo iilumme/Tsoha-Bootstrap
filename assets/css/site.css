@@ -32,5 +32,36 @@
     background-color: #e1edf7;
     color: #269abc;
     border-color: #245269;
-    margin: 50px;
 }
+
+#hakusanaboxi {
+    width: 250px;
+    border-radius: 5px;
+    height: 30px;
+    border-color: silver;
+}
+
+#maaMenu {
+    width: 150px;
+}
+
+#genretMenu{
+    width: 150px;
+}
+
+#kieliMenu{
+    width: 150px;
+}
+
+#genretMenu{
+    width: 150px;
+}
+
+#palkintoMenu{
+    width: 150px;
+}
+
+#sarjatMenu{
+    width: 150px;
+}
+
