@@ -20,3 +20,17 @@
     padding: 10px;
     border-radius: 5px;
 }
+
+#synopsisteksti{
+    height: 150px;
+    width: 560px;
+    border-radius: 5px;
+    border-color: silver;
+}
+
+#poistettava {
+    background-color: #e1edf7;
+    color: #269abc;
+    border-color: #245269;
+    margin: 50px;
+}

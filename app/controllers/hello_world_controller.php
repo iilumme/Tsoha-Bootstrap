@@ -40,6 +40,10 @@ class HelloWorldController extends BaseController {
         View::make('movie/leffaetusivu.html');
     }
     
+    public static function movieEdit() {
+        View::make('movie/leffamuokkaus.html');
+    }
+    
     public static function lists() {
         View::make('users/lista.html');
     }

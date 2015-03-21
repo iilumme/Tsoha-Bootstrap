@@ -43,3 +43,7 @@ HelloWorldController::mypage();
 $routes->get('/artist', function() {
 HelloWorldController::artist();
 });
+
+$routes->get('/movie/edit', function() {
+HelloWorldController::movieEdit();
+});

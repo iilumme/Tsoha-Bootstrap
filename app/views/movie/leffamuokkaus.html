@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-9"><h2>Elokuvan Amores perros muokkaus</h2></div>
+    <div class="col-md-3">
+        <button class="btn bg-danger"><a href="{{base_path}}/movie">Peruuta</a></button>
+        <button class="btn btn-success">Tallenna</button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <form>
+            <div class="dropdown">
+                <label></label>
+                <button class="btn btn-default dropdown-toggle" type="button" id="valtioMenu" data-toggle="dropdown">
+                    Maa <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="valtioMenu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Argentina</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Brasilia</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Meksiko</a></li>
+                </ul>
+            </div>
+            <br>
+            <div class="form-group">
+                <label>Julkaisuvuosi</label>
+                <input type="text" class="form-control" value="2000">
+            </div>
+            <div class="form-group">
+                <label>Kieli</label>
+                <input type="text" class="form-control" value="espanja">
+            </div>
+
+            <div class="form-group">
+                <label>Genret</label>    
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">draama</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">trilleri</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ohjaajat</label>    
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">Alejandro González Iñárritu</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Käsikirjoittajat</label>    
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">Guillermo Arriaga Jordán</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Kuvaajat</label>    
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">Rodrigo Prieto</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Näyttelijät</label>    
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">Gael García Bernal</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">Emilio Echevarría</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">Vanessa Bauche</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Palkinnot</label>    
+                <div class="input-group">
+                    <div class="input-group-addon" id="poistettava">BAFTA Award for Best Film Not in the English Language</div>
+                    <div class="input-group-addon" id="poistettava">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>Kuva</label>
+                <input type="image" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Traileri</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Synopsis</label>
+                <textarea class="form-group" style="font-family: monospace" id="synopsisteksti">Amores Perros koostuu kolmesta episodista. Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). Koirien ja päähenkilöiden kohtalot limittyvät saumattomasti toisiinsa; lemmikki voi olla tie menestykseen, ihmissuhteen symboli tai ainoa todellinen kiintymyksen kohde.
+                </textarea>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
