@@ -1,5 +1,5 @@
 <?php
-
+require 'app/models/Elokuva.php';
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -9,7 +9,10 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        View::make('helloworld.html');
+        $elokuva = Elokuva::findOne(1);
+        $elokuvat = Elokuva::all();
+        Kint::dump($elokuva);    
+        Kint::dump($elokuvat);
     }
 
     public static function first_page() {
