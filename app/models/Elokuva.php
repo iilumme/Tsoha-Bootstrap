@@ -2,7 +2,7 @@
 
 class Elokuva extends BaseModel {
 
-    public $leffaID, $leffaNimi, $vuosi, $valtio, $kieli, $kuva, $synopsis, $traileriURL, $lisatty, $viimeksiMuutettu;
+    public $leffaid, $leffanimi, $vuosi, $valtio, $kieli, $kuva, $synopsis, $traileriurl, $lisatty, $viimeksimuutettu;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
@@ -17,37 +17,36 @@ class Elokuva extends BaseModel {
 
         foreach ($tulokset as $tulos) {
             $elokuvat[] = new Elokuva(array(
-                'leffaID' => $tulos['leffaID'],
-                'leffaNimi' => $tulos['leffaNimi'],
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
                 'vuosi' => $tulos['vuosi'],
                 'valtio' => $tulos['valtio'],
                 'kieli' => $tulos['kieli'],
                 'synopsis' => $tulos['synopsis'],
-                'traileriURL' => $tulos['traileriURL'],
+                'traileriurl' => $tulos['traileriurl'],
                 'lisatty' => $tulos['lisatty'],
-                'viimeksiMuutettu' => $tulos['viimeksiMuutettu']
-                    )
-            );
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
         }
         return $elokuvat;
     }
 
     public static function findOne($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE leffaID = :leffaID LIMIT 1');
-        $query->execute(array('leffaID' => $id));
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE leffaid = :leffaid LIMIT 1');
+        $query->execute(array('leffaid' => $id));
         $tulos = $query->fetch();
 
         if ($tulos) {
             $elokuva = new Elokuva(array(
-                'leffaID' => $tulos['leffaID'],
-                'leffaNimi' => $tulos['leffaNimi'],
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
                 'vuosi' => $tulos['vuosi'],
                 'valtio' => $tulos['valtio'],
                 'kieli' => $tulos['kieli'],
                 'synopsis' => $tulos['synopsis'],
-                'traileriURL' => $tulos['traileriURL'],
+                'traileriurl' => $tulos['traileriurl'],
                 'lisatty' => $tulos['lisatty'],
-                'viimeksiMuutettu' => $tulos['viimeksiMuutettu']
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
             ));
             return $elokuva;
         }
