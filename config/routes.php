@@ -1,49 +1,53 @@
 <?php
 
 $routes->get('/', function() {
-HelloWorldController::first_page();
+    HelloWorldController::first_page();
 });
 
 $routes->get('/hiekkalaatikko', function() {
-HelloWorldController::sandbox();
+    HelloWorldController::sandbox();
 });
 
 $routes->get('/register', function() {
-HelloWorldController::register();
+    HelloWorldController::register();
 });
 
 $routes->get('/login', function() {
-HelloWorldController::login();
+    HelloWorldController::login();
 });
 
 $routes->get('/addmovie', function() {
-HelloWorldController::add_movie();
+    HelloWorldController::add_movie();
 });
 
 $routes->get('/addmovie/addpeople', function() {
-HelloWorldController::add_people();
+    HelloWorldController::add_people();
 });
 
 $routes->get('/search', function() {
-HelloWorldController::search();
+    HelloWorldController::search();
 });
 
 $routes->get('/movie', function() {
 HelloWorldController::movie();
 });
 
+$routes->get('/movie/:id', function($id) {
+    MovieController::index();
+});
+
 $routes->get('/lists', function() {
-HelloWorldController::lists();
+    HelloWorldController::lists();
 });
 
 $routes->get('/mypage', function() {
-HelloWorldController::mypage();
+    HelloWorldController::mypage();
 });
 
 $routes->get('/artist', function() {
-HelloWorldController::artist();
+    HelloWorldController::artist();
 });
 
 $routes->get('/movie/edit', function() {
-HelloWorldController::movieEdit();
+    HelloWorldController::movieEdit();
 });

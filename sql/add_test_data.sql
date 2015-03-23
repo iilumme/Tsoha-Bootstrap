@@ -3,7 +3,7 @@ INSERT INTO Valtiot (valtioNimi, valtioBio) VALUES ('Meksiko', 'Lempimaani');
 
 INSERT INTO Genre (genreNimi) VALUES ('Draama');
 
-INSERT INTO Elokuva VALUES (DEFAULT, 'Amores perros',2001,(SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'),'espanja', null, 'Amores Perros koostuu kolmesta episodista. 
+INSERT INTO Elokuva VALUES (DEFAULT, 'Amores perros',2000,(SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'),'espanja', null, 'Amores Perros koostuu kolmesta episodista. 
                   Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). 
                   Koirien ja päähenkilöiden kohtalot limittyvät saumattomasti toisiinsa: 
                   lemmikki voi olla tie menestykseen, ihmissuhteen symboli 

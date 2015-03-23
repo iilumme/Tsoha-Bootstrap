@@ -11,8 +11,13 @@ class HelloWorldController extends BaseController {
         // Testaa koodiasi täällä
         $elokuva = Elokuva::findOne(1);
         $elokuvat = Elokuva::all();
+        $valtio = Valtio::findOne(1);
+        $valtiot = Valtio::all();
         Kint::dump($elokuva);    
         Kint::dump($elokuvat);
+        
+        Kint::dump($valtio);    
+        Kint::dump($valtiot);
     }
 
     public static function first_page() {
