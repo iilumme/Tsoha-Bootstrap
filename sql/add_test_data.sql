@@ -41,3 +41,5 @@ INSERT INTO LeffaPalkintoLaari (palkintoID, leffaID, voitettu) VALUES ((SELECT p
 INSERT INTO Sarja (sarjaNimi) VALUES ('la Trilogía de la muerte');
 
 INSERT INTO SarjaLaari VALUES ((SELECT sarjaID FROM Sarja WHERE sarjaNimi='la Trilogía de la muerte'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'));
+
+INSERT INTO Kommentti (kayttajaID, leffaID, teksti, lisatty) VALUES (1,1,'Loistavan realistinen kuvaus elämästä.', NOW());

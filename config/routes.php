@@ -29,11 +29,15 @@ $routes->get('/search', function() {
 });
 
 $routes->get('/movie', function() {
-HelloWorldController::movie();
+    HelloWorldController::movie();
+});
+
+$routes->get('/movie/edit', function() {
+    HelloWorldController::movieEdit();
 });
 
 $routes->get('/movie/:id', function($id) {
-    MovieController::index();
+    MovieController::showOne($id);
 });
 
 $routes->get('/lists', function() {
@@ -48,6 +52,8 @@ $routes->get('/artist', function() {
     HelloWorldController::artist();
 });
 
-$routes->get('/movie/edit', function() {
-    HelloWorldController::movieEdit();
+$routes->get('/artist/:id', function($id) {
+    ArtistController::showOne($id);
 });
+
+

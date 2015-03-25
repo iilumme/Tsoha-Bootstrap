@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for artisti in artistit %}
+
+
+<div class="row">
+    <div class="col-md-9"><h2>{{artisti.etunimi}}</h2></div>
+    <div class="col-md-3">
+        <button class="btn btn-success">Muokkaa</button>
+        <button class="btn btn-danger">Poista</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <ul>
+            <li><strong>Maa:</strong> Meksiko</li>
+            <li><strong>Syntymävuosi:</strong> 1979</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <p>kuva</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h5>Bio</h5>
+        <p style="font-family: monospace" id="synopsis">
+            Diego Luna syntyi Mexico Cityssä vuonna 1979. Hän on yksi maailmanlaajuisesti tunnetuimmista meksikolaisista
+            näyttelijöistä. Luna aloitti näyttelemisen 8-vuotiaana. Vuonna 2001 hän sai kansainvälistä näkyvyyttä 
+            näytellessään elokuvassa Y tu Mamá también yhdessä toisen tunnetun meksikolaisen näyttelijän, 
+            Gael García Bernalin, kanssa. Luna on tehnyt elokuvia niin Meksikossa, kuin USA:ssa ja Espanjassa.
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h5>Elokuvat</h5>
+        <ul>
+            <li>Y tu Mamá también</li>
+        </ul>
+    </div>
+
+</div>
+
+{%endfor%}
+
+{% endblock %}
