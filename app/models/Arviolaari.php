@@ -2,14 +2,14 @@
 
 class Arviolaari extends BaseModel {
 
-    public $kayttajaid, $leffaid, $tahti;
+    public $kayttajaid, $kayttajatunnus, $leffaid, $tahti, $lisatty;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM ArvioLaari');
+        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID');
         $query->execute();
         $tulokset = $query->fetchAll();
 
@@ -18,23 +18,27 @@ class Arviolaari extends BaseModel {
         foreach ($tulokset as $tulos) {
             $arviot[] = new Arviolaari(array(
                 'kayttajaid' => $tulos['kayttajaid'],
+                'kayttajatunnus' => $tulos['kayttajatunnus'],
                 'leffaid' => $tulos['leffaid'],
-                'tahti' => $tulos['tahti']
+                'tahti' => $tulos['tahti'],
+                'lisatty' => $tulos['lisatty']
             ));
         }
         return $arviot;
     }
 
-    public static function findOne($kid, $lid) {
-        $query = DB::connection()->prepare('SELECT * FROM ArvioLaari WHERE kayttajaid = :kayttajaid AND leffaid = :leffaid LIMIT 1');
-        $query->execute(array('kayttajaid' => $kid, 'leffaid' => $lid));
+    public static function findOne($id) {
+        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID AND leffaid = :leffaid');
+        $query->execute(array('leffaid' => $id));
         $tulos = $query->fetch();
 
         if ($tulos) {
             $arvio = new Arviolaari(array(
                 'kayttajaid' => $tulos['kayttajaid'],
+                'kayttajatunnus' => $tulos['kayttajatunnus'],
                 'leffaid' => $tulos['leffaid'],
-                'tahti' => $tulos['tahti']
+                'tahti' => $tulos['tahti'],
+                'lisatty' => $tulos['lisatty']
             ));
             return $arvio;
         }

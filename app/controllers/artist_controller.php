@@ -14,5 +14,8 @@ class ArtistController extends BaseController {
         $artistit[] = $artisti;
         View::make('movie/artistiesittelykokeilu.html', array('artistit' => $artistit));
     }
+    
+    
+    //KOODIKATSELMOINTI
 
 }

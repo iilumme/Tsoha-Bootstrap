@@ -27,7 +27,6 @@ CREATE TABLE Elokuva (
   vuosi            INT          NOT NULL,
   valtio           INT          NOT NULL,
   kieli            VARCHAR(20)  NOT NULL,
-  kuva             VARCHAR(100),
   synopsis         VARCHAR(1000),
   traileriURL      VARCHAR(150),
   lisatty          TIMESTAMP    NOT NULL,
@@ -126,6 +125,7 @@ CREATE TABLE ArvioLaari (
   kayttajaID INT NOT NULL,
   leffaID    INT NOT NULL,
   tahti      INT NOT NULL,
+  lisatty    TIMESTAMP,
   PRIMARY KEY (kayttajaID, leffaID),
   FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
