@@ -14,7 +14,9 @@ Yleisiä linkkejä:
 * [Linkki käyttäjän omalle sivulle](http://iilumme.users.cs.helsinki.fi/tsoha/mypage)
 * [Linkki käyttäjän listoihin](http://iilumme.users.cs.helsinki.fi/tsoha/lists)
 * [Linkki leffan muokkaamiseen/pääsee myös leffan esittelysivun "Muokkaa"-buttonin kautta](http://iilumme.users.cs.helsinki.fi/tsoha/movie/edit)
-* [Linkki leffan esittelyn testisivulle](http://iilumme.users.cs.helsinki.fi/tsoha/movie/1)
+* [Linkki leffan esittelyn testisivulle (toimii id:n avulla)](http://iilumme.users.cs.helsinki.fi/tsoha/movie/1)
+* [Linkki artistin esittelyn testisivulle (toimii id:n avulla)](http://iilumme.users.cs.helsinki.fi/tsoha/artist/9)
+
 
 
 ## Työn aihe
