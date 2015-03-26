@@ -56,4 +56,22 @@ class Artisti extends BaseModel {
         return null;
     }
 
+    public static function findValtio($id) {
+        $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu FROM Valtiot, Artisti WHERE Artisti.artistiid = :artistiid and Artisti.valtio = Valtiot.valtioid LIMIT 1');
+        $query->execute(array('artistiid' => $id));
+        $tulos = $query->fetch();
+
+        if ($tulos) {
+            $valtio = new Valtio(array(
+                'valtioid' => $tulos['valtioid'],
+                'valtionimi' => $tulos['valtionimi'],
+                'valtiobio' => $tulos['valtiobio'],
+                'lippu' => $tulos['lippu']
+            ));
+            return $valtio;
+        }
+
+        return null;
+    }
+
 }

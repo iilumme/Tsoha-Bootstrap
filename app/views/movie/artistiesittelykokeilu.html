@@ -2,6 +2,7 @@
 {% block content %}
 
 {% for artisti in artistit %}
+{% for valtio in valtiot %}
 
 <div class="row">
     <div class="col-md-9"><h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2></div>
@@ -14,7 +15,7 @@
 <div class="row">
     <div class="col-md-6">
         <ul>
-            <li><strong>Maa:</strong> {{artisti.valtio}}</li>
+            <li><strong>Maa:</strong> {{valtio.valtionimi}}</li>
             <li><strong>Syntymävuosi:</strong> {{artisti.syntymavuosi}}</li>
         </ul>
     </div>
@@ -38,8 +39,6 @@
 </div>
 
 {%endfor%}
-
-
-
+{%endfor%}
 
 {% endblock %}

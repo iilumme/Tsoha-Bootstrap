@@ -4,7 +4,6 @@
 {% for elokuva in elokuvat %}
 {% for valtio in valtiot %}
 
-
 <div class="row">
     <div class="col-md-6"><h2>{{elokuva.leffanimi}}</h2></div>
     <div class="col-md-2">
@@ -45,28 +44,28 @@
             <li><strong>Ohjaajat:</strong> 
                 <ul>
                     {% for ohjaaja in ohjaajat %}
-                    <li>{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</li>
+                    <li><a href="{{base_path}}/artist/{{ohjaaja.artistiid}}"> {{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</a></li>
                     {%endfor%}
                 </ul>
             </li>
             <li><strong>Käsikirjoittajat:</strong> 
                 <ul>
                     {% for kasikirjoittaja in kasikirjoittajat %}
-                    <li>{{kasikirjoittaja.etunimi}} {{kasikirjoittaja.sukunimi}}</li>
+                    <li><a href="{{base_path}}/artist/{{kasikirjoittaja.artistiid}}"> {{kasikirjoittaja.etunimi}} {{kasikirjoittaja.sukunimi}}</a></li>
                     {%endfor%}
                 </ul>
             </li>
             <li><strong>Kuvaajat:</strong> 
                 <ul>
                     {% for kuvaaja in kuvaajat %}
-                    <li>{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</li>
+                    <li><a href="{{base_path}}/artist/{{kuvaaja.artistiid}}"> {{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</a></li>
                     {%endfor%}
                 </ul>
             </li>
             <li><strong>Näyttelijät:</strong>
                 <ul>
                     {% for nayttelija in nayttelijat %}
-                    <li>{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</li>
+                    <li><a href="{{base_path}}/artist/{{nayttelija.artistiid}}"> {{nayttelija.etunimi}} {{nayttelija.sukunimi}}</a></li>
                     {%endfor%}
                 </ul>
             </li>

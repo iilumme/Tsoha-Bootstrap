@@ -12,10 +12,17 @@ class ArtistController extends BaseController {
         $artistit = array();
         $artisti = Artisti::findOne($id);
         $artistit[] = $artisti;
-        View::make('movie/artistiesittelykokeilu.html', array('artistit' => $artistit));
-    }
-    
-    
-    //KOODIKATSELMOINTI
 
+        $valtiot = array();
+        $valtio = Artisti::findValtio($id);
+        $valtiot[] = $valtio;
+
+
+        View::make('movie/artistiesittelykokeilu.html', array(
+            'artistit' => $artistit,
+            'valtiot' => $valtiot
+        ));
+    }
+
+    //KOODIKATSELMOINTI
 }
