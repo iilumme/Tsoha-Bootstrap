@@ -20,7 +20,7 @@
         </ul>
     </div>
     <div class="col-md-6">
-        <p>kuva</p>
+        <img style="border-radius: 10px" src="{{base_path}}/images/{{artisti.kuva}}" alt="http://upload.wikimedia.org/wikipedia/commons/7/71/Gael_garcia_bernal.jpg">
     </div>
 </div>
 <div class="row">
@@ -33,7 +33,9 @@
     <div class="col-md-6">
         <h5>Elokuvat</h5>
         <ul>
-            <li>Y tu Mamá también</li>
+            {% for elokuva in elokuvat %}
+            <li><a href="{{base_path}}/movie/{{elokuva.leffaid}}"> {{elokuva.leffanimi}}</a></li>
+            {%endfor%}
         </ul>
     </div>
 </div>

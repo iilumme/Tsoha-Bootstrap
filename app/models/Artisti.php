@@ -73,5 +73,22 @@ class Artisti extends BaseModel {
 
         return null;
     }
+    
+    
+    public static function findElokuvat($id) {
+        $query = DB::connection()->prepare('SELECT E.leffaid, leffaNimi FROM ArtistiLaari A, Elokuva E WHERE A.leffaID=E.leffaID AND A.artistiID= :artistiid');
+        $query->execute(array('artistiid' => $id));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi']
+            ));
+        }
+        return $elokuvat;
+    }
 
 }

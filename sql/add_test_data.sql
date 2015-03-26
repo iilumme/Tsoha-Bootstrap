@@ -25,7 +25,7 @@ INSERT INTO Elokuva VALUES (DEFAULT, 'Amores perros',2001,(SELECT valtioID FROM 
                   Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). 
                   Koirien ja päähenkilöiden kohtalot limittyvät saumattomasti toisiinsa: 
                   lemmikki voi olla tie menestykseen, ihmissuhteen symboli 
-                  tai ainoa todellinen kiintymyksen kohde.', '<iframe width="560" height="315" src="https://www.youtube.com/embed/xvwk-xYZcr0" frameborder="0" allowfullscreen></iframe>', NOW(), NOW());
+                  tai ainoa todellinen kiintymyksen kohde.', 'https://www.youtube.com/embed/xvwk-xYZcr0', NOW(), NOW());
 
 INSERT INTO GenreLaari VALUES ((SELECT genreID FROM Genre WHERE genreNimi='Draama'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'));
 
@@ -61,8 +61,8 @@ INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lis
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Kasikirjoittaja', 'Miguel', 'Ferrari', 0000 , (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Venezuela'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Kasikirjoittaja', 'Guillermo', 'Arriaga Jordán', 1958 , (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 
-INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Diego', 'Luna Alexander', 'Diego Luna syntyi Mexico Cityssä vuonna 1979. Hän on yksi maailmanlaajuisesti tunnetuimmista meksikolaisista näyttelijöistä. Luna aloitti näyttelemisen 8-vuotiaana. Vuonna 2001 hän sai kansainvälistä näkyvyyttä näytellessään elokuvassa Y tu Mamá también yhdessä toisen tunnetun meksikolaisen näyttelijän, Gael García Bernalin, kanssa. Luna on tehnyt elokuvia niin Meksikossa, kuin USA:ssa ja Espanjassa.', 1979, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
-INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Gael', 'García Bernal', 1978, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Diego', 'Luna Alexander', 'Diego Luna syntyi Mexico Cityssä vuonna 1979. Hän on yksi maailmanlaajuisesti tunnetuimmista meksikolaisista näyttelijöistä. Luna aloitti näyttelemisen 8-vuotiaana. Vuonna 2001 hän sai kansainvälistä näkyvyyttä näytellessään elokuvassa Y tu Mamá también yhdessä toisen tunnetun meksikolaisen näyttelijän, Gael García Bernalin, kanssa. Luna on tehnyt elokuvia niin Meksikossa, kuin USA:ssa ja Espanjassa.', 1979, 'diegoluna.jpg',(SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Gael', 'García Bernal', 1978,'gaelgarciabernal.jpg' ,(SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Sofía', 'Vergara Vergara', 1972, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Kolumbia'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Emilio', 'Echevarría', 1944, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Nayttelija', 'Vanessa', 'Bauche', 1973, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());

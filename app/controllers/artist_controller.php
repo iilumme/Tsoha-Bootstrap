@@ -17,10 +17,16 @@ class ArtistController extends BaseController {
         $valtio = Artisti::findValtio($id);
         $valtiot[] = $valtio;
 
-
+        $leffat = array();
+        $leffa = Artisti::findElokuvat($id);
+        foreach ($leffa as $l) {
+            $leffat[] = $l;
+        }
+        
         View::make('movie/artistiesittelykokeilu.html', array(
             'artistit' => $artistit,
-            'valtiot' => $valtiot
+            'valtiot' => $valtiot,
+            'elokuvat' => $leffat
         ));
     }
 
