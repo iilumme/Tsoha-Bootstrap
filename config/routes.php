@@ -48,12 +48,14 @@ $routes->get('/mypage', function() {
     HelloWorldController::mypage();
 });
 
+$routes->get('/artist/:id', function($id) {
+    ArtistController::showOne($id);
+});
+
 $routes->get('/artist', function() {
     HelloWorldController::artist();
 });
 
-$routes->get('/artist/:id', function($id) {
-    ArtistController::showOne($id);
-});
+
 
 
