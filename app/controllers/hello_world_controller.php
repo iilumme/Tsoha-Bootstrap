@@ -11,111 +11,111 @@ class HelloWorldController extends BaseController {
         // Testaa koodiasi täällä
         $elokuva = Elokuva::findOne(1);
         $elokuvat = Elokuva::all();
-        
+
         $valtio = Valtio::findOne(1);
         $valtiot = Valtio::all();
-        
+
         $artisti = Artisti::findOne(2);
         $artistit = Artisti::all();
-        
+
         $genre = Genre::findOne(1);
         $genret = Genre::all();
-        
+
         $kayttaja = Kayttaja::findOne(1);
         $kayttajat = Kayttaja::all();
-        
+
         $kommentti = Kommentti::findOne(1, 1);
         $kommentit = Kommentti::all();
-        
+
         $sarja = Sarja::findOne(1);
         $sarjat = Sarja::all();
-        
-        $arvio = Arviolaari::findOne(1,1);
+
+        $arvio = Arviolaari::findOne(1, 1);
         $arviot = Arviolaari::all();
-        
+
         $palkinto = Palkinto::findOne(1);
         $palkinnot = Palkinto::all();
-        
-        $dvd = DVDlista::findOne(1,1);
+
+        $dvd = DVDlista::findOne(1, 1);
         $dvdt = DVDlista::all();
-        
+
         $suosikki = Suosikkilista::findOne(1, 1);
         $suosikit = Suosikkilista::all();
-        
+
         $katsottu = Katsotutlista::findOne(1, 1);
         $katsotut = Katsotutlista::all();
-        
+
         $mastarde = Mastardelista::findOne(1, 1);
         $mastardet = Mastardelista::all();
-        
-       
+
+
         $artistilaari = Artistilaari::findOne(2, 1);
         $artistilaarit = Artistilaari::all();
-        
+
         $sarjalaari = Sarjalaari::findOne(1, 1);
         $sarjalaarit = Sarjalaari::all();
-        
+
         $leffapalkinto = Leffapalkintolaari::findOne(1, 1);
         $leffapalkinnot = Leffapalkintolaari::all();
-        
+
         $apalkinto = Artistipalkintolaari::findOne(1, 1);
         $apalkinnot = Artistipalkintolaari::all();
-        
+
         $genrelaari = Genrelaari::findOne(1, 1);
         $genrelaarit = Genrelaari::all();
-        
-        Kint::dump($elokuva);    
+
+        Kint::dump($elokuva);
         Kint::dump($elokuvat);
-        
-        Kint::dump($valtio);    
+
+        Kint::dump($valtio);
         Kint::dump($valtiot);
-        
-        Kint::dump($artisti);    
+
+        Kint::dump($artisti);
         Kint::dump($artistit);
-        
-        Kint::dump($genre);    
+
+        Kint::dump($genre);
         Kint::dump($genret);
-        
-        Kint::dump($kayttaja);    
+
+        Kint::dump($kayttaja);
         Kint::dump($kayttajat);
-        
-        Kint::dump($kommentti);    
+
+        Kint::dump($kommentti);
         Kint::dump($kommentit);
-        
-        Kint::dump($sarja);    
+
+        Kint::dump($sarja);
         Kint::dump($sarjat);
-        
-        Kint::dump($arvio);    
+
+        Kint::dump($arvio);
         Kint::dump($arviot);
-        
-        Kint::dump($palkinto);    
+
+        Kint::dump($palkinto);
         Kint::dump($palkinnot);
-        
-        Kint::dump($dvd);    
+
+        Kint::dump($dvd);
         Kint::dump($dvdt);
-        
-        Kint::dump($suosikki);    
+
+        Kint::dump($suosikki);
         Kint::dump($suosikit);
-        
-        Kint::dump($katsottu);    
+
+        Kint::dump($katsottu);
         Kint::dump($katsotut);
-        
-        Kint::dump($mastarde);    
+
+        Kint::dump($mastarde);
         Kint::dump($mastardet);
-        
-        Kint::dump($artistilaari);    
+
+        Kint::dump($artistilaari);
         Kint::dump($artistilaarit);
-        
-        Kint::dump($sarjalaari);    
+
+        Kint::dump($sarjalaari);
         Kint::dump($sarjalaarit);
-        
-        Kint::dump($leffapalkinto);    
+
+        Kint::dump($leffapalkinto);
         Kint::dump($leffapalkinnot);
-        
-        Kint::dump($apalkinto);    
+
+        Kint::dump($apalkinto);
         Kint::dump($apalkinnot);
-        
-        Kint::dump($genrelaari);    
+
+        Kint::dump($genrelaari);
         Kint::dump($genrelaarit);
     }
 
@@ -142,24 +142,29 @@ class HelloWorldController extends BaseController {
     public static function search() {
         View::make('suunnitelmat/haku.html');
     }
-    
+
     public static function movie() {
         View::make('movie/leffaetusivu.html');
     }
-    
+
     public static function movieEdit() {
         View::make('movie/leffamuokkaus.html');
     }
-    
+
     public static function lists() {
         View::make('users/lista.html');
     }
-    
+
     public static function mypage() {
         View::make('users/omasivu.html');
     }
-    
+
     public static function artist() {
         View::make('movie/artistiesittely.html');
     }
+
+    public static function test() {
+        View::make('suunnitelmat/testisivu.html');
+    }
+
 }

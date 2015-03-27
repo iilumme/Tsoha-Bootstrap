@@ -1,5 +1,6 @@
 <?php
 
+//ETUSIVU
 $routes->get('/', function() {
     HelloWorldController::first_page();
 });
@@ -16,16 +17,9 @@ $routes->get('/login', function() {
     HelloWorldController::login();
 });
 
+//ELOKUVAN LISAYS
 $routes->get('/addmovie', function() {
     MovieController::addpage();
-});
-
-$routes->post('/addmovie/addpeople', function() {
-    MovieController::store();
-});
-
-$routes->post('/movie/1', function() {
-    LaariController::store();
 });
 
 $routes->get('/addmovie/addpeople', function() {
@@ -35,11 +29,6 @@ $routes->get('/addmovie/addpeople', function() {
 $routes->get('/search', function() {
     HelloWorldController::search();
 });
-
-$routes->get('/movie', function() {
-    HelloWorldController::movie();
-});
-
 
 $routes->get('/movie/edit', function() {
     HelloWorldController::movieEdit();
@@ -65,6 +54,23 @@ $routes->get('/artist', function() {
     HelloWorldController::artist();
 });
 
+$routes->get('/testisivu', function() {
+    HelloWorldController::test();
+});
 
 
+//POST
 
+$routes->post('/testisivu', function() {
+    $par = $_POST;
+    Kint::dump($par);
+    HelloWorldController::test();
+});
+
+$routes->post('/addmovie/addpeople', function() {
+    MovieController::store();
+});
+
+//$routes->post('/movie/1', function() {
+//    LaariController::store();
+//});

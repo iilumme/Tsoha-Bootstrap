@@ -23,7 +23,7 @@ class ArtistController extends BaseController {
             $leffat[] = $l;
         }
         
-        View::make('movie/artistiesittelykokeilu.html', array(
+        View::make('movie/artistietusivu.html', array(
             'artistit' => $artistit,
             'valtiot' => $valtiot,
             'elokuvat' => $leffat
