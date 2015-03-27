@@ -39,5 +39,21 @@ class Genre extends BaseModel {
 
         return null;
     }
+    
+    public static function findGenretForElokuva($id) {
+        $query = DB::connection()->prepare('SELECT G.genreID, G.genreNimi FROM Elokuva E, GenreLaari L, Genre G WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.genreID=G.genreID ORDER BY G.genrenimi');
+        $query->execute(array('leffaid' => $id));
+        $tulokset = $query->fetchAll();
+
+        $genret = array();
+
+        foreach ($tulokset as $tulos) {
+            $genret[] = new Genre(array(
+                'genreid' => $tulos['genreid'],
+                'genrenimi' => $tulos['genrenimi']
+            ));
+        }
+        return $genret;
+    }
 
 }

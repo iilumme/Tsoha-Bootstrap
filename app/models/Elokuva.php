@@ -48,7 +48,10 @@ class Elokuva extends BaseModel {
                 'lisatty' => $tulos['lisatty'],
                 'viimeksimuutettu' => $tulos['viimeksimuutettu']
             ));
-            return $elokuva;
+
+            $elokuvat = array();
+            $elokuvat[] = $elokuva;
+            return $elokuvat;
         }
 
         return null;
@@ -66,86 +69,34 @@ class Elokuva extends BaseModel {
                 'valtiobio' => $tulos['valtiobio'],
                 'lippu' => $tulos['lippu']
             ));
-            return $valtio;
+
+            $valtiot = array();
+            $valtiot[] = $valtio;
+            return $valtiot;
         }
 
         return null;
     }
 
-    public static function findArtistit($id, $n) {
-        $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu FROM Elokuva E, ArtistiLaari A, Artisti R WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.artistiID=R.artistiID AND R.artistityyppi= :n ORDER BY R.sukunimi');
-        $query->execute(array('leffaid' => $id, 'n' => $n));
-        $tulokset = $query->fetchAll();
-
-        $nayttelijat = array();
-
-        foreach ($tulokset as $tulos) {
-            $nayttelijat[] = new Artisti(array(
-                'artistiid' => $tulos['artistiid'],
-                'artistityyppi' => $tulos['artistityyppi'],
-                'etunimi' => $tulos['etunimi'],
-                'sukunimi' => $tulos['sukunimi'],
-                'bio' => $tulos['bio'],
-                'kuva' => $tulos['kuva'],
-                'syntymavuosi' => $tulos['syntymavuosi'],
-                'valtio' => $tulos['valtio'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
-        }
-        return $nayttelijat;
-    }
-
-    public static function findGenret($id) {
-        $query = DB::connection()->prepare('SELECT G.genreID, G.genreNimi FROM Elokuva E, GenreLaari L, Genre G WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.genreID=G.genreID ORDER BY G.genrenimi');
-        $query->execute(array('leffaid' => $id));
-        $tulokset = $query->fetchAll();
-
-        $genret = array();
-
-        foreach ($tulokset as $tulos) {
-            $genret[] = new Genre(array(
-                'genreid' => $tulos['genreid'],
-                'genrenimi' => $tulos['genrenimi']
-            ));
-        }
-        return $genret;
-    }
     
-    public static function findPalkinnot($id) {
-        $query = DB::connection()->prepare('SELECT P.palkintoID, P.palkintoNimi FROM Elokuva E, LeffaPalkintoLaari L, Palkinto P WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.palkintoID=P.palkintoID ORDER BY P.palkintonimi');
-        $query->execute(array('leffaid' => $id));
-        $tulokset = $query->fetchAll();
 
-        $palkinnot = array();
 
-        foreach ($tulokset as $tulos) {
-            $palkinnot[] = new Palkinto(array(
-                'palkintoid' => $tulos['palkintoid'],
-                'palkintonimi' => $tulos['palkintonimi']
-            ));
-        }
-        return $palkinnot;
-    }
+
     
-    public static function findArviot($id) {
-        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, A.leffaID, A.tahti, A.lisatty FROM Elokuva E, ArvioLaari A, Kayttaja K WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.kayttajaID=K.kayttajaID ORDER BY A.lisatty');
-        $query->execute(array('leffaid' => $id));
-        $tulokset = $query->fetchAll();
 
-        $arviot = array();
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Elokuva (leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) VALUES (:leffanimi, :vuosi, :valtio, :kieli, :synopsis, :traileriurl, NOW(), NOW()) RETURNING leffaid');
+        $query->execute(array(
+            'leffanimi' => $this->leffanimi,
+            'vuosi' => $this->vuosi,
+            'valtio' => $this->valtio,
+            'kieli' => $this->kieli,
+            'synopsis' => $this->synopsis,
+            'traileriurl' => $this->traileriurl
+        ));
 
-        foreach ($tulokset as $tulos) {
-            $arviot[] = new Arviolaari(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'kayttajatunnus' => $tulos['kayttajatunnus'],
-                'leffaid' => $tulos['leffaid'],
-                'tahti' => $tulos['tahti'],
-                'lisatty' => $tulos['lisatty']
-            ));
-        }
-        return $arviot;
+        $tulos = $query->fetch();
+        $this->id = $tulos['leffaid'];
     }
-    
 
 }

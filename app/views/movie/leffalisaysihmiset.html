@@ -4,66 +4,56 @@
 <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät ja genret</h3>
 <br>
 
-<div class="col-md-6" style>
-    <form>
+<form method="post" action="{{base_path}}/movie">
+    <div class="col-md-6" >
         <div class="dropdown">
             <label>Ohjaajat</label>
-            <button class="btn btn-default dropdown-toggle" type="button" id="ohjaajaMenu" data-toggle="dropdown">
-                ... <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="ohjaajaMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Alejandro González Iñárritu</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Luis Buñuel Portolés</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Alfonso Cuarón Orozco</a></li>
-            </ul>
+            <select class="form-control">
+                <option>...</option>
+                <option>Alejandro González Iñárritu</option>
+                <option>Luis Buñuel Portolés</option>
+                <option>Alfonso Cuarón Orozco</option>
+            </select>
         </div>
         <br>
         <div class="dropdown">
             <label>Kuvaajat</label>
-            <button class="btn btn-default dropdown-toggle" type="button" id="kuvaajaMenu" data-toggle="dropdown">
-                ... <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="kuvaajaMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Emmanuel Lubezki Morgenstern</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rodrigo Prieto</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Enrique Aular</a></li>
-            </ul>
+            <select class="form-control">
+                <option>...</option>
+                <option>Emmanuel Lubezki Morgenstern</option>
+                <option>Rodrigo Prieto</option>
+                <option>Enrique Aular</option>
+            </select>
         </div>
         <br>
         <div class="dropdown">
             <label>Käsikirjoittajat</label>
-            <button class="btn btn-default dropdown-toggle" type="button" id="kassariMenu" data-toggle="dropdown">
-                ... <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="kassariMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Armando Bó Jr</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Miguel Ferrari</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Guillermo del Toro Gómez</a></li>
-            </ul>
+            <select class="form-control">
+                <option>...</option>
+                <option>Armando Bó Jr</option>
+                <option>Miguel Ferrari</option>
+                <option>Guillermo del Toro Gómez</option>
+            </select>
         </div>
         <br>
         <div class="dropdown">
             <label>Näyttelijät</label>
-            <button class="btn btn-default dropdown-toggle" type="button" id="nayttelijaMenu" data-toggle="dropdown">
-                ...  <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="nayttelijaMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Demián Bichir Nájera</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Diego Luna Alexander</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sofía Vergara Vergara</a></li>
-            </ul>
+            <select class="form-control">
+                <option>...</option>
+                <option>Demián Bichir Nájera</option>
+                <option>Diego Luna Alexander</option>
+                <option>Sofía Vergara Vergara</option>
+            </select>
         </div>
         <br>
         <div class="dropdown">
             <label>Genret</label>
-            <button class="btn btn-default dropdown-toggle" type="button" id="genreMenu" data-toggle="dropdown">
-                ...  <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="genreMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Draama</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Trilleri</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Romantiikka</a></li>
-            </ul>
+            <select class="form-control">
+                <option>...</option>
+                <option>Draama</option>
+                <option>Trilleri</option>
+                <option>Romantiikka</option>
+            </select>
         </div>
         <br>
         <div class="checkbox">
@@ -74,18 +64,15 @@
         </div>
         <div class="dropdown">
             <label>Sarjat</label>
-            <button class="btn btn-default dropdown-toggle" type="button" id="sarjaMenu" data-toggle="dropdown">
-                ... <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="sarjaMenu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">La Trilogía de la muerte</a></li>
-            </ul>
+            <select class="form-control">
+                <option>...</option>
+                <option>La Trilogía de la muerte</option>
+            </select>
         </div>
         <br>
         <button type="submit" class="btn btn-success">Lisää</button>
-    </form>
-</div>
-
+    </div>
+</form>
 
 {% endblock %}
 

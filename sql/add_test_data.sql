@@ -51,7 +51,7 @@ INSERT INTO SarjaLaari VALUES ((SELECT sarjaID FROM Sarja WHERE sarjaNimi='la Tr
 INSERT INTO Kommentti (kayttajaID, leffaID, teksti, lisatty) VALUES (1,1,'Loistavan realistinen kuvaus elämästä.', NOW());
 
 
-INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Ohjaaja', 'Alejandro', 'González Iñárritu', 1963, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Ohjaaja', 'Alejandro', 'González Iñárritu', 1963, 'inarritu.jpg', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Ohjaaja', 'Alfonso', 'Cuarón Orozco', 1961, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Ohjaaja', 'Guillermo', 'del Toro Gómez', 1964, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, valtio, lisatty, viimeksiMuutettu) VALUES ('Kuvaaja', 'Emmanuel', 'Lubezki Morgenstern', 1964, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());

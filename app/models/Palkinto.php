@@ -39,5 +39,21 @@ class Palkinto extends BaseModel {
 
         return null;
     }
+    
+        public static function findPalkinnotForElokuva($id) {
+        $query = DB::connection()->prepare('SELECT P.palkintoID, P.palkintoNimi FROM Elokuva E, LeffaPalkintoLaari L, Palkinto P WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.palkintoID=P.palkintoID ORDER BY P.palkintonimi');
+        $query->execute(array('leffaid' => $id));
+        $tulokset = $query->fetchAll();
+
+        $palkinnot = array();
+
+        foreach ($tulokset as $tulos) {
+            $palkinnot[] = new Palkinto(array(
+                'palkintoid' => $tulos['palkintoid'],
+                'palkintonimi' => $tulos['palkintonimi']
+            ));
+        }
+        return $palkinnot;
+    }
 
 }

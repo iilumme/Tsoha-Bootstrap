@@ -8,7 +8,7 @@ class Lista extends BaseModel {
         parent::__construct($attribuutit);
     }
 
-    public static function find($id) {
+    public static function findDVDTForElokuva($id) {
         $query = DB::connection()->prepare('SELECT K.kayttajaTunnus FROM DVDLista D, Kayttaja K WHERE D.kayttajaID=K.kayttajaID AND leffaid = :leffaid ORDER BY K.kayttajatunnus');
         $query->execute(array('leffaid' => $id));
         $tulokset = $query->fetchAll();

@@ -17,7 +17,11 @@ $routes->get('/login', function() {
 });
 
 $routes->get('/addmovie', function() {
-    HelloWorldController::add_movie();
+    MovieController::addpage();
+});
+
+$routes->post('/movie', function() {
+    MovieController::store();
 });
 
 $routes->get('/addmovie/addpeople', function() {
@@ -31,6 +35,7 @@ $routes->get('/search', function() {
 $routes->get('/movie', function() {
     HelloWorldController::movie();
 });
+
 
 $routes->get('/movie/edit', function() {
     HelloWorldController::movieEdit();
