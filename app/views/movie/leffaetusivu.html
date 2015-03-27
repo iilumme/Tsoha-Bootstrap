@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% for elokuva in elokuvat %}
+{% for valtio in valtiot %}
+
 <div class="row">
-    <div class="col-md-6"><h2>Amores perros</h2></div>
+    <div class="col-md-6"><h2>{{elokuva.leffanimi}}</h2></div>
     <div class="col-md-2">
         <div class="dropdown">
             <button class="btn btn-warning dropdown-toggle" type="button" id="listaMenu" data-toggle="dropdown">
@@ -19,7 +22,7 @@
     </div>
     <div class="col-md-4">
         <button class="btn btn-info">Arvioi/Kommentoi</button>
-        <button class="btn btn-success"><a href="{{base_path}}/movie/edit">Muokkaa</a></button>
+        <button class="btn btn-success"><a href="{{base_path}}/edit">Muokkaa</a></button>
         <button class="btn btn-danger">Poista</button>
     </div>
 
@@ -28,28 +31,63 @@
 <div class="row">
     <div class="col-md-6">
         <ul id="tietolaatikko">
-            <li><strong>Maa:</strong> Meksiko</li>
-            <li><strong>Julkaisuvuosi:</strong> 2000</li>
-            <li><strong>Kieli:</strong> espanja</li>
-            <li><strong>Genre:</strong> draama, trilleri</li>
-            <li><strong>Ohjaajat:</strong> Alejandro González Iñárritu</li>
-            <li><strong>Käsikirjoittajat:</strong> Guillermo Arriaga Jordán</li>
-            <li><strong>Kuvaajat:</strong> Rodrigo Prieto</li>
-            <li><strong>Näyttelijät:</strong> Gael García Bernal, Emilio Echevarría, Vanessa Bauche</li>
-            <li><strong>Palkinnot:</strong> BAFTA Award for Best Film Not in the English Language</li>
+            <li><strong>Maa:</strong> {{valtio.valtionimi}}</li>
+            <li><strong>Julkaisuvuosi:</strong> {{elokuva.vuosi}}</li>
+            <li><strong>Kieli:</strong> {{elokuva.kieli}}</li>
+            <li><strong>Genre:</strong> 
+                <ul>
+                    {% for genre in genret %}
+                    <li>{{genre.genrenimi}}</li>
+                    {%endfor%}
+                </ul>
+            </li>
+            <li><strong>Ohjaajat:</strong> 
+                <ul>
+                    {% for ohjaaja in ohjaajat %}
+                    <li><a href="{{base_path}}/artist/{{ohjaaja.artistiid}}"> {{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</a></li>
+                    {%endfor%}
+                </ul>
+            </li>
+            <li><strong>Käsikirjoittajat:</strong> 
+                <ul>
+                    {% for kasikirjoittaja in kasikirjoittajat %}
+                    <li><a href="{{base_path}}/artist/{{kasikirjoittaja.artistiid}}"> {{kasikirjoittaja.etunimi}} {{kasikirjoittaja.sukunimi}}</a></li>
+                    {%endfor%}
+                </ul>
+            </li>
+            <li><strong>Kuvaajat:</strong> 
+                <ul>
+                    {% for kuvaaja in kuvaajat %}
+                    <li><a href="{{base_path}}/artist/{{kuvaaja.artistiid}}"> {{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</a></li>
+                    {%endfor%}
+                </ul>
+            </li>
+            <li><strong>Näyttelijät:</strong>
+                <ul>
+                    {% for nayttelija in nayttelijat %}
+                    <li><a href="{{base_path}}/artist/{{nayttelija.artistiid}}"> {{nayttelija.etunimi}} {{nayttelija.sukunimi}}</a></li>
+                    {%endfor%}
+                </ul>
+            </li>
+            <li><strong>Palkinnot/Ehdokkuudet:</strong> 
+                <ul>
+                    {% for palkinto in palkinnot %}
+                    <li>{{palkinto.palkintonimi}}</li>
+                    {%endfor%}
+                </ul>
+            </li>
         </ul>
         <br>
         <h5>Synopsis</h5>
         <p style="font-family: monospace" id="synopsis">
-            Amores Perros koostuu kolmesta episodista. 
-            Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). 
-            Koirien ja päähenkilöiden kohtalot limittyvät saumattomasti toisiinsa; 
-            lemmikki voi olla tie menestykseen, ihmissuhteen symboli tai ainoa todellinen kiintymyksen kohde.
+            {{elokuva.synopsis}}
         </p>
     </div>
     <div class="col-md-6">
-        <p>kuva</p>
-        <p>traileri</p>
+        <h5>Traileri</h5>
+        <div class="embed-responsive-16by9">
+            <iframe width="560" height="315" src="{{elokuva.traileriurl}}" frameborder="0" allowfullscreen></iframe>
+        </div>
     </div>
 </div>
 <br>
@@ -57,18 +95,22 @@
     <div class="col-md-6" id="arviointilaatikko">
         <h5>Arviot ja kommentit</h5>
         <ul>
-            <li>Iina antoi <b>5</b> tähteä</li>
-            <li>Iina: <i>"Kuvaa realistisesti Mexico Cityn elämää upealta kuvakulmalta."</i></li>
-            <li>AkuAnkka123 antoi <b>4</b> tähteä</li>
+            {% for arvio in arviot %}
+            <li>Käyttäjä <i>{{arvio.kayttajatunnus}}</i> antoi <b>{{arvio.tahti}}</b> tähteä</li>
+            {%endfor%}
         </ul>
     </div>
     <div class="col-md-6" id="dvdlistaus">
         <h5>Käyttäjät, jotka omistavat DVD:nä</h5>
         <ul>
-            <li>admin</li>
+            {% for dvd in dvdt %}
+            <li>{{dvd.kayttajatunnus}}</li>
+            {%endfor%}
         </ul>
     </div>
 </div>
 
+{% endfor %}
+{% endfor %}
 
 {% endblock %}

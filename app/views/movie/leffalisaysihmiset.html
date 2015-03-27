@@ -5,7 +5,6 @@
 <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät ja genret</h3>
 <br>
 
-
 <div class="col-md-8">
     <div class="row">
         <div class="col-md-6">
@@ -90,7 +89,7 @@
                 <select class="form-control">
                     <option>...</option>
                     {%for genre in genret%}
-                    <option value="{{genre.artistiid}}">{{genre.genrenimi}}</option>
+                    <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
                     {%endfor%}
                 </select>
             </div>
@@ -114,7 +113,9 @@
                 <label>Sarjat</label>
                 <select class="form-control">
                     <option>...</option>
-                    <option>La Trilogía de la muerte</option>
+                    {% for sarja in sarjat %}
+                    <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
+                    {%endfor%}
                 </select>                  
             </div>
         </div>

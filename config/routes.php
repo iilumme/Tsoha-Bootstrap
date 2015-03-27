@@ -2,48 +2,55 @@
 
 //ETUSIVU
 $routes->get('/', function() {
-    HelloWorldController::first_page();
+    BasisController::first_page();
 });
 
 $routes->get('/hiekkalaatikko', function() {
-    HelloWorldController::sandbox();
+    BasisController::sandbox();
 });
 
 $routes->get('/register', function() {
-    HelloWorldController::register();
+    BasisController::register();
 });
 
 $routes->get('/login', function() {
-    HelloWorldController::login();
-});
-
-//ELOKUVAN LISAYS
-$routes->get('/addmovie', function() {
-    MovieController::addpage();
-});
-
-$routes->get('/addmovie/addpeople', function() {
-    MovieController::addArtistitpage();
+    BasisController::login();
 });
 
 $routes->get('/search', function() {
-    HelloWorldController::search();
+    BasisController::search();
 });
 
-$routes->get('/movie/edit', function() {
-    HelloWorldController::movieEdit();
-});
 
+
+
+//ELOKUVAN ETUSIVU
 $routes->get('/movie/:id', function($id) {
     MovieController::showOne($id);
 });
 
+//ELOKUVAN LISAYS
+$routes->get('/addmovie', function() {
+    MovieController::add_movie();
+});
+
+//ARTISTIEN LISAYS
+$routes->get('/addmovie/addpeople', function() {
+    MovieController::add_artistit();
+});
+
+//ELOKUVAN MUOKKAUS
+$routes->get('/edit', function() {
+    BasisController::movieEdit();
+});
+
+
 $routes->get('/lists', function() {
-    HelloWorldController::lists();
+    BasisController::lists();
 });
 
 $routes->get('/mypage', function() {
-    HelloWorldController::mypage();
+    BasisController::mypage();
 });
 
 $routes->get('/artist/:id', function($id) {
@@ -51,11 +58,11 @@ $routes->get('/artist/:id', function($id) {
 });
 
 $routes->get('/artist', function() {
-    HelloWorldController::artist();
+    BasisController::artist();
 });
 
 $routes->get('/testisivu', function() {
-    HelloWorldController::test();
+    BasisController::test();
 });
 
 
@@ -64,7 +71,7 @@ $routes->get('/testisivu', function() {
 $routes->post('/testisivu', function() {
     $par = $_POST;
     Kint::dump($par);
-    HelloWorldController::test();
+    LaariController::store();
 });
 
 $routes->post('/addmovie/addpeople', function() {

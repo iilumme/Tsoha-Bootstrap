@@ -17,18 +17,13 @@ class ArtistController extends BaseController {
         $valtio = Artisti::findValtio($id);
         $valtiot[] = $valtio;
 
-        $leffat = array();
-        $leffa = Artisti::findElokuvat($id);
-        foreach ($leffa as $l) {
-            $leffat[] = $l;
-        }
+        $leffat = Artisti::findElokuvat($id);
         
-        View::make('movie/artistietusivu.html', array(
+        
+        View::make('artist/artistietusivu.html', array(
             'artistit' => $artistit,
             'valtiot' => $valtiot,
             'elokuvat' => $leffat
         ));
     }
-
-    //KOODIKATSELMOINTI
 }

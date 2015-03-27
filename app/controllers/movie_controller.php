@@ -2,10 +2,10 @@
 
 class MovieController extends BaseController {
 
-    public static function index() {
-        $elokuvat = Elokuva::all();
-        View::make('movie/leffaetusivukokeilu.html', array('elokuvat' => $elokuvat));
-    }
+//    public static function index() {
+//        $elokuvat = Elokuva::all();
+//        View::make('movie/leffaetusivu.html', array('elokuvat' => $elokuvat));
+//    }
 
     public static function showOne($id) {
 
@@ -20,37 +20,34 @@ class MovieController extends BaseController {
         $arviot = Arviolaari::findArviotForElokuva($id);
         $dvdt = Lista::findDVDTForElokuva($id);
 
-        View::make('movie/leffaetusivukokeilu.html', array(
-            'elokuvat' => $elokuvat,
-            'valtiot' => $valtiot,
-            'nayttelijat' => $nayttelijat,
-            'ohjaajat' => $ohjaajat,
-            'kuvaajat' => $kuvaajat,
-            'kasikirjoittajat' => $kassarit,
-            'genret' => $genret,
-            'palkinnot' => $palkinnot,
-            'arviot' => $arviot,
-            'dvdt' => $dvdt
+        View::make('movie/leffaetusivu.html', array(
+            'elokuvat' => $elokuvat, 'valtiot' => $valtiot,
+            'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
+            'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
+            'genret' => $genret, 'palkinnot' => $palkinnot,
+            'arviot' => $arviot, 'dvdt' => $dvdt
         ));
     }
 
-    public static function addpage() {
+    public static function add_movie() {
         $valtiot = Valtio::all();
-        View::make('movie/leffalisayskokeilu.html', array('valtiot' => $valtiot));
+        View::make('movie/leffalisays.html', array('valtiot' => $valtiot));
     }
 
-    public static function addArtistitpage() {
+    public static function add_artistit() {
         $nayttelijat = Artisti::findAllArtistit("Nayttelija");
         $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
         $kuvaajat = Artisti::findAllArtistit("Kuvaaja");
         $kassarit = Artisti::findAllArtistit("Kasikirjoittaja");
         $genret = Genre::all();
+        $sarjat = Sarja::all();
         View::make('movie/leffalisaysihmiset.html', array(
             'nayttelijat' => $nayttelijat,
             'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat,
             'kasikirjoittajat' => $kassarit,
-            'genret' => $genret
+            'genret' => $genret,
+            'sarjat' => $sarjat
         ));
     }
 
@@ -68,9 +65,7 @@ class MovieController extends BaseController {
 
         $movie->save();
 
-        Kint::dump($parametrit);
-
-        Redirect::to('/movie/' . $movie->leffaid, array('message' => 'done'));
+        Redirect::to('/addmovie/addpeople' , array('message' => $movie->leffaid));
     }
 
 }
