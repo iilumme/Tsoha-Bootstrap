@@ -78,12 +78,6 @@ class Elokuva extends BaseModel {
         return null;
     }
 
-    
-
-
-
-    
-
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Elokuva (leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) VALUES (:leffanimi, :vuosi, :valtio, :kieli, :synopsis, :traileriurl, NOW(), NOW()) RETURNING leffaid');
         $query->execute(array(

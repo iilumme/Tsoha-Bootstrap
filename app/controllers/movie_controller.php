@@ -39,9 +39,19 @@ class MovieController extends BaseController {
         View::make('movie/leffalisayskokeilu.html', array('valtiot' => $valtiot));
     }
 
-    public static function addArstistit() {
-        $valtiot = Artisti::findArtistit($n);
-        View::make('movie/leffalisayskokeilu.html', array('valtiot' => $valtiot));
+    public static function addArtistitpage() {
+        $nayttelijat = Artisti::findAllArtistit("Nayttelija");
+        $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
+        $kuvaajat = Artisti::findAllArtistit("Kuvaaja");
+        $kassarit = Artisti::findAllArtistit("Kasikirjoittaja");
+        $genret = Genre::all();
+        View::make('movie/leffalisaysihmiset.html', array(
+            'nayttelijat' => $nayttelijat,
+            'ohjaajat' => $ohjaajat,
+            'kuvaajat' => $kuvaajat,
+            'kasikirjoittajat' => $kassarit,
+            'genret' => $genret
+        ));
     }
 
     public static function store() {

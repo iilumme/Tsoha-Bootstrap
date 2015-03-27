@@ -20,12 +20,16 @@ $routes->get('/addmovie', function() {
     MovieController::addpage();
 });
 
-$routes->post('/movie', function() {
+$routes->post('/addmovie/addpeople', function() {
     MovieController::store();
 });
 
+$routes->post('/movie/1', function() {
+    LaariController::store();
+});
+
 $routes->get('/addmovie/addpeople', function() {
-    HelloWorldController::add_people();
+    MovieController::addArtistitpage();
 });
 
 $routes->get('/search', function() {
