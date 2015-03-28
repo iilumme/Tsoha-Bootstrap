@@ -9,7 +9,6 @@ Yleisiä linkkejä:
 * [Linkki elokuvan lisäykseen](http://iilumme.users.cs.helsinki.fi/tsoha/addmovie)
 * [Linkki elokuvan tekijöiden lisäykseen](http://iilumme.users.cs.helsinki.fi/tsoha/addmovie/addpeople)
 * [Linkki hakuun](http://iilumme.users.cs.helsinki.fi/tsoha/search)
-* [Linkki "artistin" esittelyyn](http://iilumme.users.cs.helsinki.fi/tsoha/artist)
 * [Linkki käyttäjän omalle sivulle](http://iilumme.users.cs.helsinki.fi/tsoha/mypage)
 * [Linkki käyttäjän listoihin](http://iilumme.users.cs.helsinki.fi/tsoha/lists)
 * [Linkki leffan muokkaamiseen/pääsee myös leffan esittelysivun "Muokkaa"-buttonin kautta](http://iilumme.users.cs.helsinki.fi/tsoha/edit)
