@@ -65,3 +65,7 @@
     width: 150px;
 }
 
+.collapse {
+    aria-expanded: false;
+}
+

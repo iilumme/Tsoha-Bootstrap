@@ -34,6 +34,6 @@ class ArtistController extends BaseController {
 
         $artisti->save();
 
-        Redirect::to('/addmovie/addpeople' , array('message' => $artisti->artistiid));
+        //Redirect::to('/artistitestisivu' , array('message' => $artisti->artistiid));
     }
 }

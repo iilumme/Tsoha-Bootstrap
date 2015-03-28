@@ -20,6 +20,7 @@ INSERT INTO Valtiot (valtioNimi) VALUES ('Peru');
 INSERT INTO Valtiot (valtioNimi) VALUES ('Uruguay');
 
 INSERT INTO Genre (genreNimi) VALUES ('Draama');
+INSERT INTO Genre (genreNimi) VALUES ('Tieteis');
 
 INSERT INTO Elokuva VALUES (DEFAULT, 'Amores perros',2001,(SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'),'espanja', 'Amores Perros koostuu kolmesta episodista. 
                   Jokaiseen liittyy tavalla tai toisella rakkaus (amor) ja koira (perro). 

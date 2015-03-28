@@ -39,6 +39,14 @@ class Sarjalaari extends BaseModel {
 
         return null;
     }
+    
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO SarjaLaari (sarjaid, leffaid) VALUES (:sarjaid, :leffaid) RETURNING sarjaid');
+        $query->execute(array(
+            'sarjaid' => $this->sarjaid,
+            'leffaid' => $this->leffaid
+        ));
+    }
 
 }
 

@@ -65,6 +65,10 @@ $routes->get('/testisivu', function() {
     BasisController::test();
 });
 
+$routes->get('/artistitestisivu', function() {
+    BasisController::test();
+});
+
 
 //POST
 
@@ -74,10 +78,12 @@ $routes->post('/testisivu', function() {
     LaariController::store();
 });
 
+$routes->post('/artistitestisivu', function() {
+    $par = $_POST;
+    Kint::dump($par);
+    ArtistController::store();
+});
+
 $routes->post('/addmovie/addpeople', function() {
     MovieController::store();
 });
-
-//$routes->post('/movie/1', function() {
-//    LaariController::store();
-//});

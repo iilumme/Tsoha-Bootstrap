@@ -35,29 +35,29 @@ CREATE TABLE Elokuva (
 );
 
 CREATE TABLE MasTardeLista (
-  kayttajaID INT PRIMARY KEY NOT NULL,
-  leffaID    INT             NOT NULL,
+  kayttajaID INT NOT NULL,
+  leffaID    INT NOT NULL,
   FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
 );
 
 CREATE TABLE DVDLista (
-  kayttajaID INT PRIMARY KEY NOT NULL,
-  leffaID    INT             NOT NULL,
+  kayttajaID INT NOT NULL,
+  leffaID    INT NOT NULL,
   FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
 );
 
 CREATE TABLE Katsotutlista (
-  kayttajaID INT PRIMARY KEY NOT NULL,
-  leffaID    INT             NOT NULL,
+  kayttajaID INT NOT NULL,
+  leffaID    INT NOT NULL,
   FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
 );
 
 CREATE TABLE Suosikkilista (
-  kayttajaID INT PRIMARY KEY NOT NULL,
-  leffaID    INT             NOT NULL,
+  kayttajaID INT NOT NULL,
+  leffaID    INT NOT NULL,
   FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
 );
