@@ -44,7 +44,7 @@ class Valtio extends BaseModel {
         return $valtio;
     }
     
-    public static function findValtio($leffaid) {
+    public static function findValtioForElokuva($leffaid) {
         $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu FROM Valtiot, Elokuva WHERE Elokuva.leffaid = :leffaid and Elokuva.valtio = Valtiot.valtioid LIMIT 1');
         $query->execute(array('leffaid' => $leffaid));
         $tulos = $query->fetch();
@@ -60,6 +60,26 @@ class Valtio extends BaseModel {
             $valtiot = array();
             $valtiot[] = $valtio;
             return $valtiot;
+        }
+
+        return null;
+    }
+    
+    public static function findValtioForArtisti($id) {
+        $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu '
+                . 'FROM Valtiot, Artisti '
+                . 'WHERE Artisti.artistiid = :artistiid and Artisti.valtio = Valtiot.valtioid LIMIT 1');
+        $query->execute(array('artistiid' => $id));
+        $tulos = $query->fetch();
+
+        if ($tulos) {
+            $valtio = new Valtio(array(
+                'valtioid' => $tulos['valtioid'],
+                'valtionimi' => $tulos['valtionimi'],
+                'valtiobio' => $tulos['valtiobio'],
+                'lippu' => $tulos['lippu']
+            ));
+            return $valtio;
         }
 
         return null;

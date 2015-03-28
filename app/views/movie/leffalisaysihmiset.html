@@ -1,6 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="modal fade" id="lisaysmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="lisaysmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Uuden artistin lisäys</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{base_path}}/testisivu">
+                    <div class="form-group">
+                        <label>Artistin etunimi</label>
+                        <input type="text" name="etunimi" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Artistin sukunimi</label>
+                        <input type="text" name="sukunimi" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Artistin "tyyppi"</label>
+                        <input type="text" name="artistityyppi" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Syntymävuosi</label>
+                        <input type="number" name="syntymavuosi" class="form-control">
+                    </div>
+                    <div class="dropdown">
+                        <label>Maa</label>
+                        <select class="form-control" name="valtio">
+                            {%for valtio in valtiot%}
+                            <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <input type="text" name="bio" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                <button type="submit" class="btn btn-info">Lisää artisti</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät ja genret</h3>
 <br>
@@ -20,8 +66,8 @@
         </div>
         <div class="col-md-3">
             <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info">Uusi</button>
-        </div>
+            <button class="btn btn-info" data-toggle="modal" data-target="#lisaysmodaali">Uusi</button>
+        </div>   
     </div>
     <br>
 
@@ -39,7 +85,7 @@
         </div>
         <div class="col-md-3">
             <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info">Uusi</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#lisaysmodaali">Uusi</button>
         </div>
     </div>
     <br>
@@ -127,10 +173,10 @@
     <br>
     <form method="post" action="{{base_path}}/testisivu" data-submit-type="ajax">
         <input type="hidden" name="artistilista" id="hidd"/>
+        <input type="hidden" name="elokuvanid" id="lid" value="{{message}}"/>
         <button type="submit" class="btn btn-success">Lisää elokuva</button>
     </form>
 </div>
-
 
 {% endblock %}
 

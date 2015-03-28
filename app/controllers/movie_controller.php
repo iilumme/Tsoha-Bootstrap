@@ -2,15 +2,10 @@
 
 class MovieController extends BaseController {
 
-//    public static function index() {
-//        $elokuvat = Elokuva::all();
-//        View::make('movie/leffaetusivu.html', array('elokuvat' => $elokuvat));
-//    }
-
     public static function showOne($id) {
 
         $elokuvat = Elokuva::findOne($id);
-        $valtiot = Valtio::findValtio($id);
+        $valtiot = Valtio::findValtioForElokuva($id);
         $nayttelijat = Artisti::findArtistitForElokuva($id, "Nayttelija");
         $ohjaajat = Artisti::findArtistitForElokuva($id, "Ohjaaja");
         $kuvaajat = Artisti::findArtistitForElokuva($id, "Kuvaaja");
@@ -41,13 +36,15 @@ class MovieController extends BaseController {
         $kassarit = Artisti::findAllArtistit("Kasikirjoittaja");
         $genret = Genre::all();
         $sarjat = Sarja::all();
+        $valtiot = Valtio::all();
         View::make('movie/leffalisaysihmiset.html', array(
             'nayttelijat' => $nayttelijat,
             'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat,
             'kasikirjoittajat' => $kassarit,
             'genret' => $genret,
-            'sarjat' => $sarjat
+            'sarjat' => $sarjat,
+            'valtiot' => $valtiot
         ));
     }
 

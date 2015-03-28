@@ -3,29 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Genre.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Katsotutlista.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Artistilaari.php</file>
             <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/artist_controller.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Kommentti.php</file>
             <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Artisti.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/artistiesittely.html</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Mastardelista.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/DVDlista.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/leffaetusivu.html</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Palkinto.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Artistipalkintolaari.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/hello_world_controller.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/config/routes.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Suosikkilista.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Valtio.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Arviolaari.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Elokuva.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/leffalisaysihmiset.html</file>
             <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/movie_controller.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/artistiesittelykokeilu.html</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Kayttaja.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Sarja.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Leffapalkintolaari.php</file>
-            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/leffaetusivukokeilu.html</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Elokuva.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/laari_controller.php</file>
         </group>
     </open-files>
 </project-private>

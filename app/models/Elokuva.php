@@ -2,7 +2,8 @@
 
 class Elokuva extends BaseModel {
 
-    public $leffaid, $leffanimi, $vuosi, $valtio, $kieli, $kuva, $synopsis, $traileriurl, $lisatty, $viimeksimuutettu;
+    public $leffaid, $leffanimi, $vuosi, $valtio, $kieli,
+            $kuva, $synopsis, $traileriurl, $lisatty, $viimeksimuutettu;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
@@ -57,25 +58,22 @@ class Elokuva extends BaseModel {
         return null;
     }
 
-    public static function findValtio($id) {
-        $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu FROM Valtiot, Elokuva WHERE Elokuva.leffaid = :leffaid and Elokuva.valtio = Valtiot.valtioid LIMIT 1');
-        $query->execute(array('leffaid' => $id));
-        $tulos = $query->fetch();
+    public static function findElokuvatForArtisti($id) {
+        $query = DB::connection()->prepare('SELECT E.leffaid, leffaNimi '
+                . 'FROM ArtistiLaari A, Elokuva E '
+                . 'WHERE A.leffaID=E.leffaID AND A.artistiID= :artistiid');
+        $query->execute(array('artistiid' => $id));
+        $tulokset = $query->fetchAll();
 
-        if ($tulos) {
-            $valtio = new Valtio(array(
-                'valtioid' => $tulos['valtioid'],
-                'valtionimi' => $tulos['valtionimi'],
-                'valtiobio' => $tulos['valtiobio'],
-                'lippu' => $tulos['lippu']
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi']
             ));
-
-            $valtiot = array();
-            $valtiot[] = $valtio;
-            return $valtiot;
         }
-
-        return null;
+        return $elokuvat;
     }
 
     public function save() {
@@ -90,7 +88,7 @@ class Elokuva extends BaseModel {
         ));
 
         $tulos = $query->fetch();
-        $this->id = $tulos['leffaid'];
+        $this->leffaid = $tulos['leffaid'];
     }
 
 }

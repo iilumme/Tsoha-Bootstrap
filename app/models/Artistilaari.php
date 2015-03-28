@@ -40,6 +40,12 @@ class Artistilaari extends BaseModel {
         return null;
     }
 
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO ArtistiLaari (artistiid, leffaid) VALUES (:artistiid, :leffaid) RETURNING artistiid');
+        $query->execute(array(
+            'artistiid' => $this->artistiid,
+            'leffaid' => $this->leffaid          
+        ));
+    }
+
 }
-
-
