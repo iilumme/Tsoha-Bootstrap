@@ -71,16 +71,13 @@ $routes->get('/artistitestisivu', function() {
 
 
 //POST
-
 $routes->post('/testisivu', function() {
     $par = $_POST;
     Kint::dump($par);
     LaariController::store();
 });
 
-$routes->post('/artistitestisivu', function() {
-    $par = $_POST;
-    Kint::dump($par);
+$routes->post('/artistipostisivu', function() {
     ArtistController::store();
 });
 

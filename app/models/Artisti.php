@@ -82,19 +82,19 @@ class Artisti extends BaseModel {
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Artisti '
                 . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
-                . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :vuosi, :valtio,, NOW(), NOW()) '
+                . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
                 . 'RETURNING artistiid');
         $query->execute(array(
             'artistityyppi' => $this->artistityyppi,
             'etunimi' => $this->etunimi,
             'sukunimi' => $this->sukunimi,
             'bio' => $this->bio,
-            'vuosi' => $this->syntymavuosi,
+            'syntymavuosi' => $this->syntymavuosi,
             'valtio' => $this->valtio           
         ));
 
         $tulos = $query->fetch();
-        $this->artistiid = $tulos['artistiid'];
+        $this->artistiid = $tulos['artistiid'];      
     }
 
 }

@@ -28,12 +28,12 @@ class ArtistController extends BaseController {
             'etunimi' => $parametrit['etunimi'],
             'sukunimi' => $parametrit['sukunimi'],
             'bio' => $parametrit['bio'],
-            'vuosi' => $parametrit['syntymavuosi'],
-            'valtio' => $parametrit['valtio']
-        ));
+            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
+            'valtio' => (int) $parametrit['valtio']
+        ));          
 
         $artisti->save();
 
-        //Redirect::to('/artistitestisivu' , array('message' => $artisti->artistiid));
+        //Redirect::to('/addmovie/addpeople' , array('message' => $artisti->artistiid));
     }
 }

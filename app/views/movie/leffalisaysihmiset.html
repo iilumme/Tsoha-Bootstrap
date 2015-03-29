@@ -8,7 +8,7 @@
             <div class="modal-header">
                 <h4>Uuden artistin lisäys</h4>
             </div>
-            <form method="post" action="{{base_path}}/artistitestisivu">
+            <form method="post" action="{{base_path}}/artistipostisivu" data-submit-type="ajax" data-callback-url="{{base_path}}/addmovie/addpeople">
                 <div class="modal-body">
 
                     <div class="form-group">
@@ -21,8 +21,8 @@
                     </div>
                     <div class="form-group">
                         <label>Artistin "tyyppi"</label>
-                        <input type="text" name="tyyppi" class="form-control" disabled id="tyyppi" value="#tyyppi" placeholder="#tyyppi">
-                        <input type="hidden" name="artistityyppi" value="#tyyppi">
+                        <input type="text" name="tyyppi" class="form-control" id="tyyppi" value="#tyyppi" placeholder="#tyyppi" disabled="disabled">
+                        <input type="hidden" name="artistityyppi" id="lisatyyppi">
                     </div>
                     <div class="form-group">
                         <label>Syntymävuosi</label>
@@ -178,7 +178,7 @@
     </div>
     <br>
 
-    <form method="post" action="{{base_path}}/testisivu" data-submit-type="ajax">
+    <form method="post" action="{{base_path}}/testisivu">
         <input type="hidden" name="artistilista" id="hidd"/>
         <input type="hidden" name="genrelista" id="hiddgenre"/>
         <input type="hidden" name="sarjalista" id="hiddsarja"/>

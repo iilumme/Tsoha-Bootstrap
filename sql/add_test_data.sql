@@ -81,3 +81,21 @@ VALUES ('admin', 'Admin', 'administrator', (SELECT genreID FROM Genre WHERE genr
 
 
 INSERT INTO DVDLista VALUES ((SELECT kayttajaID FROM Kayttaja WHERE kayttajaTunnus='admin'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'));
+
+INSERT INTO Elokuva 
+(leffaNimi, vuosi, valtio, kieli, synopsis, traileriURL, lisatty, viimeksiMuutettu) 
+VALUES ('Y tu mamá también', 2001, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), 'espanja', 
+        'Kaksi meksikolaisteinipoikaa lähtee tien päälle 10 vuotta heitä vanhemman espanjalaisnaisen kanssa.',
+    'https://www.youtube.com/embed/3Qg6n7V3kO4', NOW(),NOW());
+
+INSERT INTO Genre (genreNimi) VALUES ('Komedia');
+
+INSERT INTO GenreLaari VALUES ((SELECT genreID FROM Genre WHERE genreNimi='Komedia'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Y tu mamá también'));
+
+INSERT INTO GenreLaari VALUES ((SELECT genreID FROM Genre WHERE genreNimi='Draama'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Y tu mamá también'));
+
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Cuarón Orozco'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Y tu mamá también'));
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='García Bernal'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Y tu mamá también'));
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Luna Alexander'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Y tu mamá también'));
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Lubezki Morgenstern'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Y tu mamá también'));
+
