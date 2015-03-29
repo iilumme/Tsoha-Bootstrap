@@ -16,7 +16,7 @@ Yleisiä linkkejä:
 * [Linkki artistin esittelyn testisivulle (toimii id:n avulla, 9)](http://iilumme.users.cs.helsinki.fi/tsoha/artist/9)
 * [Linkki artistin esittelyn testisivulle (toimii id:n avulla, 10, elokuvien listaus)](http://iilumme.users.cs.helsinki.fi/tsoha/artist/10)
 
-Elokuvien ja tuttujen "artistien" tallentaminen tietokantaan toimii. Uusien artistien tallentaminen on siinä vaiheessa, että nekin tallentuvat, mutta viesti onnistumisesta puuttuu ja artistilaariin tallentamista ei ole vielä toteutettu.
+Elokuvien ja tuttujen "artistien" tallentaminen tietokantaan toimii. Artistin onnistuneen lisäyksen voi nähdä Web Inspectorin consolista. Uusien artistien tallentaminen on siinä vaiheessa, että nekin tallentuvat, mutta viesti onnistumisesta puuttuu ja artistilaariin tallentamista ei ole vielä toteutettu.
 
 
 ## Työn aihe
