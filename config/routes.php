@@ -44,6 +44,10 @@ $routes->get('/edit', function() {
     BasisController::movieEdit();
 });
 
+$routes->get('/country/:id', function($id){
+    ValtioController::showOne($id);
+});
+
 
 $routes->get('/lists', function() {
     BasisController::lists();

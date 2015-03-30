@@ -68,6 +68,7 @@ $(document).ready(function () {
             $('#lisatyyppi').val($tyyppi);
         }).change();
 
+
         $("form[data-submit-type='ajax']").submit(function (ev) {
             ev.preventDefault();
             var $form = $(this);
@@ -77,16 +78,10 @@ $(document).ready(function () {
                 dataType: 'json'
             })
                     .done(function (data) {
-//                        var callback = $form.data('callback-url');
-//                        if (callback !== undefined) {
-//                            window.location.href = callback.f(data);
-//                        } else {
-//                            window.location.reload();
-//                        }
-                        console.log('yes!');
                     })
                     .fail(function (data) {
                         console.log('fail' + data.status);
+                        $('#artistiviesti').alert();
 
                     });
         });

@@ -76,6 +76,29 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
+    public static function findElokuvatForValtiot($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE valtio= :valtio');
+        $query->execute(array('valtio' => $id));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
+                'vuosi' => $tulos['vuosi'],
+                'valtio' => $tulos['valtio'],
+                'kieli' => $tulos['kieli'],
+                'synopsis' => $tulos['synopsis'],
+                'traileriurl' => $tulos['traileriurl'],
+                'lisatty' => $tulos['lisatty'],
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
+        }
+        return $elokuvat;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Elokuva '
                 . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '

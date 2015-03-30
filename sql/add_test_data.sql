@@ -1,4 +1,4 @@
-INSERT INTO Valtiot (valtioNimi, valtioBio) VALUES ('Meksiko', 'Lempimaani');
+INSERT INTO Valtiot (valtioNimi, valtioBio, lippu) VALUES ('Meksiko', 'Lempimaani', 'banderamexicana.jpg');
 INSERT INTO Valtiot (valtioNimi) VALUES ('Argentiina');
 INSERT INTO Valtiot (valtioNimi) VALUES ('Venezuela');
 INSERT INTO Valtiot (valtioNimi) VALUES ('Bolivia');
