@@ -4,115 +4,80 @@
 <h2>Haku</h2>
 
 <div class="row">
-    <div class="col-md-2" id="hakuvalinnat">
-        <br>
-        <br>
-        <form>
+    <form>
+        <div class="col-md-3">
+            <br>
+            <br>       
             <div class="form-group">
                 <label>Miltä vuosilta</label>
                 <div>
-                    <input type="number" style="width: 70px" >
+                    <input type="number" style="width: 70px" name="alkuvuosi" >
                     <label>-</label>
-                    <input type="number" style="width: 70px">
+                    <input type="number" style="width: 70px" name="loppuvuosi">
                 </div>
 
             </div>
             <div class="form-group">
                 <label>Maa</label>
                 <div class="dropdown">
-                    <label></label>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="maaMenu" data-toggle="dropdown">
-                        ... <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="maaMenu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Argentina</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Brasilia</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Meksiko</a></li>
-                    </ul>
+                    <select class="form-control">
+                        {% for valtio in valtiot%}
+                        <option>{{valtio.valtionimi}}</option>
+                        {%endfor%}
+                    </select>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Kieli</label>
-                <div class="dropdown">
-                    <label></label>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="kieliMenu" data-toggle="dropdown">
-                        ... <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="kieliMenu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">espanja</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">portugali</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">englanti</a></li>
-                    </ul>
-                </div>
-            </div>
+            </div>          
             <div class="form-group">
                 <label>Genre</label>
                 <div class="dropdown">
-                    <label></label>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="genretMenu" data-toggle="dropdown">
-                        ... <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="genretMenu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Draama</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Trilleri</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Kauhu</a></li>
-                    </ul>
+                    <select class="form-control">
+                        {% for genre in genret%}
+                        <option>{{genre.genrenimi}}</option>
+                        {%endfor%}
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label>Palkinto</label>
                 <div class="dropdown">
-                    <label></label>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="palkintoMenu" data-toggle="dropdown">
-                        ... <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="palkintoMenu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Oscar, paras elokuva</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Oscar, paras miespäänäyttelijä </a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">BAFTA Award for Best Film Not in the English Language</a></li>
-                    </ul>
+                    <select class="form-control">
+                        {% for palkinto in palkinnot%}
+                        <option>{{palkinto.palkintonimi}}</option>
+                        {%endfor%}
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label>Sarja</label>
                 <div class="dropdown">
-                    <label></label>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="sarjatMenu" data-toggle="dropdown">
-                        ... <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="sarjatMenu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">la Trilogía de la Muerte</a></li>
-                    </ul>
+                    <select class="form-control">
+                        {% for sarja in sarjat%}
+                        <option>{{sarja.sarjanimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div>       
+        </div>
+        <br>
+        <div class="col-md-4">
+            <br>
+            <br>
+            <div class="input-group">
+                <input type="text" placeholder="hakusana" name="hakusana" style="width: 200px" id="hakusanaboxi">
+                <div class="input-group-btn dropdown">
+                    <select class="form-control" style="width: 125px">
+                        <option>Elokuvan nimi</option>
+                        <option>Näyttelijä</option>
+                        <option>Ohjaaja</option>
+                        <option>Kuvaaja</option>
+                        <option>Käsikirjoittaja</option>
+                        <option>Kieli</option>
+                    </select>   
                 </div>
             </div>
-        </form>
-    </div>
-    <br>
-    <div class="col-md-6" id="hakuboxi">
-        <br>
-        <br>
-        <div class="col-md-5">
-            <div class="form-group">
-                <input type="text" placeholder="hakusana" id="hakusanaboxi">
-            </div>
         </div>
-        <div class="col-md-2">
-            <div class="dropdown">
-                <label></label>
-                <button class="btn btn-default dropdown-toggle" type="button" id="hakuvalintaMenu" data-toggle="dropdown">
-                    ... <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="hakuvalintaMenu">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Elokuvan nimi</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Näyttelijä</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Ohjaaja</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Kuvaaja</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Käsikirjoittaja</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
+    </form>
+    <div class="col-md-5">
         <h4>Hakutulokset</h4>
         <table class="table table-striped table-bordered bg-info">
             <thead>

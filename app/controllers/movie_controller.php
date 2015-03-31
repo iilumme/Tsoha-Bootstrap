@@ -12,7 +12,9 @@ class MovieController extends BaseController {
         $kassarit = Artisti::findArtistitForElokuva($id, "Kasikirjoittaja");
         $genret = Genre::findGenretForElokuva($id);
         $palkinnot = Palkinto::findPalkinnotForElokuva($id);
+        $sarjanelokuvat = Sarjalaari::findSarjanElokuvat($id);
         $arviot = Arviolaari::findArviotForElokuva($id);
+        $kommentit = Kommentti::findKommentitForElokuva($id);
         $dvdt = Lista::findDVDTForElokuva($id);
 
         View::make('movie/leffaetusivu.html', array(
@@ -20,7 +22,8 @@ class MovieController extends BaseController {
             'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
             'genret' => $genret, 'palkinnot' => $palkinnot,
-            'arviot' => $arviot, 'dvdt' => $dvdt
+            'arviot' => $arviot, 'kommentit' => $kommentit,'dvdt' => $dvdt,
+            'sarjanelokuvat' => $sarjanelokuvat
         ));
     }
 

@@ -112,6 +112,9 @@ class BasisController extends BaseController {
 
         Kint::dump($genrelaari);
         Kint::dump($genrelaarit);
+
+        $sa = Sarjalaari::findSarjanElokuvat(1);
+        Kint::dump($sa);
     }
 
     public static function first_page() {

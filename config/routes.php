@@ -18,7 +18,7 @@ $routes->get('/login', function() {
 });
 
 $routes->get('/search', function() {
-    BasisController::search();
+    SearchController::search();
 });
 
 

@@ -31,7 +31,7 @@
 <div class="row">
     <div class="col-md-6">
         <ul id="tietolaatikko">
-            <li><strong>Maa:</strong> {{valtio.valtionimi}}</li>
+            <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
             <li><strong>Julkaisuvuosi:</strong> {{elokuva.vuosi}}</li>
             <li><strong>Kieli:</strong> {{elokuva.kieli}}</li>
             <li><strong>Genre:</strong> 
@@ -76,6 +76,17 @@
                     {%endfor%}
                 </ul>
             </li>
+            <li><strong>Sarja:</strong>
+                <ul>
+                    {% for selokuva in sarjanelokuvat %}
+                    {% if selokuva.leffaid==elokuva.leffaid %}
+                    <li> {{selokuva.leffanimi}}</li>
+                    {% else %}
+                    <li><a href="{{base_path}}/movie/{{selokuva.leffaid}}"> {{selokuva.leffanimi}}</a></li>
+                    {% endif %}
+                    {%endfor%}
+                </ul>
+            </li>
         </ul>
         <br>
         <h5>Synopsis</h5>
@@ -97,6 +108,9 @@
         <ul>
             {% for arvio in arviot %}
             <li>Käyttäjä <i>{{arvio.kayttajatunnus}}</i> antoi <b>{{arvio.tahti}}</b> tähteä</li>
+            {%endfor%}
+            {% for kommentti in kommentit %}
+            <li>Käyttäjä <i>{{kommentti.kayttajatunnus}}</i>: <b>{{kommentti.teksti}}</b></li>
             {%endfor%}
         </ul>
     </div>

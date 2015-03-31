@@ -42,30 +42,6 @@
     border-color: silver;
 }
 
-#maaMenu {
-    width: 150px;
-}
-
-#genretMenu{
-    width: 150px;
-}
-
-#kieliMenu{
-    width: 150px;
-}
-
-#genretMenu{
-    width: 150px;
-}
-
-#palkintoMenu{
-    width: 150px;
-}
-
-#sarjatMenu{
-    width: 150px;
-}
-
 .collapse {
     aria-expanded: false;
 }

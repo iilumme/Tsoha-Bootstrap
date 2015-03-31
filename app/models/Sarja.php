@@ -39,6 +39,5 @@ class Sarja extends BaseModel {
 
         return null;
     }
-    
 
 }

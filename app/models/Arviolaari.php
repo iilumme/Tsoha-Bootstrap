@@ -28,7 +28,7 @@ class Arviolaari extends BaseModel {
     }
 
     public static function findOne($id) {
-        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID AND leffaid = :leffaid');
+        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID AND leffaid = :leffaid');
         $query->execute(array('leffaid' => $id));
         $tulos = $query->fetch();
 
