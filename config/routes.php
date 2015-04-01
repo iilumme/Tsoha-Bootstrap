@@ -9,18 +9,29 @@ $routes->get('/hiekkalaatikko', function() {
     BasisController::sandbox();
 });
 
-$routes->get('/register', function() {
-    BasisController::register();
-});
 
-$routes->get('/login', function() {
-    BasisController::login();
-});
-
+//HAKU
 $routes->get('/search', function() {
     SearchController::search();
 });
 
+
+//KÄYTTÄJÄ
+$routes->get('/register', function() {
+    UserController::register();
+});
+
+$routes->get('/login', function() {
+    UserController::login();
+});
+
+$routes->get('/lists', function() {
+    UserController::lists();
+});
+
+$routes->get('/mypage', function() {
+    UserController::mypage();
+});
 
 
 
@@ -29,48 +40,51 @@ $routes->get('/movie/:id', function($id) {
     MovieController::showOne($id);
 });
 
-//ELOKUVAN LISAYS
+//ELOKUVAN LISAYSSIVU
 $routes->get('/addmovie', function() {
     MovieController::add_movie();
 });
 
-//ARTISTIEN LISAYS
+//ELOKUVAN MUOKKAUSSIVU
+$routes->get('/movie/edit/:id', function($id) {
+    MovieController::movieEdit($id);
+});
+
+
+
+//ARTISTIN ETUSIVU
+$routes->get('/artist/:id', function($id) {
+    ArtistController::showOne($id);
+});
+
+//ARTISTIEN LISAYSSIVU
 $routes->get('/addmovie/addpeople', function() {
     MovieController::add_artistit();
 });
 
-//ELOKUVAN MUOKKAUS
-$routes->get('/edit', function() {
-    BasisController::movieEdit();
+$routes->get('/artist/edit/:id', function($id) {
+    ArtistController::artistEdit($id);
 });
 
-$routes->get('/country/:id', function($id){
-    ValtioController::showOne($id);
-});
-
-
-$routes->get('/lists', function() {
-    BasisController::lists();
-});
-
-$routes->get('/mypage', function() {
-    BasisController::mypage();
-});
-
-$routes->get('/artist/:id', function($id) {
-    ArtistController::showOne($id);
-});
 
 $routes->get('/artist', function() {
     BasisController::artist();
 });
 
+
+//TESTISIVUT
 $routes->get('/testisivu', function() {
     BasisController::test();
 });
 
 $routes->get('/artistitestisivu', function() {
     BasisController::test();
+});
+
+
+//VALTIOSIVU
+$routes->get('/country/:id', function($id) {
+    ValtioController::showOne($id);
 });
 
 
@@ -88,3 +102,4 @@ $routes->post('/artistipostisivu', function() {
 $routes->post('/addmovie/addpeople', function() {
     MovieController::store();
 });
+

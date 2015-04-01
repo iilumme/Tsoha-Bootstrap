@@ -21,6 +21,7 @@
                 <label>Maa</label>
                 <div class="dropdown">
                     <select class="form-control">
+                        <option>...</option>
                         {% for valtio in valtiot%}
                         <option>{{valtio.valtionimi}}</option>
                         {%endfor%}
@@ -31,6 +32,7 @@
                 <label>Genre</label>
                 <div class="dropdown">
                     <select class="form-control">
+                        <option>...</option>
                         {% for genre in genret%}
                         <option>{{genre.genrenimi}}</option>
                         {%endfor%}
@@ -41,6 +43,7 @@
                 <label>Palkinto</label>
                 <div class="dropdown">
                     <select class="form-control">
+                        <option>...</option>
                         {% for palkinto in palkinnot%}
                         <option>{{palkinto.palkintonimi}}</option>
                         {%endfor%}
@@ -51,6 +54,7 @@
                 <label>Sarja</label>
                 <div class="dropdown">
                     <select class="form-control">
+                        <option>...</option>
                         {% for sarja in sarjat%}
                         <option>{{sarja.sarjanimi}}</option>
                         {%endfor%}
@@ -59,12 +63,12 @@
             </div>       
         </div>
         <br>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <br>
             <br>
             <div class="input-group">
-                <input type="text" placeholder="hakusana" name="hakusana" style="width: 200px" id="hakusanaboxi">
-                <div class="input-group-btn dropdown">
+                <input type="text" placeholder="hakusana" name="hakusana" style="width: 200px" >
+                <div class="input-group-btn">
                     <select class="form-control" style="width: 125px">
                         <option>Elokuvan nimi</option>
                         <option>Näyttelijä</option>
@@ -74,10 +78,11 @@
                         <option>Kieli</option>
                     </select>   
                 </div>
+                <a role="button" class="btn btn-info" >Lisää</a>
             </div>
         </div>
     </form>
-    <div class="col-md-5">
+    <div class="col-md-4">
         <h4>Hakutulokset</h4>
         <table class="table table-striped table-bordered bg-info">
             <thead>

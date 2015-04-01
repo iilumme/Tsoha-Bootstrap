@@ -6,10 +6,10 @@ class MovieController extends BaseController {
 
         $elokuvat = Elokuva::findOne($id);
         $valtiot = Valtio::findValtioForElokuva($id);
-        $nayttelijat = Artisti::findArtistitForElokuva($id, "Nayttelija");
+        $nayttelijat = Artisti::findArtistitForElokuva($id, "Näyttelija");
         $ohjaajat = Artisti::findArtistitForElokuva($id, "Ohjaaja");
         $kuvaajat = Artisti::findArtistitForElokuva($id, "Kuvaaja");
-        $kassarit = Artisti::findArtistitForElokuva($id, "Kasikirjoittaja");
+        $kassarit = Artisti::findArtistitForElokuva($id, "Käsikirjoittaja");
         $genret = Genre::findGenretForElokuva($id);
         $palkinnot = Palkinto::findPalkinnotForElokuva($id);
         $sarjanelokuvat = Sarjalaari::findSarjanElokuvat($id);
@@ -22,7 +22,7 @@ class MovieController extends BaseController {
             'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
             'genret' => $genret, 'palkinnot' => $palkinnot,
-            'arviot' => $arviot, 'kommentit' => $kommentit,'dvdt' => $dvdt,
+            'arviot' => $arviot, 'kommentit' => $kommentit, 'dvdt' => $dvdt,
             'sarjanelokuvat' => $sarjanelokuvat
         ));
     }
@@ -33,10 +33,10 @@ class MovieController extends BaseController {
     }
 
     public static function add_artistit() {
-        $nayttelijat = Artisti::findAllArtistit("Nayttelija");
+        $nayttelijat = Artisti::findAllArtistit("Näyttelija");
         $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
         $kuvaajat = Artisti::findAllArtistit("Kuvaaja");
-        $kassarit = Artisti::findAllArtistit("Kasikirjoittaja");
+        $kassarit = Artisti::findAllArtistit("Käsikirjoittaja");
         $genret = Genre::all();
         $sarjat = Sarja::all();
         $valtiot = Valtio::all();
@@ -51,8 +51,33 @@ class MovieController extends BaseController {
         ));
     }
 
+    public static function movieEdit($id) {
+        $elokuvat = Elokuva::findOne($id);
+        $valtiot = Valtio::all();
+        $nayttelijat = Artisti::findArtistitForElokuva($id, "Näyttelija");
+        $ohjaajat = Artisti::findArtistitForElokuva($id, "Ohjaaja");
+        $kuvaajat = Artisti::findArtistitForElokuva($id, "Kuvaaja");
+        $kassarit = Artisti::findArtistitForElokuva($id, "Käsikirjoittaja");
+        $genret = Genre::findGenretForElokuva($id);
+        $palkinnot = Palkinto::findPalkinnotForElokuva($id);
+        View::make('movie/leffamuokkaus.html', array(
+            'elokuvat' => $elokuvat, 'valtiot' => $valtiot,
+            'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
+            'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
+            'genret' => $genret, 'palkinnot' => $palkinnot));
+    }
+
     public static function store() {
         $parametrit = $_POST;
+
+        $attribuutit = array(
+            'leffanimi' => $parametrit['leffanimi'],
+            'vuosi' => $parametrit['vuosi'],
+            'valtio' => $parametrit['valtio'],
+            'kieli' => $parametrit['kieli'],
+            'synopsis' => $parametrit['synopsis'],
+            'traileriurl' => $parametrit['traileriurl']
+        );
 
         $movie = new Elokuva(array(
             'leffanimi' => $parametrit['leffanimi'],
@@ -63,9 +88,15 @@ class MovieController extends BaseController {
             'traileriurl' => $parametrit['traileriurl']
         ));
 
-        $movie->save();
+        $errors = $movie->errors();
 
-        Redirect::to('/addmovie/addpeople' , array('message' => $movie->leffaid));
+        if (count($errors) == 0) {
+            $movie->save();
+            Redirect::to('/addmovie/addpeople', array('message' => $movie->leffaid));
+        } else {
+            $valtiot = Valtio::all();
+            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attribuutit, 'valtiot' => $valtiot));
+        }
     }
 
 }

@@ -2,12 +2,12 @@
 {% block content %}
 
 {% for artisti in artistit %}
-{% for valtio in valtiot %}
+
 
 <div class="row">
     <div class="col-md-9"><h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2></div>
     <div class="col-md-3">
-        <button class="btn btn-success">Muokkaa</button>
+        <a class="btn btn-success" role="button" href="{{base_path}}/artist/edit/{{artisti.artistiid}}" >Muokkaa</a>
         <button class="btn btn-danger">Poista</button>
     </div>
 </div>
@@ -15,12 +15,15 @@
 <div class="row">
     <div class="col-md-6">
         <ul>
+            <li>{{artisti.artistityyppi}}</li>
+            {% for valtio in valtiot %}
             <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
+            {%endfor%}
             <li><strong>Syntymävuosi:</strong> {{artisti.syntymavuosi}}</li>
         </ul>
     </div>
     <div class="col-md-6">
-        <img style="border-radius: 10px" src="{{base_path}}/images/{{artisti.kuva}}" alt="http://upload.wikimedia.org/wikipedia/commons/7/71/Gael_garcia_bernal.jpg">
+        <img style="border-radius: 10px" src="{{base_path}}/images/artists/{{artisti.kuva}}" alt="WIKIPEDIA">
     </div>
 </div>
 <div class="row">
@@ -40,7 +43,6 @@
     </div>
 </div>
 
-{%endfor%}
 {%endfor%}
 
 {% endblock %}

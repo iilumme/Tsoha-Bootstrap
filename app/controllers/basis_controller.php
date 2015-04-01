@@ -115,36 +115,28 @@ class BasisController extends BaseController {
 
         $sa = Sarjalaari::findSarjanElokuvat(1);
         Kint::dump($sa);
+
+        $elo = new Elokuva(array(
+            'vuosi' => 1700,
+            'kieli' => ' '
+        ));
+
+        $errors = $elo->errors();
+        Kint::dump($errors);
     }
 
     public static function first_page() {
         View::make('basis/etusivu.html');
     }
 
-    public static function search() {
-        View::make('basis/haku.html');
-    }
+//    public static function search() {
+//        View::make('basis/haku.html');
+//    }
 
     //USERS
-    public static function register() {
-        View::make('users/rekisteroityminen.html');
-    }
 
-    public static function login() {
-        View::make('users/kirjautuminen.html');
-    }
 
-    public static function lists() {
-        View::make('users/lista.html');
-    }
 
-    public static function mypage() {
-        View::make('users/omasivu.html');
-    }
-
-    public static function movieEdit() {
-        View::make('movie/leffamuokkaus.html');
-    }
 
     public static function artist() {
         View::make('suunnitelmat/artistiesittely.html');

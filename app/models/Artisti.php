@@ -7,6 +7,7 @@ class Artisti extends BaseModel {
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
+        $this->validators = array('validateFirstName', 'validateLastName', 'validateBirthYear');
     }
 
     public static function all() {

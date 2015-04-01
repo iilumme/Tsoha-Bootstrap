@@ -3,10 +3,11 @@
 class Elokuva extends BaseModel {
 
     public $leffaid, $leffanimi, $vuosi, $valtio, $kieli,
-            $kuva, $synopsis, $traileriurl, $lisatty, $viimeksimuutettu;
+            $synopsis, $traileriurl, $lisatty, $viimeksimuutettu;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
+        $this->validators = array('validateName', 'validateYear', 'validateLanguage');
     }
 
     public static function all() {

@@ -8,13 +8,13 @@ class ValtioController extends BaseController {
         $valtio[] = Valtio::findOne($id);
 
         $nayttelijat = array();
-        $nayttelijat = Artisti::findArtistitForValtio($id, 'Nayttelija');
+        $nayttelijat = Artisti::findArtistitForValtio($id, 'Näyttelija');
 
         $ohjaajat = array();
         $ohjaajat = Artisti::findArtistitForValtio($id, 'Ohjaaja');
 
         $kassarit = array();
-        $kassarit = Artisti::findArtistitForValtio($id, 'Kasikirjoittaja');
+        $kassarit = Artisti::findArtistitForValtio($id, 'Käsikirjoittaja');
 
         $kuvaajat = array();
         $kuvaajat = Artisti::findArtistitForValtio($id, 'Kuvaaja');

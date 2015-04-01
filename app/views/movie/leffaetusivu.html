@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-4">
         <button class="btn btn-info">Arvioi/Kommentoi</button>
-        <button class="btn btn-success"><a href="{{base_path}}/edit">Muokkaa</a></button>
+        <a role="button" class="btn btn-success" href="{{base_path}}/movie/edit/{{elokuva.leffaid}}">Muokkaa</a>
         <button class="btn btn-danger">Poista</button>
     </div>
 
@@ -69,6 +69,7 @@
                     {%endfor%}
                 </ul>
             </li>
+            {%if palkinnot %}
             <li><strong>Palkinnot/Ehdokkuudet:</strong> 
                 <ul>
                     {% for palkinto in palkinnot %}
@@ -76,6 +77,8 @@
                     {%endfor%}
                 </ul>
             </li>
+            {% endif %}
+            {%if sarjanelokuvat %}
             <li><strong>Sarja:</strong>
                 <ul>
                     {% for selokuva in sarjanelokuvat %}
@@ -87,7 +90,8 @@
                     {%endfor%}
                 </ul>
             </li>
-        </ul>
+            {% endif %}
+        </ul> 
         <br>
         <h5>Synopsis</h5>
         <p style="font-family: monospace" id="synopsis">
@@ -96,8 +100,8 @@
     </div>
     <div class="col-md-6">
         <h5>Traileri</h5>
-        <div class="embed-responsive-16by9">
-            <iframe width="560" height="315" src="{{elokuva.traileriurl}}" frameborder="0" allowfullscreen></iframe>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" width="560" height="315" src="{{elokuva.traileriurl}}" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 </div>

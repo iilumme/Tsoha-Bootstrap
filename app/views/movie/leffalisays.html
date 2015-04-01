@@ -4,18 +4,28 @@
 <h2>Lisää elokuva</h2>
 <br>
 
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {%for error in errors%}
+        <li>{{error}}</li>
+        {%endfor%}
+    </ul>
+</div>
+{% endif %}
+
 <form method="post" action="{{base_path}}/addmovie/addpeople">
     <div class="form-group">
         <label>Elokuvan nimi</label>
-        <input type="text" name="leffanimi" class="form-control">
+        <input type="text" name="leffanimi" class="form-control" value="{{attribuutit.leffanimi}}">
     </div>
     <div class="form-group">
         <label>Julkaisuvuosi</label>
-        <input type="number" name="vuosi" class="form-control">
+        <input type="number" name="vuosi" class="form-control" value="{{attribuutit.vuosi}}">
     </div>
     <div class="dropdown">
         <label>Maa</label>
-        <select class="form-control" name="valtio">
+        <select class="form-control" name="valtio" >
             {%for valtio in valtiot%}
             <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
             {%endfor%}
@@ -24,15 +34,15 @@
     <br>
     <div class="form-group">
         <label>Kieli</label>
-        <input type="text" name="kieli" class="form-control">
+        <input type="text" name="kieli" class="form-control" value="{{attribuutit.kieli}}">
     </div>
     <div class="form-group">
         <label>Traileri</label>
-        <input type="url" name="traileriurl" class="form-control">
+        <input type="url" name="traileriurl" class="form-control" value="{{attribuutit.traileriurl}}">
     </div>
     <div class="form-group">
         <label>Synopsis</label>
-        <input type="text" name="synopsis" class="form-control">
+        <input type="text" name="synopsis" class="form-control" value="{{attribuutit.synopsis}}">
     </div>
     <div class="form-group">       
         <button type="submit" class="btn btn-success">Seuraava</button>
