@@ -118,4 +118,23 @@ class Elokuva extends BaseModel {
         $this->leffaid = $tulos['leffaid'];
     }
 
+    public function update($id) {
+        $query = DB::connection()->prepare('UPDATE Elokuva '
+                . 'SET leffanimi = :leffanimi, vuosi = :vuosi, valtio = :valtio, kieli = :kieli, '
+                . 'synopsis = :synopsis, traileriurl= :traileriurl, viimeksimuutettu=NOW() '
+                . 'WHERE leffaid = :leffaid RETURNING leffaid');
+        $query->execute(array(
+            'leffaid' => $id,
+            'leffanimi' => $this->leffanimi,
+            'vuosi' => $this->vuosi,
+            'valtio' => $this->valtio,
+            'kieli' => $this->kieli,
+            'synopsis' => $this->synopsis,
+            'traileriurl' => $this->traileriurl
+        ));
+
+        $tulos = $query->fetch();
+        return $tulos['leffaid'];
+    }
+
 }

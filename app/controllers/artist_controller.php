@@ -27,7 +27,6 @@ class ArtistController extends BaseController {
 
         $valtiot = Valtio::all();
         $tamanhetkinenvaltio = Valtio::findValtioForArtisti($id);
-
         $leffat = Elokuva::findElokuvatForArtisti($id);
 
         View::make('artist/artistimuokkaus.html', array(
@@ -66,6 +65,33 @@ class ArtistController extends BaseController {
             //Redirect::to('/addmovie/addpeople' , array('message' => $artisti->artistiid));
         } else {
             
+        }
+    }
+
+    public static function update($id) {
+        $parametrit = $_POST;
+
+        $attribuutit = array(
+            'artistityyppi' => $parametrit['artistityyppi'],
+            'etunimi' => $parametrit['etunimi'],
+            'sukunimi' => $parametrit['sukunimi'],
+            'bio' => $parametrit['bio'],
+            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
+            'valtio' => (int) $parametrit['valtio']
+        );
+
+        $artist = new Artisti($attribuutit);
+        $errors = $artist->errors();
+
+        if (count($errors) == 0) {
+            $artist->update($id);
+            Redirect::to('/artist/' . $id, array('message' => 'Tietojen päivittäminen onnistui! :)'));
+        } else {
+            $valtiot = Valtio::all();
+            View::make('/artist/artistimuokkaus.html', array(
+                'valtiot' => $valtiot,
+                'attribuutit' => $attribuutit
+            ));
         }
     }
 

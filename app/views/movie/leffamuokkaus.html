@@ -3,7 +3,7 @@
 
 {% for elokuva in elokuvat %}
 
-<form>
+<form method="post" action="{{base_path}}/movieeditpage/{{elokuva.leffaid}}" >
     <div class="row">
         <div class="col-md-9"><h2>Elokuvan {{elokuva.leffanimi}} muokkaus</h2></div>
         <div class="col-md-3">
@@ -18,11 +18,16 @@
                 <label>Nimi</label>
                 <input type="text" class="form-control" value="{{elokuva.leffanimi}}" name="leffanimi">
             </div>
-            <div class="dropdown">
-                <label>Maa</label>
+            <div class="form-group">
+                <label>Maa</label>               
                 <select class="form-control" name="valtio">
-                    {%for valtio in valtiot%}
+                    {% for valtio in valtiot %}
+                    {% if valtio.valtioid == tamanhetkinenvaltio.valtioid %}
+                    <option>moi</option>
+                    <option value="{{valtio.valtioid}}" selected="selected">{{valtio.valtionimi}}</option>
+                    {% else %}
                     <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                    {%endif%}
                     {%endfor%}
                 </select>
             </div>

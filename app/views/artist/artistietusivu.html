@@ -3,6 +3,11 @@
 
 {% for artisti in artistit %}
 
+{% if message %}
+<div class="alert alert-success">
+  {{message}}
+</div>
+{% endif %}
 
 <div class="row">
     <div class="col-md-9"><h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2></div>

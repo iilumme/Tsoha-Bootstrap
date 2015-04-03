@@ -13,7 +13,7 @@ class LaariController extends BaseController {
             LaariController::sarjalaariSave($param, $leffaid);
         }
 
-        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva lisätty!"));
+        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty!"));
     }
 
     private static function artistilaariSave($param, $leffaid) {

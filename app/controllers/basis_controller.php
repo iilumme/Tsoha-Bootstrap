@@ -115,28 +115,46 @@ class BasisController extends BaseController {
 
         $sa = Sarjalaari::findSarjanElokuvat(1);
         Kint::dump($sa);
-
-        $elo = new Elokuva(array(
-            'vuosi' => 1700,
-            'kieli' => ' '
-        ));
-
-        $errors = $elo->errors();
-        Kint::dump($errors);
+//
+//        $elo = new Elokuva(array(
+//            'vuosi' => 1700,
+//            'kieli' => ' '
+//        ));
+//
+//        $errors = $elo->errors();
+//        Kint::dump($errors);
+////
+////        $elok = new Elokuva(array(
+////            'leffanimi' => 'testi',
+////            'vuosi' => 2000,
+////            'valtio' => 1,
+////            'kieli' => 'e',
+////            'synopsis' => 'e',
+////            'traileriurl' => 'e'
+////        ));
+////
+////        $elok->save();
+////        Kint::dump($elok);
+////
+////        $movie = new Elokuva(array(
+////            'leffanimi' => 'testiiii',
+////            'vuosi' => 2001,
+////            'valtio' => 2,
+////            'kieli' => 'eeee',
+////            'synopsis' => 'eee',
+////            'traileriurl' => 'eee'
+////        ));
+////
+////        $movie->update(6);
+//////        Kint::dump($movie);
+//////        Kint::dump($elok);
+////        $e = Elokuva::findOne(8);
+////        Kint::dump($e);
     }
 
     public static function first_page() {
         View::make('basis/etusivu.html');
     }
-
-//    public static function search() {
-//        View::make('basis/haku.html');
-//    }
-
-    //USERS
-
-
-
 
     public static function artist() {
         View::make('suunnitelmat/artistiesittely.html');

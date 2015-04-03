@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <div class="modal fade" id="lisaysmodaali" tabindex="-1" role="dialog" 
      aria-labelledby="lisaysmodaaliLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -57,7 +63,7 @@
 <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät ja genret</h3>
 <br>
 
-<div class="col-md-8">
+<div class="col-md-7">
     <div class="row">
         <div class="col-md-6">
             <div class="dropdown">
@@ -186,10 +192,13 @@
         <input type="hidden" name="artistilista" id="hidd"/>
         <input type="hidden" name="genrelista" id="hiddgenre"/>
         <input type="hidden" name="sarjalista" id="hiddsarja"/>
-        <input type="hidden" name="elokuvanid" id="lid" value="{{message}}"/>
+        <input type="hidden" name="elokuvanid" id="lid" value="{{lid}}"/>
         <button type="submit" class="btn btn-success">Lisää elokuva</button>
     </form>
 </div>
-
+<div class="col-md-5">
+    <div class="alert alert-success" id="lisatty">
+    </div>
+</div>
 {% endblock %}
 

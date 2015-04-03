@@ -13,31 +13,46 @@ $(document).ready(function () {
             console.log("kissakala");
             var $this = $(this);
             console.log($this.value);
-            $artistilista[$artistilista.length] = $valintakandidaatti;
-            $('#hidd').val($artistilista);
-            console.log($artistilista);
+            if ($valintakandidaatti !== 0 && $valintakandidaatti !== '...') {
+                $artistilista[$artistilista.length] = $valintakandidaatti;
+                $('#hidd').val($artistilista);
+                $('#lisatty').text('Artisti lisätty!');
+                console.log($artistilista);
+                $valintakandidaatti = 0;
+            }
+
         }).change();
 
         $('.lisaagenre').click(function (event) {
             console.log("genre");
             var $this = $(this);
             console.log($this.value);
-            $genrelista[$genrelista.length] = $genrevalintakandidaatti;
-            $('#hiddgenre').val($genrelista);
-            console.log($genrelista);
+            if ($genrevalintakandidaatti !== 0 && $genrevalintakandidaatti !== '...') {
+                $genrelista[$genrelista.length] = $genrevalintakandidaatti;
+                $('#hiddgenre').val($genrelista);
+                $('#lisatty').text('Genre lisätty!');
+                console.log($genrelista);
+                $genrevalintakandidaatti = 0;
+            }
         }).change();
 
         $('.lisaasarja').click(function (event) {
             console.log("sarja");
             var $this = $(this);
             console.log($this.value);
-            $sarjalista[$sarjalista.length] = $sarjavalintakandidaatti;
-            $('#hiddsarja').val($sarjalista);
-            console.log($sarjalista);
+            if ($sarjavalintakandidaatti !== 0 && $sarjavalintakandidaatti !== '...') {
+                $sarjalista[$sarjalista.length] = $sarjavalintakandidaatti;
+                $('#hiddsarja').val($sarjalista);
+                $('#lisatty').text('Sarja lisätty!');
+                console.log($sarjalista);
+                $sarjavalintakandidaatti = 0;
+            }
+
         }).change();
 
 
         $('.artistivalinta').change(function () {
+            $('#lisatty').text('');
             console.log("kalakissa");
             var $this = $(this);
             $valintakandidaatti = $this.val();
@@ -45,6 +60,7 @@ $(document).ready(function () {
         });
 
         $('.genrevalinta').change(function () {
+            $('#lisatty').text('');
             console.log("kalakissa");
             var $this = $(this);
             $genrevalintakandidaatti = $this.val();
@@ -52,6 +68,7 @@ $(document).ready(function () {
         });
 
         $('.sarjavalinta').change(function () {
+            $('#lisatty').text('');
             console.log("kalakissa");
             var $this = $(this);
             $sarjavalintakandidaatti = $this.val();

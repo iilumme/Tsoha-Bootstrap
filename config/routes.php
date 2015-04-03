@@ -87,6 +87,10 @@ $routes->get('/country/:id', function($id) {
     ValtioController::showOne($id);
 });
 
+$routes->get('/country/edit/:id', function($id) {
+    ValtioController::countryEdit($id);
+});
+
 
 //POST
 $routes->post('/testisivu', function() {
@@ -101,5 +105,17 @@ $routes->post('/artistipostisivu', function() {
 
 $routes->post('/addmovie/addpeople', function() {
     MovieController::store();
+});
+
+$routes->post('/movieeditpage/:id', function($id) {
+    MovieController::update($id);
+});
+
+$routes->post('/artisteditpage/:id', function($id) {
+    ArtistController::update($id);
+});
+
+$routes->post('/countryeditpage/:id', function($id) {
+    ValtioController::update($id);
 });
 

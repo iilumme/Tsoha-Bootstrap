@@ -8,7 +8,7 @@ class ValtioController extends BaseController {
         $valtio[] = Valtio::findOne($id);
 
         $nayttelijat = array();
-        $nayttelijat = Artisti::findArtistitForValtio($id, 'Näyttelija');
+        $nayttelijat = Artisti::findArtistitForValtio($id, 'Näyttelijä');
 
         $ohjaajat = array();
         $ohjaajat = Artisti::findArtistitForValtio($id, 'Ohjaaja');
@@ -18,7 +18,7 @@ class ValtioController extends BaseController {
 
         $kuvaajat = array();
         $kuvaajat = Artisti::findArtistitForValtio($id, 'Kuvaaja');
-        
+
         $elokuvat = array();
         $elokuvat = Elokuva::findElokuvatForValtiot($id);
 
@@ -30,6 +30,27 @@ class ValtioController extends BaseController {
             'kasikirjoittajat' => $kassarit,
             'elokuvat' => $elokuvat
         ));
+    }
+
+    public static function countryEdit($id) {
+        $valtio = array();
+        $valtio[] = Valtio::findOne($id);
+        View::make('/suunnitelmat/valtiomuokkaus.html', array(
+            'valtiot' => $valtio
+        ));
+    }
+
+    public static function update($id) {
+        $parametrit = $_POST;
+
+        $attribuutit = array(
+            'valtiobio' => $parametrit['valtiobio']
+        );
+
+        $valtio = new Valtio($attribuutit);
+
+        $valtio->update($id);
+        Redirect::to('/country/' . $id, array('message' => 'Tietojen päivittäminen onnistui! :)'));
     }
 
 }

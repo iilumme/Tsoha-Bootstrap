@@ -26,7 +26,7 @@ class BaseModel {
 
     public function validateYear() {
         $errors = array();
-        if ($this->vuosi <= 1800 || $this->vuosi > 2100 || is_numeric($this->vuosi)) {
+        if ($this->vuosi <= 1800 || $this->vuosi > 2100 || !is_numeric($this->vuosi)) {
             $errors[] = 'Tarkista vuosi.';
         }
         return $errors;
@@ -34,7 +34,7 @@ class BaseModel {
 
     public function validateBirthYear() {
         $errors = array();
-        if ($this->syntymavuosi <= 1800 || $this->syntymavuosi > 2100 || is_numeric($this->syntymavuosi)) {
+        if (($this->syntymavuosi <= 1800 && $this->syntymavuosi != 0 ) || $this->syntymavuosi > 2100 || !is_numeric($this->syntymavuosi)) {
             $errors[] = 'Tarkista syntymävuosi.';
         }
         return $errors;
@@ -47,7 +47,7 @@ class BaseModel {
         }
         return $errors;
     }
-    
+
     public function validateFirstName() {
         $errors = array();
         if ($this->etunimi == NULL || $this->etunimi == ' ') {
@@ -55,7 +55,7 @@ class BaseModel {
         }
         return $errors;
     }
-    
+
     public function validateLastName() {
         $errors = array();
         if ($this->sukunimi == NULL || $this->sukunimi == ' ') {
