@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
+
+
 <div class="row">
     <div class="col-md-9">
-        <h2 style="font-family: sans-serif">Iina</h2>
+        {% if user_logged_in %}
+        <h2 style="font-family: sans-serif">{{user_logged_in.nimi}}</h2>
+        {% endif %}       
     </div>
 
     <div class="col-md-3">

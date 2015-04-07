@@ -6,7 +6,7 @@
 
 {% if message %}
 <div class="alert alert-success">
-  {{message}}
+    {{message}}
 </div>
 {% endif %}
 
@@ -27,9 +27,11 @@
         </div>
     </div>
     <div class="col-md-4">
-        <button class="btn btn-info">Arvioi/Kommentoi</button>
-        <a role="button" class="btn btn-success" href="{{base_path}}/movie/edit/{{elokuva.leffaid}}">Muokkaa</a>
-        <button class="btn btn-danger">Poista</button>
+        <form method="post" action="{{base_path}}/movie/destroy/{{elokuva.leffaid}}">
+            <a role="button" class="btn btn-info" href="#" >Arvioi/Kommentoi</a>
+            <a role="button" class="btn btn-success" href="{{base_path}}/movie/edit/{{elokuva.leffaid}}">Muokkaa</a>
+            <button class="btn btn-danger" type="submit" >Poista</button>
+        </form>
     </div>
 
 </div>

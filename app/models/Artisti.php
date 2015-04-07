@@ -11,7 +11,7 @@ class Artisti extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Artisti');
+        $query = DB::connection()->prepare('SELECT * FROM Artisti ORDER BY sukunimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
@@ -112,7 +112,7 @@ class Artisti extends BaseModel {
         $tulos = $query->fetch();
         $this->artistiid = $tulos['artistiid'];
     }
-    
+
     public function update($id) {
         $query = DB::connection()->prepare('UPDATE Artisti '
                 . 'SET artistityyppi = :artistityyppi, etunimi = :etunimi, '
@@ -131,6 +131,13 @@ class Artisti extends BaseModel {
 
         $tulos = $query->fetch();
         return $tulos['artistiid'];
+    }
+
+    public function destroy($id) {
+        $query = DB::connection()->prepare('DELETE FROM Artisti WHERE artistiid = :artistiid');
+        $query->execute(array(
+            'artistiid' => $id
+        ));
     }
 
 }

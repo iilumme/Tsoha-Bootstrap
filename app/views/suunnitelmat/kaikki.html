@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Kaikki elokuvat, tekijät ja valtiot</h2>
+<br>
+<div class="row">
+    <div class="col-md-4">
+        <label><strong>Elokuvat</strong></label>
+        <ul>
+            {% for elokuva in elokuvat %}
+            <li><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <label><strong>Tekijät</strong></label>
+        <ul>
+            {% for artisti in artistit %}
+            <li><a href="{{base_path}}/artist/{{artisti.artistiid}}">{{artisti.etunimi}} {{artisti.sukunimi}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <label><strong>Valtiot</strong></label>
+        <ul>
+            {% for valtio in valtiot %}
+            <li><a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

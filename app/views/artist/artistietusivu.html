@@ -5,15 +5,19 @@
 
 {% if message %}
 <div class="alert alert-success">
-  {{message}}
+    {{message}}
 </div>
 {% endif %}
 
 <div class="row">
-    <div class="col-md-9"><h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2></div>
+    <div class="col-md-9">
+        <h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2>
+    </div>
     <div class="col-md-3">
         <a class="btn btn-success" role="button" href="{{base_path}}/artist/edit/{{artisti.artistiid}}" >Muokkaa</a>
-        <button class="btn btn-danger">Poista</button>
+        <form class="form-inline" method="post" action="{{base_path}}/artist/destroy/{{artisti.artistiid}}">
+            <button class="btn btn-danger" type="submit">Poista</button>
+        </form>
     </div>
 </div>
 

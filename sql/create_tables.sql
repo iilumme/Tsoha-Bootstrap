@@ -11,7 +11,7 @@ CREATE TABLE Kayttaja (
   lempiGenre       INT         NOT NULL,
   rekisteroitynyt  TIMESTAMP   NOT NULL,
   viimeksiMuutettu TIMESTAMP   NOT NULL,
-  FOREIGN KEY (lempiGenre) REFERENCES Genre (genreID)
+  FOREIGN KEY (lempiGenre) REFERENCES Genre (genreID) ON DELETE RESTRICT
 );
 
 CREATE TABLE Valtiot (
@@ -31,35 +31,35 @@ CREATE TABLE Elokuva (
   traileriURL      VARCHAR(150),
   lisatty          TIMESTAMP    NOT NULL,
   viimeksiMuutettu TIMESTAMP    NOT NULL,
-  FOREIGN KEY (valtio) REFERENCES Valtiot (valtioID)
+  FOREIGN KEY (valtio) REFERENCES Valtiot (valtioID) ON DELETE SET NULL
 );
 
 CREATE TABLE MasTardeLista (
   kayttajaID INT NOT NULL,
   leffaID    INT NOT NULL,
-  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE DVDLista (
   kayttajaID INT NOT NULL,
   leffaID    INT NOT NULL,
-  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE Katsotutlista (
   kayttajaID INT NOT NULL,
   leffaID    INT NOT NULL,
-  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE Suosikkilista (
   kayttajaID INT NOT NULL,
   leffaID    INT NOT NULL,
-  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 
@@ -74,7 +74,7 @@ CREATE TABLE Artisti (
   valtio           INT          NOT NULL,
   lisatty          TIMESTAMP    NOT NULL,
   viimeksiMuutettu TIMESTAMP    NOT NULL,
-  FOREIGN KEY (valtio) REFERENCES Valtiot (valtioID)
+  FOREIGN KEY (valtio) REFERENCES Valtiot (valtioID) ON DELETE SET NULL
 );
 
 CREATE TABLE Palkinto (
@@ -88,8 +88,8 @@ CREATE TABLE Kommentti (
   teksti     VARCHAR(1000) NOT NULL,
   lisatty    TIMESTAMP     NOT NULL,
   PRIMARY KEY (kayttajaID, leffaID),
-  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE Sarja (
@@ -101,24 +101,24 @@ CREATE TABLE Sarja (
 CREATE TABLE ArtistiLaari (
   artistiID INT NOT NULL,
   leffaID   INT NOT NULL,
-  FOREIGN KEY (artistiID) REFERENCES Artisti (artistiID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (artistiID) REFERENCES Artisti (artistiID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE LeffaPalkintoLaari (
   palkintoID INT  NOT NULL,
   leffaID    INT  NOT NULL,
   voitettu   CHAR NOT NULL,
-  FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE ArtistiPalkintoLaari (
   palkintoID INT  NOT NULL,
   artistitID INT  NOT NULL,
   voitettu   CHAR NOT NULL,
-  FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID),
-  FOREIGN KEY (artistitID) REFERENCES Artisti (artistiID)
+  FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID) ON DELETE CASCADE,
+  FOREIGN KEY (artistitID) REFERENCES Artisti (artistiID) ON DELETE CASCADE
 );
 
 CREATE TABLE ArvioLaari (
@@ -127,20 +127,20 @@ CREATE TABLE ArvioLaari (
   tahti      INT NOT NULL,
   lisatty    TIMESTAMP,
   PRIMARY KEY (kayttajaID, leffaID),
-  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (kayttajaID) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE SarjaLaari (
   sarjaID INT NOT NULL,
   leffaID INT NOT NULL,
-  FOREIGN KEY (sarjaID) REFERENCES Sarja (sarjaID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (sarjaID) REFERENCES Sarja (sarjaID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
 
 CREATE TABLE GenreLaari (
   genreID INT NOT NULL,
   leffaID INT NOT NULL,
-  FOREIGN KEY (genreID) REFERENCES Genre (genreID),
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID)
+  FOREIGN KEY (genreID) REFERENCES Genre (genreID) ON DELETE CASCADE,
+  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );

@@ -62,7 +62,6 @@ class ArtistController extends BaseController {
 
         if (count($errors) == 0) {
             $artisti->save();
-            //Redirect::to('/addmovie/addpeople' , array('message' => $artisti->artistiid));
         } else {
             
         }
@@ -93,6 +92,13 @@ class ArtistController extends BaseController {
                 'attribuutit' => $attribuutit
             ));
         }
+    }
+
+    public static function destroy($id) {
+        $artist = new Artisti(array('id' => $id));
+        $artist->destroy($id);
+        
+        Redirect::to('/', array('message' => 'Artistin poistaminen onnistui'));
     }
 
 }

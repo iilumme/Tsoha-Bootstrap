@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <div class="col-md-12" id="etusivu">
-<h1 class="text-center" style="font-family: sans-serif">Tervetuloa LATLeffaLaariin!</h1>
-<br>
+    <h1 class="text-center" style="font-family: sans-serif">Tervetuloa LATLeffaLaariin!</h1>
+    <br>
 
-<p class="text-center" style="font-family: monospace; font-size: 150%">LATLeffaLaari on paikka sinulle, joka tykkäät Latinalaisen Amerikan elokuvista. 
-    Täältä löydät uusia katsottavia elokuvia, sekä voit pitää listaa suosikkielokuvistasi.</p>
+    <p class="text-center" style="font-family: monospace; font-size: 150%">LATLeffaLaari on paikka sinulle, joka tykkäät Latinalaisen Amerikan elokuvista. 
+        Täältä löydät uusia katsottavia elokuvia, sekä voit pitää listaa suosikkielokuvistasi.</p>
 
-<p class="text-center" style="font-family: monospace; font-size: 150%"><em>¡Espero que disfrutes! ;)</em></p>
+    <p class="text-center" style="font-family: monospace; font-size: 150%"><em>¡Espero que disfrutes! ;)</em></p>
 </div>
 {% endblock %}

@@ -7,8 +7,25 @@
 .navbar .container-fluid{
     max-width: 1800px;
     margin: 0px auto;
-    background-color: gold;
-    border-color: #31b0d5;
+    background-color: palegoldenrod;
+}
+
+.navbar .nav > li > a{
+    color: darkolivegreen;
+
+}
+
+.navbar .nav > li > a:hover{
+    color: #222;
+
+}
+
+#title{
+    color: #2b542c;   
+}
+
+#title:hover{
+    color: #222;   
 }
 
 #listamenubuttons{
@@ -46,3 +63,24 @@
     aria-expanded: false;
 }
 
+
+/*#loginbutton{
+    background-color: #f7e1b5;
+    color: #2b542c;
+}
+
+#loginbutton:hover{
+    background-color: #f7ecb5;
+    color: #2b542c;
+}
+
+#registerbutton{
+    background-color: seagreen;
+    border-color: #2b542c;
+    color: whitesmoke;
+}
+
+#registerbutton:hover{
+    background-color: darkseagreen;
+    color: whitesmoke;
+}*/

@@ -50,4 +50,41 @@ class Kayttaja extends BaseModel {
         return null;
     }
 
+    public static function authenticate($kayttajatunnus, $salasana) {
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE kayttajaTunnus = :kayttajatunnus AND salasana = :salasana LIMIT 1;');
+        $query->execute(array('kayttajatunnus' => $kayttajatunnus, 'salasana' => $salasana));
+        $tulos = $query->fetch();
+
+        if ($tulos) {
+            $kayttaja = new Kayttaja(array(
+                'kayttajaid' => $tulos['kayttajaid'],
+                'kayttajatunnus' => $tulos['kayttajatunnus'],
+                'nimi' => $tulos['nimi'],
+                'salasana' => $tulos['salasana'],
+                'lempigenre' => $tulos['lempigenre'],
+                'rekisteroitynyt' => $tulos['rekisteroitynyt'],
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
+            return $kayttaja;
+        }
+
+        return null;
+    }
+
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Kayttaja 
+            (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu) 
+            VALUES (:kayttajatunnus, :nimi, :salasana, :lempigenre, NOW(), NOW()) 
+            RETURNING kayttajaid;');
+        $query->execute(array(
+            'kayttajatunnus' => $this->kayttajatunnus,
+            'nimi' => $this->nimi,
+            'salasana' => $this->salasana,
+            'lempigenre' => $this->lempigenre
+        ));
+
+        $tulos = $query->fetch();
+        $this->kayttajaid = $tulos['kayttajaid'];
+    }
+
 }

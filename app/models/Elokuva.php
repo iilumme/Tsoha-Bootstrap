@@ -11,7 +11,7 @@ class Elokuva extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Elokuva');
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva ORDER BY leffanimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
@@ -135,6 +135,55 @@ class Elokuva extends BaseModel {
 
         $tulos = $query->fetch();
         return $tulos['leffaid'];
+    }
+
+    public static function destroy($id) {
+        $query = DB::connection()->prepare('DELETE FROM Elokuva WHERE leffaid = :leffaid');
+        $query->execute(array(
+            'leffaid' => $id
+        ));
+    }
+
+    public static function search($valinnat) {
+        $query = 'SELECT DISTINCT E.leffaID, E.leffaNimi FROM Elokuva E, ArtistiLaari A, GenreLaari G, LeffaPalkintoLaari L, SarjaLaari S WHERE ';
+
+        if (isset($valinnat['leffaid'])) {
+            $query .= ' E.leffaid= :lid ';
+            $valinnat['lid'] = $valinnat['leffaid'];
+        }
+        if (isset($valinnat['nayttelija'])) {
+            $query .= ' E.leffaid= :lid ';
+        }
+        if (isset($valinnat['ohjaaja'])) {
+            
+        }
+        if (isset($valinnat['kuvaaja'])) {
+            
+        }
+        if (isset($valinnat['kasikirjoittaja'])) {
+            
+        }
+        if (isset($valinnat['valtio'])) {
+            
+        }
+        if (isset($valinnat['alkuvuosi'])) {
+            
+        }
+        if (isset($valinnat['loppuvuosi'])) {
+            
+        }
+        if (isset($valinnat['kieli'])) {
+            
+        }
+        if (isset($valinnat['genre'])) {
+            
+        }
+        if (isset($valinnat['palkinto'])) {
+            
+        }
+        if (isset($valinnat['sarja'])) {
+            
+        }
     }
 
 }

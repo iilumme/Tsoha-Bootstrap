@@ -7,60 +7,15 @@
 </div>
 {% endif %}
 
-<div class="modal fade" id="lisaysmodaali" tabindex="-1" role="dialog" 
-     aria-labelledby="lisaysmodaaliLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4>Uuden artistin lisäys</h4>
-            </div>
-            <form method="post" action="{{base_path}}/artistipostisivu" data-submit-type="ajax" data-callback-url="{{base_path}}/addmovie/addpeople">
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <label>Artistin etunimi</label>
-                        <input type="text" name="etunimi" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Artistin sukunimi</label>
-                        <input type="text" name="sukunimi" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Artistin "tyyppi"</label>
-                        <input type="text" name="tyyppi" class="form-control" id="tyyppi" value="#tyyppi" placeholder="#tyyppi" disabled="disabled">
-                        <input type="hidden" name="artistityyppi" id="lisatyyppi">
-                    </div>
-                    <div class="form-group">
-                        <label>Syntymävuosi</label>
-                        <input type="number" name="syntymavuosi" class="form-control">
-                    </div>
-                    <div class="dropdown">
-                        <label>Maa</label>
-                        <select class="form-control" name="valtio">
-                            {%for valtio in valtiot%}
-                            <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
-                            {%endfor%}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Bio</label>
-                        <input type="text" name="bio" class="form-control">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
-                    <button type="submit" class="btn btn-info">Lisää artisti</button>
-                </div>
-            </form>
-            <div class="alert alert-warning alert-dismissible hidden" role="alert" id="artistiviesti">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Warning!</strong> Better check yourself, you're not looking too good.
-            </div>
-        </div>
-    </div>
+<div class="alert alert-success" id="lisatty">
 </div>
 
-<h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät ja genret</h3>
+{% import "macros/modals.html" as modals %}
+{{modals.artist_modal(valtiot, "#{base_path}/artistipostisivu")}}
+{{modals.genre_modal("#{base_path}/genrepostisivu")}}
+{{modals.sarja_modal("#{base_path}/sarjapostisivu")}}
+
+<h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät, genret ja sarjat</h3>
 <br>
 
 <div class="col-md-7">
@@ -116,7 +71,7 @@
         </div>
         <div class="col-md-3">
             <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Kasikirjoittaja">Uusi</button>
+            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Käsikirjoittaja">Uusi</button>
         </div>
     </div>
     <br>
@@ -135,7 +90,7 @@
         </div>
         <div class="col-md-3">
             <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Nayttelija">Uusi</button>
+            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Näyttelijä">Uusi</button>
         </div>
     </div>
     <br>
@@ -154,7 +109,7 @@
         </div>
         <div class="col-md-3">
             <button class="btn btn-success lisaagenre">Lisää</button>
-            <button class="btn btn-info">Uusi</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali">Uusi</button>
         </div>
     </div>
     <br>
@@ -182,7 +137,7 @@
 
         <div class="col-md-3 collapse" id="buttons">
             <button class="btn btn-success lisaasarja">Lisää</button>
-            <button class="btn btn-info">Uusi</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali">Uusi</button>
         </div>
 
     </div>
@@ -196,9 +151,9 @@
         <button type="submit" class="btn btn-success">Lisää elokuva</button>
     </form>
 </div>
-<div class="col-md-5">
+<!--<div class="col-md-5">
     <div class="alert alert-success" id="lisatty">
     </div>
-</div>
+</div>-->
 {% endblock %}
 

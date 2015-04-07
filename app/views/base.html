@@ -18,7 +18,7 @@
         <!-- Oma tyylitiedostomme -->
         <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
         {% endblock %}
-        
+
     </head>
 
     <body>
@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Sovelluksen nimi -->
-                    <a class="navbar-brand" href="{{base_path}}">LATLeffaLaari</a>
+                    <a class="navbar-brand" href="{{base_path}}" id="title">LATLeffaLaari</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navigation">
@@ -42,8 +42,16 @@
                         <!-- Navigaation linkit -->
                         <li><a href="{{base_path}}/addmovie">Lisää elokuva</a></li>
                         <li><a href="{{base_path}}/search">Haku</a></li>
+                         <li><a href="{{base_path}}/allobjects">Kaikki</a></li>
+                        {% if user_logged_in %}
+                        <li><a href="{{base_path}}/mypage">Oma sivu</a></li>
+                        <form class="navbar-form navbar-right" method="post" action="{{base_path}}/logout">
+                            <li><button class="btn btn-primary" type="submit">Kirjaudu ulos</button></li>
+                        </form>
+                        {% else %}
                         <li><a href="{{base_path}}/register">Rekisteröidy</a></li>
                         <li><a href="{{base_path}}/login">Kirjaudu</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

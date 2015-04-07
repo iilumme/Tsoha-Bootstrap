@@ -1,0 +1,102 @@
+{% macro artist_modal(valtiot, action) %}
+<div class="modal fade" id="lisaysmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="lisaysmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Uuden artistin lisäys</h4>
+            </div>
+            <form method="post" action="{{action}}" data-submit-type="ajax" >
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Artistin etunimi</label>
+                        <input type="text" name="etunimi" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Artistin sukunimi</label>
+                        <input type="text" name="sukunimi" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Artistin "tyyppi"</label>
+                        <input type="text" name="tyyppi" class="form-control" id="tyyppi" value="#tyyppi" placeholder="#tyyppi" disabled="disabled">
+                        <input type="hidden" name="artistityyppi" id="lisatyyppi">
+                    </div>
+                    <div class="form-group">
+                        <label>Syntymävuosi</label>
+                        <input type="number" name="syntymavuosi" class="form-control">
+                    </div>
+                    <div class="dropdown">
+                        <label>Maa</label>
+                        <select class="form-control" name="valtio">
+                            {%for valtio in valtiot%}
+                            <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <input type="text" name="bio" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lisää artisti</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro genre_modal(action) %}
+<div class="modal fade" id="genrelisaysmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="genrelisaysmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Uuden genren lisäys</h4>
+            </div>
+            <form method="post" action="{{action}}" data-submit-type="ajax genre">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Genren nimi</label>
+                        <input type="text" name="genrenimi" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lisää genre</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro sarja_modal(action) %}
+<div class="modal fade" id="sarjalisaysmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="sarjalisaysmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Uuden sarjan lisäys</h4>
+            </div>
+            <form method="post" action="{{action}}" data-submit-type="ajax sarja">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Sarjan nimi</label>
+                        <input type="text" name="sarjanimi" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lisää sarja</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+
+{% endmacro %}

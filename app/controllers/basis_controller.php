@@ -164,4 +164,14 @@ class BasisController extends BaseController {
         View::make('suunnitelmat/testisivu.html');
     }
 
+    public static function all() {
+        $elokuvat = Elokuva::all();
+        $artistit = Artisti::all();
+        $valtiot = Valtio::all();
+        View::make('suunnitelmat/kaikki.html', array(
+            'elokuvat' => $elokuvat,
+            'artistit' => $artistit,
+            'valtiot' => $valtiot));
+    }
+
 }

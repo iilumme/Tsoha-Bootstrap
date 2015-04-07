@@ -40,4 +40,16 @@ class Sarja extends BaseModel {
         return null;
     }
 
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Sarja (sarjaNimi) VALUES (:sarjanimi) RETURNING sarjaid;');
+        $query->execute(array(
+            'sarjanimi' => $this->sarjanimi
+        ));
+
+        $tulos = $query->fetch();
+        $this->sarjaid = $tulos['sarjaid'];
+
+        return $this->sarjaid;
+    }
+
 }

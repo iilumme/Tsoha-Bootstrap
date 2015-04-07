@@ -139,5 +139,14 @@ class MovieController extends BaseController {
             View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attribuutit, 'valtiot' => $valtiot));
         }
     }
+    
+    public static function destroy($id){
+        $movie = new Elokuva(array(
+            'leffaid' => $id
+        ));
+        $movie->destroy($id);
+        
+        Redirect::to('/', array('message' => 'Elokuvan poistaminen onnistui'));
+    }
 
 }

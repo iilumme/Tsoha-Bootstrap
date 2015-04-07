@@ -9,7 +9,7 @@ class Genre extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Genre');
+        $query = DB::connection()->prepare('SELECT * FROM Genre ORDER BY genrenimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
@@ -39,7 +39,7 @@ class Genre extends BaseModel {
 
         return null;
     }
-    
+
     public static function findGenretForElokuva($id) {
         $query = DB::connection()->prepare('SELECT G.genreID, G.genreNimi FROM Elokuva E, GenreLaari L, Genre G WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.genreID=G.genreID ORDER BY G.genrenimi');
         $query->execute(array('leffaid' => $id));
@@ -54,6 +54,19 @@ class Genre extends BaseModel {
             ));
         }
         return $genret;
+    }
+
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Genre (genrenimi) '
+                . 'VALUES (:genrenimi) RETURNING genreid;');
+        $query->execute(array(
+            'genrenimi' => $this->genrenimi
+        ));
+
+        $tulos = $query->fetch();
+        $this->genreid = $tulos['genreid'];
+        
+        return $this->genreid;
     }
 
 }

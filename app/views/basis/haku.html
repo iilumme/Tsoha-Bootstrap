@@ -4,10 +4,80 @@
 <h2>Haku</h2>
 
 <div class="row">
-    <form>
+    <form method="post" action="{{base_path}}/search">
         <div class="col-md-3">
             <br>
-            <br>       
+            <br>
+            <div class="form-group">
+                <label>Elokuvan nimi</label>
+                <div class="dropdown">
+                    <select class="form-control" name="leffaid">
+                        <option>...</option>
+                        {% for elokuva in elokuvat %}
+                        <option value="{{elokuva.leffaid}}">{{elokuva.leffanimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div>   
+            <div class="form-group">
+                <label>Näyttelijä</label>
+                <div class="dropdown">
+                    <select class="form-control" name="nayttelija">
+                        <option>...</option>
+                        {% for n in nayttelijat %}
+                        <option value="{{n.artistiid}}">{{n.etunimi}} {{n.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div> 
+            <div class="form-group">
+                <label>Ohjaaja</label>
+                <div class="dropdown">
+                    <select class="form-control" name="ohjaaja">
+                        <option>...</option>
+                        {% for o in ohjaajat%}
+                        <option value="{{o.artistiid}}">{{o.etunimi}} {{o.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div> 
+            <div class="form-group">
+                <label>Kuvaaja</label>
+                <div class="dropdown">
+                    <select class="form-control" name="kuvaaja">
+                        <option>...</option>
+                        {% for ku in kuvaajat %}
+                        <option value="{{ku.artistiid}}">{{ku.etunimi}} {{ku.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div> 
+            <div class="form-group">
+                <label>Käsikirjoittaja</label>
+                <div class="dropdown">
+                    <select class="form-control" name="kasikirjoittaja">
+                        <option>...</option>
+                        {% for k in kasikirjoittajat%}
+                        <option value="{{k.artistiid}}">{{k.etunimi}} {{k.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div>  
+            <div class="form-group">
+                <label>Maa</label>
+                <div class="dropdown">
+                    <select class="form-control" name="valtio">
+                        <option>...</option>
+                        {% for valtio in valtiot%}
+                        <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-3">
+            <br>
             <div class="form-group">
                 <label>Miltä vuosilta</label>
                 <div>
@@ -15,26 +85,20 @@
                     <label>-</label>
                     <input type="number" style="width: 70px" name="loppuvuosi">
                 </div>
-
             </div>
             <div class="form-group">
-                <label>Maa</label>
-                <div class="dropdown">
-                    <select class="form-control">
-                        <option>...</option>
-                        {% for valtio in valtiot%}
-                        <option>{{valtio.valtionimi}}</option>
-                        {%endfor%}
-                    </select>
+                <label>Kieli</label>
+                <div>
+                    <input type="text" placeholder="" name="kieli" style="width: 200px" >
                 </div>
-            </div>          
+            </div>                     
             <div class="form-group">
                 <label>Genre</label>
                 <div class="dropdown">
-                    <select class="form-control">
+                    <select class="form-control" name="genre">
                         <option>...</option>
                         {% for genre in genret%}
-                        <option>{{genre.genrenimi}}</option>
+                        <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
                         {%endfor%}
                     </select>
                 </div>
@@ -42,10 +106,10 @@
             <div class="form-group">
                 <label>Palkinto</label>
                 <div class="dropdown">
-                    <select class="form-control">
+                    <select class="form-control" name="palkinto">
                         <option>...</option>
                         {% for palkinto in palkinnot%}
-                        <option>{{palkinto.palkintonimi}}</option>
+                        <option value="{{palkinto.palkintoid}}">{{palkinto.palkintonimi}}</option>
                         {%endfor%}
                     </select>
                 </div>
@@ -53,40 +117,22 @@
             <div class="form-group">
                 <label>Sarja</label>
                 <div class="dropdown">
-                    <select class="form-control">
+                    <select class="form-control" name="sarja">
                         <option>...</option>
                         {% for sarja in sarjat%}
-                        <option>{{sarja.sarjanimi}}</option>
+                        <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
                         {%endfor%}
                     </select>
                 </div>
-            </div>       
-        </div>
-        <br>
-        <div class="col-md-5">
-            <br>
-            <br>
-            <div class="form-group">
-
-                <input type="text" placeholder="hakusana" name="hakusana" style="width: 200px" >
-
-                <select class="form-control" style="width: 125px">
-                    <option>Elokuvan nimi</option>
-                    <option>Näyttelijä</option>
-                    <option>Ohjaaja</option>
-                    <option>Kuvaaja</option>
-                    <option>Käsikirjoittaja</option>
-                    <option>Kieli</option>
-                </select> 
-
-                <a role="button" class="btn btn-info" >Lisää</a>
-
             </div>
+            <br>
+            <button class="btn btn-warning" type="submit">Hae</button>
         </div>
     </form>
     <div class="col-md-4">
-        <h4>Hakutulokset</h4>
-        <table class="table table-striped table-bordered bg-info">
+        <h4 class="text-center">Hakutulokset</h4>
+        {% if tulokset %}
+        <table class="table table-striped table-bordered bg-warning">
             <thead>
                 <tr>
                     <th>Nimi</th>
@@ -100,6 +146,9 @@
                 </tr>
             </tbody>
         </table>
+        {% else %}
+<!--        <label class="label label-success">Ei tuloksia</label>-->
+        {% endif %}
     </div>
 </div>
 {% endblock %}

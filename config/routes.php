@@ -1,5 +1,9 @@
 <?php
 
+function check_logged_in() {
+    BaseController::check_logged_in();
+}
+
 //ETUSIVU
 $routes->get('/', function() {
     BasisController::first_page();
@@ -12,7 +16,7 @@ $routes->get('/hiekkalaatikko', function() {
 
 //HAKU
 $routes->get('/search', function() {
-    SearchController::search();
+    SearchController::searchpage();
 });
 
 
@@ -25,11 +29,11 @@ $routes->get('/login', function() {
     UserController::login();
 });
 
-$routes->get('/lists', function() {
+$routes->get('/lists', 'check_logged_in', function() {
     UserController::lists();
 });
 
-$routes->get('/mypage', function() {
+$routes->get('/mypage', 'check_logged_in', function() {
     UserController::mypage();
 });
 
@@ -41,12 +45,12 @@ $routes->get('/movie/:id', function($id) {
 });
 
 //ELOKUVAN LISAYSSIVU
-$routes->get('/addmovie', function() {
+$routes->get('/addmovie', 'check_logged_in', function() {
     MovieController::add_movie();
 });
 
 //ELOKUVAN MUOKKAUSSIVU
-$routes->get('/movie/edit/:id', function($id) {
+$routes->get('/movie/edit/:id', 'check_logged_in', function($id) {
     MovieController::movieEdit($id);
 });
 
@@ -58,11 +62,11 @@ $routes->get('/artist/:id', function($id) {
 });
 
 //ARTISTIEN LISAYSSIVU
-$routes->get('/addmovie/addpeople', function() {
+$routes->get('/addmovie/addpeople', 'check_logged_in', function() {
     MovieController::add_artistit();
 });
 
-$routes->get('/artist/edit/:id', function($id) {
+$routes->get('/artist/edit/:id', 'check_logged_in', function($id) {
     ArtistController::artistEdit($id);
 });
 
@@ -73,11 +77,11 @@ $routes->get('/artist', function() {
 
 
 //TESTISIVUT
-$routes->get('/testisivu', function() {
+$routes->get('/testisivu', 'check_logged_in', function() {
     BasisController::test();
 });
 
-$routes->get('/artistitestisivu', function() {
+$routes->get('/artistitestisivu', 'check_logged_in', function() {
     BasisController::test();
 });
 
@@ -87,15 +91,18 @@ $routes->get('/country/:id', function($id) {
     ValtioController::showOne($id);
 });
 
-$routes->get('/country/edit/:id', function($id) {
+$routes->get('/country/edit/:id', 'check_logged_in', function($id) {
     ValtioController::countryEdit($id);
 });
+
+$routes->get('/allobjects', function() {
+    BasisController::all();
+});
+
 
 
 //POST
 $routes->post('/testisivu', function() {
-    $par = $_POST;
-    Kint::dump($par);
     LaariController::store();
 });
 
@@ -103,11 +110,19 @@ $routes->post('/artistipostisivu', function() {
     ArtistController::store();
 });
 
+$routes->post('/genrepostisivu', function() {
+    GenreController::store();
+});
+
+$routes->post('/sarjapostisivu', function() {
+    SarjaController::store();
+});
+
 $routes->post('/addmovie/addpeople', function() {
     MovieController::store();
 });
 
-$routes->post('/movieeditpage/:id', function($id) {
+$routes->post('/movieeditpage/:id', 'check_logged_in', function($id) {
     MovieController::update($id);
 });
 
@@ -117,5 +132,29 @@ $routes->post('/artisteditpage/:id', function($id) {
 
 $routes->post('/countryeditpage/:id', function($id) {
     ValtioController::update($id);
+});
+
+$routes->post('/artist/destroy/:id', 'check_logged_in', function($id) {
+    ArtistController::destroy($id);
+});
+
+$routes->post('/movie/destroy/:id', 'check_logged_in', function($id) {
+    MovieController::destroy($id);
+});
+
+$routes->post('/login', function() {
+    UserController::handle_login();
+});
+
+$routes->post('/logout', function() {
+    UserController::logout();
+});
+
+$routes->post('/register', function() {
+    UserController::store();
+});
+
+$routes->post('/search', function() {
+    SearchController::search();
 });
 

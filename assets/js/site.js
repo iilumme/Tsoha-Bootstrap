@@ -13,7 +13,7 @@ $(document).ready(function () {
             console.log("kissakala");
             var $this = $(this);
             console.log($this.value);
-            if ($valintakandidaatti !== 0 && $valintakandidaatti !== '...') {
+            if ($valintakandidaatti !== 0 && $valintakandidaatti !== undefined) {
                 $artistilista[$artistilista.length] = $valintakandidaatti;
                 $('#hidd').val($artistilista);
                 $('#lisatty').text('Artisti lisätty!');
@@ -98,13 +98,53 @@ $(document).ready(function () {
                     })
                     .fail(function (data) {
                         console.log('fail' + data.status);
-                        $('#artistiviesti').alert();
-
+                        $('#lisatty').text('Uusi artisti lisätty!');
+                        $('#lisaysmodaali').modal('hide');
+                        $('body').on('hidden.bs.modal', '.modal', function (event) {
+                            $(this).removeData('bs.modal');
+                        });
                     });
         });
 
+        $("form[data-submit-type='ajax genre']").submit(function (ev) {
+            ev.preventDefault();
+            var $form = $(this);
+            $.ajax($form.attr('action'), {
+                type: $form.attr('method'),
+                data: $form.serialize(),
+                dataType: 'json'
+            })
+                    .done(function (data) {
+                    })
+                    .fail(function (data) {
+                        console.log('fail' + data.status);
+                        $('#lisatty').text('Uusi genre lisätty!');
+                        $('#genrelisaysmodaali').modal('hide');
+                        $('body').on('hidden.bs.modal', '.modal', function (event) {
+                            $(this).removeData('bs.modal');
+                        });
+                    });
+        });
 
-
+         $("form[data-submit-type='ajax sarja']").submit(function (ev) {
+            ev.preventDefault();
+            var $form = $(this);
+            $.ajax($form.attr('action'), {
+                type: $form.attr('method'),
+                data: $form.serialize(),
+                dataType: 'json'
+            })
+                    .done(function (data) {
+                    })
+                    .fail(function (data) {
+                        console.log('fail' + data.status);
+                        $('#lisatty').text('Uusi sarja lisätty!');
+                        $('#sarjalisaysmodaali').modal('hide');
+                        $('body').on('hidden.bs.modal', '.modal', function (event) {
+                            $(this).removeData('bs.modal');
+                        });
+                    });
+        });
     });
 });
 
