@@ -11,9 +11,9 @@
 </div>
 
 {% import "macros/modals.html" as modals %}
-{{modals.artist_modal(valtiot, "#{base_path}/artistipostisivu")}}
-{{modals.genre_modal("#{base_path}/genrepostisivu")}}
-{{modals.sarja_modal("#{base_path}/sarjapostisivu")}}
+{{modals.artist_modal(valtiot, lid, "#{base_path}/artistipostisivu")}}
+{{modals.genre_modal(lid, "#{base_path}/genrepostisivu")}}
+{{modals.sarja_modal(lid, "#{base_path}/sarjapostisivu")}}
 
 <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät, genret ja sarjat</h3>
 <br>

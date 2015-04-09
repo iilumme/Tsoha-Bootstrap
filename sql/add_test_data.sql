@@ -130,6 +130,9 @@ INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroityny
 VALUES ('kselantaus', 'Kristiina', 'rucola', (SELECT genreID FROM Genre WHERE genreNimi='Draama'), NOW(), NOW());
 INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
 VALUES ('sapez', 'Sampo', 'huuhkaja', (SELECT genreID FROM Genre WHERE genreNimi='Komedia'), NOW(), NOW());
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('ohjaaja', 'Ohjaaja', 'tsoha1', (SELECT genreID FROM Genre WHERE genreNimi='Musikaali'), NOW(), NOW());
+
 
 INSERT INTO Suosikkilista VALUES ((SELECT kayttajaID FROM Kayttaja WHERE kayttajaTunnus='iilumme'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'));
 INSERT INTO Katsotutlista VALUES ((SELECT kayttajaID FROM Kayttaja WHERE kayttajaTunnus='iilumme'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'));

@@ -16,7 +16,7 @@ class LaariController extends BaseController {
         Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty!"));
     }
 
-    private static function artistilaariSave($param, $leffaid) {
+    public static function artistilaariSave($param, $leffaid) {
 
         $input = $param['artistilista'];
         $output = array();
@@ -32,7 +32,7 @@ class LaariController extends BaseController {
         }
     }
 
-    private static function genrelaariSave($param, $leffaid) {
+    public static function genrelaariSave($param, $leffaid) {
 
         $genreinput = $param['genrelista'];
         $genreoutput = array();
@@ -48,7 +48,7 @@ class LaariController extends BaseController {
         }
     }
 
-    private static function sarjalaariSave($param, $leffaid) {
+    public static function sarjalaariSave($param, $leffaid) {
 
         $sarjainput = $param['sarjalista'];
         $sarjaoutput = array();

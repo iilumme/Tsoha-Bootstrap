@@ -3,6 +3,51 @@
 class SearchController extends BaseController {
 
     public static function searchpage() {
+
+        $parametrit = $_GET;
+
+        $valinnat = array();
+
+        if (isset($parametrit['leffaid'])) {
+            $tulokset = Elokuva::findOne($parametrit['leffaid']);
+        } else {
+            if (isset($parametrit['nayttelija'])) {
+                $valinnat['nayttelija'] = $parametrit['nayttelija'];
+            }
+            if (isset($parametrit['ohjaaja'])) {
+                $valinnat['ohjaaja'] = $parametrit['ohjaaja'];
+            }
+            if (isset($parametrit['kuvaaja'])) {
+                $valinnat['kuvaaja'] = $parametrit['kuvaaja'];
+            }
+            if (isset($parametrit['kasikirjoittaja'])) {
+                $valinnat['kasikirjoittaja'] = $parametrit['kasikirjoittaja'];
+            }
+            if (isset($parametrit['valtio'])) {
+                $valinnat['valtio'] = $parametrit['valtio'];
+            }
+            if (isset($parametrit['alkuvuosi'])) {
+                $valinnat['alkuvuosi'] = $parametrit['alkuvuosi'];
+            }
+            if (isset($parametrit['loppuvuosi'])) {
+                $valinnat['loppuvuosi'] = $parametrit['loppuvuosi'];
+            }
+            if (isset($parametrit['kieli'])) {
+                $valinnat['kieli'] = $parametrit['kieli'];
+            }
+            if (isset($parametrit['genre'])) {
+                $valinnat['genre'] = $parametrit['genre'];
+            }
+            if (isset($parametrit['palkinto'])) {
+                $valinnat['palkinto'] = $parametrit['palkinto'];
+            }
+            if (isset($parametrit['sarja'])) {
+                $valinnat['sarja'] = $parametrit['sarja'];
+            }
+            $tulokset = Elokuva::search($valinnat);
+        }
+
+
         $elokuvat = Elokuva::all();
         $nayttelijat = Artisti::findAllArtistit("Näyttelijä");
         $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
@@ -21,53 +66,55 @@ class SearchController extends BaseController {
             'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat,
             'kasikirjoittajat' => $kassarit,
-            'elokuvat' => $elokuvat
+            'elokuvat' => $elokuvat,
+            'tulokset' => $tulokset
         ));
     }
 
     public static function search() {
-        $parametrit = $_POST;
+        $parametrit = $_GET;
 
         $valinnat = array();
 
         if (isset($parametrit['leffaid'])) {
-            $valinnat['leffaid'] = $parametrit['leffaid'];
+            Kint::dump('hahahahah');
+            $tulokset = Elokuva::findOne($parametrit['leffaid']);
+        } else {
+            if (isset($parametrit['nayttelija'])) {
+                $valinnat['nayttelija'] = $parametrit['nayttelija'];
+            }
+            if (isset($parametrit['ohjaaja'])) {
+                $valinnat['ohjaaja'] = $parametrit['ohjaaja'];
+            }
+            if (isset($parametrit['kuvaaja'])) {
+                $valinnat['kuvaaja'] = $parametrit['kuvaaja'];
+            }
+            if (isset($parametrit['kasikirjoittaja'])) {
+                $valinnat['kasikirjoittaja'] = $parametrit['kasikirjoittaja'];
+            }
+            if (isset($parametrit['valtio'])) {
+                $valinnat['valtio'] = $parametrit['valtio'];
+            }
+            if (isset($parametrit['alkuvuosi'])) {
+                $valinnat['alkuvuosi'] = $parametrit['alkuvuosi'];
+            }
+            if (isset($parametrit['loppuvuosi'])) {
+                $valinnat['loppuvuosi'] = $parametrit['loppuvuosi'];
+            }
+            if (isset($parametrit['kieli'])) {
+                $valinnat['kieli'] = $parametrit['kieli'];
+            }
+            if (isset($parametrit['genre'])) {
+                $valinnat['genre'] = $parametrit['genre'];
+            }
+            if (isset($parametrit['palkinto'])) {
+                $valinnat['palkinto'] = $parametrit['palkinto'];
+            }
+            if (isset($parametrit['sarja'])) {
+                $valinnat['sarja'] = $parametrit['sarja'];
+            }
+            $tulokset = Elokuva::search($valinnat);
         }
-        if (isset($parametrit['nayttelija'])) {
-            $valinnat['nayttelija'] = $parametrit['nayttelija'];
-        }
-        if (isset($parametrit['ohjaaja'])) {
-            $valinnat['ohjaaja'] = $parametrit['ohjaaja'];
-        }
-        if (isset($parametrit['kuvaaja'])) {
-            $valinnat['kuvaaja'] = $parametrit['kuvaaja'];
-        }
-        if (isset($parametrit['kasikirjoittaja'])) {
-            $valinnat['kasikirjoittaja'] = $parametrit['kasikirjoittaja'];
-        }
-        if (isset($parametrit['valtio'])) {
-            $valinnat['valtio'] = $parametrit['valtio'];
-        }
-        if (isset($parametrit['alkuvuosi'])) {
-            $valinnat['alkuvuosi'] = $parametrit['alkuvuosi'];
-        }
-        if (isset($parametrit['loppuvuosi'])) {
-            $valinnat['loppuvuosi'] = $parametrit['loppuvuosi'];
-        }
-        if (isset($parametrit['kieli'])) {
-            $valinnat['kieli'] = $parametrit['kieli'];
-        }
-        if (isset($parametrit['genre'])) {
-            $valinnat['genre'] = $parametrit['genre'];
-        }
-        if (isset($parametrit['palkinto'])) {
-            $valinnat['palkinto'] = $parametrit['palkinto'];
-        }
-        if (isset($parametrit['sarja'])) {
-            $valinnat['sarja'] = $parametrit['sarja'];
-        }
-
-        $tulokset = Elokuva::search($valinnat);
 
         View::make('basis/haku.html', array('tulokset' => $tulokset));
     }

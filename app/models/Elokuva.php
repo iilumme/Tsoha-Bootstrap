@@ -147,12 +147,14 @@ class Elokuva extends BaseModel {
     public static function search($valinnat) {
         $query = 'SELECT DISTINCT E.leffaID, E.leffaNimi FROM Elokuva E, ArtistiLaari A, GenreLaari G, LeffaPalkintoLaari L, SarjaLaari S WHERE ';
 
-        if (isset($valinnat['leffaid'])) {
-            $query .= ' E.leffaid= :lid ';
-            $valinnat['lid'] = $valinnat['leffaid'];
-        }
         if (isset($valinnat['nayttelija'])) {
-            $query .= ' E.leffaid= :lid ';
+            $query .= ' AND :n in (SELECT artistiid FROM ArtistiLaari ';
+            if (isset($valinnat['leffaid'])) {
+                $query .= ' WHERE leffaid= :lid ';
+                $valinnat['lid'] = $valinnat['leffaid'];
+            } else {
+                $query .= ') ';
+            }
         }
         if (isset($valinnat['ohjaaja'])) {
             
@@ -166,12 +168,19 @@ class Elokuva extends BaseModel {
         if (isset($valinnat['valtio'])) {
             
         }
-        if (isset($valinnat['alkuvuosi'])) {
+
+        if (isset($valinnat['alkuvuosi']) && isset($valinnat['loppuvuosi'])) {
+            $query .= ' vuosi between :alkuvuosi AND :loppuvuosi ';
+            $valinnat['alkuvuosi'] = $valinnat['alkuvuosi'];
+            $valinnat['loppuvuosi'] = $valinnat['loppuvuosi'];
+        } else if (isset($valinnat['alkuvuosi'])) {
+            $query .= ' vuosi >= :alkuvuosi ';
+            
+        } else if (isset($valinnat['loppuvuosi'])) {
+            $query .= ' vuosi <= :loppuvuosi ';
             
         }
-        if (isset($valinnat['loppuvuosi'])) {
-            
-        }
+
         if (isset($valinnat['kieli'])) {
             
         }
@@ -184,6 +193,8 @@ class Elokuva extends BaseModel {
         if (isset($valinnat['sarja'])) {
             
         }
+
+//        Kint::dump($query);
     }
 
 }

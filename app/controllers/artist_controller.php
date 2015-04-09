@@ -37,7 +37,7 @@ class ArtistController extends BaseController {
         ));
     }
 
-    public static function store() {
+    public static function store($leffaid) {
         $parametrit = $_POST;
 
         $attribuutit = array(
@@ -61,7 +61,9 @@ class ArtistController extends BaseController {
         $errors = $artisti->errors();
 
         if (count($errors) == 0) {
-            $artisti->save();
+            $id = $artisti->save();
+            $param['artistilista'] = $id;
+            LaariController::artistilaariSave($param, $leffaid);
         } else {
             
         }

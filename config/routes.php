@@ -106,16 +106,16 @@ $routes->post('/testisivu', function() {
     LaariController::store();
 });
 
-$routes->post('/artistipostisivu', function() {
-    ArtistController::store();
+$routes->post('/artistipostisivu/:id', function($id) {
+    ArtistController::store($id);
 });
 
-$routes->post('/genrepostisivu', function() {
-    GenreController::store();
+$routes->post('/genrepostisivu/:id', function($id) {
+    GenreController::store($id);
 });
 
-$routes->post('/sarjapostisivu', function() {
-    SarjaController::store();
+$routes->post('/sarjapostisivu/:id', function($id) {
+    SarjaController::store($id);
 });
 
 $routes->post('/addmovie/addpeople', function() {
@@ -153,8 +153,3 @@ $routes->post('/logout', function() {
 $routes->post('/register', function() {
     UserController::store();
 });
-
-$routes->post('/search', function() {
-    SearchController::search();
-});
-

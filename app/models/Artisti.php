@@ -111,6 +111,8 @@ class Artisti extends BaseModel {
 
         $tulos = $query->fetch();
         $this->artistiid = $tulos['artistiid'];
+        
+        return $this->artistiid;
     }
 
     public function update($id) {

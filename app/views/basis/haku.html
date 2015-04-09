@@ -4,69 +4,29 @@
 <h2>Haku</h2>
 
 <div class="row">
-    <form method="post" action="{{base_path}}/search">
+    <form method="get" action="">
         <div class="col-md-3">
             <br>
             <br>
             <div class="form-group">
-                <label>Elokuvan nimi</label>
-                <div class="dropdown">
-                    <select class="form-control" name="leffaid">
-                        <option>...</option>
-                        {% for elokuva in elokuvat %}
-                        <option value="{{elokuva.leffaid}}">{{elokuva.leffanimi}}</option>
-                        {%endfor%}
-                    </select>
+                <label>Miltä vuosilta</label>
+                <div>
+                    <input class="haku" type="number" style="width: 70px" name="alkuvuosi">
+                    <label>-</label>
+                    <input class="haku" type="number" style="width: 70px" name="loppuvuosi">
                 </div>
-            </div>   
+            </div>
             <div class="form-group">
-                <label>Näyttelijä</label>
-                <div class="dropdown">
-                    <select class="form-control" name="nayttelija">
-                        <option>...</option>
-                        {% for n in nayttelijat %}
-                        <option value="{{n.artistiid}}">{{n.etunimi}} {{n.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
+                <label>Kieli</label>
+                <div>
+                    <input class="haku" type="text" placeholder="" name="kieli" style="width: 200px" >
                 </div>
-            </div> 
-            <div class="form-group">
-                <label>Ohjaaja</label>
-                <div class="dropdown">
-                    <select class="form-control" name="ohjaaja">
-                        <option>...</option>
-                        {% for o in ohjaajat%}
-                        <option value="{{o.artistiid}}">{{o.etunimi}} {{o.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div> 
-            <div class="form-group">
-                <label>Kuvaaja</label>
-                <div class="dropdown">
-                    <select class="form-control" name="kuvaaja">
-                        <option>...</option>
-                        {% for ku in kuvaajat %}
-                        <option value="{{ku.artistiid}}">{{ku.etunimi}} {{ku.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div> 
-            <div class="form-group">
-                <label>Käsikirjoittaja</label>
-                <div class="dropdown">
-                    <select class="form-control" name="kasikirjoittaja">
-                        <option>...</option>
-                        {% for k in kasikirjoittajat%}
-                        <option value="{{k.artistiid}}">{{k.etunimi}} {{k.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>  
+            </div>                     
+
             <div class="form-group">
                 <label>Maa</label>
                 <div class="dropdown">
-                    <select class="form-control" name="valtio">
+                    <select class="form-control haku" name="valtio">
                         <option>...</option>
                         {% for valtio in valtiot%}
                         <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
@@ -74,28 +34,10 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <br>
-        <div class="col-md-3">
-            <br>
-            <div class="form-group">
-                <label>Miltä vuosilta</label>
-                <div>
-                    <input type="number" style="width: 70px" name="alkuvuosi" >
-                    <label>-</label>
-                    <input type="number" style="width: 70px" name="loppuvuosi">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Kieli</label>
-                <div>
-                    <input type="text" placeholder="" name="kieli" style="width: 200px" >
-                </div>
-            </div>                     
             <div class="form-group">
                 <label>Genre</label>
                 <div class="dropdown">
-                    <select class="form-control" name="genre">
+                    <select class="form-control haku" name="genre">
                         <option>...</option>
                         {% for genre in genret%}
                         <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
@@ -106,7 +48,7 @@
             <div class="form-group">
                 <label>Palkinto</label>
                 <div class="dropdown">
-                    <select class="form-control" name="palkinto">
+                    <select class="form-control haku" name="palkinto">
                         <option>...</option>
                         {% for palkinto in palkinnot%}
                         <option value="{{palkinto.palkintoid}}">{{palkinto.palkintonimi}}</option>
@@ -117,7 +59,7 @@
             <div class="form-group">
                 <label>Sarja</label>
                 <div class="dropdown">
-                    <select class="form-control" name="sarja">
+                    <select class="form-control haku" name="sarja">
                         <option>...</option>
                         {% for sarja in sarjat%}
                         <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
@@ -125,29 +67,51 @@
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <br>
+            <br>
+            <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span id="search_concept">Hae..</span> <span class="glyphicon glyphicon-menu-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#nayttelija">Näyttelijä</a></li>
+                        <li><a href="#ohjaaja">Ohjaaja</a></li>
+                        <li><a href="#kuvaaja">Kuvaaja</a></li>
+                        <li><a href="#kasikirjoittaja">Käsikirjoittaja</a></li>
+                    </ul>
+                </div>
+                <input type="hidden" name="search_param" value="all" id="search_param">         
+                <input type="text" class="form-control" name="hakusana" placeholder="Hakusana..">
+                <span class="input-group-btn">
+                    <button class="btn btn-success hakubutton" type="button" id="hakubutton"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                </span>
+            </div>
             <br>
             <button class="btn btn-warning" type="submit">Hae</button>
         </div>
     </form>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <h4 class="text-center">Hakutulokset</h4>
         {% if tulokset %}
         <table class="table table-striped table-bordered bg-warning">
             <thead>
                 <tr>
                     <th>Nimi</th>
-                    <th>Maa</th>
                 </tr>
             </thead>
             <tbody style="font-family: monospace">
+                {% for tulos in tulokset%}
                 <tr>
-                    <td><a href="{{base_path}}/movie/1">Amores perros</a></td>  
-                    <td>Meksiko</td>  
+                    <td><a href="{{base_path}}/movie/{{tulos.leffaid}}">{{tulos.leffanimi}}</a></td>  
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         {% else %}
-<!--        <label class="label label-success">Ei tuloksia</label>-->
+        <!--        <label class="label label-success">Ei tuloksia</label>-->
         {% endif %}
     </div>
 </div>

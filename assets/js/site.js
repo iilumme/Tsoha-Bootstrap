@@ -126,7 +126,7 @@ $(document).ready(function () {
                     });
         });
 
-         $("form[data-submit-type='ajax sarja']").submit(function (ev) {
+        $("form[data-submit-type='ajax sarja']").submit(function (ev) {
             ev.preventDefault();
             var $form = $(this);
             $.ajax($form.attr('action'), {
@@ -145,6 +145,29 @@ $(document).ready(function () {
                         });
                     });
         });
+        
+        
+        var $nayttelijalista = new Array();
+        var $ohjaajalista = new Array();
+        var $kuvaajalista = new Array();
+        var $kasikirjoittajalista = new Array();
+        
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+		e.preventDefault();
+		var param = $(this).attr("href").replace("#","");
+		var concept = $(this).text(); 
+                console.log(concept);
+		$('.search-panel span#search_concept').text(concept);
+		$('.input-group #search_param').val(param);
+	});
+       
+        
+        $('.hakubutton').click(function () {
+            console.log("kalakissa");
+            var hakusana = $('#hakubutton').attr('value');
+            console.log(hakusana);
+        });
+        
     });
 });
 

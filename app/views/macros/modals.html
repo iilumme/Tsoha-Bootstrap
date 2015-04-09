@@ -1,4 +1,4 @@
-{% macro artist_modal(valtiot, action) %}
+{% macro artist_modal(valtiot, lid, action) %}
 <div class="modal fade" id="lisaysmodaali" tabindex="-1" role="dialog" 
      aria-labelledby="lisaysmodaaliLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <h4>Uuden artistin lisäys</h4>
             </div>
-            <form method="post" action="{{action}}" data-submit-type="ajax" >
+            <form method="post" action="{{action}}/{{lid}}" data-submit-type="ajax" >
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Artistin etunimi</label>
@@ -49,7 +49,7 @@
 {% endmacro %}
 
 
-{% macro genre_modal(action) %}
+{% macro genre_modal(lid, action) %}
 <div class="modal fade" id="genrelisaysmodaali" tabindex="-1" role="dialog" 
      aria-labelledby="genrelisaysmodaaliLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -57,7 +57,7 @@
             <div class="modal-header">
                 <h4>Uuden genren lisäys</h4>
             </div>
-            <form method="post" action="{{action}}" data-submit-type="ajax genre">
+            <form method="post" action="{{action}}/{{lid}}" data-submit-type="ajax genre">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Genren nimi</label>
@@ -75,7 +75,7 @@
 {% endmacro %}
 
 
-{% macro sarja_modal(action) %}
+{% macro sarja_modal(lid, action) %}
 <div class="modal fade" id="sarjalisaysmodaali" tabindex="-1" role="dialog" 
      aria-labelledby="sarjalisaysmodaaliLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -83,7 +83,7 @@
             <div class="modal-header">
                 <h4>Uuden sarjan lisäys</h4>
             </div>
-            <form method="post" action="{{action}}" data-submit-type="ajax sarja">
+            <form method="post" action="{{action}}/{{lid}}" data-submit-type="ajax sarja">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Sarjan nimi</label>

@@ -28,7 +28,11 @@
             {% for valtio in valtiot %}
             <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
             {%endfor%}
+            {% if artisti.syntymavuosi == 0%}
+            <li><strong>Syntymävuosi:</strong> TUNTEMATON </li>
+            {% else %}
             <li><strong>Syntymävuosi:</strong> {{artisti.syntymavuosi}}</li>
+            {% endif %}
         </ul>
     </div>
     <div class="col-md-6">
