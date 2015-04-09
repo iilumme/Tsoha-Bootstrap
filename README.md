@@ -18,7 +18,7 @@ Yleisiä linkkejä:
 * [Linkki artistin muokkaamiseen/pääsee myös artistin esittelysivun "Muokkaa"-buttonin kautta](http://iilumme.users.cs.helsinki.fi/tsoha/artist/edit/10)
 * [Linkki valtion esittelyyn (toimii id:n avulla)](http://iilumme.users.cs.helsinki.fi/tsoha/country/1)
 
-Elokuvien ja tuttujen "artistien" tallentaminen tietokantaan toimii. Artistin onnistuneen lisäyksen voi nähdä Web Inspectorin consolista. Uusien artistien tallentaminen on siinä vaiheessa, että nekin tallentuvat, mutta viesti onnistumisesta puuttuu ja artistilaariin tallentamista ei ole vielä toteutettu.
+Tunnus: ohjaaja Salasana: tsoha1
 
 
 ## Työn aihe
