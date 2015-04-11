@@ -150,44 +150,96 @@ class Elokuva extends BaseModel {
                 . 'WHERE ';
 
         $first = TRUE;
+        $valinta = array();
+
+        $vaihto = array('Ñ' => 'N', 'ñ' => 'n', 'Á' => 'A', 'á' => 'a', 'É' => 'e',
+            'é' => 'e', 'Í' => 'I', 'í' => 'i', 'Ó' => 'O', 'ó' => 'o', 'Ú' => 'U',
+            'ú' => 'u', 'Ü' => 'U', 'ü' => 'u'
+        );
 
         if (isset($valinnat['nayttelijalista'])) {
 
             $tyypit = $valinnat['nayttelijalista'];
+            $monesko = 0;
 
             foreach ($tyypit as $n) {
-                Kint::dump($n);
+                $hakusana = str_replace(' ', '', strtolower($valinnat['nayttelijalista'][$monesko]));
+                $haku = strtr($hakusana, $vaihto);
+
                 if ($first) {
                     $first = FALSE;
-                    $query .= " :hassu IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                    $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
                             . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
                 } else {
-                    $query .= " AND :hassu IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                    $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
                             . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
                 }
+
+                $valinta['hassu' . $haku] = $hakusana;
+                $monesko++;
             }
-            $valinta['hassu'] = $valinnat['nayttelijalista'][0];
-            $valinnat['nayttelijalista'] = null;
         }
         if (isset($valinnat['ohjaajalista'])) {
-            if ($first) {
-                $first = FALSE;
-            } else {
-                
+            $tyypit = $valinnat['ohjaajalista'];
+            $monesko = 0;
+
+            foreach ($tyypit as $n) {
+                $hakusana = str_replace(' ', '', strtolower($valinnat['ohjaajalista'][$monesko]));
+                $haku = strtr($hakusana, $vaihto);
+
+                if ($first) {
+                    $first = FALSE;
+                    $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                } else {
+                    $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                }
+
+                $valinta['hassu' . $haku] = $hakusana;
+                $monesko++;
             }
         }
         if (isset($valinnat['kuvaajalista'])) {
-            if ($first) {
-                $first = FALSE;
-            } else {
-                
+            $tyypit = $valinnat['kuvaajalista'];
+            $monesko = 0;
+
+            foreach ($tyypit as $n) {
+                $hakusana = str_replace(' ', '', strtolower($valinnat['kuvaajalista'][$monesko]));
+                $haku = strtr($hakusana, $vaihto);
+
+                if ($first) {
+                    $first = FALSE;
+                    $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                } else {
+                    $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                }
+
+                $valinta['hassu' . $haku] = $hakusana;
+                $monesko++;
             }
         }
         if (isset($valinnat['kasikirjoittajalista'])) {
-            if ($first) {
-                $first = FALSE;
-            } else {
-                
+            $tyypit = $valinnat['kasikirjoittajalista'];
+            $monesko = 0;
+
+            foreach ($tyypit as $n) {
+                $hakusana = str_replace(' ', '', strtolower($valinnat['kasikirjoittajalista'][$monesko]));
+                $haku = strtr($hakusana, $vaihto);
+
+                if ($first) {
+                    $first = FALSE;
+                    $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                } else {
+                    $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                }
+
+                $valinta['hassu' . $haku] = $hakusana;
+                $monesko++;
             }
         }
         if (isset($valinnat['valtio'])) {
@@ -277,17 +329,11 @@ class Elokuva extends BaseModel {
 
         $query .= ' ORDER BY E.leffanimi ';
 
-        Kint::dump($valinnat);
-        Kint::dump($valinta);
-        Kint::dump($query);
-
         $perfectquery = DB::connection()->prepare($query);
         $perfectquery->execute($valinta);
 
         $rivit = $perfectquery->fetchAll();
         $tulokset = array();
-        
-        Kint::dump($tulokset);
 
         foreach ($rivit as $rivi) {
             $tulokset[] = new Elokuva($rivi);

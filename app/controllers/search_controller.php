@@ -5,11 +5,7 @@ class SearchController extends BaseController {
     public static function searchpage() {
 
         $parametrit = $_GET;
-
-        Kint::dump($parametrit);
-
         $valinnat = array();
-
 
         if (isset($parametrit['nayttelijalista']) && $parametrit['nayttelijalista'][0] !== '') {
             $input = $parametrit['nayttelijalista'][0];
@@ -19,20 +15,27 @@ class SearchController extends BaseController {
                 $valinnat['nayttelijalista'][] = $n;
             }
         }
-        if (isset($parametrit['ohjaajalista']) && $parametrit['ohjaajalista'] !== '') {
-            $input = $parametrit['ohjaajalista'];
+        if (isset($parametrit['ohjaajalista']) && $parametrit['ohjaajalista'][0] !== '') {
+            $input = $parametrit['ohjaajalista'][0];
             $output = explode(',', $input);
-            $valinnat['ohjaajalista'] = $output;
+
+            foreach ($output as $n) {
+                $valinnat['ohjaajalista'][] = $n;
+            }
         }
-        if (isset($parametrit['kuvaajalista']) && $parametrit['kuvaajalista'] !== '') {
-            $input = $parametrit['kuvaajalista'];
+        if (isset($parametrit['kuvaajalista']) && $parametrit['kuvaajalista'][0] !== '') {
+            $input = $parametrit['kuvaajalista'][0];
             $output = explode(',', $input);
-            $valinnat['kuvaajalista'] = $output;
+            foreach ($output as $n) {
+                $valinnat['kuvaajalista'][] = $n;
+            }
         }
-        if (isset($parametrit['kasikirjoittajalista']) && $parametrit['kasikirjoittajalista'] !== '') {
-            $input = $parametrit['kasikirjoittajalista'];
+        if (isset($parametrit['kasikirjoittajalista']) && $parametrit['kasikirjoittajalista'][0] !== '') {
+            $input = $parametrit['kasikirjoittajalista'][0];
             $output = explode(',', $input);
-            $valinnat['kasikirjoittajalista'] = $output;
+            foreach ($output as $n) {
+                $valinnat['kasikirjoittajalista'][] = $n;
+            }
         }
         if (isset($parametrit['valtio']) && $parametrit['valtio'] !== '...') {
             $valinnat['valtio'] = (int) $parametrit['valtio'];
@@ -56,14 +59,16 @@ class SearchController extends BaseController {
             $valinnat['sarja'] = (int) $parametrit['sarja'];
         }
 
-        Kint::dump($valinnat);
+        $kuvanpaikka = 0;
 
         if (sizeof($valinnat) > 0) {
             $tulokset = Elokuva::search($valinnat);
+            if (sizeof($tulokset) === 0) {
+                $kuvanpaikka = 1;
+            }
         } else {
             $tulokset = null;
         }
-
 
         $elokuvat = Elokuva::all();
         $nayttelijat = Artisti::findAllArtistit("Näyttelijä");
@@ -79,7 +84,8 @@ class SearchController extends BaseController {
             'palkinnot' => $palkinnot, 'sarjat' => $sarjat,
             'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
-            'elokuvat' => $elokuvat, 'tulokset' => $tulokset, 'valinnat' => $valinnat
+            'elokuvat' => $elokuvat, 'tulokset' => $tulokset, 'valinnat' => $valinnat,
+            'kuvanpaikka' => $kuvanpaikka
         ));
     }
 

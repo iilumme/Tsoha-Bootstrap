@@ -107,9 +107,9 @@
             </div>
             <br>
             <input type="hidden" name="nayttelijalista[]" id="nlista">
-            <input type="hidden" name="ohjaajalista" id="olista">
-            <input type="hidden" name="kuvaajalista" id="kulista">
-            <input type="hidden" name="kasikirjoittajalista" id="kalista">
+            <input type="hidden" name="ohjaajalista[]" id="olista">
+            <input type="hidden" name="kuvaajalista[]" id="kulista">
+            <input type="hidden" name="kasikirjoittajalista[]" id="kalista">
             <button class="btn btn-warning" type="submit">Hae</button>
         </div>
     </form>
@@ -131,6 +131,9 @@
             </tbody>
         </table>
         {% else %}
+        {% if kuvanpaikka == 1%}
+        <img style="border-radius: 10px" src="{{base_path}}/images/tikru.jpg" alt="WIKIPEDIA" class="text-center">
+        {% endif %}
         {% endif %}
     </div>
 </div>
