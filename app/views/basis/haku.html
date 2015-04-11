@@ -11,15 +11,15 @@
             <div class="form-group">
                 <label>Miltä vuosilta</label>
                 <div>
-                    <input class="haku" type="number" style="width: 70px" name="alkuvuosi">
+                    <input class="haku" type="number" style="width: 70px" name="alkuvuosi" value="{{valinnat.alkuvuosi}}">
                     <label>-</label>
-                    <input class="haku" type="number" style="width: 70px" name="loppuvuosi">
+                    <input class="haku" type="number" style="width: 70px" name="loppuvuosi" value="{{valinnat.loppuvuosi}}">
                 </div>
             </div>
             <div class="form-group">
                 <label>Kieli</label>
                 <div>
-                    <input class="haku" type="text" placeholder="" name="kieli" style="width: 200px" >
+                    <input class="haku" type="text" placeholder="" name="kieli" style="width: 200px" value="{{valinnat.kieli}}">
                 </div>
             </div>                     
 
@@ -27,9 +27,13 @@
                 <label>Maa</label>
                 <div class="dropdown">
                     <select class="form-control haku" name="valtio">
-                        <option>...</option>
+                        <option>...</option>                   
                         {% for valtio in valtiot%}
+                        {% if valtio.valtioid == valinnat.valtio %}
+                        <option value="{{valtio.valtioid}}" selected="">{{valtio.valtionimi}}</option>
+                        {% else %}
                         <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                        {% endif %}
                         {%endfor%}
                     </select>
                 </div>
@@ -40,7 +44,11 @@
                     <select class="form-control haku" name="genre">
                         <option>...</option>
                         {% for genre in genret%}
+                        {% if genre.genreid == valinnat.genre %}
+                        <option value="{{genre.genreid}}" selected="">{{genre.genrenimi}}</option>
+                        {% else %}
                         <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
+                        {% endif %}                       
                         {%endfor%}
                     </select>
                 </div>
@@ -51,7 +59,11 @@
                     <select class="form-control haku" name="palkinto">
                         <option>...</option>
                         {% for palkinto in palkinnot%}
+                        {% if palkinto.palkintoid == valinnat.palkinto %}
+                        <option value="{{palkinto.palkintoid}}" selected="">{{palkinto.palkintonimi}}</option>
+                        {% else %}
                         <option value="{{palkinto.palkintoid}}">{{palkinto.palkintonimi}}</option>
+                        {% endif %}  
                         {%endfor%}
                     </select>
                 </div>
@@ -62,7 +74,11 @@
                     <select class="form-control haku" name="sarja">
                         <option>...</option>
                         {% for sarja in sarjat%}
+                        {% if sarja.sarjaid == valinnat.sarja %}
+                        <option value="{{sarja.sarjaid}}" selected="">{{sarja.sarjanimi}}</option>
+                        {% else %}
                         <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
+                        {% endif %} 
                         {%endfor%}
                     </select>
                 </div>
@@ -84,12 +100,16 @@
                     </ul>
                 </div>
                 <input type="hidden" name="search_param" value="all" id="search_param">         
-                <input type="text" class="form-control" name="hakusana" placeholder="Hakusana..">
+                <input type="text" class="form-control" id="hakusana" name="hakusana" placeholder="Hakusana..">
                 <span class="input-group-btn">
-                    <button class="btn btn-success hakubutton" type="button" id="hakubutton"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                    <button class="btn btn-success" type="button" id="hakubutton"><span class="glyphicon glyphicon-plus-sign"></span></button>
                 </span>
             </div>
             <br>
+            <input type="hidden" name="nayttelijalista[]" id="nlista">
+            <input type="hidden" name="ohjaajalista" id="olista">
+            <input type="hidden" name="kuvaajalista" id="kulista">
+            <input type="hidden" name="kasikirjoittajalista" id="kalista">
             <button class="btn btn-warning" type="submit">Hae</button>
         </div>
     </form>
@@ -111,7 +131,6 @@
             </tbody>
         </table>
         {% else %}
-        <!--        <label class="label label-success">Ei tuloksia</label>-->
         {% endif %}
     </div>
 </div>

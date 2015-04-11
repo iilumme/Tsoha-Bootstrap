@@ -151,21 +151,41 @@ $(document).ready(function () {
         var $ohjaajalista = new Array();
         var $kuvaajalista = new Array();
         var $kasikirjoittajalista = new Array();
+        var concept;
         
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
 		e.preventDefault();
 		var param = $(this).attr("href").replace("#","");
-		var concept = $(this).text(); 
+		concept = $(this).text(); 
                 console.log(concept);
 		$('.search-panel span#search_concept').text(concept);
 		$('.input-group #search_param').val(param);
 	});
        
         
-        $('.hakubutton').click(function () {
+        $('#hakubutton').click(function () {
             console.log("kalakissa");
-            var hakusana = $('#hakubutton').attr('value');
+            var hakusana = $('#hakusana').val();
             console.log(hakusana);
+            if (concept === 'Ohjaaja'){
+                $ohjaajalista[$ohjaajalista.length] = hakusana; 
+            } else if (concept === 'Näyttelijä'){
+                $nayttelijalista[$nayttelijalista.length] = hakusana; 
+            } else if (concept === 'Kuvaaja'){
+                $kuvaajalista[$kuvaajalista.length] = hakusana; 
+            } else if (concept === 'Käsikirjoittaja'){
+                $kasikirjoittajalista[$kasikirjoittajalista.length] = hakusana; 
+            }
+            
+            console.log($ohjaajalista);
+            console.log($nayttelijalista);
+            console.log($kuvaajalista);
+            console.log($kasikirjoittajalista);
+            
+            $('#olista').val($ohjaajalista);
+            $('#nlista').val($nayttelijalista);
+            $('#kulista').val($kuvaajalista);
+            $('#kalista').val($kasikirjoittajalista);
         });
         
     });

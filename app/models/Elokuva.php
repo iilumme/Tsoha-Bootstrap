@@ -145,56 +145,155 @@ class Elokuva extends BaseModel {
     }
 
     public static function search($valinnat) {
-        $query = 'SELECT DISTINCT E.leffaID, E.leffaNimi FROM Elokuva E, ArtistiLaari A, GenreLaari G, LeffaPalkintoLaari L, SarjaLaari S WHERE ';
+        $query = 'SELECT DISTINCT E.leffaID, E.leffaNimi '
+                . 'FROM Elokuva E, ArtistiLaari A, GenreLaari G, LeffaPalkintoLaari L, SarjaLaari S '
+                . 'WHERE ';
 
-        if (isset($valinnat['nayttelija'])) {
-            $query .= ' AND :n in (SELECT artistiid FROM ArtistiLaari ';
-            if (isset($valinnat['leffaid'])) {
-                $query .= ' WHERE leffaid= :lid ';
-                $valinnat['lid'] = $valinnat['leffaid'];
+        $first = TRUE;
+
+        if (isset($valinnat['nayttelijalista'])) {
+
+            $tyypit = $valinnat['nayttelijalista'];
+
+            foreach ($tyypit as $n) {
+                Kint::dump($n);
+                if ($first) {
+                    $first = FALSE;
+                    $query .= " :hassu IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                } else {
+                    $query .= " AND :hassu IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                }
+            }
+            $valinta['hassu'] = $valinnat['nayttelijalista'][0];
+            $valinnat['nayttelijalista'] = null;
+        }
+        if (isset($valinnat['ohjaajalista'])) {
+            if ($first) {
+                $first = FALSE;
             } else {
-                $query .= ') ';
+                
             }
         }
-        if (isset($valinnat['ohjaaja'])) {
-            
+        if (isset($valinnat['kuvaajalista'])) {
+            if ($first) {
+                $first = FALSE;
+            } else {
+                
+            }
         }
-        if (isset($valinnat['kuvaaja'])) {
-            
-        }
-        if (isset($valinnat['kasikirjoittaja'])) {
-            
+        if (isset($valinnat['kasikirjoittajalista'])) {
+            if ($first) {
+                $first = FALSE;
+            } else {
+                
+            }
         }
         if (isset($valinnat['valtio'])) {
-            
+            if ($first) {
+                $first = FALSE;
+                $query .= ' E.valtio = :valtio ';
+            } else {
+                $query .= ' AND E.valtio = :valtio ';
+            }
+
+            $valinta['valtio'] = $valinnat['valtio'];
         }
 
         if (isset($valinnat['alkuvuosi']) && isset($valinnat['loppuvuosi'])) {
-            $query .= ' vuosi between :alkuvuosi AND :loppuvuosi ';
-            $valinnat['alkuvuosi'] = $valinnat['alkuvuosi'];
-            $valinnat['loppuvuosi'] = $valinnat['loppuvuosi'];
+            if ($first) {
+                $first = FALSE;
+                $query .= ' vuosi BETWEEN :alkuvuosi AND :loppuvuosi ';
+            } else {
+                $query .= ' AND vuosi BETWEEN :alkuvuosi AND :loppuvuosi ';
+            }
+
+            $valinta['alkuvuosi'] = $valinnat['alkuvuosi'];
+            $valinta['loppuvuosi'] = $valinnat['loppuvuosi'];
         } else if (isset($valinnat['alkuvuosi'])) {
-            $query .= ' vuosi >= :alkuvuosi ';
-            
+
+            if ($first) {
+                $first = FALSE;
+                $query .= ' vuosi >= :alkuvuosi ';
+            } else {
+                $query .= ' AND vuosi >= :alkuvuosi ';
+            }
+            $valinta['alkuvuosi'] = $valinnat['alkuvuosi'];
         } else if (isset($valinnat['loppuvuosi'])) {
-            $query .= ' vuosi <= :loppuvuosi ';
-            
+
+            if ($first) {
+                $first = FALSE;
+                $query .= ' vuosi <= :loppuvuosi ';
+            } else {
+                $query .= ' AND vuosi <= :loppuvuosi ';
+            }
+
+            $valinta['loppuvuosi'] = $valinnat['loppuvuosi'];
         }
+
+
 
         if (isset($valinnat['kieli'])) {
-            
+            if ($first) {
+                $first = FALSE;
+                $query .= ' kieli LIKE :kieli ';
+            } else {
+                $query .= ' AND kieli LIKE :kieli ';
+            }
+            $kieli = strtolower($valinnat['kieli']);
+            $valinta['kieli'] = $kieli;
         }
         if (isset($valinnat['genre'])) {
-            
+            if ($first) {
+                $first = FALSE;
+                $query .= ' :genre IN (SELECT genreid FROM GenreLaari WHERE leffaID = E.leffaID) ';
+            } else {
+                $query .= ' AND :genre IN (SELECT genreid FROM GenreLaari WHERE leffaID = E.leffaID) ';
+            }
+
+            $valinta['genre'] = $valinnat['genre'];
         }
         if (isset($valinnat['palkinto'])) {
-            
+            if ($first) {
+                $first = FALSE;
+                $query .= ' :palkinto IN (SELECT palkintoid FROM LeffaPalkintoLaari WHERE leffaID = E.leffaID) ';
+            } else {
+                $query .= ' AND :palkinto IN (SELECT palkintoid FROM LeffaPalkintoLaari WHERE leffaID = E.leffaID) ';
+            }
+
+            $valinta['palkinto'] = $valinnat['palkinto'];
         }
         if (isset($valinnat['sarja'])) {
-            
+            if ($first) {
+                $first = FALSE;
+                $query .= ' :sarja IN (SELECT sarjaid FROM SarjaLaari WHERE leffaID = E.leffaID) ';
+            } else {
+                $query .= ' AND :sarja IN (SELECT sarjaid FROM SarjaLaari WHERE leffaID = E.leffaID) ';
+            }
+
+            $valinta['sarja'] = $valinnat['sarja'];
         }
 
-//        Kint::dump($query);
+        $query .= ' ORDER BY E.leffanimi ';
+
+        Kint::dump($valinnat);
+        Kint::dump($valinta);
+        Kint::dump($query);
+
+        $perfectquery = DB::connection()->prepare($query);
+        $perfectquery->execute($valinta);
+
+        $rivit = $perfectquery->fetchAll();
+        $tulokset = array();
+        
+        Kint::dump($tulokset);
+
+        foreach ($rivit as $rivi) {
+            $tulokset[] = new Elokuva($rivi);
+        }
+
+        return $tulokset;
     }
 
 }
