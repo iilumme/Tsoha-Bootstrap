@@ -29,12 +29,27 @@ $routes->get('/login', function() {
     UserController::login();
 });
 
-$routes->get('/lists', 'check_logged_in', function() {
-    UserController::lists();
+$routes->get('/favourites', 'check_logged_in', function() {
+    UserController::favourites();
+});
+
+$routes->get('/watched', 'check_logged_in', function() {
+    UserController::seen();
+});
+
+$routes->get('/mastarde', 'check_logged_in', function() {
+    UserController::later();
+});
+$routes->get('/dvds', 'check_logged_in', function() {
+    UserController::dvds();
 });
 
 $routes->get('/mypage', 'check_logged_in', function() {
     UserController::mypage();
+});
+
+$routes->get('/mypage/edit', 'check_logged_in', function() {
+    UserController::mypageedit();
 });
 
 
@@ -152,4 +167,12 @@ $routes->post('/logout', function() {
 
 $routes->post('/register', function() {
     UserController::store();
+});
+
+$routes->post('/usereditpage', function() {
+    UserController::update(BaseController::get_user_logged_in()->kayttajaid);
+});
+
+$routes->post('/userdestroy', 'check_logged_in', function() {
+    UserController::destroy(BaseController::get_user_logged_in()->kayttajaid);
 });

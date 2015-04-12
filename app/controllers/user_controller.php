@@ -11,12 +11,88 @@ class UserController extends BaseController {
         View::make('users/kirjautuminen.html');
     }
 
-    public static function lists() {
-        View::make('users/lista.html');
+    public static function favourites() {
+        $suosikit = Elokuva::findSuosikkiElokuvat(self::get_user_logged_in()->kayttajaid);
+        $valtiot = Valtio::all();
+        $elokuvat = Elokuva::all();
+        View::make('users/suosikkilista.html', array(
+            'elokuvat' => $suosikit,
+            'valtiot' => $valtiot,
+            'kaikkielokuvat' => $elokuvat
+        ));
+    }
+
+    public static function seen() {
+        $suosikit = Elokuva::findKatsotutElokuvat(self::get_user_logged_in()->kayttajaid);
+        $valtiot = Valtio::all();
+        $elokuvat = Elokuva::all();
+        View::make('users/katsotutlista.html', array(
+            'elokuvat' => $suosikit,
+            'valtiot' => $valtiot,
+            'kaikkielokuvat' => $elokuvat
+        ));
+    }
+
+    public static function later() {
+        $suosikit = Elokuva::findMasTardeElokuvat(self::get_user_logged_in()->kayttajaid);
+        $valtiot = Valtio::all();
+        $elokuvat = Elokuva::all();
+        View::make('users/mastardelista.html', array(
+            'elokuvat' => $suosikit,
+            'valtiot' => $valtiot,
+            'kaikkielokuvat' => $elokuvat
+        ));
+    }
+
+    public static function dvds() {
+        $suosikit = Elokuva::findDVDTForKayttaja(self::get_user_logged_in()->kayttajaid);
+        $valtiot = Valtio::all();
+        $elokuvat = Elokuva::all();
+        View::make('users/DVDlista.html', array(
+            'elokuvat' => $suosikit,
+            'valtiot' => $valtiot,
+            'kaikkielokuvat' => $elokuvat
+        ));
     }
 
     public static function mypage() {
         View::make('users/omasivu.html');
+    }
+
+    public static function mypageedit() {
+        $kayttaja = self::get_user_logged_in();
+        $genret = Genre::all();
+        $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
+        View::make('users/kayttajamuokkaus.html', array(
+            'kayttaja' => $kayttaja, 'genret' => $genret,
+            'tamanhetkinengenre' => $tamanhetkinengenre
+        ));
+    }
+
+    public static function update($id) {
+        $parametrit = $_POST;
+
+        $attribuutit = array(
+            'nimi' => $parametrit['nimi'],
+            'kayttajatunnus' => $parametrit['kayttajatunnus'],
+            'salasana' => $parametrit['salasana'],
+            'lempigenre' => $parametrit['lempigenre']
+        );
+
+        $user = new Kayttaja($attribuutit);
+
+//        if (count($errors) == 0) {
+        Kint::dump($id);
+        $user->update($id);
+        Redirect::to('/mypage', array('message' => 'Tietojen päivittäminen onnistui! :)'));
+
+//        } else {
+//            $valtiot = Valtio::all();
+//            View::make('/artist/artistimuokkaus.html', array(
+//                'valtiot' => $valtiot,
+//                'attribuutit' => $attribuutit
+//            ));
+//        }
     }
 
     public static function handle_login() {
@@ -49,10 +125,24 @@ class UserController extends BaseController {
         );
 
         $user = new Kayttaja($attribuutit);
+        $errors = $user->errors();
 
-        $user->save();
-        
-        Redirect::to('/login', array('message' => 'Kirjaudu sisään :)'));
+        if (count($errors) == 0) {
+            $user->save();
+            Redirect::to('/login', array('message' => 'Kirjaudu sisään :)'));
+        } else {
+            $genret = Genre::all();
+            View::make('users/rekisteroityminen.html', array(
+                'genret' => $genret, 'errors' => $errors, 'attribuutit' => $attribuutit
+            ));
+        }
+    }
+
+    public static function destroy($id) {
+        $user = new Kayttaja(array('kayttajaid' => $id));
+        $user->destroy($id);
+
+        Redirect::to('/', array('message' => 'Tilisi poistaminen onnistui'));
     }
 
 }

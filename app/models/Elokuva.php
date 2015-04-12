@@ -100,6 +100,98 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
+    public static function findSuosikkiElokuvat($kid) {
+        $query = DB::connection()->prepare('SELECT * FROM Suosikkilista S, Elokuva E WHERE kayttajaID= :kayttajaid AND S.leffaID=E.leffaID');
+        $query->execute(array('kayttajaid' => $kid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
+                'vuosi' => $tulos['vuosi'],
+                'valtio' => $tulos['valtio'],
+                'kieli' => $tulos['kieli'],
+                'synopsis' => $tulos['synopsis'],
+                'traileriurl' => $tulos['traileriurl'],
+                'lisatty' => $tulos['lisatty'],
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
+        }
+        return $elokuvat;
+    }
+    
+    public static function findKatsotutElokuvat($kid) {
+        $query = DB::connection()->prepare('SELECT * FROM Katsotutlista K, Elokuva E WHERE kayttajaID= :kayttajaid AND K.leffaID=E.leffaID');
+        $query->execute(array('kayttajaid' => $kid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
+                'vuosi' => $tulos['vuosi'],
+                'valtio' => $tulos['valtio'],
+                'kieli' => $tulos['kieli'],
+                'synopsis' => $tulos['synopsis'],
+                'traileriurl' => $tulos['traileriurl'],
+                'lisatty' => $tulos['lisatty'],
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
+        }
+        return $elokuvat;
+    }
+    
+    public static function findMasTardeElokuvat($kid) {
+        $query = DB::connection()->prepare('SELECT * FROM MasTardeLista M, Elokuva E WHERE kayttajaID= :kayttajaid AND M.leffaID=E.leffaID');
+        $query->execute(array('kayttajaid' => $kid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
+                'vuosi' => $tulos['vuosi'],
+                'valtio' => $tulos['valtio'],
+                'kieli' => $tulos['kieli'],
+                'synopsis' => $tulos['synopsis'],
+                'traileriurl' => $tulos['traileriurl'],
+                'lisatty' => $tulos['lisatty'],
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
+        }
+        return $elokuvat;
+    }
+    
+    public static function findDVDTForKayttaja($kid) {
+        $query = DB::connection()->prepare('SELECT * FROM DVDLista D, Elokuva E WHERE kayttajaID= :kayttajaid AND D.leffaID=E.leffaID');
+        $query->execute(array('kayttajaid' => $kid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi'],
+                'vuosi' => $tulos['vuosi'],
+                'valtio' => $tulos['valtio'],
+                'kieli' => $tulos['kieli'],
+                'synopsis' => $tulos['synopsis'],
+                'traileriurl' => $tulos['traileriurl'],
+                'lisatty' => $tulos['lisatty'],
+                'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            ));
+        }
+        return $elokuvat;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Elokuva '
                 . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '

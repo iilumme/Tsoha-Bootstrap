@@ -100,3 +100,33 @@
 </div>
 
 {% endmacro %}
+
+
+{% macro movie_modal(elokuvat, kid, action) %}
+<div class="modal fade" id="leffanlisaysmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="leffanlisaysmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Elokuvien lisäys</h4>
+            </div>
+            <form method="post" action="{{action}}" data-submit-type="ajax" >
+                <div class="modal-body">                   
+                    <div class="dropdown">
+                        <label>Elokuvat</label>
+                        <select class="form-control" name="valtio">
+                            {%for elokuva in elokuvat%}
+                            <option value="{{elokuva.leffaid}}">{{elokuva.leffanimi}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lisää elokuvat</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+{% endmacro %}

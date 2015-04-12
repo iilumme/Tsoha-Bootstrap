@@ -23,6 +23,30 @@ class BaseModel {
         }
         return $errors;
     }
+    
+    public function validateNameForUser() {
+        $errors = array();
+        if ($this->nimi == NULL || $this->nimi == ' ') {
+            $errors[] = 'Nimi ei saa olla tyhjä.';
+        }
+        return $errors;
+    }
+    
+    public function validateUsername() {
+        $errors = array();
+        if ($this->kayttajatunnus == NULL || $this->kayttajatunnus == ' '|| strlen($this->kayttajatunnus) < 4) {
+            $errors[] = 'Tunnus ei saa olla tyhjä eikä alle neljä merkkiä pitkä.';
+        }
+        return $errors;
+    }
+    
+    public function validatePassword() {
+        $errors = array();
+        if ($this->salasana == NULL || $this->salasana == ' ' || strlen($this->salasana) < 5) {
+            $errors[] = 'Salasana ei saa olla tyhjä eikä alle viisi merkkiä pitkä.';
+        }
+        return $errors;
+    }
 
     public function validateYear() {
         $errors = array();

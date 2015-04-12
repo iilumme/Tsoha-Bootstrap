@@ -141,5 +141,7 @@ class Artisti extends BaseModel {
             'artistiid' => $id
         ));
     }
+    
+    
 
 }

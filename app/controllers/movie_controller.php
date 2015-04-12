@@ -75,12 +75,9 @@ class MovieController extends BaseController {
     public static function update($id) {
         $parametrit = $_POST;
         $attribuutit = array(
-            'leffanimi' => $parametrit['leffanimi'],
-            'vuosi' => $parametrit['vuosi'],
-            'valtio' => $parametrit['valtio'],
-            'kieli' => $parametrit['kieli'],
-            'synopsis' => $parametrit['synopsis'],
-            'traileriurl' => $parametrit['traileriurl']
+            'leffanimi' => $parametrit['leffanimi'], 'vuosi' => $parametrit['vuosi'],
+            'valtio' => $parametrit['valtio'], 'kieli' => $parametrit['kieli'],
+            'synopsis' => $parametrit['synopsis'], 'traileriurl' => $parametrit['traileriurl']
         );
 
         $movie = new Elokuva($attribuutit);
@@ -139,13 +136,13 @@ class MovieController extends BaseController {
             View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attribuutit, 'valtiot' => $valtiot));
         }
     }
-    
-    public static function destroy($id){
+
+    public static function destroy($id) {
         $movie = new Elokuva(array(
             'leffaid' => $id
         ));
         $movie->destroy($id);
-        
+
         Redirect::to('/', array('message' => 'Elokuvan poistaminen onnistui'));
     }
 

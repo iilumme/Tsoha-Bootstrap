@@ -6,6 +6,7 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
+        $this->validators = array('validateNameForUser', 'validateUsername', 'validatePassword');
     }
 
     public static function all() {
@@ -85,6 +86,30 @@ class Kayttaja extends BaseModel {
 
         $tulos = $query->fetch();
         $this->kayttajaid = $tulos['kayttajaid'];
+    }
+       
+    public function update($id) {
+        $query = DB::connection()->prepare('UPDATE Kayttaja '
+                . 'SET kayttajaTunnus = :kayttajatunnus, nimi = :nimi, '
+                . 'salasana = :salasana, lempiGenre = :lempigenre, viimeksiMuutettu = now() '
+                . 'WHERE kayttajaID = :kayttajaid RETURNING kayttajaID');
+        $query->execute(array(
+            'kayttajaid' => $id,
+            'kayttajatunnus' => $this->kayttajatunnus,
+            'nimi' => $this->nimi,
+            'salasana' => $this->salasana,
+            'lempigenre' => $this->lempigenre
+        ));
+
+        $tulos = $query->fetch();
+        return $tulos['kayttajaid'];
+    }
+    
+    public function destroy($id) {
+        $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE kayttajaid = :kayttajaid');
+        $query->execute(array(
+            'kayttajaid' => $id
+        ));
     }
 
 }

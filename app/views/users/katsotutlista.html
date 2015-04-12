@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% import "macros/modals.html" as modals %}
+{{modals.movie_modal(kaikkielokuvat, kid, "#{base_path}/katsottulisayssivu")}}
+
+<div class="col-md-8" id="katsotutlista">
+    <h3 style="font-family: sans-serif">Katsotut</h3>
+    <br>   
+    <button class="btn bg-success" data-toggle="modal" data-target="#leffanlisaysmodaali">Lisää elokuvia</button>
+    <button class="btn bg-danger">Poista elokuvia</button>
+    <br>
+    <br>
+    <table class="table table-striped table-bordered bg-success">
+        <thead>
+            <tr>
+                <th>Nimi</th>
+                <th>Maa</th>
+                <th>Julkaisuvuosi</th>
+                <th>Kieli</th>               
+            </tr>
+        </thead>
+        <tbody style="font-family: monospace">
+            {% for elokuva in elokuvat %}
+            <tr>
+                <td><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></td>
+                {% for valtio in valtiot %}
+                {% if valtio.valtioid == elokuva.valtio%}
+                <td><a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</td>
+                {% endif%}
+                {% endfor %}
+                <td>{{elokuva.vuosi}}</td>
+                <td>{{elokuva.kieli}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

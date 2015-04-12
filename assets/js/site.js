@@ -176,6 +176,8 @@ $(document).ready(function () {
             } else if (concept === 'Käsikirjoittaja'){
                 $kasikirjoittajalista[$kasikirjoittajalista.length] = hakusana; 
             }
+            $('#viesti').text(hakusana + ' lisätty hakuun');
+            $('#hakusana').val("");
             
             console.log($ohjaajalista);
             console.log($nayttelijalista);
@@ -187,6 +189,7 @@ $(document).ready(function () {
             $('#kulista').val($kuvaajalista);
             $('#kalista').val($kasikirjoittajalista);
         });
+             
         
     });
 });
