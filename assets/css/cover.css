@@ -89,13 +89,14 @@ a:hover {
 html,
 body {
 
-    background: url(http://iilumme.users.cs.helsinki.fi/tsoha/images/ruins.jpg) no-repeat center center fixed; 
+/*    background: url(http://iilumme.users.cs.helsinki.fi/tsoha/images/ruins.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+    background-size: cover;*/
     height: 100%;
-    background-color: lemonchiffon;
+/*    background-color: gold;*/
+    background-color: #222;
 }
 
 .cover-heading {
