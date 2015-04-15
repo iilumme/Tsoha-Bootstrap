@@ -2,9 +2,6 @@
 {% block content %}
 
 
-{% for artisti in artistit %}
-
-
 <div class="bg">
     {% if message %}
     <div class="alert alert-success" style="text-shadow: none">
@@ -30,10 +27,8 @@
         <div class="col-md-6">
             <ul>
                 <li>{{artisti.artistityyppi}}</li>
-                {% for valtio in valtiot %}
                 <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
-                {%endfor%}
-                {% if artisti.syntymavuosi == 0%}
+                {% if artisti.syntymavuosi == 0 %}
                 <li><strong>Syntymävuosi:</strong> TUNTEMATON </li>
                 {% else %}
                 <li><strong>Syntymävuosi:</strong> {{artisti.syntymavuosi}}</li>
@@ -65,6 +60,5 @@
         </div>
     </div>
 </div>
-{%endfor%}
 
 {% endblock %}

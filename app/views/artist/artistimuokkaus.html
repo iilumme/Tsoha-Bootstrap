@@ -1,7 +1,6 @@
 {% extends "basetwo.html" %}
 {% block content %}
 
-{% for artisti in artistit %}
 
 <div class="bg">
     <form method="post" action="{{base_path}}/artisteditpage/{{artisti.artistiid}}">
@@ -71,5 +70,4 @@
     </form>
 </div>
 
-{% endfor %}
 {% endblock %}
