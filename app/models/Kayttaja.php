@@ -2,11 +2,24 @@
 
 class Kayttaja extends BaseModel {
 
-    public $kayttajaid, $kayttajatunnus, $nimi, $salasana, $lempigenre, $rekisteroitynyt, $viimeksimuutettu;
+    public $kayttajaid, $kayttajatunnus, $nimi, $salasana,
+            $lempigenre, $rekisteroitynyt, $viimeksimuutettu;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
         $this->validators = array('validateNameForUser', 'validateUsername', 'validatePassword');
+    }
+
+    private static function createKayttaja($tulos) {
+        return new Kayttaja(array(
+            'kayttajaid' => $tulos['kayttajaid'],
+            'kayttajatunnus' => $tulos['kayttajatunnus'],
+            'nimi' => $tulos['nimi'],
+            'salasana' => $tulos['salasana'],
+            'lempigenre' => $tulos['lempigenre'],
+            'rekisteroitynyt' => $tulos['rekisteroitynyt'],
+            'viimeksimuutettu' => $tulos['viimeksimuutettu']
+        ));
     }
 
     public static function all() {
@@ -17,15 +30,7 @@ class Kayttaja extends BaseModel {
         $kayttajat = array();
 
         foreach ($tulokset as $tulos) {
-            $kayttajat[] = new Kayttaja(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'kayttajatunnus' => $tulos['kayttajatunnus'],
-                'nimi' => $tulos['nimi'],
-                'salasana' => $tulos['salasana'],
-                'lempigenre' => $tulos['lempigenre'],
-                'rekisteroitynyt' => $tulos['rekisteroitynyt'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $kayttajat[] = Kayttaja::createKayttaja($tulos);
         }
         return $kayttajat;
     }
@@ -36,15 +41,7 @@ class Kayttaja extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $kayttaja = new Kayttaja(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'kayttajatunnus' => $tulos['kayttajatunnus'],
-                'nimi' => $tulos['nimi'],
-                'salasana' => $tulos['salasana'],
-                'lempigenre' => $tulos['lempigenre'],
-                'rekisteroitynyt' => $tulos['rekisteroitynyt'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $kayttaja = Kayttaja::createKayttaja($tulos);
             return $kayttaja;
         }
 
@@ -57,15 +54,7 @@ class Kayttaja extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $kayttaja = new Kayttaja(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'kayttajatunnus' => $tulos['kayttajatunnus'],
-                'nimi' => $tulos['nimi'],
-                'salasana' => $tulos['salasana'],
-                'lempigenre' => $tulos['lempigenre'],
-                'rekisteroitynyt' => $tulos['rekisteroitynyt'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $kayttaja = Kayttaja::createKayttaja($tulos);
             return $kayttaja;
         }
 
@@ -87,7 +76,7 @@ class Kayttaja extends BaseModel {
         $tulos = $query->fetch();
         $this->kayttajaid = $tulos['kayttajaid'];
     }
-       
+
     public function update($id) {
         $query = DB::connection()->prepare('UPDATE Kayttaja '
                 . 'SET kayttajaTunnus = :kayttajatunnus, nimi = :nimi, '
@@ -104,12 +93,10 @@ class Kayttaja extends BaseModel {
         $tulos = $query->fetch();
         return $tulos['kayttajaid'];
     }
-    
+
     public function destroy($id) {
         $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE kayttajaid = :kayttajaid');
-        $query->execute(array(
-            'kayttajaid' => $id
-        ));
+        $query->execute(array('kayttajaid' => $id));
     }
 
 }

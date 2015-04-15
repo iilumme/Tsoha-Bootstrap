@@ -10,13 +10,27 @@ class Artisti extends BaseModel {
         $this->validators = array('validateFirstName', 'validateLastName', 'validateBirthYear');
     }
 
+    private static function createArtisti($tulos) {
+        return new Artisti(array(
+            'artistiid' => $tulos['artistiid'],
+            'artistityyppi' => $tulos['artistityyppi'],
+            'etunimi' => $tulos['etunimi'],
+            'sukunimi' => $tulos['sukunimi'],
+            'bio' => $tulos['bio'],
+            'kuva' => $tulos['kuva'],
+            'syntymavuosi' => $tulos['syntymavuosi'],
+            'valtio' => $tulos['valtio'],
+            'lisatty' => $tulos['lisatty'],
+            'viimeksimuutettu' => $tulos['viimeksimuutettu']
+        ));
+    }
+
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Artisti ORDER BY sukunimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
         $artistit = array();
-
         foreach ($tulokset as $tulos) {
             $artistit[] = Artisti::createArtisti($tulos);
         }
@@ -36,63 +50,45 @@ class Artisti extends BaseModel {
         return null;
     }
 
-    public static function findAllArtistit($n) {
+    public static function findAllArtistit($tyyppi) {
         $query = DB::connection()->prepare('SELECT * FROM Artisti R '
-                . 'WHERE R.artistityyppi= :n ORDER BY R.sukunimi');
-        $query->execute(array('n' => $n));
+                . 'WHERE R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
+        $query->execute(array('tyyppi' => $tyyppi));
         $tulokset = $query->fetchAll();
 
         $artistit = array();
-
         foreach ($tulokset as $tulos) {
             $artistit[] = Artisti::createArtisti($tulos);
         }
         return $artistit;
     }
 
-    public static function findArtistitForElokuva($id, $n) {
+    public static function findArtistitForElokuva($id, $tyyppi) {
         $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu '
                 . 'FROM Elokuva E, ArtistiLaari A, Artisti R '
-                . 'WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.artistiID=R.artistiID AND R.artistityyppi= :n ORDER BY R.sukunimi');
-        $query->execute(array('leffaid' => $id, 'n' => $n));
+                . 'WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.artistiID=R.artistiID AND R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
+        $query->execute(array('leffaid' => $id, 'tyyppi' => $tyyppi));
         $tulokset = $query->fetchAll();
 
         $artistit = array();
-
         foreach ($tulokset as $tulos) {
             $artistit[] = Artisti::createArtisti($tulos);
         }
         return $artistit;
     }
 
-    public static function findArtistitForValtio($id, $n) {
+    public static function findArtistitForValtio($id, $tyyppi) {
         $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu '
                 . 'FROM Valtiot V, Artisti R '
-                . 'WHERE V.valtioid = :valtio AND V.valtioid=R.valtio AND R.artistityyppi= :n ORDER BY R.sukunimi');
-        $query->execute(array('valtio' => $id, 'n' => $n));
+                . 'WHERE V.valtioid = :valtio AND V.valtioid=R.valtio AND R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
+        $query->execute(array('valtio' => $id, 'tyyppi' => $tyyppi));
         $tulokset = $query->fetchAll();
 
         $artistit = array();
-
         foreach ($tulokset as $tulos) {
             $artistit[] = Artisti::createArtisti($tulos);
         }
         return $artistit;
-    }
-
-    private static function createArtisti($tulos) {
-        return new Artisti(array(
-            'artistiid' => $tulos['artistiid'],
-            'artistityyppi' => $tulos['artistityyppi'],
-            'etunimi' => $tulos['etunimi'],
-            'sukunimi' => $tulos['sukunimi'],
-            'bio' => $tulos['bio'],
-            'kuva' => $tulos['kuva'],
-            'syntymavuosi' => $tulos['syntymavuosi'],
-            'valtio' => $tulos['valtio'],
-            'lisatty' => $tulos['lisatty'],
-            'viimeksimuutettu' => $tulos['viimeksimuutettu']
-        ));
     }
 
     public function save() {
@@ -111,7 +107,6 @@ class Artisti extends BaseModel {
 
         $tulos = $query->fetch();
         $this->artistiid = $tulos['artistiid'];
-        
         return $this->artistiid;
     }
 
@@ -137,11 +132,7 @@ class Artisti extends BaseModel {
 
     public function destroy($id) {
         $query = DB::connection()->prepare('DELETE FROM Artisti WHERE artistiid = :artistiid');
-        $query->execute(array(
-            'artistiid' => $id
-        ));
+        $query->execute(array('artistiid' => $id));
     }
-    
-    
 
 }

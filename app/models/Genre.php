@@ -8,18 +8,21 @@ class Genre extends BaseModel {
         parent::__construct($attribuutit);
     }
 
+    private static function createGenre($tulos) {
+        return new Genre(array(
+            'genreid' => $tulos['genreid'],
+            'genrenimi' => $tulos['genrenimi']
+        ));
+    }
+
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Genre ORDER BY genrenimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
         $genret = array();
-
         foreach ($tulokset as $tulos) {
-            $genret[] = new Genre(array(
-                'genreid' => $tulos['genreid'],
-                'genrenimi' => $tulos['genrenimi']
-            ));
+            $genret[] = Genre::createGenre($tulos);
         }
         return $genret;
     }
@@ -30,10 +33,7 @@ class Genre extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $genre = new Genre(array(
-                'genreid' => $tulos['genreid'],
-                'genrenimi' => $tulos['genrenimi']
-            ));
+            $genre = Genre::createGenre($tulos);
             return $genre;
         }
 
@@ -46,12 +46,8 @@ class Genre extends BaseModel {
         $tulokset = $query->fetchAll();
 
         $genret = array();
-
         foreach ($tulokset as $tulos) {
-            $genret[] = new Genre(array(
-                'genreid' => $tulos['genreid'],
-                'genrenimi' => $tulos['genrenimi']
-            ));
+            $genret[] = Genre::createGenre($tulos);
         }
         return $genret;
     }
@@ -65,7 +61,6 @@ class Genre extends BaseModel {
 
         $tulos = $query->fetch();
         $this->genreid = $tulos['genreid'];
-        
         return $this->genreid;
     }
 

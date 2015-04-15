@@ -8,18 +8,21 @@ class Sarja extends BaseModel {
         parent::__construct($attribuutit);
     }
 
+    private static function createSarja($tulos) {
+        return new Sarja(array(
+            'sarjaid' => $tulos['sarjaid'],
+            'sarjanimi' => $tulos['sarjanimi']
+        ));
+    }
+
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Sarja');
         $query->execute();
         $tulokset = $query->fetchAll();
 
         $sarjat = array();
-
         foreach ($tulokset as $tulos) {
-            $sarjat[] = new Sarja(array(
-                'sarjaid' => $tulos['sarjaid'],
-                'sarjanimi' => $tulos['sarjanimi']
-            ));
+            $sarjat[] = Sarja::createSarja($tulos);
         }
         return $sarjat;
     }
@@ -30,10 +33,7 @@ class Sarja extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $sarja = new Sarja(array(
-                'sarjaid' => $tulos['sarjaid'],
-                'sarjanimi' => $tulos['sarjanimi']
-            ));
+            $sarja = Sarja::createSarja($tulos);
             return $sarja;
         }
 
@@ -41,14 +41,14 @@ class Sarja extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Sarja (sarjaNimi) VALUES (:sarjanimi) RETURNING sarjaid;');
+        $query = DB::connection()->prepare('INSERT INTO Sarja (sarjaNimi) '
+                . 'VALUES (:sarjanimi) RETURNING sarjaid;');
         $query->execute(array(
             'sarjanimi' => $this->sarjanimi
         ));
 
         $tulos = $query->fetch();
         $this->sarjaid = $tulos['sarjaid'];
-
         return $this->sarjaid;
     }
 

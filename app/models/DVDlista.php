@@ -2,42 +2,28 @@
 
 class DVDlista extends BaseModel {
 
-    public $kayttajaid, $leffaid;
+    public $kayttajaid, $kayttajatunnus, $leffaid;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM DVDLista');
-        $query->execute();
+    public static function findDVDTForElokuva($id) {
+        $query = DB::connection()->prepare('SELECT K.kayttajaTunnus '
+                . 'FROM DVDLista D, Kayttaja K '
+                . 'WHERE D.kayttajaID=K.kayttajaID AND leffaid = :leffaid '
+                . 'ORDER BY K.kayttajatunnus');
+        $query->execute(array('leffaid' => $id));
         $tulokset = $query->fetchAll();
 
-        $listat = array();
-
+        $kayttajat = array();
         foreach ($tulokset as $tulos) {
-            $listat[] = new DVDlista(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'leffaid' => $tulos['leffaid']
+            $kayttajat[] = new DVDlista(array(
+                'kayttajatunnus' => $tulos['kayttajatunnus']
             ));
         }
-        return $listat;
-    }
 
-    public static function findOne($kid, $lid) {
-        $query = DB::connection()->prepare('SELECT * FROM DVDLista WHERE kayttajaid = :kayttajaid AND leffaid = :leffaid LIMIT 1');
-        $query->execute(array('kayttajaid' => $kid, 'leffaid' => $lid));
-        $tulos = $query->fetch();
-
-        if ($tulos) {
-            $lista = new DVDlista(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'leffaid' => $tulos['leffaid']
-            ));
-            return $lista;
-        }
-
-        return null;
+        return $kayttajat;
     }
 
 }

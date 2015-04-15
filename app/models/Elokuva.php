@@ -10,25 +10,28 @@ class Elokuva extends BaseModel {
         $this->validators = array('validateName', 'validateYear', 'validateLanguage');
     }
 
+    private static function createElokuva($tulos) {
+        return new Elokuva(array(
+            'leffaid' => $tulos['leffaid'],
+            'leffanimi' => $tulos['leffanimi'],
+            'vuosi' => $tulos['vuosi'],
+            'valtio' => $tulos['valtio'],
+            'kieli' => $tulos['kieli'],
+            'synopsis' => $tulos['synopsis'],
+            'traileriurl' => $tulos['traileriurl'],
+            'lisatty' => $tulos['lisatty'],
+            'viimeksimuutettu' => $tulos['viimeksimuutettu']
+        ));
+    }
+
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Elokuva ORDER BY leffanimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
         $elokuvat = array();
-
         foreach ($tulokset as $tulos) {
-            $elokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuvat[] = Elokuva::createElokuva($tulos);
         }
         return $elokuvat;
     }
@@ -39,17 +42,7 @@ class Elokuva extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $elokuva = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuva = Elokuva::createElokuva($tulos);
             return $elokuva;
         }
 
@@ -64,7 +57,6 @@ class Elokuva extends BaseModel {
         $tulokset = $query->fetchAll();
 
         $elokuvat = array();
-
         foreach ($tulokset as $tulos) {
             $elokuvat[] = new Elokuva(array(
                 'leffaid' => $tulos['leffaid'],
@@ -75,24 +67,14 @@ class Elokuva extends BaseModel {
     }
 
     public static function findElokuvatForValtiot($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE valtio= :valtio');
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE valtio= :valtio ORDER BY leffanimi');
         $query->execute(array('valtio' => $id));
         $tulokset = $query->fetchAll();
 
         $elokuvat = array();
 
         foreach ($tulokset as $tulos) {
-            $elokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuvat[] = Elokuva::createElokuva($tulos);
         }
         return $elokuvat;
     }
@@ -105,17 +87,7 @@ class Elokuva extends BaseModel {
         $elokuvat = array();
 
         foreach ($tulokset as $tulos) {
-            $elokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuvat[] = Elokuva::createElokuva($tulos);
         }
         return $elokuvat;
     }
@@ -126,19 +98,8 @@ class Elokuva extends BaseModel {
         $tulokset = $query->fetchAll();
 
         $elokuvat = array();
-
         foreach ($tulokset as $tulos) {
-            $elokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuvat[] = Elokuva::createElokuva($tulos);
         }
         return $elokuvat;
     }
@@ -151,17 +112,7 @@ class Elokuva extends BaseModel {
         $elokuvat = array();
 
         foreach ($tulokset as $tulos) {
-            $elokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuvat[] = Elokuva::createElokuva($tulos);
         }
         return $elokuvat;
     }
@@ -174,17 +125,7 @@ class Elokuva extends BaseModel {
         $elokuvat = array();
 
         foreach ($tulokset as $tulos) {
-            $elokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi'],
-                'vuosi' => $tulos['vuosi'],
-                'valtio' => $tulos['valtio'],
-                'kieli' => $tulos['kieli'],
-                'synopsis' => $tulos['synopsis'],
-                'traileriurl' => $tulos['traileriurl'],
-                'lisatty' => $tulos['lisatty'],
-                'viimeksimuutettu' => $tulos['viimeksimuutettu']
-            ));
+            $elokuvat[] = Elokuva::createElokuva($tulos);
         }
         return $elokuvat;
     }
@@ -228,9 +169,7 @@ class Elokuva extends BaseModel {
 
     public static function destroy($id) {
         $query = DB::connection()->prepare('DELETE FROM Elokuva WHERE leffaid = :leffaid');
-        $query->execute(array(
-            'leffaid' => $id
-        ));
+        $query->execute(array('leffaid' => $id));
     }
 
     public static function search($valinnat) {

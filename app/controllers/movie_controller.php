@@ -15,7 +15,7 @@ class MovieController extends BaseController {
         $sarjanelokuvat = Sarjalaari::findSarjanElokuvat($id);
         $arviot = Arviolaari::findArviotForElokuva($id);
         $kommentit = Kommentti::findKommentitForElokuva($id);
-        $dvdt = Lista::findDVDTForElokuva($id);
+        $dvdt = DVDlista::findDVDTForElokuva($id);
 
         View::make('movie/leffaetusivu.html', array(
             'elokuva' => $elokuva, 'valtio' => $valtio,

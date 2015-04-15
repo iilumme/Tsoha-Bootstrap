@@ -8,20 +8,23 @@ class Valtio extends BaseModel {
         parent::__construct($attributes);
     }
 
+    private static function createValtio($tulos) {
+        return new Valtio(array(
+            'valtioid' => $tulos['valtioid'],
+            'valtionimi' => $tulos['valtionimi'],
+            'valtiobio' => $tulos['valtiobio'],
+            'lippu' => $tulos['lippu']
+        ));
+    }
+
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Valtiot ORDER BY valtionimi');
         $query->execute();
         $tulokset = $query->fetchAll();
 
         $valtiot = array();
-
         foreach ($tulokset as $tulos) {
-            $valtiot[] = new Valtio(array(
-                'valtioid' => $tulos['valtioid'],
-                'valtionimi' => $tulos['valtionimi'],
-                'valtiobio' => $tulos['valtiobio'],
-                'lippu' => $tulos['lippu']
-            ));
+            $valtiot[] = Valtio::createValtio($tulos);
         }
 
         return $valtiot;
@@ -33,30 +36,22 @@ class Valtio extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $valtio = new Valtio(array(
-                'valtioid' => $tulos['valtioid'],
-                'valtionimi' => $tulos['valtionimi'],
-                'valtiobio' => $tulos['valtiobio'],
-                'lippu' => $tulos['lippu']
-            ));
+            $valtio = Valtio::createValtio($tulos);
+            return $valtio;
         }
 
-        return $valtio;
+        return null;
     }
 
     public static function findValtioForElokuva($leffaid) {
-        $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu FROM Valtiot, Elokuva WHERE Elokuva.leffaid = :leffaid and Elokuva.valtio = Valtiot.valtioid LIMIT 1');
+        $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu '
+                . 'FROM Valtiot, Elokuva '
+                . 'WHERE Elokuva.leffaid = :leffaid and Elokuva.valtio = Valtiot.valtioid LIMIT 1');
         $query->execute(array('leffaid' => $leffaid));
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $valtio = new Valtio(array(
-                'valtioid' => $tulos['valtioid'],
-                'valtionimi' => $tulos['valtionimi'],
-                'valtiobio' => $tulos['valtiobio'],
-                'lippu' => $tulos['lippu']
-            ));
-
+            $valtio = Valtio::createValtio($tulos);
             return $valtio;
         }
 
@@ -71,24 +66,19 @@ class Valtio extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            $valtio = new Valtio(array(
-                'valtioid' => $tulos['valtioid'],
-                'valtionimi' => $tulos['valtionimi'],
-                'valtiobio' => $tulos['valtiobio'],
-                'lippu' => $tulos['lippu']
-            ));
+            $valtio = Valtio::createValtio($tulos);
             return $valtio;
         }
 
         return null;
     }
 
-    public function update($id) {
+    public function update() {
         $query = DB::connection()->prepare('UPDATE Valtiot '
                 . 'SET valtiobio = :valtiobio '
                 . 'WHERE valtioid = :valtioid RETURNING valtioid;');
         $query->execute(array(
-            'valtioid' => $id,
+            'valtioid' => $this->valtioid,
             'valtiobio' => $this->valtiobio
         ));
 

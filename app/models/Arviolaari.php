@@ -9,12 +9,13 @@ class Arviolaari extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID');
+        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty '
+                . 'FROM ArvioLaari A, Kayttaja K '
+                . 'WHERE A.kayttajaID=K.kayttajaID');
         $query->execute();
         $tulokset = $query->fetchAll();
 
         $arviot = array();
-
         foreach ($tulokset as $tulos) {
             $arviot[] = new Arviolaari(array(
                 'kayttajaid' => $tulos['kayttajaid'],
@@ -47,12 +48,14 @@ class Arviolaari extends BaseModel {
     }
 
     public static function findArviotForElokuva($id) {
-        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, A.leffaID, A.tahti, A.lisatty FROM Elokuva E, ArvioLaari A, Kayttaja K WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.kayttajaID=K.kayttajaID ORDER BY A.lisatty');
+        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, A.leffaID, A.tahti, A.lisatty '
+                . 'FROM Elokuva E, ArvioLaari A, Kayttaja K '
+                . 'WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid '
+                . 'AND A.kayttajaID=K.kayttajaID ORDER BY A.lisatty');
         $query->execute(array('leffaid' => $id));
         $tulokset = $query->fetchAll();
 
         $arviot = array();
-
         foreach ($tulokset as $tulos) {
             $arviot[] = new Arviolaari(array(
                 'kayttajaid' => $tulos['kayttajaid'],
@@ -64,4 +67,5 @@ class Arviolaari extends BaseModel {
         }
         return $arviot;
     }
+
 }
