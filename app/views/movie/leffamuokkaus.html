@@ -1,9 +1,18 @@
 {% extends "basetwo.html" %}
 {% block content %}
 
-{% for elokuva in elokuvat %}
-
 <div class="bg">
+
+    {% if errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {%for error in errors%}
+            <li>{{error}}</li>
+            {%endfor%}
+        </ul>
+    </div>
+    {% endif %}
+
     <form method="post" action="{{base_path}}/movieeditpage/{{elokuva.leffaid}}" >
         <div class="row">
             <div class="col-md-9"><h2>Elokuvan {{elokuva.leffanimi}} muokkaus</h2></div>
@@ -23,7 +32,7 @@
                     <label>Maa</label>               
                     <select class="form-control" name="valtio">
                         {% for valtio in valtiot %}
-                        {% if valtio.valtioid == tamanhetkinenvaltio.valtioid %}
+                        {% if valtio.valtioid == tamanhetkinenvaltio %}
                         <option>moi</option>
                         <option value="{{valtio.valtioid}}" selected="selected">{{valtio.valtionimi}}</option>
                         {% else %}
@@ -141,5 +150,4 @@
         </div>
     </form>
 </div>
-{% endfor %}
 {% endblock %}

@@ -3,8 +3,8 @@
 class ArtistController extends BaseController {
 
     public static function showOne($id) {
-       
-        $artisti = Artisti::findOne($id);       
+
+        $artisti = Artisti::findOne($id);
         $valtio = Valtio::findValtioForArtisti($id);
         $leffat = Elokuva::findElokuvatForArtisti($id);
 
@@ -15,11 +15,11 @@ class ArtistController extends BaseController {
         ));
     }
 
-    public static function artistEdit($id) {
+    public static function artisteditpage($id) {
 
         $artisti = Artisti::findOne($id);
         $valtiot = Valtio::all();
-        $tamanhetkinenvaltio = Valtio::findValtioForArtisti($id);
+        $tamanhetkinenvaltio = Valtio::findValtioForArtisti($id)->valtioid;
         $leffat = Elokuva::findElokuvatForArtisti($id);
 
         View::make('artist/artistimuokkaus.html', array(
@@ -54,8 +54,8 @@ class ArtistController extends BaseController {
 
     public static function update($id) {
         $parametrit = $_POST;
-
         $attribuutit = array(
+            'artistiid' => $id,
             'artistityyppi' => $parametrit['artistityyppi'],
             'etunimi' => $parametrit['etunimi'],
             'sukunimi' => $parametrit['sukunimi'],
@@ -68,13 +68,14 @@ class ArtistController extends BaseController {
         $errors = $artist->errors();
 
         if (count($errors) == 0) {
-            $artist->update($id);
+            $artist->update();
             Redirect::to('/artist/' . $id, array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
             $valtiot = Valtio::all();
+            $tamanhetkinenvaltio = $attribuutit['valtio'];
             View::make('/artist/artistimuokkaus.html', array(
-                'valtiot' => $valtiot,
-                'attribuutit' => $attribuutit
+                'valtiot' => $valtiot, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
+                'artisti' => $attribuutit, 'errors' => $errors
             ));
         }
     }
@@ -82,8 +83,7 @@ class ArtistController extends BaseController {
     public static function destroy($id) {
         $artist = new Artisti(array('id' => $id));
         $artist->destroy($id);
-        
-        Redirect::to('/', array('message' => 'Artistin poistaminen onnistui'));
+        Redirect::to('/', array('message' => 'Artistin poistaminen onnistui! :)'));
     }
 
 }

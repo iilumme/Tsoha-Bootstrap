@@ -4,7 +4,7 @@ class LaariController extends BaseController {
 
     public static function store() {
         $param = $_POST;
-        $leffaid = (int) $param['elokuvanid'];
+        $leffaid = (int) $param['leffaid'];
 
         LaariController::artistilaariSave($param, $leffaid);
         LaariController::genrelaariSave($param, $leffaid);
@@ -13,13 +13,12 @@ class LaariController extends BaseController {
             LaariController::sarjalaariSave($param, $leffaid);
         }
 
-        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty!"));
+        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty! :)"));
     }
 
     public static function artistilaariSave($param, $leffaid) {
 
         $input = $param['artistilista'];
-        $output = array();
         $output = explode(',', $input);
 
         foreach ($output as $artistiid) {
@@ -27,39 +26,34 @@ class LaariController extends BaseController {
                 'artistiid' => (int) $artistiid,
                 'leffaid' => $leffaid
             ));
-
             $artistilaari->save();
         }
     }
 
     public static function genrelaariSave($param, $leffaid) {
 
-        $genreinput = $param['genrelista'];
-        $genreoutput = array();
-        $genreoutput = explode(',', $genreinput);
+        $input = $param['genrelista'];
+        $output = explode(',', $input);
 
-        foreach ($genreoutput as $genreid) {
+        foreach ($output as $genreid) {
             $genrelaari = new Genrelaari(array(
                 'genreid' => (int) $genreid,
                 'leffaid' => $leffaid
             ));
-
             $genrelaari->save();
         }
     }
 
     public static function sarjalaariSave($param, $leffaid) {
 
-        $sarjainput = $param['sarjalista'];
-        $sarjaoutput = array();
-        $sarjaoutput = explode(',', $sarjainput);
+        $input = $param['sarjalista'];
+        $output = explode(',', $input);
 
-        foreach ($sarjaoutput as $sarjaid) {
+        foreach ($output as $sarjaid) {
             $sarjalaari = new Sarjalaari(array(
                 'sarjaid' => (int) $sarjaid,
                 'leffaid' => $leffaid
             ));
-
             $sarjalaari->save();
         }
     }

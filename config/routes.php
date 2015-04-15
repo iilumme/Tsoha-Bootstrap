@@ -9,10 +9,6 @@ $routes->get('/', function() {
     BasisController::first_page();
 });
 
-$routes->get('/etusivukokeilu', function() {
-    BasisController::first_pagetest();
-});
-
 $routes->get('/hiekkalaatikko', function() {
     BasisController::sandbox();
 });
@@ -65,12 +61,12 @@ $routes->get('/movie/:id', function($id) {
 
 //ELOKUVAN LISAYSSIVU
 $routes->get('/addmovie', 'check_logged_in', function() {
-    MovieController::add_movie();
+    MovieController::addmoviepage();
 });
 
 //ELOKUVAN MUOKKAUSSIVU
 $routes->get('/movie/edit/:id', 'check_logged_in', function($id) {
-    MovieController::movieEdit($id);
+    MovieController::movieeditpage($id);
 });
 
 
@@ -82,18 +78,12 @@ $routes->get('/artist/:id', function($id) {
 
 //ARTISTIEN LISAYSSIVU
 $routes->get('/addmovie/addpeople', 'check_logged_in', function() {
-    MovieController::add_artistit();
+    MovieController::addartistspage();
 });
 
 $routes->get('/artist/edit/:id', 'check_logged_in', function($id) {
-    ArtistController::artistEdit($id);
+    ArtistController::artisteditpage($id);
 });
-
-
-$routes->get('/artist', function() {
-    BasisController::artist();
-});
-
 
 //TESTISIVUT
 $routes->get('/testisivu', 'check_logged_in', function() {

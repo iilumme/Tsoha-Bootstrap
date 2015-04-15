@@ -50,10 +50,7 @@ class Elokuva extends BaseModel {
                 'lisatty' => $tulos['lisatty'],
                 'viimeksimuutettu' => $tulos['viimeksimuutettu']
             ));
-
-            $elokuvat = array();
-            $elokuvat[] = $elokuva;
-            return $elokuvat;
+            return $elokuva;
         }
 
         return null;
@@ -122,7 +119,7 @@ class Elokuva extends BaseModel {
         }
         return $elokuvat;
     }
-    
+
     public static function findKatsotutElokuvat($kid) {
         $query = DB::connection()->prepare('SELECT * FROM Katsotutlista K, Elokuva E WHERE kayttajaID= :kayttajaid AND K.leffaID=E.leffaID');
         $query->execute(array('kayttajaid' => $kid));
@@ -145,7 +142,7 @@ class Elokuva extends BaseModel {
         }
         return $elokuvat;
     }
-    
+
     public static function findMasTardeElokuvat($kid) {
         $query = DB::connection()->prepare('SELECT * FROM MasTardeLista M, Elokuva E WHERE kayttajaID= :kayttajaid AND M.leffaID=E.leffaID');
         $query->execute(array('kayttajaid' => $kid));
@@ -168,7 +165,7 @@ class Elokuva extends BaseModel {
         }
         return $elokuvat;
     }
-    
+
     public static function findDVDTForKayttaja($kid) {
         $query = DB::connection()->prepare('SELECT * FROM DVDLista D, Elokuva E WHERE kayttajaID= :kayttajaid AND D.leffaID=E.leffaID');
         $query->execute(array('kayttajaid' => $kid));
@@ -210,13 +207,13 @@ class Elokuva extends BaseModel {
         $this->leffaid = $tulos['leffaid'];
     }
 
-    public function update($id) {
+    public function update() {
         $query = DB::connection()->prepare('UPDATE Elokuva '
                 . 'SET leffanimi = :leffanimi, vuosi = :vuosi, valtio = :valtio, kieli = :kieli, '
                 . 'synopsis = :synopsis, traileriurl= :traileriurl, viimeksimuutettu=NOW() '
                 . 'WHERE leffaid = :leffaid RETURNING leffaid');
         $query->execute(array(
-            'leffaid' => $id,
+            'leffaid' => $this->leffaid,
             'leffanimi' => $this->leffanimi,
             'vuosi' => $this->vuosi,
             'valtio' => $this->valtio,

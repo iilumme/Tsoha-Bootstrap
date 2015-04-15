@@ -115,14 +115,14 @@ class Artisti extends BaseModel {
         return $this->artistiid;
     }
 
-    public function update($id) {
+    public function update() {
         $query = DB::connection()->prepare('UPDATE Artisti '
                 . 'SET artistityyppi = :artistityyppi, etunimi = :etunimi, '
                 . 'sukunimi = :sukunimi, bio = :bio, syntymavuosi = :syntymavuosi, '
                 . 'valtio = :valtio, viimeksiMuutettu = NOW() '
                 . 'WHERE artistiid = :artistiid RETURNING artistiid;');
         $query->execute(array(
-            'artistiid' => $id,
+            'artistiid' => $this->artistiid,
             'artistityyppi' => $this->artistityyppi,
             'etunimi' => $this->etunimi,
             'sukunimi' => $this->sukunimi,

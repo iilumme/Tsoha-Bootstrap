@@ -123,24 +123,12 @@ class BasisController extends BaseController {
     public static function first_page() {
         View::make('basis/etusivukokeilu.html');
     }
-    
-        public static function first_pagetest() {
-        View::make('basis/etusivukokeilu.html');
-    }
-
-    public static function artist() {
-        View::make('suunnitelmat/artistiesittely.html');
-    }
-
-    public static function test() {
-        View::make('suunnitelmat/testisivu.html');
-    }
 
     public static function all() {
         $elokuvat = Elokuva::all();
         $artistit = Artisti::all();
         $valtiot = Valtio::all();
-        View::make('suunnitelmat/kaikki.html', array(
+        View::make('basis/kaikki.html', array(
             'elokuvat' => $elokuvat,
             'artistit' => $artistit,
             'valtiot' => $valtiot));

@@ -1,8 +1,6 @@
 {% extends "basetwo.html" %}
 {% block content %}
 
-{% for elokuva in elokuvat %}
-
 {% if message %}
 <div class="alert alert-success">
     {{message}}
@@ -45,10 +43,8 @@
         <div class="col-md-6">
             <ul id="tietolaatikko">
 
-                {% if valtiot %}
-                {% for valtio in valtiot %}
+                {% if valtio %}
                 <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
-                {% endfor %}
                 {% endif %}
 
                 <li><strong>Julkaisuvuosi:</strong> {{elokuva.vuosi}}</li>
@@ -167,6 +163,5 @@
         </div>
     </div>
 </div>
-{% endfor %}
 
 {% endblock %}
