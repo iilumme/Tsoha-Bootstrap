@@ -15,51 +15,65 @@
         <!-- Bootstrap (tyylitiedosto) -->
         <link href="{{base_path}}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Oma tyylitiedostomme -->
-        <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
+        <!-- Cover -->
+        <link href="{{base_path}}/assets/css/cover.css" rel="stylesheet">
+        <!--         Oma tyylitiedostomme 
+                <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">-->
+
         {% endblock %}
 
     </head>
 
     <body>
 
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Sovelluksen nimi -->
-                    <a class="navbar-brand" href="{{base_path}}" id="title">LATLeffaLaari</a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="navigation">
-                    <ul class="nav navbar-nav">
-                        <!-- Navigaation linkit -->
-                        <li><a href="{{base_path}}/addmovie">Lisää elokuva</a></li>
-                        <li><a href="{{base_path}}/search">Haku</a></li>
-                         <li><a href="{{base_path}}/allobjects">Kaikki</a></li>
-                        {% if user_logged_in %}
-                        <li><a href="{{base_path}}/mypage">Oma sivu</a></li>
-                        <form class="navbar-form navbar-right" method="post" action="{{base_path}}/logout">
-                            <li><button class="btn btn-primary" type="submit">Kirjaudu ulos</button></li>
-                        </form>
-                        {% else %}
-                        <li><a href="{{base_path}}/register">Rekisteröidy</a></li>
-                        <li><a href="{{base_path}}/login">Kirjaudu</a></li>
-                        {% endif %}
-                    </ul>
+        <div class="site-wrapper">
+            <div class="site-wrapper-inner">
+                <div class="cover-container">
+                    
+                    <div class="masthead clearfix">
+                        <div class="inner">
+                            <nav class="navbar navbar-default" role="navigation">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button> 
+                                        <h3 class="masthead-brand">
+                                            <a href="{{base_path}}/" id="title">LATLeffaLaari</a>
+                                        </h3>
+                                    </div>
+                                    <div class="collapse navbar-collapse" id="navigation">
+                                        <ul class="nav masthead-nav">                             
+                                            {% if user_logged_in %}
+                                            <li><a href="{{base_path}}/addmovie">Lisää elokuva</a></li>
+                                            <li><a href="{{base_path}}/search">Haku</a></li>
+                                            <li><a href="{{base_path}}/allobjects">Kaikki</a></li>
+                                            <li><a href="{{base_path}}/mypage">Oma sivu</a></li>
+                                            <form class="navbar-form navbar-right" method="post" action="{{base_path}}/logout">
+                                                <li><a type="submit" onclick="$(this).closest('form').submit()">Kirjaudu ulos</a></li>
+                                            </form>
+                                            {% else %}
+                                            <li><a href="{{base_path}}/search">Haku</a></li>
+                                            <li><a href="{{base_path}}/allobjects">Kaikki</a></li>
+                                            <li><a href="{{base_path}}/register">Rekisteröidy</a></li>
+                                            <li><a href="{{base_path}}/login">Kirjaudu</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                    <div id="main-container">
+                        <!-- Dynaaminen sisältö tulee tähän -->
+                        {% block content %}{% endblock %}
+                    </div>
                 </div>
             </div>
-        </nav>
-
-        <div id="main-container">
-            <!-- Dynaaminen sisältö tulee tähän -->
-            {% block content %}{% endblock %}
         </div>
 
         {% block body %}

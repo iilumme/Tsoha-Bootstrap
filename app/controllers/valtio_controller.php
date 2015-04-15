@@ -11,7 +11,7 @@ class ValtioController extends BaseController {
         $kuvaajat = Artisti::findArtistitForValtio($id, 'Kuvaaja');
         $elokuvat = Elokuva::findElokuvatForValtiot($id);
 
-        View::make('/suunnitelmat/valtioetusivu.html', array(
+        View::make('/country/valtioetusivu.html', array(
             'valtio' => $valtio,
             'nayttelijat' => $nayttelijat,
             'ohjaajat' => $ohjaajat,
@@ -23,7 +23,7 @@ class ValtioController extends BaseController {
 
     public static function countryEdit($id) {
         $valtio = Valtio::findOne($id);
-        View::make('/suunnitelmat/valtiomuokkaus.html', array('valtio' => $valtio));
+        View::make('/country/valtiomuokkaus.html', array('valtio' => $valtio));
     }
 
     public static function update($id) {

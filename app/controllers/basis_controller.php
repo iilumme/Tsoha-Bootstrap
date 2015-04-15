@@ -96,7 +96,7 @@ class BasisController extends BaseController {
     }
 
     public static function first_page() {
-        View::make('basis/etusivukokeilu.html');
+        View::make('basis/etusivu.html');
     }
 
     public static function all() {
