@@ -1,43 +1,46 @@
-{% extends "base.html" %}
+{% extends "basetwo.html" %}
 {% block content %}
 
-<form method="post" action="{{base_path}}/usereditpage" >
-    <div class="row">
-        <div class="col-md-9"><h2>Tietojesi muokkaus</h2></div>
-        <div class="col-md-3">
-            <a class="btn bg-danger" href="{{base_path}}/mypage">Peruuta</a>
-            <button class="btn btn-success" type="submit" >Tallenna</button>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Nimi</label>
-                <input type="text" class="form-control" value="{{kayttaja.nimi}}" name="nimi">
-            </div>                      
-            <div class="form-group">
-                <label>Käyttäjätunnus</label>
-                <input type="text" class="form-control" value="{{kayttaja.kayttajatunnus}}" name="kayttajatunnus">
-            </div>
-            <div class="form-group">
-                <label>Salasana</label>
-                <input type="password" class="form-control" value="{{kayttaja.salasana}}" name="salasana">
-            </div>
-            <div class="form-group">
-                <label>Lempigenre</label>
-                <select class="form-control" name="lempigenre">
-                    {% for genre in genret %}
-                    {% if genre.genreid == tamanhetkinengenre %}
-                    <option value="{{genre.genreid}}" selected="selected">{{genre.genrenimi}}</option>
-                    {% else %}
-                    <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
-                    {%endif%}
-                    {%endfor%}
-                </select>           
+<div class="bg">
+
+    <form method="post" action="{{base_path}}/usereditpage" >
+        <div class="row">
+            <div class="col-md-9"><h2>Tietojesi muokkaus</h2></div>
+            <div class="col-md-3">
+                <a class="btn bg-danger" href="{{base_path}}/mypage">Peruuta</a>
+                <button class="btn btn-success" type="submit" >Tallenna</button>
             </div>
         </div>
-    </div>
-</form>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nimi</label>
+                    <input type="text" class="form-control" value="{{kayttaja.nimi}}" name="nimi">
+                </div>                      
+                <div class="form-group">
+                    <label>Käyttäjätunnus</label>
+                    <input type="text" class="form-control" value="{{kayttaja.kayttajatunnus}}" name="kayttajatunnus">
+                </div>
+                <div class="form-group">
+                    <label>Salasana</label>
+                    <input type="password" class="form-control" value="{{kayttaja.salasana}}" name="salasana">
+                </div>
+                <div class="form-group">
+                    <label>Lempigenre</label>
+                    <select class="form-control" name="lempigenre">
+                        {% for genre in genret %}
+                        {% if genre.genreid == tamanhetkinengenre %}
+                        <option value="{{genre.genreid}}" selected="selected">{{genre.genrenimi}}</option>
+                        {% else %}
+                        <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
+                        {%endif%}
+                        {%endfor%}
+                    </select>           
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 {% endblock %}
 

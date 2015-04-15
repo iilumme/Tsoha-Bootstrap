@@ -1,71 +1,75 @@
-{% extends "base.html" %}
+{% extends "basetwo.html" %}
 {% block content %}
 
 {% for artisti in artistit %}
 
+<div class="bg">
+    <form method="post" action="{{base_path}}/artisteditpage/{{artisti.artistiid}}">
 
-<form method="post" action="{{base_path}}/artisteditpage/{{artisti.artistiid}}">
-    <div class="row">
-        <div class="col-md-9"><h2>Artistin {{artisti.etunimi}} {{artisti.sukunimi}} muokkaus</h2></div>
-        <div class="col-md-3">
-            <a class="btn bg-danger" href="{{base_path}}/artist/{{artisti.artistiid}}">Peruuta</a>
-            <button class="btn btn-success" type="submit" >Tallenna</button>
+        <div class="row">
+            <div class="col-md-9"><h2>Artistin {{artisti.etunimi}} {{artisti.sukunimi}} muokkaus</h2></div>
+            <div class="col-md-3">
+                <a class="btn bg-danger" href="{{base_path}}/artist/{{artisti.artistiid}}">Peruuta</a>
+                <button class="btn btn-success" type="submit" >Tallenna</button>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Etunimi</label>
-                <input type="text" class="form-control" value="{{artisti.etunimi}}" name="etunimi">
-            </div>
-            <div class="form-group">
-                <label>Sukunimi</label>
-                <input type="text" class="form-control" value="{{artisti.sukunimi}}" name="sukunimi">
-            </div>
-            <div class="dropdown">
-                <label>Maa</label>
-                <select class="form-control" name="valtio">
-                    {%for valtio in valtiot%}
-                    {% if valtio.valtioid == tamanhetkinenvaltio.valtioid %}
-                    <option value="{{valtio.valtioid}}" selected="selected">{{valtio.valtionimi}}</option>
-                    {% else %}
-                    <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
-                    {%endif%}
-                    {%endfor%}
-                </select>
-            </div>
-            <br>
-            <div class="form-group">
-                <label>Syntymävuosi</label>
-                <input type="text" class="form-control" value="{{artisti.syntymavuosi}}" name="syntymavuosi">
-            </div>
-            <div class="form-group">
-                <label>Bio</label>
-                <textarea class="form-group" style="font-family: monospace" id="synopsisteksti" name="bio">{{artisti.bio}}
-                </textarea>
-            </div>
-            <div class="form-group">
-                <label>Elokuvat</label> 
-                {% for elokuva in elokuvat%}
-                <div class="input-group">
-                    <div class="input-group-addon" id="poistettava">{{elokuva.leffanimi}}</div>
-                    <div class="input-group-addon" id="poistettava">
-                        <button type="button" class="close" aria-label="Close">
-                            <span aria-hidden="true">&times;
-                            </span>
-                        </button>
-                    </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Etunimi</label>
+                    <input type="text" class="form-control" value="{{artisti.etunimi}}" name="etunimi">
                 </div>
-                {% endfor %}
+                <div class="form-group">
+                    <label>Sukunimi</label>
+                    <input type="text" class="form-control" value="{{artisti.sukunimi}}" name="sukunimi">
+                </div>
+                <div class="dropdown">
+                    <label>Maa</label>
+                    <select class="form-control" name="valtio">
+                        {%for valtio in valtiot%}
+                        {% if valtio.valtioid == tamanhetkinenvaltio.valtioid %}
+                        <option value="{{valtio.valtioid}}" selected="selected">{{valtio.valtionimi}}</option>
+                        {% else %}
+                        <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                        {%endif%}
+                        {%endfor%}
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Syntymävuosi</label>
+                    <input type="text" class="form-control" value="{{artisti.syntymavuosi}}" name="syntymavuosi">
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea class="form-group" style="font-family: monospace" id="synopsisteksti" name="bio">{{artisti.bio}}
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label>Elokuvat</label> 
+                    {% for elokuva in elokuvat%}
+                    <div class="input-group">
+                        <div class="input-group-addon" id="poistettava">{{elokuva.leffanimi}}</div>
+                        <div class="input-group-addon" id="poistettava">
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                {% if artisti.kuva %}
+                <img style="border-radius: 10px" src="{{base_path}}/images/artists/{{artisti.kuva}}" alt="WIKIPEDIA">
+                {% endif %}
             </div>
         </div>
-        <div class="col-md-6">
-            <img style="border-radius: 10px" src="{{base_path}}/images/artists/{{artisti.kuva}}" alt="WIKIPEDIA">
-        </div>
-    </div>
-    <input type="hidden" name="artistityyppi" value="{{artisti.artistityyppi}}">
-</form>
+        <input type="hidden" name="artistityyppi" value="{{artisti.artistityyppi}}">
+    </form>
+</div>
 
 {% endfor %}
 {% endblock %}

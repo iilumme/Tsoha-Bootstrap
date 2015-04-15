@@ -9,6 +9,10 @@ $routes->get('/', function() {
     BasisController::first_page();
 });
 
+$routes->get('/etusivukokeilu', function() {
+    BasisController::first_pagetest();
+});
+
 $routes->get('/hiekkalaatikko', function() {
     BasisController::sandbox();
 });

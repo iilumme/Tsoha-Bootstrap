@@ -1,61 +1,70 @@
-{% extends "base.html" %}
+{% extends "basetwo.html" %}
 {% block content %}
+
 
 {% for artisti in artistit %}
 
-{% if message %}
-<div class="alert alert-success">
-    {{message}}
-</div>
-{% endif %}
 
-<div class="row">
-    <div class="col-md-9">
-        <h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2>
+<div class="bg">
+    {% if message %}
+    <div class="alert alert-success" style="text-shadow: none">
+        {{message}}
     </div>
-    <div class="col-md-3">
-        <a class="btn btn-success" role="button" href="{{base_path}}/artist/edit/{{artisti.artistiid}}" >Muokkaa</a>
-        <form class="form-inline" method="post" action="{{base_path}}/artist/destroy/{{artisti.artistiid}}">
-            <button class="btn btn-danger" type="submit">Poista</button>
-        </form>
-    </div>
-</div>
+    {% endif %}
 
-<div class="row">
-    <div class="col-md-6">
-        <ul>
-            <li>{{artisti.artistityyppi}}</li>
-            {% for valtio in valtiot %}
-            <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
-            {%endfor%}
-            {% if artisti.syntymavuosi == 0%}
-            <li><strong>Syntymävuosi:</strong> TUNTEMATON </li>
-            {% else %}
-            <li><strong>Syntymävuosi:</strong> {{artisti.syntymavuosi}}</li>
+    <div class="row">
+        <div class="col-md-9">
+            <h2>{{artisti.etunimi}} {{artisti.sukunimi}}</h2>
+        </div>
+        <div class="col-md-3">            
+            <a class="btn btn-success" role="button" href="{{base_path}}/artist/edit/{{artisti.artistiid}}" >Muokkaa</a>
+            {% if user_logged_in.kayttajaid == 2 %}
+            <form class="form-inline" method="post" action="{{base_path}}/artist/destroy/{{artisti.artistiid}}">
+                <button class="btn btn-danger" type="submit">Poista</button>
+            </form>
             {% endif %}
-        </ul>
+        </div>
     </div>
-    <div class="col-md-6">
-        <img style="border-radius: 10px" src="{{base_path}}/images/artists/{{artisti.kuva}}" alt="WIKIPEDIA">
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <h5>Bio</h5>
-        <p id="synopsis">
-            {{artisti.bio}}
-        </p>
-    </div>
-    <div class="col-md-6">
-        <h5>Elokuvat</h5>
-        <ul>
-            {% for elokuva in elokuvat %}
-            <li><a href="{{base_path}}/movie/{{elokuva.leffaid}}"> {{elokuva.leffanimi}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-</div>
 
+    <div class="row">
+        <div class="col-md-6">
+            <ul>
+                <li>{{artisti.artistityyppi}}</li>
+                {% for valtio in valtiot %}
+                <li><strong>Maa:</strong> <a href="{{base_path}}/country/{{valtio.valtioid}}">{{valtio.valtionimi}}</a></li>
+                {%endfor%}
+                {% if artisti.syntymavuosi == 0%}
+                <li><strong>Syntymävuosi:</strong> TUNTEMATON </li>
+                {% else %}
+                <li><strong>Syntymävuosi:</strong> {{artisti.syntymavuosi}}</li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            {% if artisti.kuva %}
+            <img style="border-radius: 10px" src="{{base_path}}/images/artists/{{artisti.kuva}}" alt="WIKIPEDIA">
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% if artisti.bio %}
+            <h5>Bio</h5>
+            <p id="synopsis">
+                {{artisti.bio}}
+            </p>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h5>Elokuvat</h5>
+            <ul>
+                {% for elokuva in elokuvat %}
+                <li><a href="{{base_path}}/movie/{{elokuva.leffaid}}"> {{elokuva.leffanimi}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+</div>
 {%endfor%}
 
 {% endblock %}

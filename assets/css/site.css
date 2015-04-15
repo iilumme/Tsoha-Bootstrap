@@ -1,3 +1,5 @@
+
+
 #main-container{
     max-width: 1800px;
     padding: 10px 25px;
@@ -32,12 +34,12 @@
     padding: 10px;
 }
 
-#synopsis {
+/*#synopsis {
     background-color: #dff0d8;
     padding: 10px;
     border-radius: 5px;
     font-family: monospace;
-}
+}*/
 
 #synopsisteksti{
     height: 150px;
@@ -62,25 +64,3 @@
 .collapse {
     aria-expanded: false;
 }
-
-
-/*#loginbutton{
-    background-color: #f7e1b5;
-    color: #2b542c;
-}
-
-#loginbutton:hover{
-    background-color: #f7ecb5;
-    color: #2b542c;
-}
-
-#registerbutton{
-    background-color: seagreen;
-    border-color: #2b542c;
-    color: whitesmoke;
-}
-
-#registerbutton:hover{
-    background-color: darkseagreen;
-    color: whitesmoke;
-}*/

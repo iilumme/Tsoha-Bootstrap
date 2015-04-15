@@ -1,144 +1,146 @@
-{% extends "base.html" %}
+{% extends "basetwo.html" %}
 {% block content %}
 
-<h2>Haku</h2>
+<div class="bg">
+    <h2>Haku</h2>
 
-<div class="row">
-    <form method="get" action="">
-        <div class="col-md-3">
-            <br>
-            <br>
-            <div class="form-group">
-                <label>Miltä vuosilta</label>
-                <div>
-                    <input class="haku" type="number" style="width: 70px" name="alkuvuosi" value="{{valinnat.alkuvuosi}}">
-                    <label>-</label>
-                    <input class="haku" type="number" style="width: 70px" name="loppuvuosi" value="{{valinnat.loppuvuosi}}">
+    <div class="row">
+        <form method="get" action="">
+            <div class="col-md-3">
+                <br>
+                <br>
+                <div class="form-group">
+                    <label>Miltä vuosilta</label>
+                    <div>
+                        <input class="haku" type="number" style="width: 70px" name="alkuvuosi" value="{{valinnat.alkuvuosi}}">
+                        <label>-</label>
+                        <input class="haku" type="number" style="width: 70px" name="loppuvuosi" value="{{valinnat.loppuvuosi}}">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Kieli</label>
-                <div>
-                    <input class="haku" type="text" placeholder="" name="kieli" style="width: 200px" value="{{valinnat.kieli}}">
-                </div>
-            </div>                     
+                <div class="form-group">
+                    <label>Kieli</label>
+                    <div>
+                        <input class="haku" type="text" placeholder="" name="kieli" style="width: 200px" value="{{valinnat.kieli}}">
+                    </div>
+                </div>                     
 
-            <div class="form-group">
-                <label>Maa</label>
-                <div class="dropdown">
-                    <select class="form-control haku" name="valtio">
-                        <option>...</option>                   
-                        {% for valtio in valtiot%}
-                        {% if valtio.valtioid == valinnat.valtio %}
-                        <option value="{{valtio.valtioid}}" selected="">{{valtio.valtionimi}}</option>
-                        {% else %}
-                        <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
-                        {% endif %}
-                        {%endfor%}
-                    </select>
+                <div class="form-group">
+                    <label>Maa</label>
+                    <div class="dropdown">
+                        <select class="form-control haku" name="valtio">
+                            <option>...</option>                   
+                            {% for valtio in valtiot%}
+                            {% if valtio.valtioid == valinnat.valtio %}
+                            <option value="{{valtio.valtioid}}" selected="">{{valtio.valtionimi}}</option>
+                            {% else %}
+                            <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>
+                            {% endif %}
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Genre</label>
+                    <div class="dropdown">
+                        <select class="form-control haku" name="genre">
+                            <option>...</option>
+                            {% for genre in genret%}
+                            {% if genre.genreid == valinnat.genre %}
+                            <option value="{{genre.genreid}}" selected="">{{genre.genrenimi}}</option>
+                            {% else %}
+                            <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
+                            {% endif %}                       
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Palkinto</label>
+                    <div class="dropdown">
+                        <select class="form-control haku" name="palkinto">
+                            <option>...</option>
+                            {% for palkinto in palkinnot%}
+                            {% if palkinto.palkintoid == valinnat.palkinto %}
+                            <option value="{{palkinto.palkintoid}}" selected="">{{palkinto.palkintonimi}}</option>
+                            {% else %}
+                            <option value="{{palkinto.palkintoid}}">{{palkinto.palkintonimi}}</option>
+                            {% endif %}  
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Sarja</label>
+                    <div class="dropdown">
+                        <select class="form-control haku" name="sarja">
+                            <option>...</option>
+                            {% for sarja in sarjat%}
+                            {% if sarja.sarjaid == valinnat.sarja %}
+                            <option value="{{sarja.sarjaid}}" selected="">{{sarja.sarjanimi}}</option>
+                            {% else %}
+                            <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
+                            {% endif %} 
+                            {%endfor%}
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Genre</label>
-                <div class="dropdown">
-                    <select class="form-control haku" name="genre">
-                        <option>...</option>
-                        {% for genre in genret%}
-                        {% if genre.genreid == valinnat.genre %}
-                        <option value="{{genre.genreid}}" selected="">{{genre.genrenimi}}</option>
-                        {% else %}
-                        <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
-                        {% endif %}                       
-                        {%endfor%}
-                    </select>
+            <div class="col-md-4">
+                <br>
+                <br>
+                <br>
+                <div class="input-group">
+                    <div class="input-group-btn search-panel">
+                        <button type="button" class="btn btn-default dropdown-toggle" style="color:#333;background-color:#fff;border-color:#ccc" data-toggle="dropdown">
+                            <span id="search_concept">Hae..</span> <span class="glyphicon glyphicon-menu-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#nayttelija">Näyttelijä</a></li>
+                            <li><a href="#ohjaaja">Ohjaaja</a></li>
+                            <li><a href="#kuvaaja">Kuvaaja</a></li>
+                            <li><a href="#kasikirjoittaja">Käsikirjoittaja</a></li>
+                        </ul>
+                    </div>
+                    <input type="hidden" name="search_param" value="all" id="search_param">         
+                    <input type="text" class="form-control" id="hakusana" name="hakusana" placeholder="Hakusana..">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="button" id="hakubutton"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                    </span>
                 </div>
+                <br>
+                <input type="hidden" name="nayttelijalista[]" id="nlista">
+                <input type="hidden" name="ohjaajalista[]" id="olista">
+                <input type="hidden" name="kuvaajalista[]" id="kulista">
+                <input type="hidden" name="kasikirjoittajalista[]" id="kalista">
+                <button class="btn btn-warning" type="submit">Hae</button>
+                <br>
+                <br>
+                <div class="alert alert-success" style="text-shadow: none" id="viesti"></div>
             </div>
-            <div class="form-group">
-                <label>Palkinto</label>
-                <div class="dropdown">
-                    <select class="form-control haku" name="palkinto">
-                        <option>...</option>
-                        {% for palkinto in palkinnot%}
-                        {% if palkinto.palkintoid == valinnat.palkinto %}
-                        <option value="{{palkinto.palkintoid}}" selected="">{{palkinto.palkintonimi}}</option>
-                        {% else %}
-                        <option value="{{palkinto.palkintoid}}">{{palkinto.palkintonimi}}</option>
-                        {% endif %}  
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Sarja</label>
-                <div class="dropdown">
-                    <select class="form-control haku" name="sarja">
-                        <option>...</option>
-                        {% for sarja in sarjat%}
-                        {% if sarja.sarjaid == valinnat.sarja %}
-                        <option value="{{sarja.sarjaid}}" selected="">{{sarja.sarjanimi}}</option>
-                        {% else %}
-                        <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
-                        {% endif %} 
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
+        </form>
+        <div class="col-md-5">
+            <h4 class="text-center">Hakutulokset</h4>
+            {% if tulokset %}
+            <table class="table table-striped table-bordered bg-warning">
+                <thead>
+                    <tr>
+                        <th>Nimi</th>
+                    </tr>
+                </thead>
+                <tbody style="font-family: monospace">
+                    {% for tulos in tulokset%}
+                    <tr>
+                        <td><a href="{{base_path}}/movie/{{tulos.leffaid}}">{{tulos.leffanimi}}</a></td>  
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            {% if kuvanpaikka == 1%}
+            <img style="border-radius: 10px; vertical-align: middle" src="{{base_path}}/images/tikru.jpg" alt="WIKIPEDIA" class="text-center">
+            {% endif %}
+            {% endif %}
         </div>
-        <div class="col-md-4">
-            <br>
-            <br>
-            <br>
-            <div class="input-group">
-                <div class="input-group-btn search-panel">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span id="search_concept">Hae..</span> <span class="glyphicon glyphicon-menu-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#nayttelija">Näyttelijä</a></li>
-                        <li><a href="#ohjaaja">Ohjaaja</a></li>
-                        <li><a href="#kuvaaja">Kuvaaja</a></li>
-                        <li><a href="#kasikirjoittaja">Käsikirjoittaja</a></li>
-                    </ul>
-                </div>
-                <input type="hidden" name="search_param" value="all" id="search_param">         
-                <input type="text" class="form-control" id="hakusana" name="hakusana" placeholder="Hakusana..">
-                <span class="input-group-btn">
-                    <button class="btn btn-success" type="button" id="hakubutton"><span class="glyphicon glyphicon-plus-sign"></span></button>
-                </span>
-            </div>
-            <br>
-            <input type="hidden" name="nayttelijalista[]" id="nlista">
-            <input type="hidden" name="ohjaajalista[]" id="olista">
-            <input type="hidden" name="kuvaajalista[]" id="kulista">
-            <input type="hidden" name="kasikirjoittajalista[]" id="kalista">
-            <button class="btn btn-warning" type="submit">Hae</button>
-            <br>
-            <br>
-            <div class="alert alert-success" id="viesti"></div>
-        </div>
-    </form>
-    <div class="col-md-5">
-        <h4 class="text-center">Hakutulokset</h4>
-        {% if tulokset %}
-        <table class="table table-striped table-bordered bg-warning">
-            <thead>
-                <tr>
-                    <th>Nimi</th>
-                </tr>
-            </thead>
-            <tbody style="font-family: monospace">
-                {% for tulos in tulokset%}
-                <tr>
-                    <td><a href="{{base_path}}/movie/{{tulos.leffaid}}">{{tulos.leffanimi}}</a></td>  
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        {% if kuvanpaikka == 1%}
-        <img style="border-radius: 10px" src="{{base_path}}/images/tikru.jpg" alt="WIKIPEDIA" class="text-center">
-        {% endif %}
-        {% endif %}
     </div>
 </div>
 {% endblock %}

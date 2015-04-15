@@ -1,78 +1,79 @@
-{% extends "base.html" %}
+{% extends "basetwo.html" %}
 {% block content %}
 
 {% for valtio in valtiot %}
 
-{% if message %}
-<div class="alert alert-success">
-  {{message}}
-</div>
-{% endif %}
+<div class="bg">
+    {% if message %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {% endif %}
 
-<div class="row">
-    <div class="col-md-7">
-        <h3>{{valtio.valtionimi}}</h3>
+    <div class="row">
+        <div class="col-md-7">
+            <h3>{{valtio.valtionimi}}</h3>
+        </div>
+        <div class="col-md-5">
+            <a class="btn btn-default" role="button" href="{{base_path}}/country/edit/{{valtio.valtioid}}" >Muokkaa</a>
+        </div>
+
     </div>
-    <div class="col-md-5">
-        <a class="btn btn-default" role="button" href="{{base_path}}/country/edit/{{valtio.valtioid}}" >Muokkaa</a>
+    <br>
+    <div class="row">  
+        <div class="col-md-7">
+            <p id='synopsis'>{{valtio.valtiobio}}</p>
+        </div>
+        <div class="col-md-5">
+            <img style="border-radius: 10px" src="{{base_path}}/images/flags/{{valtio.lippu}}" alt="WIKIPEDIA COMMONS">
+        </div>  
+    </div>
+    <br>
+    <br>
+    <div class="row">  
+        <div class="col-md-2">
+            <label><strong>Elokuvat:</strong></label>
+            <ul>
+                {% for elokuva in elokuvat %}
+                <li><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <label><strong>Näyttelijät:</strong></label>
+            <ul>
+                {% for na in nayttelijat %}
+                <li><a href="{{base_path}}/artist/{{na.artistiid}}">{{na.etunimi}} {{na.sukunimi}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <label><strong>Ohjaajat:</strong></label>
+            <ul>
+                {% for oh in ohjaajat %}
+                <li><a href="{{base_path}}/artist/{{oh.artistiid}}">{{oh.etunimi}} {{oh.sukunimi}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <label><strong>Kuvaajat:</strong></label>
+            <ul>
+                {% for ku in kuvaajat %}
+                <li><a href="{{base_path}}/artist/{{ku.artistiid}}">{{ku.etunimi}} {{ku.sukunimi}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <label><strong>Käsikirjoittajat:</strong></label>
+            <ul>
+                {% for ka in kasikirjoittajat %}
+                <li><a href="{{base_path}}/artist/{{ka.artistiid}}">{{ka.etunimi}} {{ka.sukunimi}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
     </div>
 
 </div>
-<br>
-<div class="row">  
-    <div class="col-md-7">
-        <p id='synopsis'>{{valtio.valtiobio}}</p>
-    </div>
-    <div class="col-md-5">
-        <img style="border-radius: 10px" src="{{base_path}}/images/flags/{{valtio.lippu}}" alt="WIKIPEDIA COMMONS">
-    </div>  
-</div>
-<br>
-<br>
-<div class="row">  
-    <div class="col-md-2">
-        <label><strong>Elokuvat:</strong></label>
-        <ul>
-            {% for elokuva in elokuvat %}
-            <li><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <label><strong>Näyttelijät:</strong></label>
-        <ul>
-            {% for na in nayttelijat %}
-            <li><a href="{{base_path}}/artist/{{na.artistiid}}">{{na.etunimi}} {{na.sukunimi}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <label><strong>Ohjaajat:</strong></label>
-        <ul>
-            {% for oh in ohjaajat %}
-            <li><a href="{{base_path}}/artist/{{oh.artistiid}}">{{oh.etunimi}} {{oh.sukunimi}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <label><strong>Kuvaajat:</strong></label>
-        <ul>
-            {% for ku in kuvaajat %}
-            <li><a href="{{base_path}}/artist/{{ku.artistiid}}">{{ku.etunimi}} {{ku.sukunimi}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <label><strong>Käsikirjoittajat:</strong></label>
-        <ul>
-            {% for ka in kasikirjoittajat %}
-            <li><a href="{{base_path}}/artist/{{ka.artistiid}}">{{ka.etunimi}} {{ka.sukunimi}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-</div>
-
-
 
 
 {% endfor %}

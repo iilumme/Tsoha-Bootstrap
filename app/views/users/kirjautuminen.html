@@ -1,30 +1,31 @@
-{% extends "base.html" %}
+{% extends "basetwo.html" %}
 {% block content %}
 
-{% if message %}
-<div class="alert alert-warning">
-    {{message}}
-</div>
-{% endif %}
-
-{% if messagehappy %}
-<div class="alert alert-success">
-    {{messagehappy}}
-</div>
-{% endif %}
-
-<h2>Kirjaudu sisään</h2>
-<br>
-<form method="post" action="{{base_path}}/login">
-    <div class="form-group">
-        <label>Käyttäjätunnuksesi</label>
-        <input type="text" class="form-control" name="kayttajatunnus">
+<div class="bg">
+    {% if message %}
+    <div class="alert alert-warning">
+        {{message}}
     </div>
-    <div class="form-group">
-        <label>Salasanasi</label>
-        <input type="password" class="form-control" name="salasana">
-    </div>
-    <button type="submit" class="btn btn-default" id="loginbutton">Sisään!</button>
-</form>
+    {% endif %}
 
+    {% if messagehappy %}
+    <div class="alert alert-success">
+        {{messagehappy}}
+    </div>
+    {% endif %}
+
+    <h2>Kirjaudu sisään</h2>
+    <br>
+    <form method="post" action="{{base_path}}/login">
+        <div class="form-group">
+            <label>Käyttäjätunnuksesi</label>
+            <input type="text" class="form-control" name="kayttajatunnus">
+        </div>
+        <div class="form-group">
+            <label>Salasanasi</label>
+            <input type="password" class="form-control" name="salasana">
+        </div>
+        <button type="submit" class="btn btn-default" id="loginbutton">Sisään!</button>
+    </form>
+</div>
 {% endblock %}

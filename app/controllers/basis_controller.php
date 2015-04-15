@@ -121,7 +121,11 @@ class BasisController extends BaseController {
     }
 
     public static function first_page() {
-        View::make('basis/etusivu.html');
+        View::make('basis/etusivukokeilu.html');
+    }
+    
+        public static function first_pagetest() {
+        View::make('basis/etusivukokeilu.html');
     }
 
     public static function artist() {
