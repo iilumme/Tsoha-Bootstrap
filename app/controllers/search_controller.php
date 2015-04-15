@@ -5,6 +5,7 @@ class SearchController extends BaseController {
     public static function searchpage() {
 
         $parametrit = $_GET;
+        $kuvanpaikka = 0;
         $valinnat = array();
 
         if (isset($parametrit['nayttelijalista']) && $parametrit['nayttelijalista'][0] !== '') {
@@ -59,7 +60,6 @@ class SearchController extends BaseController {
             $valinnat['sarja'] = (int) $parametrit['sarja'];
         }
 
-        $kuvanpaikka = 0;
 
         if (sizeof($valinnat) > 0) {
             $tulokset = Elokuva::search($valinnat);
@@ -70,21 +70,14 @@ class SearchController extends BaseController {
             $tulokset = null;
         }
 
-        $elokuvat = Elokuva::all();
-        $nayttelijat = Artisti::findAllArtistit("Näyttelijä");
-        $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
-        $kuvaajat = Artisti::findAllArtistit("Kuvaaja");
-        $kassarit = Artisti::findAllArtistit("Käsikirjoittaja");
         $valtiot = Valtio::all();
         $genret = Genre::all();
         $palkinnot = Palkinto::all();
         $sarjat = Sarja::all();
+
         View::make('basis/haku.html', array(
-            'valtiot' => $valtiot, 'genret' => $genret,
-            'palkinnot' => $palkinnot, 'sarjat' => $sarjat,
-            'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
-            'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
-            'elokuvat' => $elokuvat, 'tulokset' => $tulokset, 'valinnat' => $valinnat,
+            'valtiot' => $valtiot, 'genret' => $genret, 'palkinnot' => $palkinnot,
+            'sarjat' => $sarjat, 'tulokset' => $tulokset, 'valinnat' => $valinnat,
             'kuvanpaikka' => $kuvanpaikka
         ));
     }

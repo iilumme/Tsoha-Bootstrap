@@ -11,6 +11,27 @@ class UserController extends BaseController {
         View::make('users/kirjautuminen.html');
     }
 
+    public static function handle_login() {
+        $parametrit = $_POST;
+        $kayttaja = Kayttaja::authenticate($parametrit['kayttajatunnus'], $parametrit['salasana']);
+
+        if (!$kayttaja) {
+            View::make('users/kirjautuminen.html', array('message' => 'Väärä käyttäjätunnus tai salasana'));
+        } else {
+            $_SESSION['user'] = $kayttaja->kayttajaid;
+            Redirect::to('/', array('message' => 'Tervetuloa ' . $kayttaja->nimi . ' ^_^'));
+        }
+    }
+
+    public static function logout() {
+        $_SESSION['user'] = null;
+        Redirect::to('/login', array('messagehappy' => 'Tervetuloa pian takaisin :)'));
+    }
+
+    public static function mypage() {
+        View::make('users/omasivu.html');
+    }
+
     public static function favourites() {
         $suosikit = Elokuva::findSuosikkiElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
@@ -22,7 +43,7 @@ class UserController extends BaseController {
         ));
     }
 
-    public static function seen() {
+    public static function watchedMovies() {
         $suosikit = Elokuva::findKatsotutElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
         $elokuvat = Elokuva::all();
@@ -55,24 +76,21 @@ class UserController extends BaseController {
         ));
     }
 
-    public static function mypage() {
-        View::make('users/omasivu.html');
-    }
-
     public static function mypageedit() {
         $kayttaja = self::get_user_logged_in();
         $genret = Genre::all();
         $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
         View::make('users/kayttajamuokkaus.html', array(
-            'kayttaja' => $kayttaja, 'genret' => $genret,
+            'kayttaja' => $kayttaja,
+            'genret' => $genret,
             'tamanhetkinengenre' => $tamanhetkinengenre
         ));
     }
 
     public static function update($id) {
         $parametrit = $_POST;
-
         $attribuutit = array(
+            'kayttajaid' => $id,
             'nimi' => $parametrit['nimi'],
             'kayttajatunnus' => $parametrit['kayttajatunnus'],
             'salasana' => $parametrit['salasana'],
@@ -80,43 +98,23 @@ class UserController extends BaseController {
         );
 
         $user = new Kayttaja($attribuutit);
+        $errors = $user->errors();
 
-//        if (count($errors) == 0) {
-        Kint::dump($id);
-        $user->update($id);
-        Redirect::to('/mypage', array('message' => 'Tietojen päivittäminen onnistui! :)'));
-
-//        } else {
-//            $valtiot = Valtio::all();
-//            View::make('/artist/artistimuokkaus.html', array(
-//                'valtiot' => $valtiot,
-//                'attribuutit' => $attribuutit
-//            ));
-//        }
-    }
-
-    public static function handle_login() {
-        $parametrit = $_POST;
-
-        $kayttaja = Kayttaja::authenticate($parametrit['kayttajatunnus'], $parametrit['salasana']);
-
-        if (!$kayttaja) {
-            View::make('users/kirjautuminen.html', array('message' => 'Väärä käyttäjätunnus tai salasana'));
+        if (count($errors) == 0) {
+            $user->update();
+            Redirect::to('/mypage', array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
-            $_SESSION['user'] = $kayttaja->kayttajaid;
-
-            Redirect::to('/', array('message' => 'Tervetuloa ' . $kayttaja->nimi . ' ^_^'));
+            $genret = Genre::all();
+            $tamanhetkinengenre = $attribuutit['lempigenre'];
+            View::make('users/kayttajamuokkaus.html', array(
+                'errors' => $errors, 'kayttaja' => $attribuutit,
+                'genret' => $genret, 'tamanhetkinengenre' => $tamanhetkinengenre
+            ));
         }
-    }
-
-    public static function logout() {
-        $_SESSION['user'] = null;
-        Redirect::to('/login', array('messagehappy' => 'Tervetuloa pian takaisin :)'));
     }
 
     public static function store() {
         $parametrit = $_POST;
-
         $attribuutit = array(
             'nimi' => $parametrit['nimi'],
             'kayttajatunnus' => $parametrit['kayttajatunnus'],
@@ -141,7 +139,6 @@ class UserController extends BaseController {
     public static function destroy($id) {
         $user = new Kayttaja(array('kayttajaid' => $id));
         $user->destroy($id);
-
         Redirect::to('/', array('message' => 'Tilisi poistaminen onnistui'));
     }
 

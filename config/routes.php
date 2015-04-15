@@ -34,7 +34,7 @@ $routes->get('/favourites', 'check_logged_in', function() {
 });
 
 $routes->get('/watched', 'check_logged_in', function() {
-    UserController::seen();
+    UserController::watchedMovies();
 });
 
 $routes->get('/mastarde', 'check_logged_in', function() {
