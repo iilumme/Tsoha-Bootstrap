@@ -19,6 +19,7 @@ Yleisiä linkkejä:
 
 Tunnus: ohjaaja Salasana: tsoha1
 
+Osa funktioista toimii/näkyy vain, jos on kirjautunut.
 
 ## Työn aihe
 
