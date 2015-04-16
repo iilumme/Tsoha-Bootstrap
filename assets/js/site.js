@@ -79,7 +79,8 @@ $(document).ready(function () {
             console.log($this.val());
         });
 
-
+        
+        //ARTISTITYYPPI
         $('.lisaatyyppi').click(function (event) {
             console.log("tyyppi");
             var $this = $(this);
