@@ -1,5 +1,8 @@
 $(document).ready(function () {
     $(function () {
+
+        //Leffan tekijöiden lisäys
+
         var $artistilista = new Array();
         var $genrelista = new Array();
         var $sarjalista = new Array();
@@ -50,6 +53,7 @@ $(document).ready(function () {
 
         }).change();
 
+        //valinnat
 
         $('.artistivalinta').change(function () {
             $('#lisatty').text('');
@@ -85,6 +89,8 @@ $(document).ready(function () {
             $('#lisatyyppi').val($tyyppi);
         }).change();
 
+
+        //Data-submit-type ajax
 
         $("form[data-submit-type='ajax']").submit(function (ev) {
             ev.preventDefault();
@@ -145,52 +151,177 @@ $(document).ready(function () {
                         });
                     });
         });
-        
-        
+
+
+        //HAKU
+
         var $nayttelijalista = new Array();
         var $ohjaajalista = new Array();
         var $kuvaajalista = new Array();
         var $kasikirjoittajalista = new Array();
+        var $hakusanalista = new Array();
         var concept;
-        
-        $('.search-panel .dropdown-menu').find('a').click(function(e) {
-		e.preventDefault();
-		var param = $(this).attr("href").replace("#","");
-		concept = $(this).text(); 
-                console.log(concept);
-		$('.search-panel span#search_concept').text(concept);
-		$('.input-group #search_param').val(param);
-	});
-       
-        
+
+        $('.search-panel .dropdown-menu').find('a').click(function (e) {
+            e.preventDefault();
+            var param = $(this).attr("href").replace("#", "");
+            concept = $(this).text();
+            console.log(concept);
+            $('.search-panel span#search_concept').text(concept);
+            $('.input-group #search_param').val(param);
+        });
+
+
+
         $('#hakubutton').click(function () {
             console.log("kalakissa");
             var hakusana = $('#hakusana').val();
             console.log(hakusana);
-            if (concept === 'Ohjaaja'){
-                $ohjaajalista[$ohjaajalista.length] = hakusana; 
-            } else if (concept === 'Näyttelijä'){
-                $nayttelijalista[$nayttelijalista.length] = hakusana; 
-            } else if (concept === 'Kuvaaja'){
-                $kuvaajalista[$kuvaajalista.length] = hakusana; 
-            } else if (concept === 'Käsikirjoittaja'){
-                $kasikirjoittajalista[$kasikirjoittajalista.length] = hakusana; 
+
+            if (hakusana.length > 0) {
+                if (concept === 'Ohjaaja') {
+                    $ohjaajalista[$ohjaajalista.length] = hakusana;
+                    $hakusanalista[$hakusanalista.length] = hakusana;
+                } else if (concept === 'Näyttelijä') {
+                    $nayttelijalista[$nayttelijalista.length] = hakusana;
+                    $hakusanalista[$hakusanalista.length] = hakusana;
+                } else if (concept === 'Kuvaaja') {
+                    $kuvaajalista[$kuvaajalista.length] = hakusana;
+                    $hakusanalista[$hakusanalista.length] = hakusana;
+                } else if (concept === 'Käsikirjoittaja') {
+                    $kasikirjoittajalista[$kasikirjoittajalista.length] = hakusana;
+                    $hakusanalista[$hakusanalista.length] = hakusana;
+                }
             }
-            $('#viesti').text(hakusana + ' lisätty hakuun');
+
+            var teksti = "";
+            console.log(teksti);
+
+            for (i = 0; i < $hakusanalista.length; ++i) {
+                teksti += $hakusanalista[i] + '\n';
+            }
+
+            console.log(teksti.length);
+
+            if (teksti.length > 0) {
+                $('#viesti').text(teksti + ' haussa');
+            }
+
             $('#hakusana').val("");
-            
+
             console.log($ohjaajalista);
             console.log($nayttelijalista);
             console.log($kuvaajalista);
             console.log($kasikirjoittajalista);
-            
+
             $('#olista').val($ohjaajalista);
             $('#nlista').val($nayttelijalista);
             $('#kulista').val($kuvaajalista);
             $('#kalista').val($kasikirjoittajalista);
         });
-             
+
+
+        //LISTOJEN MUOKKAUS
+
+        //LISÄYS
+        $('#leffanlisaysmodaali').on('show.bs.modal', function (e) {
+            $('#viestilisataan').hide();
+        });
+
+        var $lisattavat = new Array();
+        var $liskandidaatti;
+
+        //OPTION VALINTA
+        $('.lisaysvalinta').change(function () {
+            $('#viestilisataan').hide();
+            $('#viestilisataan').text('');         
+            var $this = $(this);
+            $liskandidaatti = $this.val();
+            console.log($this.val());
+        });
+
+        //LISATTY ELOKUVA
+        $('.lisaaelokuva').click(function (event) {
+            var $this = $(this);
+            console.log($this.value);
+            if ($liskandidaatti !== 0 && $liskandidaatti !== undefined) {
+                if ($.inArray($liskandidaatti, $lisattavat) === -1) {
+                    $lisattavat[$lisattavat.length] = $liskandidaatti;
+                    $('#lisataan').val($lisattavat);
+                    $('#viestilisataan').text('Elokuva lisätty!');
+                    $('#viestilisataan').show();
+                    console.log($lisattavat);
+                    $liskandidaatti = 0;
+                }
+            }
+        }).change();
+
+        //PERUUTTAMINEN
+        $('.peruutalisays').click(function (event) {
+            console.log("peruutetaan");
+            $('#viestilisataan').hide();
+            $('#viestilisataan').text('');
+            $('.lisaysvalinta').val("0");
+            $lisattavat = new Array();
+        }).change();
+
+        $('#leffanlisaysmodaali').on('hide.bs.modal', function (e) {
+            console.log("per");
+            $('#viestilisataan').text('');
+            $('#viestilisataan').hide();
+            $('.lisaysvalinta').val("0");
+            $lisattavat = new Array();
+        });
+
+
+        //POISTO
+        $('#leffanpoistomodaali').on('show.bs.modal', function (e) {
+            $('#viestipoistetaan').hide();
+        });
         
+        var $poistettavat = new Array();
+        var $kandidaatti;
+
+        //OPTION VALINTA
+        $('.poistovalinta').change(function () {
+            $('#viestipoistetaan').text('');
+            var $this = $(this);
+            $kandidaatti = $this.val();
+            console.log($this.val());
+        });
+
+        //POISTETAAN ELOKUVA
+        $('.poistaelokuva').click(function (event) {
+            var $this = $(this);
+            console.log($this.value);
+            if ($kandidaatti !== 0 && $kandidaatti !== undefined) {
+                if ($.inArray($kandidaatti, $poistettavat) === -1) {
+                    $poistettavat[$poistettavat.length] = $kandidaatti;
+                    $('#poistetaan').val($poistettavat);
+                    $('#viestipoistetaan').text('Elokuva lisätty!');
+                    $('#viestipoistetaan').show();
+                    console.log($poistettavat);
+                    $kandidaatti = 0;
+                }
+            }
+        }).change();
+
+        //PERUUTTAMINEN
+        $('.peruutapoisto').click(function (event) {
+            console.log("peruutetaan");
+            $('#viestipoistetaan').text('');
+            $('.poistovalinta').val("0");
+            $poistettavat = new Array();
+        }).change();
+
+        $('#leffanpoistomodaali').on('hide.bs.modal', function (e) {
+            console.log("per");
+            $('#viestipoistetaan').text('');
+            $('.poistovalinta').val("0");
+            $poistettavat = new Array();
+        });
+
+
     });
 });
 

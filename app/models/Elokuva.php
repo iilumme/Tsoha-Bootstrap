@@ -36,6 +36,62 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
+    public static function allNotFavourites($kayttajaid) {
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva E '
+                . 'WHERE leffaID NOT IN (SELECT leffaID FROM Suosikkilista WHERE kayttajaID = :kayttajaid) '
+                . 'ORDER BY leffanimi');
+        $query->execute(array('kayttajaid' => $kayttajaid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = Elokuva::createElokuva($tulos);
+        }
+        return $elokuvat;
+    }
+
+    public static function allNotWatched($kayttajaid) {
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva E '
+                . 'WHERE leffaID NOT IN (SELECT leffaID FROM Katsotutlista WHERE kayttajaID = :kayttajaid) '
+                . 'ORDER BY leffanimi');
+        $query->execute(array('kayttajaid' => $kayttajaid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = Elokuva::createElokuva($tulos);
+        }
+        return $elokuvat;
+    }
+
+    public static function allNotToBeWatched($kayttajaid) {
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva E '
+                . 'WHERE leffaID NOT IN (SELECT leffaID FROM MasTardeLista WHERE kayttajaID = :kayttajaid)'
+                . ' ORDER BY leffanimi');
+        $query->execute(array('kayttajaid' => $kayttajaid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = Elokuva::createElokuva($tulos);
+        }
+        return $elokuvat;
+    }
+
+    public static function allNotDVD($kayttajaid) {
+        $query = DB::connection()->prepare('SELECT * FROM Elokuva E '
+                . 'WHERE leffaID NOT IN (SELECT leffaID FROM DVDLista WHERE kayttajaID = :kayttajaid)'
+                . ' ORDER BY leffanimi');
+        $query->execute(array('kayttajaid' => $kayttajaid));
+        $tulokset = $query->fetchAll();
+
+        $elokuvat = array();
+        foreach ($tulokset as $tulos) {
+            $elokuvat[] = Elokuva::createElokuva($tulos);
+        }
+        return $elokuvat;
+    }
+
     public static function findOne($id) {
         $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE leffaid = :leffaid LIMIT 1');
         $query->execute(array('leffaid' => $id));
@@ -80,7 +136,9 @@ class Elokuva extends BaseModel {
     }
 
     public static function findSuosikkiElokuvat($kid) {
-        $query = DB::connection()->prepare('SELECT * FROM Suosikkilista S, Elokuva E WHERE kayttajaID= :kayttajaid AND S.leffaID=E.leffaID');
+        $query = DB::connection()->prepare('SELECT * FROM Suosikkilista S, Elokuva E '
+                . 'WHERE kayttajaID= :kayttajaid AND S.leffaID=E.leffaID '
+                . 'ORDER BY E.leffanimi');
         $query->execute(array('kayttajaid' => $kid));
         $tulokset = $query->fetchAll();
 
@@ -93,7 +151,9 @@ class Elokuva extends BaseModel {
     }
 
     public static function findKatsotutElokuvat($kid) {
-        $query = DB::connection()->prepare('SELECT * FROM Katsotutlista K, Elokuva E WHERE kayttajaID= :kayttajaid AND K.leffaID=E.leffaID');
+        $query = DB::connection()->prepare('SELECT * FROM Katsotutlista K, Elokuva E '
+                . 'WHERE kayttajaID= :kayttajaid AND K.leffaID=E.leffaID'
+                . ' ORDER BY E.leffanimi');
         $query->execute(array('kayttajaid' => $kid));
         $tulokset = $query->fetchAll();
 
@@ -105,7 +165,9 @@ class Elokuva extends BaseModel {
     }
 
     public static function findMasTardeElokuvat($kid) {
-        $query = DB::connection()->prepare('SELECT * FROM MasTardeLista M, Elokuva E WHERE kayttajaID= :kayttajaid AND M.leffaID=E.leffaID');
+        $query = DB::connection()->prepare('SELECT * FROM MasTardeLista M, Elokuva E '
+                . 'WHERE kayttajaID= :kayttajaid AND M.leffaID=E.leffaID'
+                . ' ORDER BY E.leffanimi');
         $query->execute(array('kayttajaid' => $kid));
         $tulokset = $query->fetchAll();
 
@@ -118,7 +180,9 @@ class Elokuva extends BaseModel {
     }
 
     public static function findDVDTForKayttaja($kid) {
-        $query = DB::connection()->prepare('SELECT * FROM DVDLista D, Elokuva E WHERE kayttajaID= :kayttajaid AND D.leffaID=E.leffaID');
+        $query = DB::connection()->prepare('SELECT * FROM DVDLista D, Elokuva E '
+                . 'WHERE kayttajaID= :kayttajaid AND D.leffaID=E.leffaID'
+                . ' ORDER BY E.leffanimi');
         $query->execute(array('kayttajaid' => $kid));
         $tulokset = $query->fetchAll();
 
@@ -182,7 +246,10 @@ class Elokuva extends BaseModel {
 
         $vaihto = array('Ñ' => 'N', 'ñ' => 'n', 'Á' => 'A', 'á' => 'a', 'É' => 'e',
             'é' => 'e', 'Í' => 'I', 'í' => 'i', 'Ó' => 'O', 'ó' => 'o', 'Ú' => 'U',
-            'ú' => 'u', 'Ü' => 'U', 'ü' => 'u'
+            'ú' => 'u', 'Ü' => 'U', 'ü' => 'u', 'Ä' => 'A', 'ä' => 'a', 'Ö' => 'O',
+            'ö' => 'o', 'Å' => 'A', 'å' => 'a', '.' => '', ',' => '', '/' => '',
+            '(' => '', ')' => '', '?' => '', '!' => '', '-' => ''
+            
         );
 
         if (isset($valinnat['nayttelijalista'])) {
@@ -197,10 +264,12 @@ class Elokuva extends BaseModel {
                 if ($first) {
                     $first = FALSE;
                     $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Näyttelijä') ";
                 } else {
                     $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Näyttelijä') ";
                 }
 
                 $valinta['hassu' . $haku] = $hakusana;
@@ -218,10 +287,12 @@ class Elokuva extends BaseModel {
                 if ($first) {
                     $first = FALSE;
                     $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Ohjaaja') ";
                 } else {
                     $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Ohjaaja') ";
                 }
 
                 $valinta['hassu' . $haku] = $hakusana;
@@ -239,10 +310,12 @@ class Elokuva extends BaseModel {
                 if ($first) {
                     $first = FALSE;
                     $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Kuvaaja') ";
                 } else {
                     $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Kuvaaja') ";
                 }
 
                 $valinta['hassu' . $haku] = $hakusana;
@@ -260,10 +333,12 @@ class Elokuva extends BaseModel {
                 if ($first) {
                     $first = FALSE;
                     $query .= " :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Käsikirjoittaja') ";
                 } else {
                     $query .= " AND :hassu$haku IN (SELECT lower(A.etuNimi || '' || replace(A.sukuNimi, ' ', '')) AS NIMI "
-                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID AND leffaID = E.leffaID) ";
+                            . "FROM ArtistiLaari L, Artisti A WHERE L.artistiID = A.artistiID "
+                            . "AND leffaID = E.leffaID  AND A.artistiTyyppi='Käsikirjoittaja') ";
                 }
 
                 $valinta['hassu' . $haku] = $hakusana;
@@ -356,6 +431,7 @@ class Elokuva extends BaseModel {
         }
 
         $query .= ' ORDER BY E.leffanimi ';
+
 
         $perfectquery = DB::connection()->prepare($query);
         $perfectquery->execute($valinta);

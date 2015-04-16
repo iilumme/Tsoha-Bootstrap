@@ -35,7 +35,7 @@ class UserController extends BaseController {
     public static function favourites() {
         $suosikit = Elokuva::findSuosikkiElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
-        $elokuvat = Elokuva::all();
+        $elokuvat = Elokuva::allNotFavourites(self::get_user_logged_in()->kayttajaid);
         View::make('users/suosikkilista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
@@ -46,7 +46,7 @@ class UserController extends BaseController {
     public static function watchedMovies() {
         $suosikit = Elokuva::findKatsotutElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
-        $elokuvat = Elokuva::all();
+        $elokuvat = Elokuva::allNotWatched(self::get_user_logged_in()->kayttajaid);
         View::make('users/katsotutlista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
@@ -57,7 +57,7 @@ class UserController extends BaseController {
     public static function later() {
         $suosikit = Elokuva::findMasTardeElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
-        $elokuvat = Elokuva::all();
+        $elokuvat = Elokuva::allNotToBeWatched(self::get_user_logged_in()->kayttajaid);
         View::make('users/mastardelista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
@@ -68,7 +68,7 @@ class UserController extends BaseController {
     public static function dvds() {
         $suosikit = Elokuva::findDVDTForKayttaja(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
-        $elokuvat = Elokuva::all();
+        $elokuvat = Elokuva::allNotDVD(self::get_user_logged_in()->kayttajaid);
         View::make('users/DVDlista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
@@ -140,6 +140,111 @@ class UserController extends BaseController {
         $user = new Kayttaja(array('kayttajaid' => $id));
         $user->destroy($id);
         Redirect::to('/', array('message' => 'Tilisi poistaminen onnistui'));
+    }
+
+    
+    public static function addFavourites() {
+        $parametrit = $_POST;
+        $input = $parametrit['lisayslista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            Suosikkilista::save($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/favourites');
+    }
+    
+    public static function removeFavourites() {
+        $parametrit = $_POST;
+        $input = $parametrit['poistolista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            Suosikkilista::destroy($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/favourites');
+    }
+    
+    public static function addDVDs() {
+        $parametrit = $_POST;
+        $input = $parametrit['lisayslista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            DVDlista::save($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/dvds');
+    }
+    
+    public static function removeDVDs() {
+        $parametrit = $_POST;
+        $input = $parametrit['poistolista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            DVDlista::destroy($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/dvds');
+    }
+    
+    public static function addWatched() {
+        $parametrit = $_POST;
+        $input = $parametrit['lisayslista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            Katsotutlista::save($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/watched');
+    }
+    
+    public static function removeWatched() {
+        $parametrit = $_POST;
+        $input = $parametrit['poistolista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            Katsotutlista::destroy($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/watched');
+    }
+    
+    public static function addMasTarde() {
+        $parametrit = $_POST;
+        $input = $parametrit['lisayslista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            Mastardelista::save($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/mastarde');
+    }
+    
+    public static function removeMasTarde() {
+        $parametrit = $_POST;
+        $input = $parametrit['poistolista'];
+        $output = explode(',', $input);
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+
+        foreach ($output as $leffaid) {
+            Mastardelista::destroy($kayttajaid, $leffaid);
+        }
+
+        Redirect::to('/mastarde');
     }
 
 }

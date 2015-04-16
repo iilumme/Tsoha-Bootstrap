@@ -74,6 +74,38 @@ $routes->post('/userdestroy', 'check_logged_in', function() {
 });
 
 
+$routes->post('/suosikkilisayssivu', function() {
+    UserController::addFavourites();
+});
+$routes->post('/suosikkipoistosivu', function() {
+    UserController::removeFavourites();
+});
+
+$routes->post('/dvdlisayssivu', function() {
+    UserController::addDVDs();
+});
+$routes->post('/dvdpoistosivu', function() {
+    UserController::removeDVDs();
+});
+
+$routes->post('/katsottulisayssivu', function() {
+    UserController::addWatched();
+});
+$routes->post('/katsottupoistosivu', function() {
+    UserController::removeWatched();
+});
+
+$routes->post('/mastardelisayssivu', function() {
+    UserController::addMasTarde();
+});
+$routes->post('/mastardepoistosivu', function() {
+    UserController::removeMasTarde();
+});
+
+
+
+
+
 
 //ELOKUVA
 $routes->get('/movie/:id', function($id) {

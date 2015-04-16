@@ -25,5 +25,16 @@ class DVDlista extends BaseModel {
 
         return $kayttajat;
     }
+    
+    public function save($kayttajaid, $leffaid) {
+        $query = DB::connection()->prepare('INSERT INTO DVDLista VALUES (:kayttajaid, :leffaid)');
+        $query->execute(array('kayttajaid' => $kayttajaid, 'leffaid' => $leffaid));
+    }
+
+    public static function destroy($kayttajaid, $leffaid) {
+        $query = DB::connection()->prepare('DELETE FROM DVDLista '
+                . 'WHERE kayttajaID = :kayttajaid AND leffaID = :leffaid');
+        $query->execute(array('kayttajaid' => $kayttajaid, 'leffaid' => $leffaid));
+    }
 
 }

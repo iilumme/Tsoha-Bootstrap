@@ -3,6 +3,7 @@
 
 {% import "macros/modals.html" as modals %}
 {{modals.movie_modal(kaikkielokuvat, kid, "#{base_path}/dvdlisayssivu")}}
+{{modals.removemovie_modal(elokuvat, kid, "#{base_path}/dvdpoistosivu")}}
 
 
 
@@ -10,8 +11,8 @@
     <div class="bg">
         <h3 style="font-family: sans-serif">DVDsi</h3>
         <br>   
-        <button class="btn bg-success" data-toggle="modal" data-target="#leffanlisaysmodaali">Lisää elokuvia</button>
-        <button class="btn bg-danger">Poista elokuvia</button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#leffanlisaysmodaali">Lisää elokuvia</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#leffanpoistomodaali">Poista elokuvia</button>
         <br>
         <br>
         <table class="table table-striped table-bordered bg-success">
