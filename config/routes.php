@@ -69,7 +69,7 @@ $routes->get('/dvds', 'check_logged_in', function() {
 });
 
 
-$routes->post('/userdestroy', 'check_logged_in', function() {
+$routes->post('/userdestroy', function() {
     UserController::destroy(BaseController::get_user_logged_in()->kayttajaid);
 });
 
@@ -101,9 +101,6 @@ $routes->post('/mastardelisayssivu', function() {
 $routes->post('/mastardepoistosivu', function() {
     UserController::removeMasTarde();
 });
-
-
-
 
 
 
@@ -145,7 +142,7 @@ $routes->post('/artisteditpage/:id', function($id) {
     ArtistController::update($id);
 });
 
-$routes->post('/artist/destroy/:id', 'check_logged_in', function($id) {
+$routes->post('/artist/destroy/:id', function($id) {
     ArtistController::destroy($id);
 });
 
@@ -177,7 +174,6 @@ $routes->post('/sarjapostisivu/:id', function($id) {
 $routes->post('/artistipostisivu/:id', function($id) {
     ArtistController::store($id);
 });
-
 
 
 //HIEKKALAATIKKO

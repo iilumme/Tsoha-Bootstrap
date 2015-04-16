@@ -31,15 +31,6 @@ class BasisController extends BaseController {
         $palkinto = Palkinto::findOne(1);
         $palkinnot = Palkinto::all();
 
-        $suosikki = Suosikkilista::findOne(1, 1);
-        $suosikit = Suosikkilista::all();
-
-        $katsottu = Katsotutlista::findOne(1, 1);
-        $katsotut = Katsotutlista::all();
-
-        $mastarde = Mastardelista::findOne(1, 1);
-        $mastardet = Mastardelista::all();
-
         $leffapalkinto = Leffapalkintolaari::findOne(1, 1);
         $leffapalkinnot = Leffapalkintolaari::all();
 
@@ -72,15 +63,6 @@ class BasisController extends BaseController {
 
         Kint::dump($palkinto);
         Kint::dump($palkinnot);
-
-        Kint::dump($suosikki);
-        Kint::dump($suosikit);
-
-        Kint::dump($katsottu);
-        Kint::dump($katsotut);
-
-        Kint::dump($mastarde);
-        Kint::dump($mastardet);
 
         Kint::dump($leffapalkinto);
         Kint::dump($leffapalkinnot);

@@ -6,17 +6,18 @@
 {{modals.genre_modal(lid, "#{base_path}/genrepostisivu")}}
 {{modals.sarja_modal(lid, "#{base_path}/sarjapostisivu")}}
 
+
+
+{% if message %}
+<div class="alert alert-success"  style="text-shadow: none">
+    {{message}}
+</div>
+{% endif %}
+
+<div class="alert alert-success" id="lisatty"  style="text-shadow: none">
+</div>
+
 <div class="bg">
-
-    {% if message %}
-    <div class="alert alert-success"  style="text-shadow: none">
-        {{message}}
-    </div>
-    {% endif %}
-
-    <div class="alert alert-success" id="lisatty"  style="text-shadow: none">
-    </div>
-
     <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät, genret ja sarjat</h3>
     <br>
 
