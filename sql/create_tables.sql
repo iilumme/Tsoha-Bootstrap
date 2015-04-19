@@ -144,3 +144,20 @@ CREATE TABLE GenreLaari (
   FOREIGN KEY (genreID) REFERENCES Genre (genreID) ON DELETE CASCADE,
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
 );
+
+CREATE TABLE Kyselyehdotus (
+  kyselyID SERIAL PRIMARY KEY,
+  kysely   VARCHAR(2000),
+  lisatty  TIMESTAMP NOT NULL
+);
+
+CREATE TABLE Kyselyryhma (
+  ryhmaID SERIAL PRIMARY KEY 
+);
+
+CREATE TABLE KyselyryhmaLaari (
+  ryhmaID INT,
+  kyselyID INT,
+  FOREIGN KEY (ryhmaID) REFERENCES Kyselyryhma (ryhmaID) ON DELETE CASCADE,
+  FOREIGN KEY (kyselyID) REFERENCES Kyselyehdotus (kyselyID) ON DELETE CASCADE
+);

@@ -34,6 +34,18 @@ class ValtioController extends BaseController {
             'valtiobio' => $parametrit['valtiobio']);
         $valtio = new Valtio($attribuutit);
 
+        $valtio->updateSuggestion();
+        Redirect::to('/country/' . $id, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle :)'));
+    }
+    
+    public static function adminUpdate($id) {
+        $parametrit = $_POST;
+
+        $attribuutit = array(
+            'valtioid' => $id,
+            'valtiobio' => $parametrit['valtiobio']);
+        $valtio = new Valtio($attribuutit);
+
         $valtio->update();
         Redirect::to('/country/' . $id, array('message' => 'Tietojen päivittäminen onnistui! :)'));
     }

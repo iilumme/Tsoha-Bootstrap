@@ -60,11 +60,28 @@ ul {
     background-color: tomato;
 }
 
+.lisaysbutton {
+    text-decoration: none;
+    cursor: pointer;
+    color: #000;
+}
+
+.lisaysbutton:focus,
+.lisaysbutton:hover {
+    text-decoration: none;
+    cursor: pointer;
+    color: #d58512;
+}
+
 a,
 a:focus,
 a:hover {
     color: #269abc;
     text-shadow: none;
+}
+
+.btn {
+    border: 1px solid #fff;
 }
 
 /* Custom default button */
@@ -79,6 +96,22 @@ a:hover {
     color: #fff;
     text-shadow: none; /* Prevent inheritence from `body` */
     background-color: orangered;
+    border: 1px solid #fff;
+}
+
+/* Primary button */
+
+.btn-primary {
+    color: #fff;
+    text-shadow: none;
+    background-color: gold;
+    border: 1px solid #fff;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+    color: #fff;
+    text-shadow: none;
+    background-color: orange;
     border: 1px solid #fff;
 }
 

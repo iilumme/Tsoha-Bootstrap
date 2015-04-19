@@ -10,7 +10,7 @@
 
 {% if message %}
 <div class="alert alert-success"  style="text-shadow: none">
-    {{message}}
+    {{message}} {{lid}}
 </div>
 {% endif %}
 
@@ -151,6 +151,9 @@
             <input type="hidden" name="genrelista" id="hiddgenre"/>
             <input type="hidden" name="sarjalista" id="hiddsarja"/>
             <input type="hidden" name="leffaid" id="lid" value="{{lid}}"/>
+            {% if ryhmaid %}
+            <input type="hidden" name="ryhmaid" id="ryhmaid" value="{{ryhmaid}}"/>
+            {% endif %}
             <button type="submit" class="btn btn-success">Lisää elokuva</button>
         </form>
     </div>

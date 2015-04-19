@@ -37,6 +37,22 @@ class Sarjalaari extends BaseModel {
         }
         return $sarjat;
     }
+    
+    public function saveSuggestion($ryhmaid) {
+        $query = ('INSERT INTO SarjaLaari (sarjaid, leffaid) '
+                . 'VALUES (:sarjaid, :leffaid) RETURNING sarjaid');         
+        $sijoituspaikat = array(":sarjaid", ":leffaid");
+        $parametrit = array($this->sarjaid, $this->leffaid);
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+    
 
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO SarjaLaari (sarjaid, leffaid) '

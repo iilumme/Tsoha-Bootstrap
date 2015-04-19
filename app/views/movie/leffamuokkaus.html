@@ -33,7 +33,6 @@
                     <select class="form-control" name="valtio">
                         {% for valtio in valtiot %}
                         {% if valtio.valtioid == tamanhetkinenvaltio %}
-                        <option>moi</option>
                         <option value="{{valtio.valtioid}}" selected="selected">{{valtio.valtionimi}}</option>
                         {% else %}
                         <option value="{{valtio.valtioid}}">{{valtio.valtionimi}}</option>

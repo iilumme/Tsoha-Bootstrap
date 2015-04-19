@@ -2,7 +2,15 @@
 
 class SarjaController extends BaseController {
 
-    public static function store($leffaid) {
+    public static function store($ryhmaid) {
+        $param = $_POST;
+        $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
+
+        $sarja->saveSuggestion($ryhmaid);
+        LaariController::sarjalaariSaveWithoutID($ryhmaid);
+    }
+
+    public static function adminStore($leffaid) {
         $param = $_POST;
         $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
 

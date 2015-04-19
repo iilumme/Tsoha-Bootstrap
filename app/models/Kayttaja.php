@@ -77,13 +77,13 @@ class Kayttaja extends BaseModel {
         $this->kayttajaid = $tulos['kayttajaid'];
     }
 
-    public function update($id) {
+    public function update() {
         $query = DB::connection()->prepare('UPDATE Kayttaja '
                 . 'SET kayttajaTunnus = :kayttajatunnus, nimi = :nimi, '
                 . 'salasana = :salasana, lempiGenre = :lempigenre, viimeksiMuutettu = now() '
                 . 'WHERE kayttajaID = :kayttajaid RETURNING kayttajaID');
         $query->execute(array(
-            'kayttajaid' => $id,
+            'kayttajaid' => $this->kayttajaid,
             'kayttajatunnus' => $this->kayttajatunnus,
             'nimi' => $this->nimi,
             'salasana' => $this->salasana,

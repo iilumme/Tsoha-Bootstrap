@@ -79,7 +79,7 @@ $(document).ready(function () {
             console.log($this.val());
         });
 
-        
+
         //ARTISTITYYPPI
         $('.lisaatyyppi').click(function (event) {
             console.log("tyyppi");
@@ -235,7 +235,7 @@ $(document).ready(function () {
         //OPTION VALINTA
         $('.lisaysvalinta').change(function () {
             $('#viestilisataan').hide();
-            $('#viestilisataan').text('');         
+            $('#viestilisataan').text('');
             var $this = $(this);
             $liskandidaatti = $this.val();
             console.log($this.val());
@@ -279,7 +279,7 @@ $(document).ready(function () {
         $('#leffanpoistomodaali').on('show.bs.modal', function (e) {
             $('#viestipoistetaan').hide();
         });
-        
+
         var $poistettavat = new Array();
         var $kandidaatti;
 
@@ -322,6 +322,13 @@ $(document).ready(function () {
             $poistettavat = new Array();
         });
 
+        $('form.destroy-form').on('submit', function (submit) {
+            var $this = $(this);
+            var confirmText = $this.attr('data-confirm');
+            if (!confirm(confirmText)) {
+                submit.preventDefault();
+            }
+        });
 
     });
 });

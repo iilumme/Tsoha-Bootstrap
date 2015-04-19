@@ -52,4 +52,20 @@ class Sarja extends BaseModel {
         return $this->sarjaid;
     }
 
+    public function saveSuggestion($ryhmaid) {
+        $query = ('INSERT INTO Sarja (sarjaNimi) '
+                . 'VALUES (:sarjanimi) RETURNING sarjaid;');
+
+        $sijoituspaikat = array(":sarjanimi");
+        $parametrit = array("'$this->sarjanimi'");
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+
 }

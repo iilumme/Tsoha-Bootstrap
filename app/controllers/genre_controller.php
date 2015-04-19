@@ -2,7 +2,15 @@
 
 class GenreController extends BaseController {
 
-    public static function store($leffaid) {
+    public static function store($ryhmaid) {
+        $param = $_POST;
+        $genre = new Genre(array('genrenimi' => $param['genrenimi']));
+
+        $genre->saveSuggestion($ryhmaid);
+        LaariController::genrelaariSaveWithoutID($ryhmaid);
+    }
+    
+    public static function adminStore($leffaid) {
         $param = $_POST;
         $genre = new Genre(array('genrenimi' => $param['genrenimi']));
 

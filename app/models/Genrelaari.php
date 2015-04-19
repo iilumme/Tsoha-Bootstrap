@@ -7,6 +7,21 @@ class Genrelaari extends BaseModel {
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
     }
+    
+    public function saveSuggestion($ryhmaid) {
+        $query = ('INSERT INTO GenreLaari (genreid, leffaid) '
+                . 'VALUES (:genreid, :leffaid) RETURNING genreid');         
+        $sijoituspaikat = array(":genreid", ":leffaid");
+        $parametrit = array($this->genreid, $this->leffaid);
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
 
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO GenreLaari (genreid, leffaid) '
@@ -17,35 +32,4 @@ class Genrelaari extends BaseModel {
         ));
     }
 
-//    public static function all() {
-//        $query = DB::connection()->prepare('SELECT * FROM GenreLaari');
-//        $query->execute();
-//        $tulokset = $query->fetchAll();
-//
-//        $genret = array();
-//
-//        foreach ($tulokset as $tulos) {
-//            $genret[] = new Genrelaari(array(
-//                'genreid' => $tulos['genreid'],
-//                'leffaid' => $tulos['leffaid']
-//            ));
-//        }
-//        return $genret;
-//    }
-//
-//    public static function findOne($gid, $lid) {
-//        $query = DB::connection()->prepare('SELECT * FROM GenreLaari WHERE genreid = :genreid AND leffaid = :leffaid LIMIT 1');
-//        $query->execute(array('genreid' => $gid, 'leffaid' => $lid));
-//        $tulos = $query->fetch();
-//
-//        if ($tulos) {
-//            $genre = new Genrelaari(array(
-//                'genreid' => $tulos['genreid'],
-//                'leffaid' => $tulos['leffaid']
-//            ));
-//            return $genre;
-//        }
-//
-//        return null;
-//    }
 }

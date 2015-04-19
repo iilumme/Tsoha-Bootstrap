@@ -73,6 +73,24 @@ class Valtio extends BaseModel {
         return null;
     }
 
+    public function updateSuggestion() {
+        $query = ('UPDATE Valtiot '
+                . 'SET valtiobio = :valtiobio '
+                . 'WHERE valtioid = :valtioid RETURNING valtioid;');
+
+        $sijoituspaikat = array(":valtiobio", ":valtioid");
+        $parametrit = array("'$this->valtiobio'", $this->valtioid);
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+
     public function update() {
         $query = DB::connection()->prepare('UPDATE Valtiot '
                 . 'SET valtiobio = :valtiobio '

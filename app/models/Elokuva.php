@@ -194,6 +194,28 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
+    public function saveSuggestion() {
+        $query = ('INSERT INTO Elokuva '
+                . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '
+                . 'VALUES (:leffanimi, :vuosi, :valtio, :kieli, :synopsis, :traileriurl, NOW(), NOW()) '
+                . 'RETURNING leffaid');
+
+        $sijoituspaikat = array(":leffanimi", ":vuosi", ":valtio", ":kieli", ":synopsis", ":traileriurl");
+        $parametrit = array("'$this->leffanimi'", $this->vuosi, $this->valtio,
+            "'$this->kieli'", "'$this->synopsis'", "'$this->traileriurl'");
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+
+        return $ryhmaid;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Elokuva '
                 . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '
@@ -209,7 +231,32 @@ class Elokuva extends BaseModel {
         ));
 
         $tulos = $query->fetch();
-        $this->leffaid = $tulos['leffaid'];
+
+        return $tulos['leffaid'];
+    }
+
+    public function updateSuggestion() {
+        $query = ('UPDATE Elokuva '
+                . 'SET leffanimi = :leffanimi, vuosi = :vuosi, valtio = :valtio, kieli = :kieli, '
+                . 'synopsis = :synopsis, traileriurl= :traileriurl, viimeksimuutettu=NOW() '
+                . 'WHERE leffaid = :leffaid RETURNING leffaid');
+
+        $sijoituspaikat = array(":leffaid", ":leffanimi", ":vuosi",
+            ":valtio", ":kieli", ":synopsis", ":traileriurl");
+        $parametrit = array($this->leffaid, "'$this->leffanimi'", $this->vuosi, $this->valtio,
+            "'$this->kieli'", "'$this->synopsis'", "'$this->traileriurl'");
+
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
+
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
     public function update() {
@@ -249,7 +296,6 @@ class Elokuva extends BaseModel {
             'ú' => 'u', 'Ü' => 'U', 'ü' => 'u', 'Ä' => 'A', 'ä' => 'a', 'Ö' => 'O',
             'ö' => 'o', 'Å' => 'A', 'å' => 'a', '.' => '', ',' => '', '/' => '',
             '(' => '', ')' => '', '?' => '', '!' => '', '-' => ''
-            
         );
 
         if (isset($valinnat['nayttelijalista'])) {

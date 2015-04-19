@@ -7,6 +7,23 @@ class Artistilaari extends BaseModel {
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
     }
+    
+    public function saveSuggestion($ryhmaid) {
+        $query = ('INSERT INTO ArtistiLaari (artistiid, leffaid) '
+                . 'VALUES (:artistiid, :leffaid) RETURNING artistiid');        
+        
+        $sijoituspaikat = array(":artistiid", ":leffaid");
+        $parametrit = array($this->artistiid, $this->leffaid);
+
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
 
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO ArtistiLaari (artistiid, leffaid) '
@@ -17,35 +34,5 @@ class Artistilaari extends BaseModel {
         ));
     }
 
-//    public static function all() {
-//        $query = DB::connection()->prepare('SELECT * FROM ArtistiLaari');
-//        $query->execute();
-//        $tulokset = $query->fetchAll();
-//
-//        $listat = array();
-//
-//        foreach ($tulokset as $tulos) {
-//            $listat[] = new Artistilaari(array(
-//                'artistiid' => $tulos['artistiid'],
-//                'leffaid' => $tulos['leffaid']
-//            ));
-//        }
-//        return $listat;
-//    }
-//
-//    public static function findOne($kid, $lid) {
-//        $query = DB::connection()->prepare('SELECT * FROM ArtistiLaari WHERE artistiid = :artistiid AND leffaid = :leffaid LIMIT 1');
-//        $query->execute(array('artistiid' => $kid, 'leffaid' => $lid));
-//        $tulos = $query->fetch();
-//
-//        if ($tulos) {
-//            $lista = new Artistilaari(array(
-//                'artistiid' => $tulos['artistiid'],
-//                'leffaid' => $tulos['leffaid']
-//            ));
-//            return $lista;
-//        }
-//
-//        return null;
-//    }
+
 }

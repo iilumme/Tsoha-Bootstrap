@@ -68,4 +68,25 @@ class Arviolaari extends BaseModel {
         return $arviot;
     }
 
+    public static function hasAddedStars($leffaid) {
+        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty '
+                . 'FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID AND leffaid = :leffaid '
+                . 'AND K.kayttajaID = :kayttajaid');
+        $query->execute(array('leffaid' => $leffaid,
+            'kayttajaid' => BaseController::get_user_logged_in()->kayttajaid));
+        $tulos = $query->fetch();
+
+        if ($tulos) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    public static function addStarForMovie($leffaid, $tahti) {
+        $query = DB::connection()->prepare('INSERT INTO ArvioLaari (kayttajaID, leffaID, tahti, lisatty) '
+                . 'VALUES (:kayttajaid, :leffaid, :tahti, NOW())');
+        $query->execute(array('kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
+            'leffaid' => $leffaid, 'tahti' => $tahti));
+    }
+
 }

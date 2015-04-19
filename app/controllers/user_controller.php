@@ -29,14 +29,18 @@ class UserController extends BaseController {
     }
 
     public static function mypage() {
-        View::make('users/omasivu.html');
+        View::make('users/registered_user/omasivu.html');
+    }
+
+    public static function adminpage() {
+        View::make('users/administrator/yllapitajasivu.html');
     }
 
     public static function favourites() {
         $suosikit = Elokuva::findSuosikkiElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
         $elokuvat = Elokuva::allNotFavourites(self::get_user_logged_in()->kayttajaid);
-        View::make('users/suosikkilista.html', array(
+        View::make('users/lists/suosikkilista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
             'kaikkielokuvat' => $elokuvat
@@ -47,7 +51,7 @@ class UserController extends BaseController {
         $suosikit = Elokuva::findKatsotutElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
         $elokuvat = Elokuva::allNotWatched(self::get_user_logged_in()->kayttajaid);
-        View::make('users/katsotutlista.html', array(
+        View::make('users/lists/katsotutlista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
             'kaikkielokuvat' => $elokuvat
@@ -58,7 +62,7 @@ class UserController extends BaseController {
         $suosikit = Elokuva::findMasTardeElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
         $elokuvat = Elokuva::allNotToBeWatched(self::get_user_logged_in()->kayttajaid);
-        View::make('users/mastardelista.html', array(
+        View::make('users/lists/mastardelista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
             'kaikkielokuvat' => $elokuvat
@@ -69,7 +73,7 @@ class UserController extends BaseController {
         $suosikit = Elokuva::findDVDTForKayttaja(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
         $elokuvat = Elokuva::allNotDVD(self::get_user_logged_in()->kayttajaid);
-        View::make('users/DVDlista.html', array(
+        View::make('users/lists/DVDlista.html', array(
             'elokuvat' => $suosikit,
             'valtiot' => $valtiot,
             'kaikkielokuvat' => $elokuvat
@@ -80,7 +84,18 @@ class UserController extends BaseController {
         $kayttaja = self::get_user_logged_in();
         $genret = Genre::all();
         $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
-        View::make('users/kayttajamuokkaus.html', array(
+        View::make('users/registered_user/kayttajamuokkaus.html', array(
+            'kayttaja' => $kayttaja,
+            'genret' => $genret,
+            'tamanhetkinengenre' => $tamanhetkinengenre
+        ));
+    }
+
+    public static function adminpageedit() {
+        $kayttaja = self::get_user_logged_in();
+        $genret = Genre::all();
+        $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
+        View::make('users/registered_user/kayttajamuokkaus.html', array(
             'kayttaja' => $kayttaja,
             'genret' => $genret,
             'tamanhetkinengenre' => $tamanhetkinengenre
@@ -99,14 +114,13 @@ class UserController extends BaseController {
 
         $user = new Kayttaja($attribuutit);
         $errors = $user->errors();
-
         if (count($errors) == 0) {
             $user->update();
             Redirect::to('/mypage', array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
             $genret = Genre::all();
             $tamanhetkinengenre = $attribuutit['lempigenre'];
-            View::make('users/kayttajamuokkaus.html', array(
+            View::make('users/registered_user/kayttajamuokkaus.html', array(
                 'errors' => $errors, 'kayttaja' => $attribuutit,
                 'genret' => $genret, 'tamanhetkinengenre' => $tamanhetkinengenre
             ));
@@ -142,7 +156,12 @@ class UserController extends BaseController {
         Redirect::to('/', array('message' => 'Tilisi poistaminen onnistui'));
     }
 
-    
+    public static function destroyMaintenance($id) {
+        $user = new Kayttaja(array('kayttajaid' => $id));
+        $user->destroy($id);
+        Redirect::to('/usermaintenance', array('message' => 'Tilisi poistaminen onnistui'));
+    }
+
     public static function addFavourites() {
         $parametrit = $_POST;
         $input = $parametrit['lisayslista'];
@@ -155,7 +174,28 @@ class UserController extends BaseController {
 
         Redirect::to('/favourites');
     }
+
+    public static function addFavourite($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        Suosikkilista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
     
+    public static function addWatchedMovie($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        Katsotutlista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
+    
+    public static function addMastardeMovie($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        Mastardelista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
+
     public static function removeFavourites() {
         $parametrit = $_POST;
         $input = $parametrit['poistolista'];
@@ -168,7 +208,7 @@ class UserController extends BaseController {
 
         Redirect::to('/favourites');
     }
-    
+
     public static function addDVDs() {
         $parametrit = $_POST;
         $input = $parametrit['lisayslista'];
@@ -181,7 +221,7 @@ class UserController extends BaseController {
 
         Redirect::to('/dvds');
     }
-    
+
     public static function removeDVDs() {
         $parametrit = $_POST;
         $input = $parametrit['poistolista'];
@@ -194,7 +234,7 @@ class UserController extends BaseController {
 
         Redirect::to('/dvds');
     }
-    
+
     public static function addWatched() {
         $parametrit = $_POST;
         $input = $parametrit['lisayslista'];
@@ -207,7 +247,7 @@ class UserController extends BaseController {
 
         Redirect::to('/watched');
     }
-    
+
     public static function removeWatched() {
         $parametrit = $_POST;
         $input = $parametrit['poistolista'];
@@ -220,7 +260,7 @@ class UserController extends BaseController {
 
         Redirect::to('/watched');
     }
-    
+
     public static function addMasTarde() {
         $parametrit = $_POST;
         $input = $parametrit['lisayslista'];
@@ -233,7 +273,7 @@ class UserController extends BaseController {
 
         Redirect::to('/mastarde');
     }
-    
+
     public static function removeMasTarde() {
         $parametrit = $_POST;
         $input = $parametrit['poistolista'];
@@ -245,6 +285,21 @@ class UserController extends BaseController {
         }
 
         Redirect::to('/mastarde');
+    }
+
+    public static function moviemaintenance() {
+        $elokuvat = Elokuva::all();
+        View::make('users/administrator/leffojenyllapito.html', array('elokuvat' => $elokuvat));
+    }
+
+    public static function artistmaintenance() {
+        $artistit = Artisti::all();
+        View::make('users/administrator/artistienyllapito.html', array('artistit' => $artistit));
+    }
+
+    public static function usermaintenance() {
+        $kayttajat = Kayttaja::all();
+        View::make('users/administrator/kayttajienyllapito.html', array('kayttajat' => $kayttajat));
     }
 
 }

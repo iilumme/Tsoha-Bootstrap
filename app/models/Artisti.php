@@ -91,6 +91,26 @@ class Artisti extends BaseModel {
         return $artistit;
     }
 
+    public function saveSuggestion($ryhmaid) {
+        $query = ('INSERT INTO Artisti '
+                . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
+                . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
+                . 'RETURNING artistiid');
+
+        $sijoituspaikat = array(":artistityyppi", ":etunimi", ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
+        $parametrit = array("'$this->artistityyppi'", "'$this->etunimi'", "'$this->sukunimi'",
+            "'$this->bio'", $this->syntymavuosi, $this->valtio);
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        
+        $kyselyryhma = new Kyselyryhma(array());
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Artisti '
                 . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
@@ -108,6 +128,28 @@ class Artisti extends BaseModel {
         $tulos = $query->fetch();
         $this->artistiid = $tulos['artistiid'];
         return $this->artistiid;
+    }
+
+    public function updateSuggestion() {
+        $query = ('UPDATE Artisti '
+                . 'SET artistityyppi = :artistityyppi, etunimi = :etunimi, '
+                . 'sukunimi = :sukunimi, bio = :bio, syntymavuosi = :syntymavuosi, '
+                . 'valtio = :valtio, viimeksiMuutettu = NOW() '
+                . 'WHERE artistiid = :artistiid RETURNING artistiid;');
+
+        $sijoituspaikat = array(":artistiid", ":artistityyppi", ":etunimi",
+            ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
+        $parametrit = array($this->artistiid, "'$this->artistityyppi'", "'$this->etunimi'",
+            "'$this->sukunimi'", "'$this->bio'", $this->syntymavuosi, $this->valtio);
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        
+        $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));               
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
     public function update() {

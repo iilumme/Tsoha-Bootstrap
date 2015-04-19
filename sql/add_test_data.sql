@@ -177,3 +177,19 @@ INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='
 INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Moreno'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Hermano'));
 INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Leal'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Hermano'));
 
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Käsikirjoittaja', 'Carlos', 'Cuarón Orozco', 1966, 'Carlos Cuarón on meksikolainen käsikirjoittaja ja ohjaaja. Hänen veljensä on Alfonso Cuarón.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Näyttelijä', 'Daniel', 'Giménez Cacho', 1961, 'Daniel Giménez Cacho on meksikolais-espanjalainen näyttelijä.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Näyttelijä', 'Claudia', 'Ramírez Valdez', 1964, 'Claudia Ramírez Valdez on meksikolainen näyttelijä Veracruzista.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+
+INSERT INTO Elokuva
+(leffaNimi, vuosi, valtio, kieli, synopsis, traileriURL, lisatty, viimeksiMuutettu)
+VALUES ('Sólo con tu pareja', 1991, (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), 'espanja',
+        'Tomás Tomás es un publicista mujeriego que se ve enredado en una situación aparatosa al tener que atender a dos mujeres a la vez, la enfermera Silvia Silva (Dobrina Liubomirova) a quien conoce al hacer una visita al médico Mateo Mateos y cita en su departamento y a su propia jefa, a quien lleva al departamento de sus vecinos, los cuales no están. Entre sus pericias tiene que cruzar de un departamento a otro utilizando la cornisa del edificio, es en una de estas travesías que conoce a Clarisa Negrete (Claudia Ramirez), una sobrecargo de la cual se enamora al instante pero la considera un amor imposible.',
+        'https://www.youtube.com/embed/xP3IrcWJMds', NOW(),NOW());
+
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE etuNimi='Alfonso' AND sukuNimi='Cuarón Orozco'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Sólo con tu pareja'));
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE etuNimi='Carlos' AND sukuNimi='Cuarón Orozco'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Sólo con tu pareja'));
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Giménez Cacho'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Sólo con tu pareja'));
+INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Ramírez Valdez'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Sólo con tu pareja'));
+
+INSERT INTO GenreLaari VALUES ((SELECT genreID FROM Genre WHERE genreNimi='Komedia'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Sólo con tu pareja'));

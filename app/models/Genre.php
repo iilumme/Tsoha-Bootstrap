@@ -52,6 +52,22 @@ class Genre extends BaseModel {
         return $genret;
     }
 
+    public function saveSuggestion($ryhmaid) {
+        $query = ('INSERT INTO Genre (genrenimi) '
+                . 'VALUES (:genrenimi) RETURNING genreid;');
+
+        $sijoituspaikat = array(":genrenimi");
+        $parametrit = array("'$this->genrenimi'");
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Genre (genrenimi) '
                 . 'VALUES (:genrenimi) RETURNING genreid;');
