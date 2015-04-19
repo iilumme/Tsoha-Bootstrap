@@ -220,9 +220,9 @@ $routes->get('/artist/edit/:id', 'check_logged_in', function($id) {
 });
 $routes->post('/artisteditpage/:id', 'check_logged_in', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        ArtistController::adminUpdate($id);
+        ArtistController::administratorUpdate($id);
     } else {
-        ArtistController::update($id);
+        ArtistController::updateSuggestion($id);
     }
 });
 
@@ -280,9 +280,9 @@ $routes->post('/sarjapostisivu/:id', function($id) {
 });
 $routes->post('/artistipostisivu/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        ArtistController::adminStore($id);
+        ArtistController::administratorStore($id);
     } else {
-        ArtistController::store($id);
+        ArtistController::storeSuggestion($id);
     }
 });
 

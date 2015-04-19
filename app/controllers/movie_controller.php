@@ -16,13 +16,20 @@ class MovieController extends BaseController {
         $arviot = Arviolaari::findArviotForElokuva($id);
         $kommentit = Kommentti::findKommentitForElokuva($id);
         $dvdt = DVDlista::findDVDTForElokuva($id);
+        $arvioitu = 0;
+        if (BaseController::get_user_logged_in() != NULL) {
+            if (Arviolaari::hasAddedStars($id) == TRUE) {
+                $arvioitu = 1;
+            }
+        }
 
         View::make('movie/leffaetusivu.html', array(
             'elokuva' => $elokuva, 'valtio' => $valtio,
             'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
             'genret' => $genret, 'palkinnot' => $palkinnot, 'arviot' => $arviot,
-            'kommentit' => $kommentit, 'dvdt' => $dvdt, 'sarjanelokuvat' => $sarjanelokuvat
+            'kommentit' => $kommentit, 'dvdt' => $dvdt, 'sarjanelokuvat' => $sarjanelokuvat,
+            'arvioitu' => $arvioitu
         ));
     }
 
@@ -32,7 +39,7 @@ class MovieController extends BaseController {
     }
 
     public static function addartistspage() {
-        
+
         $nayttelijat = Artisti::findAllArtistit("Näyttelijä");
         $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
         $kuvaajat = Artisti::findAllArtistit("Kuvaaja");
@@ -100,7 +107,7 @@ class MovieController extends BaseController {
             ));
         }
     }
-    
+
     public static function adminUpdate($id) {
         $parametrit = $_POST;
         $attribuutit = array(
@@ -157,7 +164,7 @@ class MovieController extends BaseController {
             View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attribuutit, 'valtiot' => $valtiot));
         }
     }
-    
+
     public static function adminStore() {
         $parametrit = $_POST;
 
@@ -187,15 +194,15 @@ class MovieController extends BaseController {
         $movie->destroy($id);
         Redirect::to('/', array('message' => 'Elokuvan poistaminen onnistui'));
     }
-    
+
     public static function destroyMaintenance($id) {
         $movie = new Elokuva(array('leffaid' => $id));
         $movie->destroy($id);
         Redirect::to('/moviemaintenance', array('message' => 'Elokuvan poistaminen onnistui'));
     }
-    
+
     public static function addStar($leffaid) {
-        $parametri = $_POST;        
+        $parametri = $_POST;
         $tahti = $parametri['tahti'];
         Arviolaari::addStarForMovie($leffaid, $tahti);
         Redirect::to('/movie/' . $leffaid);

@@ -2,7 +2,7 @@
 {% block content %}
 
 {% import "macros/modals.html" as modals %}
-{{modals.arvio_modal("#{elokuva.leffaid}", "#{base_path}/arviopostisivu")}}
+{{modals.arvio_modal("#{arvioitu}","#{elokuva.leffaid}", "#{base_path}/arviopostisivu")}}
 
 {% if message %}
 <div class="alert alert-success"  style="text-shadow: none">

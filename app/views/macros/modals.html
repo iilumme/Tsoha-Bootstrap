@@ -185,10 +185,11 @@
 
 <!--UUDEN ARVION LISÄÄMINEN-->
 
-{% macro arvio_modal(lid, action) %}
+{% macro arvio_modal(arvioitu, lid, action) %}
 <div class="modal fade" id="arviolisaysmodaali" tabindex="-1" role="dialog" 
      aria-labelledby="arviolisaysmodaaliLabel" aria-hidden="true">
     <div class="modal-dialog">
+        {% if arvioitu == 0 %}
         <div class="modal-content">
             <div class="modal-header">
                 <h4>Uuden arvion lisäys</h4>
@@ -203,7 +204,7 @@
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-primary btn-lg" name="tahti" value="3">
+                        <button type="submit" class="btn btn-primary btn-lg" name="tahti" value="3">
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -225,6 +226,14 @@
                 </div>
             </form>           
         </div>
+        {% else %}
+        <div class="modal-content">
+            <div class="modal-header"><h4>Olet jo arvioinut</h4></div>
+            <div class="modal-body">
+                <h5 style="font-style: italic">Arvion poistaminen tulossa</h5>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endmacro %}

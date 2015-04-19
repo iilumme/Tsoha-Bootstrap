@@ -177,9 +177,9 @@ INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='
 INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Moreno'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Hermano'));
 INSERT INTO ArtistiLaari VALUES ((SELECT artistiID FROM Artisti WHERE sukuNimi='Leal'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Hermano'));
 
-INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Käsikirjoittaja', 'Carlos', 'Cuarón Orozco', 1966, 'Carlos Cuarón on meksikolainen käsikirjoittaja ja ohjaaja. Hänen veljensä on Alfonso Cuarón.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
-INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Näyttelijä', 'Daniel', 'Giménez Cacho', 1961, 'Daniel Giménez Cacho on meksikolais-espanjalainen näyttelijä.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
-INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, kuva, valtio, lisatty, viimeksiMuutettu) VALUES ('Näyttelijä', 'Claudia', 'Ramírez Valdez', 1964, 'Claudia Ramírez Valdez on meksikolainen näyttelijä Veracruzista.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, bio, valtio, lisatty, viimeksiMuutettu) VALUES ('Käsikirjoittaja', 'Carlos', 'Cuarón Orozco', 1966, 'Carlos Cuarón on meksikolainen käsikirjoittaja ja ohjaaja. Hänen veljensä on Alfonso Cuarón.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, bio, valtio, lisatty, viimeksiMuutettu) VALUES ('Näyttelijä', 'Daniel', 'Giménez Cacho', 1961, 'Daniel Giménez Cacho on meksikolais-espanjalainen näyttelijä.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
+INSERT INTO Artisti (artistiTyyppi, etuNimi, sukuNimi, syntymavuosi, bio, valtio, lisatty, viimeksiMuutettu) VALUES ('Näyttelijä', 'Claudia', 'Ramírez Valdez', 1964, 'Claudia Ramírez Valdez on meksikolainen näyttelijä Veracruzista.', (SELECT valtioID FROM Valtiot WHERE valtioNimi = 'Meksiko'), NOW(), NOW());
 
 INSERT INTO Elokuva
 (leffaNimi, vuosi, valtio, kieli, synopsis, traileriURL, lisatty, viimeksiMuutettu)

@@ -2,6 +2,7 @@
 
 class BasisController extends BaseController {
 
+    /* Testaus hiekkalaatikko */
     public static function sandbox() {
         // Testaa koodiasi täällä
         $elokuva = Elokuva::findOne(1);
@@ -77,10 +78,12 @@ class BasisController extends BaseController {
         Kint::dump($favs);
     }
 
+    /* Näyttää etusivun */
     public static function first_page() {
         View::make('basis/etusivu.html');
     }
 
+    /* Kaikki-sivulle tiedot */
     public static function all() {
         $elokuvat = Elokuva::all();
         $artistit = Artisti::all();
