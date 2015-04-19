@@ -46,10 +46,10 @@ class MovieController extends BaseController {
     /* Elokuvan artistien-, genrejen- ja sarjojenlisäyssivulle tiedot */
     public static function addArtistsPage() {
 
-        $nayttelijat = Artisti::findAllArtistit("Näyttelijä");
-        $ohjaajat = Artisti::findAllArtistit("Ohjaaja");
-        $kuvaajat = Artisti::findAllArtistit("Kuvaaja");
-        $kassarit = Artisti::findAllArtistit("Käsikirjoittaja");
+        $nayttelijat = Artisti::findAllArtistitByTyyppi("Näyttelijä");
+        $ohjaajat = Artisti::findAllArtistitByTyyppi("Ohjaaja");
+        $kuvaajat = Artisti::findAllArtistitByTyyppi("Kuvaaja");
+        $kassarit = Artisti::findAllArtistitByTyyppi("Käsikirjoittaja");
         $genret = Genre::all();
         $sarjat = Sarja::all();
         $valtiot = Valtio::all();

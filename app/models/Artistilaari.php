@@ -1,5 +1,7 @@
 <?php
 
+/* Malli elokuvan tekijöiden tallentamiselle elokuvakohtaisesti */
+
 class Artistilaari extends BaseModel {
 
     public $artistiid, $leffaid;
@@ -8,6 +10,7 @@ class Artistilaari extends BaseModel {
         parent::__construct($attribuutit);
     }
     
+    /* Ehdotuksen tallentaminen */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO ArtistiLaari (artistiid, leffaid) '
                 . 'VALUES (:artistiid, :leffaid) RETURNING artistiid');        
@@ -25,6 +28,7 @@ class Artistilaari extends BaseModel {
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
+    /* Tallentaminen */
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO ArtistiLaari (artistiid, leffaid) '
                 . 'VALUES (:artistiid, :leffaid) RETURNING artistiid');

@@ -1,5 +1,7 @@
 <?php
 
+/* Malli elokuvalle */
+
 class Elokuva extends BaseModel {
 
     public $leffaid, $leffanimi, $vuosi, $valtio, $kieli,
@@ -24,6 +26,9 @@ class Elokuva extends BaseModel {
         ));
     }
 
+    
+    /* Haetaan kaikki elokuvat ja listoille elokuvat */
+    
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Elokuva ORDER BY leffanimi');
         $query->execute();
@@ -92,9 +97,10 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
-    public static function findOne($id) {
+    /* Haetaan IDllä elokuva */
+    public static function findOne($leffaid) {
         $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE leffaid = :leffaid LIMIT 1');
-        $query->execute(array('leffaid' => $id));
+        $query->execute(array('leffaid' => $leffaid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -105,11 +111,12 @@ class Elokuva extends BaseModel {
         return null;
     }
 
-    public static function findElokuvatForArtisti($id) {
+    /* Haetaan elokuvat artistille */
+    public static function findElokuvatForArtisti($artistiid) {
         $query = DB::connection()->prepare('SELECT E.leffaid, leffaNimi '
                 . 'FROM ArtistiLaari A, Elokuva E '
                 . 'WHERE A.leffaID=E.leffaID AND A.artistiID= :artistiid');
-        $query->execute(array('artistiid' => $id));
+        $query->execute(array('artistiid' => $artistiid));
         $tulokset = $query->fetchAll();
 
         $elokuvat = array();
@@ -122,9 +129,10 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
-    public static function findElokuvatForValtiot($id) {
+    /* Haetaan elokuvat valtiolle */
+    public static function findElokuvatForValtiot($valtioid) {
         $query = DB::connection()->prepare('SELECT * FROM Elokuva WHERE valtio= :valtio ORDER BY leffanimi');
-        $query->execute(array('valtio' => $id));
+        $query->execute(array('valtio' => $valtioid));
         $tulokset = $query->fetchAll();
 
         $elokuvat = array();
@@ -135,6 +143,8 @@ class Elokuva extends BaseModel {
         return $elokuvat;
     }
 
+    /* Haetaan elokuvat listoille */
+    
     public static function findSuosikkiElokuvat($kid) {
         $query = DB::connection()->prepare('SELECT * FROM Suosikkilista S, Elokuva E '
                 . 'WHERE kayttajaID= :kayttajaid AND S.leffaID=E.leffaID '
@@ -193,7 +203,8 @@ class Elokuva extends BaseModel {
         }
         return $elokuvat;
     }
-
+    
+    /* Uuden elokuvaehdotuksen tallentaminen */
     public function saveSuggestion() {
         $query = ('INSERT INTO Elokuva '
                 . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '
@@ -215,26 +226,8 @@ class Elokuva extends BaseModel {
 
         return $ryhmaid;
     }
-
-    public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Elokuva '
-                . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '
-                . 'VALUES (:leffanimi, :vuosi, :valtio, :kieli, :synopsis, :traileriurl, NOW(), NOW()) '
-                . 'RETURNING leffaid');
-        $query->execute(array(
-            'leffanimi' => $this->leffanimi,
-            'vuosi' => $this->vuosi,
-            'valtio' => $this->valtio,
-            'kieli' => $this->kieli,
-            'synopsis' => $this->synopsis,
-            'traileriurl' => $this->traileriurl
-        ));
-
-        $tulos = $query->fetch();
-
-        return $tulos['leffaid'];
-    }
-
+    
+    /* Elokuvan muokkausehdotuksen tallentaminen */
     public function updateSuggestion() {
         $query = ('UPDATE Elokuva '
                 . 'SET leffanimi = :leffanimi, vuosi = :vuosi, valtio = :valtio, kieli = :kieli, '
@@ -259,6 +252,27 @@ class Elokuva extends BaseModel {
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
+    /* Uuden elokuvan tallentaminen - ylläpitäjä tekee */
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Elokuva '
+                . '(leffanimi, vuosi, valtio, kieli, synopsis, traileriurl, lisatty, viimeksiMuutettu) '
+                . 'VALUES (:leffanimi, :vuosi, :valtio, :kieli, :synopsis, :traileriurl, NOW(), NOW()) '
+                . 'RETURNING leffaid');
+        $query->execute(array(
+            'leffanimi' => $this->leffanimi,
+            'vuosi' => $this->vuosi,
+            'valtio' => $this->valtio,
+            'kieli' => $this->kieli,
+            'synopsis' => $this->synopsis,
+            'traileriurl' => $this->traileriurl
+        ));
+
+        $tulos = $query->fetch();
+
+        return $tulos['leffaid'];
+    }
+
+    /* Elokuvan muokkaaminen - ylläpitäjä tekee */
     public function update() {
         $query = DB::connection()->prepare('UPDATE Elokuva '
                 . 'SET leffanimi = :leffanimi, vuosi = :vuosi, valtio = :valtio, kieli = :kieli, '
@@ -278,11 +292,13 @@ class Elokuva extends BaseModel {
         return $tulos['leffaid'];
     }
 
+    /* Elokuvan poistaminen - ylläpitäjä tekee */
     public static function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Elokuva WHERE leffaid = :leffaid');
         $query->execute(array('leffaid' => $this->leffaid));
     }
 
+    /* Haku */
     public static function search($valinnat) {
         $query = 'SELECT DISTINCT E.leffaID, E.leffaNimi '
                 . 'FROM Elokuva E, ArtistiLaari A, GenreLaari G, LeffaPalkintoLaari L, SarjaLaari S '

@@ -1,5 +1,7 @@
 <?php
 
+/* Malli elokuvan tekijöille */
+
 class Artisti extends BaseModel {
 
     public $artistiid, $artistityyppi, $etunimi, $sukunimi, $bio,
@@ -25,6 +27,7 @@ class Artisti extends BaseModel {
         ));
     }
 
+    /* Kaikki artistit */
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Artisti ORDER BY sukunimi');
         $query->execute();
@@ -37,9 +40,10 @@ class Artisti extends BaseModel {
         return $artistit;
     }
 
-    public static function findOne($id) {
+    /* Haetaan artisti IDllä */
+    public static function findOne($artistiid) {
         $query = DB::connection()->prepare('SELECT * FROM Artisti WHERE artistiid = :artistiid LIMIT 1');
-        $query->execute(array('artistiid' => $id));
+        $query->execute(array('artistiid' => $artistiid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -50,7 +54,8 @@ class Artisti extends BaseModel {
         return null;
     }
 
-    public static function findAllArtistit($tyyppi) {
+    /* Haetaan kaikki artistit tyypeittäin */
+    public static function findAllArtistitByTyyppi($tyyppi) {
         $query = DB::connection()->prepare('SELECT * FROM Artisti R '
                 . 'WHERE R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
         $query->execute(array('tyyppi' => $tyyppi));
@@ -63,11 +68,12 @@ class Artisti extends BaseModel {
         return $artistit;
     }
 
-    public static function findArtistitForElokuva($id, $tyyppi) {
+    /* Haetaan elokuvalle artistit tyypeittäin */
+    public static function findArtistitForElokuva($leffaid, $tyyppi) {
         $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu '
                 . 'FROM Elokuva E, ArtistiLaari A, Artisti R '
                 . 'WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.artistiID=R.artistiID AND R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
-        $query->execute(array('leffaid' => $id, 'tyyppi' => $tyyppi));
+        $query->execute(array('leffaid' => $leffaid, 'tyyppi' => $tyyppi));
         $tulokset = $query->fetchAll();
 
         $artistit = array();
@@ -76,12 +82,13 @@ class Artisti extends BaseModel {
         }
         return $artistit;
     }
-
-    public static function findArtistitForValtio($id, $tyyppi) {
+    
+    /* Haetaan valtiolle artistit tyypeittäin */
+    public static function findArtistitForValtio($valtioid, $tyyppi) {
         $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu '
                 . 'FROM Valtiot V, Artisti R '
                 . 'WHERE V.valtioid = :valtio AND V.valtioid=R.valtio AND R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
-        $query->execute(array('valtio' => $id, 'tyyppi' => $tyyppi));
+        $query->execute(array('valtio' => $valtioid, 'tyyppi' => $tyyppi));
         $tulokset = $query->fetchAll();
 
         $artistit = array();
@@ -91,6 +98,7 @@ class Artisti extends BaseModel {
         return $artistit;
     }
 
+    /* Uuden artistiehdotuksen tallentaminen */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO Artisti '
                 . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
@@ -111,25 +119,7 @@ class Artisti extends BaseModel {
         
     }
 
-    public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Artisti '
-                . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
-                . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
-                . 'RETURNING artistiid');
-        $query->execute(array(
-            'artistityyppi' => $this->artistityyppi,
-            'etunimi' => $this->etunimi,
-            'sukunimi' => $this->sukunimi,
-            'bio' => $this->bio,
-            'syntymavuosi' => $this->syntymavuosi,
-            'valtio' => $this->valtio
-        ));
-
-        $tulos = $query->fetch();
-        $this->artistiid = $tulos['artistiid'];
-        return $this->artistiid;
-    }
-
+    /* Artistinmuokkausehdotuksen tallentaminen */
     public function updateSuggestion() {
         $query = ('UPDATE Artisti '
                 . 'SET artistityyppi = :artistityyppi, etunimi = :etunimi, '
@@ -151,7 +141,28 @@ class Artisti extends BaseModel {
         $kysely->save();
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
+    
+    /* Uuden artistin tallentaminen - ylläpitäjä tekee */
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Artisti '
+                . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
+                . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
+                . 'RETURNING artistiid');
+        $query->execute(array(
+            'artistityyppi' => $this->artistityyppi,
+            'etunimi' => $this->etunimi,
+            'sukunimi' => $this->sukunimi,
+            'bio' => $this->bio,
+            'syntymavuosi' => $this->syntymavuosi,
+            'valtio' => $this->valtio
+        ));
 
+        $tulos = $query->fetch();
+        $this->artistiid = $tulos['artistiid'];
+        return $this->artistiid;
+    }
+
+    /* Artistinmuokkauksen tallentaminen - ylläpitäjä tekee */
     public function update() {
         $query = DB::connection()->prepare('UPDATE Artisti '
                 . 'SET artistityyppi = :artistityyppi, etunimi = :etunimi, '
@@ -172,6 +183,7 @@ class Artisti extends BaseModel {
         return $tulos['artistiid'];
     }
 
+    /* Artistin poistaminen - ylläpitäjä tekee */
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Artisti WHERE artistiid = :artistiid');
         $query->execute(array('artistiid' => $this->artistiid));
