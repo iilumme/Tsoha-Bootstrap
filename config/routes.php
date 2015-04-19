@@ -6,7 +6,7 @@ function check_logged_in() {
 
 //ETUSIVU
 $routes->get('/', function() {
-    BasisController::first_page();
+    BasisController::firstPage();
 });
 
 
@@ -35,7 +35,7 @@ $routes->get('/login', function() {
     UserController::login();
 });
 $routes->post('/login', function() {
-    UserController::handle_login();
+    UserController::handleLogin();
 });
 
 
@@ -46,18 +46,17 @@ $routes->post('/logout', function() {
 
 $routes->get('/mypage', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == FALSE) {
-        UserController::mypage();
+        UserController::myPage();
     } else {
-        UserController::adminpage();
+        UserController::administratorPage();
     }
 });
 $routes->get('/mypage/edit', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == FALSE) {
-        UserController::mypageedit();
+        UserController::profileEdit();
     } else {
-        UserController::adminpageedit();
+        UserController::administratorEdit();
     }
-    UserController::mypageedit();
 });
 $routes->post('/usereditpage', function() {
     UserController::update(BaseController::get_user_logged_in()->kayttajaid);
@@ -80,7 +79,7 @@ $routes->get('/dvds', 'check_logged_in', function() {
 
 $routes->post('/userdestroy', function() {
     if (BaseController::isAdministrator() == TRUE) {
-        UserController::adminpage();
+        UserController::administratorPage();
     } else {
         UserController::destroy(BaseController::get_user_logged_in()->kayttajaid);
     }
@@ -136,7 +135,7 @@ $routes->get('/maintenance', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == TRUE) {
         QueryController::maintenance();
     } else {
-        BasisController::first_page();
+        BasisController::firstPage();
     }
 });
 
@@ -149,23 +148,23 @@ $routes->post('/kyselypoisto/:id', function($id) {
 
 $routes->get('/moviemaintenance', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == TRUE) {
-        UserController::moviemaintenance();
+        UserController::movieMaintenance();
     } else {
-        BasisController::first_page();
+        BasisController::firstPage();
     }
 });
 $routes->get('/artistmaintenance', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == TRUE) {
-        UserController::artistmaintenance();
+        UserController::artistMaintenance();
     } else {
-        BasisController::first_page();
+        BasisController::firstPage();
     }
 });
 $routes->get('/usermaintenance', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == TRUE) {
-        UserController::usermaintenance();
+        UserController::userMaintenance();
     } else {
-        BasisController::first_page();
+        BasisController::firstPage();
     }
 });
 
@@ -175,13 +174,13 @@ $routes->get('/movie/:id', function($id) {
 });
 
 $routes->get('/movie/edit/:id', 'check_logged_in', function($id) {
-    MovieController::movieeditpage($id);
+    MovieController::movieEditPage($id);
 });
 $routes->post('/movieeditpage/:id', 'check_logged_in', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        MovieController::adminUpdate($id);
+        MovieController::administratorUpdate($id);
     } else {
-        MovieController::update($id);
+        MovieController::updateSuggestion($id);
     }
 });
 $routes->post('/movie/destroy/:id', 'check_logged_in', function($id) {
@@ -196,16 +195,16 @@ $routes->post('/movie/destroymaintenance/:id', 'check_logged_in', function($id) 
 });
 
 $routes->get('/addmovie', 'check_logged_in', function() {
-    MovieController::addmoviepage();
+    MovieController::addMoviePage();
 });
 $routes->get('/addmovie/addpeople', 'check_logged_in', function() {
-    MovieController::addartistspage();
+    MovieController::addArtistsPage();
 });
 $routes->post('/addmovie/addpeople', 'check_logged_in', function() {
     if (BaseController::isAdministrator() == TRUE) {
-        MovieController::adminStore();
+        MovieController::administratorStore();
     } else {
-        MovieController::store();
+        MovieController::storeSuggestion();
     }
 });
 
@@ -216,7 +215,7 @@ $routes->get('/artist/:id', function($id) {
 });
 
 $routes->get('/artist/edit/:id', 'check_logged_in', function($id) {
-    ArtistController::artisteditpage($id);
+    ArtistController::artistEditPage($id);
 });
 $routes->post('/artisteditpage/:id', 'check_logged_in', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
@@ -248,9 +247,9 @@ $routes->get('/country/edit/:id', 'check_logged_in', function($id) {
 });
 $routes->post('/countryeditpage/:id', 'check_logged_in', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        ValtioController::adminUpdate($id);
+        ValtioController::administratorUpdate($id);
     } else {
-        ValtioController::update($id);
+        ValtioController::updateSuggestion($id);
     }
 });
 
@@ -259,23 +258,23 @@ $routes->post('/countryeditpage/:id', 'check_logged_in', function($id) {
 //LAARIT
 $routes->post('/testisivu', function() {
     if (BaseController::isAdministrator() == TRUE) {
-        LaariController::adminStore();
+        LaariController::administratorStore();
     } else {
-        LaariController::store();
+        LaariController::storeSuggestion();
     }
 });
 $routes->post('/genrepostisivu/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        GenreController::adminStore($id);
+        GenreController::administratorStore($id);
     } else {
-        GenreController::store($id);
+        GenreController::storeSuggestion($id);
     }
 });
 $routes->post('/sarjapostisivu/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        SarjaController::adminStore($id);
+        SarjaController::administratorStore($id);
     } else {
-        SarjaController::store($id);
+        SarjaController::storeSuggestion($id);
     }
 });
 $routes->post('/artistipostisivu/:id', function($id) {
@@ -296,6 +295,6 @@ $routes->get('/hiekkalaatikko', function() {
     if (BaseController::isAdministrator() == TRUE) {
         BasisController::sandbox();
     } else {
-        BasisController::first_page();
+        BasisController::firstPage();
     }
 });

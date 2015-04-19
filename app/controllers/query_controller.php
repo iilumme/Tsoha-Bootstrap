@@ -1,7 +1,11 @@
 <?php
 
+/* Kontrolleri kyselyehdotuksille ja -ryhmille */
+
 class QueryController extends BaseController {
 
+    
+    /* Ylläpito-sivulle tiedot */
     public static function maintenance() {
 
         $ryhmat = Kyselyryhma::allGroups();
@@ -17,14 +21,16 @@ class QueryController extends BaseController {
         View::make('users/administrator/yllapito.html', array('ryhmat' => $ryhmatALL));
     }
 
+    /* Kyselyjen suorittaminen */
     public static function queryAccepted($id) {
         Kyselyehdotus::execute($id);
         Redirect::to('/maintenance', array('message' => 'Kysely onnistui! :)'));
     }
 
+    /* Kyselyjen poistaminen */
     public static function queryDenied($id) {
         Kyselyehdotus::destroy($id);
-        Redirect::to('/maintenance', array('message' => 'Kysely hylätty! :)'));
+        Redirect::to('/maintenance', array('message' => 'Kysely hylätty ja poistettu! :)'));
     }
 
 }

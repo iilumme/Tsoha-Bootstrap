@@ -1,5 +1,7 @@
 <?php
 
+/* Etusivun, Kaikki-sivun ja hiekkalaatikon kontrollointi */
+
 class BasisController extends BaseController {
 
     /* Testaus hiekkalaatikko */
@@ -79,7 +81,7 @@ class BasisController extends BaseController {
     }
 
     /* Näyttää etusivun */
-    public static function first_page() {
+    public static function firstPage() {
         View::make('basis/etusivu.html');
     }
 

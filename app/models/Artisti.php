@@ -172,9 +172,9 @@ class Artisti extends BaseModel {
         return $tulos['artistiid'];
     }
 
-    public function destroy($id) {
+    public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Artisti WHERE artistiid = :artistiid');
-        $query->execute(array('artistiid' => $id));
+        $query->execute(array('artistiid' => $this->artistiid));
     }
 
 }

@@ -1,22 +1,26 @@
 <?php
 
-class GenreController extends BaseController {
+/* Genrejen kontrollointi */
 
-    public static function store($ryhmaid) {
+class GenreController extends BaseController {
+    
+    /* Uuden genre-ehdotuksen tallentaminen */
+    public static function storeSuggestion($ryhmaid) {
         $param = $_POST;
         $genre = new Genre(array('genrenimi' => $param['genrenimi']));
 
         $genre->saveSuggestion($ryhmaid);
-        LaariController::genrelaariSaveWithoutID($ryhmaid);
+        LaariController::genrelaariSaveSuggestionWithoutGenreID($ryhmaid);
     }
-    
-    public static function adminStore($leffaid) {
+
+    /* Uuden genren tallentaminen - ylläpitäjä tekee */
+    public static function administratorStore($leffaid) {
         $param = $_POST;
         $genre = new Genre(array('genrenimi' => $param['genrenimi']));
 
         $id = $genre->save();
         $param['genrelista'] = $id;
-        LaariController::genrelaariSave($param, $leffaid);
+        LaariController::genrelaariSaveAdministrator($param, $leffaid);
     }
 
 }

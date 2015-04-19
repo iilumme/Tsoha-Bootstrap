@@ -278,9 +278,9 @@ class Elokuva extends BaseModel {
         return $tulos['leffaid'];
     }
 
-    public static function destroy($id) {
+    public static function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Elokuva WHERE leffaid = :leffaid');
-        $query->execute(array('leffaid' => $id));
+        $query->execute(array('leffaid' => $this->leffaid));
     }
 
     public static function search($valinnat) {

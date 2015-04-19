@@ -1,22 +1,33 @@
 <?php
 
-class SarjaController extends BaseController {
+/* Sarjojen kontrolloiminen */
 
-    public static function store($ryhmaid) {
+class SarjaController extends BaseController {
+    
+    
+    /* REKISTERÖITYNEEN KÄYTTÄJÄN METODI */
+    
+    /* Uuden sarjaehdotuksen tallentaminen */
+    public static function storeSuggestion($ryhmaid) {
         $param = $_POST;
         $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
 
         $sarja->saveSuggestion($ryhmaid);
-        LaariController::sarjalaariSaveWithoutID($ryhmaid);
+        LaariController::sarjalaariSaveSuggestionWithoutSarjaID($ryhmaid);
     }
+    
+    
+    
+    /* YLLÄPITÄJÄN METODIT*/
 
-    public static function adminStore($leffaid) {
+    /* Uuden sarjan tallentaminen */
+    public static function administratorStore($leffaid) {
         $param = $_POST;
         $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
 
         $id = $sarja->save();
         $param['sarjalista'] = $id;
-        LaariController::sarjalaariSave($param, $leffaid);
+        LaariController::sarjalaariSaveAdministrator($param, $leffaid);
     }
 
 }

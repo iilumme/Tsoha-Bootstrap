@@ -19,7 +19,7 @@ class ArtistController extends BaseController {
     }
 
     /* Artistin muokkaussivulle tiedot */
-    public static function artisteditpage($artistiid) {
+    public static function artistEditPage($artistiid) {
 
         $artisti = Artisti::findOne($artistiid);
         $valtiot = Valtio::all();
@@ -51,16 +51,16 @@ class ArtistController extends BaseController {
 
         if (count($errors) == 0) {
             $artisti->saveSuggestion($ryhmaid);
-            LaariController::artistilaariSaveWithoutID($ryhmaid);
+            LaariController::artistilaariSaveSuggestionWithoutArtistiID($ryhmaid);
         } else {
             //mieti tämä
         }
     }
 
     /* Artistin muokkauksehdotuksen tallentaminen */
-    public static function updateSuggestion($id) {
+    public static function updateSuggestion($artistiid) {
         $parametrit = $_POST;
-        $attribuutit = array('artistiid' => $id,
+        $attribuutit = array('artistiid' => $artistiid,
             'artistityyppi' => $parametrit['artistityyppi'],
             'etunimi' => $parametrit['etunimi'],
             'sukunimi' => $parametrit['sukunimi'],
@@ -73,7 +73,7 @@ class ArtistController extends BaseController {
 
         if (count($errors) == 0) {
             $artist->updateSuggestion();
-            Redirect::to('/artist/' . $id, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle :)'));
+            Redirect::to('/artist/' . $artistiid, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle :)'));
         } else {
             $valtiot = Valtio::all();
             $tamanhetkinenvaltio = $attribuutit['valtio'];
@@ -84,16 +84,16 @@ class ArtistController extends BaseController {
     }
 
     /* Artistin poistaminen */
-    public static function destroy($id) {
-        $artist = new Artisti(array('id' => $id));
-        $artist->destroy($id);
+    public static function destroy($artistiid) {
+        $artist = new Artisti(array('artistiid' => $artistiid));
+        $artist->destroy();
         Redirect::to('/', array('message' => 'Artistin poistaminen onnistui! :)'));
     }
 
     /* Artistin poistaminen ylläpitosivuilla */
-    public static function destroyMaintenance($id) {
-        $artist = new Artisti(array('id' => $id));
-        $artist->destroy($id);
+    public static function destroyMaintenance($artistiid) {
+        $artist = new Artisti(array('artistiid' => $artistiid));
+        $artist->destroy();
         Redirect::to('/artistmaintenance', array('message' => 'Artistin poistaminen onnistui! :)'));
     }
 
@@ -117,16 +117,16 @@ class ArtistController extends BaseController {
         if (count($errors) == 0) {
             $id = $artisti->save();
             $param['artistilista'] = $id;
-            LaariController::artistilaariSaveAdmin($param, $leffaid);
+            LaariController::artistilaariSaveAdministrator($param, $leffaid);
         } else {
             //mieti tämä
         }
     }
 
     /* Artistin muokkaus - ylläpitäjä tekee */
-    public static function administratorUpdate($id) {
+    public static function administratorUpdate($artistiid) {
         $parametrit = $_POST;
-        $attribuutit = array('artistiid' => $id,
+        $attribuutit = array('artistiid' => $artistiid,
             'artistityyppi' => $parametrit['artistityyppi'],
             'etunimi' => $parametrit['etunimi'],
             'sukunimi' => $parametrit['sukunimi'],
@@ -139,7 +139,7 @@ class ArtistController extends BaseController {
 
         if (count($errors) == 0) {
             $artist->update();
-            Redirect::to('/artist/' . $id, array('message' => 'Tietojen päivittäminen onnistui! :)'));
+            Redirect::to('/artist/' . $artistiid, array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
             $valtiot = Valtio::all();
             $tamanhetkinenvaltio = $attribuutit['valtio'];

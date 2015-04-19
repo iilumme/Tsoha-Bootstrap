@@ -94,9 +94,9 @@ class Kayttaja extends BaseModel {
         return $tulos['kayttajaid'];
     }
 
-    public function destroy($id) {
+    public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE kayttajaid = :kayttajaid');
-        $query->execute(array('kayttajaid' => $id));
+        $query->execute(array('kayttajaid' => $this->kayttajaid));
     }
 
 }

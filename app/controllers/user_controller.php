@@ -1,17 +1,22 @@
 <?php
 
-class UserController extends BaseController {
+/* Käyttäjiin liittyvät metodit */
 
+class UserController extends BaseController {
+    
+    /* Rekisteröitymissivulle tiedot */
     public static function register() {
         $genret = Genre::all();
         View::make('users/rekisteroityminen.html', array('genret' => $genret));
     }
 
+    /* Kirjautumissivu */
     public static function login() {
         View::make('users/kirjautuminen.html');
     }
 
-    public static function handle_login() {
+    /* Kirjautumisen tarkistus */
+    public static function handleLogin() {
         $parametrit = $_POST;
         $kayttaja = Kayttaja::authenticate($parametrit['kayttajatunnus'], $parametrit['salasana']);
 
@@ -23,19 +28,34 @@ class UserController extends BaseController {
         }
     }
 
+    /* Uloskirjautuminen */
     public static function logout() {
         $_SESSION['user'] = null;
         Redirect::to('/login', array('messagehappy' => 'Tervetuloa pian takaisin :)'));
     }
 
-    public static function mypage() {
+    /* Käyttäjän omasivu */
+    public static function myPage() {
         View::make('users/registered_user/omasivu.html');
     }
-
-    public static function adminpage() {
-        View::make('users/administrator/yllapitajasivu.html');
+    
+    /* Käyttäjän tietojen muokkaussivu */
+    public static function profileEdit() {
+        $kayttaja = self::get_user_logged_in();
+        $genret = Genre::all();
+        $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
+        View::make('users/registered_user/kayttajamuokkaus.html', array(
+            'kayttaja' => $kayttaja,
+            'genret' => $genret,
+            'tamanhetkinengenre' => $tamanhetkinengenre
+        ));
     }
+    
+    
+    /* LISTAT */
+    
 
+    /* Suosikkilistasivu */
     public static function favourites() {
         $suosikit = Elokuva::findSuosikkiElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
@@ -47,6 +67,7 @@ class UserController extends BaseController {
         ));
     }
 
+    /* Katsotutlistasivu */
     public static function watchedMovies() {
         $suosikit = Elokuva::findKatsotutElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
@@ -58,6 +79,7 @@ class UserController extends BaseController {
         ));
     }
 
+    /* Myöhemminkatsottaviensivu */
     public static function later() {
         $suosikit = Elokuva::findMasTardeElokuvat(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
@@ -69,6 +91,7 @@ class UserController extends BaseController {
         ));
     }
 
+    /* DVDlistasivu */
     public static function dvds() {
         $suosikit = Elokuva::findDVDTForKayttaja(self::get_user_logged_in()->kayttajaid);
         $valtiot = Valtio::all();
@@ -80,32 +103,13 @@ class UserController extends BaseController {
         ));
     }
 
-    public static function mypageedit() {
-        $kayttaja = self::get_user_logged_in();
-        $genret = Genre::all();
-        $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
-        View::make('users/registered_user/kayttajamuokkaus.html', array(
-            'kayttaja' => $kayttaja,
-            'genret' => $genret,
-            'tamanhetkinengenre' => $tamanhetkinengenre
-        ));
-    }
-
-    public static function adminpageedit() {
-        $kayttaja = self::get_user_logged_in();
-        $genret = Genre::all();
-        $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
-        View::make('users/registered_user/kayttajamuokkaus.html', array(
-            'kayttaja' => $kayttaja,
-            'genret' => $genret,
-            'tamanhetkinengenre' => $tamanhetkinengenre
-        ));
-    }
-
-    public static function update($id) {
+   
+    
+    /* Käyttäjän muokkaaminen */
+    public static function update($kayttajaid) {
         $parametrit = $_POST;
         $attribuutit = array(
-            'kayttajaid' => $id,
+            'kayttajaid' => $kayttajaid,
             'nimi' => $parametrit['nimi'],
             'kayttajatunnus' => $parametrit['kayttajatunnus'],
             'salasana' => $parametrit['salasana'],
@@ -127,6 +131,7 @@ class UserController extends BaseController {
         }
     }
 
+    /* Uuden käyttäjän tallentaminen */
     public static function store() {
         $parametrit = $_POST;
         $attribuutit = array(
@@ -150,18 +155,22 @@ class UserController extends BaseController {
         }
     }
 
-    public static function destroy($id) {
-        $user = new Kayttaja(array('kayttajaid' => $id));
-        $user->destroy($id);
+    /* Käyttäjän poistaminen */
+    public static function destroy($kayttajaid) {
+        $user = new Kayttaja(array('kayttajaid' => $kayttajaid));
+        $user->destroy();
         Redirect::to('/', array('message' => 'Tilisi poistaminen onnistui'));
     }
 
-    public static function destroyMaintenance($id) {
-        $user = new Kayttaja(array('kayttajaid' => $id));
-        $user->destroy($id);
+    /* Käyttäjän poistaminen ylläpitosivulla */
+    public static function destroyMaintenance($kayttajaid) {
+        $user = new Kayttaja(array('kayttajaid' => $kayttajaid));
+        $user->destroy();
         Redirect::to('/usermaintenance', array('message' => 'Tilisi poistaminen onnistui'));
     }
 
+    /* Listoille lisääminen ja poistaminen listoilta */
+    
     public static function addFavourites() {
         $parametrit = $_POST;
         $input = $parametrit['lisayslista'];
@@ -174,28 +183,7 @@ class UserController extends BaseController {
 
         Redirect::to('/favourites');
     }
-
-    public static function addFavourite($leffaid) {
-
-        $kayttajaid = self::get_user_logged_in()->kayttajaid;
-        Suosikkilista::save($kayttajaid, $leffaid);
-        Redirect::to('/movie/' . $leffaid);
-    }
     
-    public static function addWatchedMovie($leffaid) {
-
-        $kayttajaid = self::get_user_logged_in()->kayttajaid;
-        Katsotutlista::save($kayttajaid, $leffaid);
-        Redirect::to('/movie/' . $leffaid);
-    }
-    
-    public static function addMastardeMovie($leffaid) {
-
-        $kayttajaid = self::get_user_logged_in()->kayttajaid;
-        Mastardelista::save($kayttajaid, $leffaid);
-        Redirect::to('/movie/' . $leffaid);
-    }
-
     public static function removeFavourites() {
         $parametrit = $_POST;
         $input = $parametrit['poistolista'];
@@ -208,7 +196,7 @@ class UserController extends BaseController {
 
         Redirect::to('/favourites');
     }
-
+    
     public static function addDVDs() {
         $parametrit = $_POST;
         $input = $parametrit['lisayslista'];
@@ -286,18 +274,68 @@ class UserController extends BaseController {
 
         Redirect::to('/mastarde');
     }
+    
+    
+    /* Listoille lisääminen elokuvan esittelysivuilta */
 
-    public static function moviemaintenance() {
+    public static function addFavourite($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        Suosikkilista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
+
+    public static function addWatchedMovie($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        Katsotutlista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
+
+    public static function addMastardeMovie($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        Mastardelista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
+
+    
+    
+    /* YLLÄPITÄJÄN METODIT */
+
+
+    /* Ylläpitäjän omasivu */
+    public static function administratorPage() {
+        View::make('users/administrator/yllapitajasivu.html');
+    }
+
+    /* Ylläpitäjän tietojen muokkaussivu */
+    public static function administratorEdit() {
+        $kayttaja = self::get_user_logged_in();
+        $genret = Genre::all();
+        $tamanhetkinengenre = self::get_user_logged_in()->lempigenre;
+        View::make('users/registered_user/kayttajamuokkaus.html', array(
+            'kayttaja' => $kayttaja,
+            'genret' => $genret,
+            'tamanhetkinengenre' => $tamanhetkinengenre
+        ));
+    }
+
+    
+    /* Elokuvien ylläpitosivu */
+    public static function movieMaintenance() {
         $elokuvat = Elokuva::all();
         View::make('users/administrator/leffojenyllapito.html', array('elokuvat' => $elokuvat));
     }
 
-    public static function artistmaintenance() {
+    /* Artistien ylläpitosivu */
+    public static function artistMaintenance() {
         $artistit = Artisti::all();
         View::make('users/administrator/artistienyllapito.html', array('artistit' => $artistit));
     }
 
-    public static function usermaintenance() {
+    /* Käyttäjien ylläpitosivu */
+    public static function userMaintenance() {
         $kayttajat = Kayttaja::all();
         View::make('users/administrator/kayttajienyllapito.html', array('kayttajat' => $kayttajat));
     }

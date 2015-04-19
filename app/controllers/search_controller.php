@@ -1,7 +1,10 @@
 <?php
 
+/* Haun kontrolleri */
+
 class SearchController extends BaseController {
 
+    /* Hakusivu ja hakeminen */
     public static function searchpage() {
 
         $parametrit = $_GET;
