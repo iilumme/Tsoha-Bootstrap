@@ -29,5 +29,12 @@ class SarjaController extends BaseController {
         $param['sarjalista'] = $id;
         LaariController::sarjalaariSaveAdministrator($param, $leffaid);
     }
+    
+    /* Sarjan poistaminen ylläpitosivulla */
+    public static function destroyMaintenance($sarjaid) {
+        $sarja = new Sarja(array('sarjaid' => $sarjaid));
+        $sarja->destroy();
+        Redirect::to('/seriemaintenance', array('message' => 'Sarjan poistaminen onnistui'));
+    }
 
 }

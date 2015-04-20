@@ -166,7 +166,7 @@ class UserController extends BaseController {
     public static function destroyMaintenance($kayttajaid) {
         $user = new Kayttaja(array('kayttajaid' => $kayttajaid));
         $user->destroy();
-        Redirect::to('/usermaintenance', array('message' => 'Tilisi poistaminen onnistui'));
+        Redirect::to('/usermaintenance', array('message' => 'Tilin poistaminen onnistui'));
     }
 
     /* Listoille lisääminen ja poistaminen listoilta */
@@ -338,6 +338,12 @@ class UserController extends BaseController {
     public static function userMaintenance() {
         $kayttajat = Kayttaja::all();
         View::make('users/administrator/kayttajienyllapito.html', array('kayttajat' => $kayttajat));
+    }
+    
+    /* Sarjojen ylläpitosivu */
+    public static function serieMaintenance() {
+        $sarjat = Kayttaja::all();
+        View::make('users/administrator/sarjojenyllapito.html', array('sarjat' => $sarjat));
     }
 
 }

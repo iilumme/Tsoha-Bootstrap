@@ -6,7 +6,7 @@ class QueryController extends BaseController {
 
     
     /* Ylläpito-sivulle tiedot */
-    public static function maintenance() {
+    public static function queryMaintenancePage() {
 
         $ryhmat = Kyselyryhma::allGroups();
         $ryhmatALL = array();
@@ -24,13 +24,13 @@ class QueryController extends BaseController {
     /* Kyselyjen suorittaminen */
     public static function queryAccepted($ryhmaid) {
         Kyselyryhma::execute($ryhmaid);
-        Redirect::to('/maintenance', array('message' => 'Kysely onnistui! :)'));
+        Redirect::to('/querymaintenance', array('message' => 'Kysely onnistui! :)'));
     }
 
     /* Kyselyjen poistaminen */
     public static function queryDenied($ryhmaid) {
         Kyselyryhma::destroy($ryhmaid);
-        Redirect::to('/maintenance', array('message' => 'Kysely hylätty ja poistettu! :)'));
+        Redirect::to('/querymaintenance', array('message' => 'Kysely hylätty ja poistettu! :)'));
     }
 
 }

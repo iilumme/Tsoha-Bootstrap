@@ -70,5 +70,11 @@ class Sarja extends BaseModel {
         $kysely->save();
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
+    
+    /* Sarjan poistaminen - ylläpitäjä tekee */
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM Sarja WHERE sarjaid = :sarjaid');
+        $query->execute(array('sarjaid' => $this->sarjaid));
+    }
 
 }
