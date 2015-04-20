@@ -18,7 +18,7 @@ class QueryController extends BaseController {
             $ryhmatALL[] = $kyselyryhmat;
         }
 
-        View::make('users/administrator/yllapito.html', array('ryhmat' => $ryhmatALL));
+        View::make('users/administrator/kyselyjenyllapito.html', array('ryhmat' => $ryhmatALL));
     }
 
     /* Kyselyjen suorittaminen */
