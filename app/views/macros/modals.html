@@ -242,3 +242,43 @@
     </div>
 </div>
 {% endmacro %}
+
+<!--UUDEN KOMMENTIN LISÄÄMINEN-->
+
+{% macro kommentti_modal(kommentoitu, kommentti, lid, action, actiondelete) %}
+<div class="modal fade" id="kommenttilisaysmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="kommenttilisaysmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        {% if kommentoitu == 0 %}
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Uuden kommentin lisäys</h4>
+            </div>
+            <form method="post" action="{{action}}/{{lid}}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="kommentti" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Lisää kommentti</button>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div class="modal-content">
+            <div class="modal-header"><h4>Olet jo kommentoinut</h4></div>
+            <div class="modal-body">
+                <h5 style="font-style: italic">Sanoit: {{kommentti}}</h5>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="{{actiondelete}}/{{lid}}">
+                    <button type="submit" class="btn btn-success">Poista kommentti</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+

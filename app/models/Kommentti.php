@@ -51,5 +51,36 @@ class Kommentti extends BaseModel {
 
         return null;
     }
+    
+    /* Lisätään kommentti */
+    public static function addCommentForMovie($leffaid, $kommentti) {
+        $query = DB::connection()->prepare('INSERT INTO Kommentti (kayttajaID, leffaID, teksti, lisatty) '
+                . 'VALUES (:kayttajaid, :leffaid, :kommentti, NOW())');
+        $query->execute(array('kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
+            'leffaid' => $leffaid, 'kommentti' => $kommentti));
+    }
+
+    /* Poistetaan kommentti */
+    public static function deleteCommentFromMovie($leffaid) {
+        $query = DB::connection()->prepare('DELETE FROM Kommentti '
+                . 'WHERE leffaID = :leffaid AND kayttajaID = :kayttajaid');
+        $query->execute(array('kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
+            'leffaid' => $leffaid));
+    }
+
+    /* Onko jo kommentoinut elokuvaa? */
+    public static function hasCommented($leffaid) {
+        $query = DB::connection()->prepare('SELECT K.kayttajaID, K.kayttajaTunnus, leffaID, teksti, O.lisatty '
+                . 'FROM Kommentti O, Kayttaja K '
+                . 'WHERE O.kayttajaID = K.kayttajaID AND leffaid = :leffaid AND K.kayttajaID = :kayttajaid');
+        $query->execute(array('leffaid' => $leffaid,
+            'kayttajaid' => BaseController::get_user_logged_in()->kayttajaid));
+        $tulos = $query->fetch();
+
+        if ($tulos) {
+            return $tulos['teksti'];
+        }
+        return 0;
+    }
 
 }

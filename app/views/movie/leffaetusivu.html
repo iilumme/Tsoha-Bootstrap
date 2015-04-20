@@ -3,6 +3,7 @@
 
 {% import "macros/modals.html" as modals %}
 {{modals.arvio_modal("#{arvioitu}","#{elokuva.leffaid}", "#{base_path}/arviopostisivu", "#{base_path}/arviopoistosivu")}}
+{{modals.kommentti_modal("#{kommentoitu}", "#{kommentti}", "#{elokuva.leffaid}", "#{base_path}/kommenttipostisivu", "#{base_path}/kommenttipoistosivu")}}
 
 {% if message %}
 <div class="alert alert-success"  style="text-shadow: none">
@@ -34,7 +35,7 @@
                     </ul>
                 </div>
                 <a role="button" class="btn btn-info" data-toggle="modal" data-target="#arviolisaysmodaali" >Arvioi</a>
-                <a role="button" class="btn btn-info" href="#" >Kommentoi</a>
+                <a role="button" class="btn btn-info" data-toggle="modal" data-target="#kommenttilisaysmodaali" >Kommentoi</a>
                 <a role="button" class="btn btn-success" href="{{base_path}}/movie/edit/{{elokuva.leffaid}}">Muokkaa</a>
                 {% if user_logged_in.kayttajaid == 2 %}
                 <div class="btn-group">

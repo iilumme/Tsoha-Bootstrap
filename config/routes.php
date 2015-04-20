@@ -153,6 +153,14 @@ $routes->post('/arviopostisivu/:id', function($id) {
 $routes->post('/arviopoistosivu/:id', function($id) {
     MovieController::deleteStar($id);
 });
+//Elokuvalle kommentti
+$routes->post('/kommenttipostisivu/:id', function($id) {
+    MovieController::addComment($id);
+});
+//Elokuvalta pois kommentti
+$routes->post('/kommenttipoistosivu/:id', function($id) {
+    MovieController::deleteComment($id);
+});
 
 
 //ARTISTI
