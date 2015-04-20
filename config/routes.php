@@ -86,7 +86,7 @@ $routes->post('/userdestroy', function() {
 });
 $routes->post('/user/destroymaintenance/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
-        UserController::destroyMaintenancey($id);
+        UserController::destroyMaintenance($id);
     }
 });
 
