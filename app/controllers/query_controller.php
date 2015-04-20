@@ -9,16 +9,16 @@ class QueryController extends BaseController {
     public static function queryMaintenancePage() {
 
         $ryhmat = Kyselyryhma::allGroups();
-        $ryhmatALL = array();
+        $ryhmatAndKyselyt = array();
         foreach ($ryhmat as $ryhma) {
             $kyselyryhmat = array();
             $kyselyryhmat['ryhmaid'] = $ryhma->ryhmaid;
             $ryhmankyselyt = Kyselyehdotus::allGroup_s_queries($ryhma->ryhmaid);
             $kyselyryhmat[] = $ryhmankyselyt;
-            $ryhmatALL[] = $kyselyryhmat;
+            $ryhmatAndKyselyt[] = $kyselyryhmat;
         }
 
-        View::make('users/administrator/kyselyjenyllapito.html', array('ryhmat' => $ryhmatALL));
+        View::make('users/administrator/kyselyjenyllapito.html', array('ryhmat' => $ryhmatAndKyselyt));
     }
 
     /* Kyselyjen suorittaminen */

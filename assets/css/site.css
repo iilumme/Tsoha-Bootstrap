@@ -1,4 +1,4 @@
-
+/*
 
 #main-container{
     max-width: 1800px;
@@ -34,12 +34,12 @@
     padding: 10px;
 }
 
-/*#synopsis {
+#synopsis {
     background-color: #dff0d8;
     padding: 10px;
     border-radius: 5px;
     font-family: monospace;
-}*/
+}
 
 #synopsisteksti{
     height: 150px;
@@ -63,4 +63,4 @@
 
 .collapse {
     aria-expanded: false;
-}
+}*/
