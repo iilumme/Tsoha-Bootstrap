@@ -18,8 +18,8 @@ Yleisiä linkkejä:
 * [Linkki valtion esittelyyn (toimii id:n avulla)](http://iilumme.users.cs.helsinki.fi/tsoha/country/1)
 
 Tunnus: ohjaaja Salasana: tsoha1
-
-Osa funktioista toimii/näkyy vain, jos on kirjautunut.
+Ylläpitäjä: Tunnus: admin Salasana: administrator
+Osa funktioista toimii/näkyy vain, jos on kirjautunut ja osa vain, jos on ylläpitäjä.
 
 ## Työn aihe
 
