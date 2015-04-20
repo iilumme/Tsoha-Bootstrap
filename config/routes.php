@@ -188,11 +188,12 @@ $routes->post('/movie/destroy/:id', 'check_logged_in', function($id) {
         MovieController::destroy($id);
     }
 });
-$routes->post('/movie/destroymaintenance/:id', 'check_logged_in', function($id) {
+$routes->post('/movie/destroymaintenance/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
         MovieController::destroyMaintenance($id);
     }
 });
+
 
 $routes->get('/addmovie', 'check_logged_in', function() {
     MovieController::addMoviePage();

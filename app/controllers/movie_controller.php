@@ -8,14 +8,24 @@ class MovieController extends BaseController {
     public static function showOne($leffaid) {
 
         $elokuva = Elokuva::findOne($leffaid);
-        $valtio = Valtio::findValtioForElokuva($leffaid);
+        $valtio = Valtio::findValtioForElokuva($leffaid);       
         $nayttelijat = Artisti::findArtistitForElokuva($leffaid, "Näyttelijä");
         $ohjaajat = Artisti::findArtistitForElokuva($leffaid, "Ohjaaja");
         $kuvaajat = Artisti::findArtistitForElokuva($leffaid, "Kuvaaja");
-        $kassarit = Artisti::findArtistitForElokuva($leffaid, "Käsikirjoittaja");
+        $kassarit = Artisti::findArtistitForElokuva($leffaid, "Käsikirjoittaja");   
         $genret = Genre::findGenretForElokuva($leffaid);
-        $palkinnot = Palkinto::findPalkinnotForElokuva($leffaid);
-        $sarjanelokuvat = Sarjalaari::findSarjanElokuvat($leffaid);
+        $palkinnot = Palkinto::findPalkinnotForElokuva($leffaid);        
+        $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
+        
+        $sarjatAndElokuvat = array();
+        foreach ($sarjat as $s) {
+            $sarja = array();
+            $sarja['sarjanimi'] = $s->sarjanimi;
+            $sarjanelokuvat = Sarjalaari::findSarjanElokuvat($s->sarjaid);
+            $sarja[] = $sarjanelokuvat;
+            $sarjatAndElokuvat[] = $sarja;
+        }
+        
         $arviot = Arviolaari::findArviotForElokuva($leffaid);
         $kommentit = Kommentti::findKommentitForElokuva($leffaid);
         $dvdt = DVDlista::findDVDTForElokuva($leffaid);
@@ -32,7 +42,7 @@ class MovieController extends BaseController {
             'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
             'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
             'genret' => $genret, 'palkinnot' => $palkinnot, 'arviot' => $arviot,
-            'kommentit' => $kommentit, 'dvdt' => $dvdt, 'sarjanelokuvat' => $sarjanelokuvat,
+            'kommentit' => $kommentit, 'dvdt' => $dvdt, 'sarjatAndElokuvat' => $sarjatAndElokuvat,
             'arvioitu' => $arvioitu
         ));
     }

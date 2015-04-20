@@ -114,7 +114,7 @@ class LaariController extends BaseController {
             LaariController::sarjalaariSaveAdministrator($param, $leffaid);
         }
 
-        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty! :)" . $leffaid));
+        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty! :)"));
     }
 
     /* Uuden elokuvan artistien tallentaminen - ylläpitäjä tekee */

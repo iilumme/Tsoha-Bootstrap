@@ -1,5 +1,7 @@
 <?php
 
+/* Malli käyttäjän antamalle kommentille */
+
 class Kommentti extends BaseModel {
 
     public $kayttajaid, $kayttajatunnus, $leffaid, $teksti, $lisatty;
@@ -18,9 +20,12 @@ class Kommentti extends BaseModel {
         ));
     }
 
-    public static function findKommentitForElokuva($lid) {
-        $query = DB::connection()->prepare('SELECT K.leffaid, K.kayttajaid, K.lisatty, K.teksti, T.kayttajatunnus FROM Kommentti K, Kayttaja T, Elokuva E WHERE K.kayttajaid=T.kayttajaid AND K.leffaid=E.leffaid AND E.leffaid= :leffaid');
-        $query->execute(array('leffaid' => $lid));
+    /* Etsitään elokuvalle kommentit */
+    public static function findKommentitForElokuva($leffaid) {
+        $query = DB::connection()->prepare('SELECT K.leffaid, K.kayttajaid, K.lisatty, K.teksti, T.kayttajatunnus '
+                . 'FROM Kommentti K, Kayttaja T, Elokuva E '
+                . 'WHERE K.kayttajaid=T.kayttajaid AND K.leffaid=E.leffaid AND E.leffaid= :leffaid');
+        $query->execute(array('leffaid' => $leffaid));
         $tulokset = $query->fetchAll();
 
         $kommentit = array();
@@ -30,22 +35,13 @@ class Kommentti extends BaseModel {
         return $kommentit;
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT K.leffaid, K.kayttajaid, K.lisatty, K.teksti, T.kayttajatunnus FROM Kommentti K, Kayttaja T WHERE K.kayttajaid=T.kayttajaid');
-        $query->execute();
-        $tulokset = $query->fetchAll();
-
-        $kommentit = array();
-
-        foreach ($tulokset as $tulos) {
-            $kommentit[] = Kommentti::createKommentti($tulos);
-        }
-        return $kommentit;
-    }
-
-    public static function findOne($kid, $lid) {
-        $query = DB::connection()->prepare('SELECT K.leffaid, K.kayttajaid, K.lisatty, K.teksti, T.kayttajatunnus FROM Kommentti K, Kayttaja T WHERE K.kayttajaid=T.kayttajaid AND K.leffaid=E.leffaid AND E.leffaid= :leffaid AND K.kayttajaid= :kayttajaid LIMIT 1');
-        $query->execute(array('kayttajaid' => $kid, 'leffaid' => $lid));
+    /* Etsitään tietty kommentti */
+    public static function findOne($kayttajaid, $leffaid) {
+        $query = DB::connection()->prepare('SELECT K.leffaid, K.kayttajaid, K.lisatty, K.teksti, T.kayttajatunnus '
+                . 'FROM Kommentti K, Kayttaja T '
+                . 'WHERE K.kayttajaid=T.kayttajaid AND K.leffaid=E.leffaid '
+                . 'AND E.leffaid= :leffaid AND K.kayttajaid= :kayttajaid LIMIT 1');
+        $query->execute(array('kayttajaid' => $kayttajaid, 'leffaid' => $leffaid));
         $tulos = $query->fetch();
 
         if ($tulos) {

@@ -1,5 +1,7 @@
 <?php
 
+
+
 class Leffapalkintolaari extends BaseModel {
 
     public $palkintoid, $leffaid, $voitettu;

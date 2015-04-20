@@ -1,5 +1,7 @@
 <?php
 
+/* Malli käyttäjälle */
+
 class Kayttaja extends BaseModel {
 
     public $kayttajaid, $kayttajatunnus, $nimi, $salasana,
@@ -22,6 +24,7 @@ class Kayttaja extends BaseModel {
         ));
     }
 
+    /* Haetaan kaikki rekisteröityneet käyttäjät */
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
         $query->execute();
@@ -35,9 +38,10 @@ class Kayttaja extends BaseModel {
         return $kayttajat;
     }
 
-    public static function findOne($id) {
+    /* Haetaan IDllä tietty käyttäjä */
+    public static function findOne($kayttajaid) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE kayttajaid = :kayttajaid LIMIT 1');
-        $query->execute(array('kayttajaid' => $id));
+        $query->execute(array('kayttajaid' => $kayttajaid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -48,6 +52,7 @@ class Kayttaja extends BaseModel {
         return null;
     }
 
+    /* Tarkistetaan onko käyttäjää olemassa/onko salasana ja tunnus oikein */
     public static function authenticate($kayttajatunnus, $salasana) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE kayttajaTunnus = :kayttajatunnus AND salasana = :salasana LIMIT 1;');
         $query->execute(array('kayttajatunnus' => $kayttajatunnus, 'salasana' => $salasana));
@@ -61,6 +66,7 @@ class Kayttaja extends BaseModel {
         return null;
     }
 
+    /* Tallennetaan uusi käyttäjä */
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Kayttaja 
             (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu) 
@@ -77,6 +83,7 @@ class Kayttaja extends BaseModel {
         $this->kayttajaid = $tulos['kayttajaid'];
     }
 
+    /* Päivitetään käyttäjän tietoja */
     public function update() {
         $query = DB::connection()->prepare('UPDATE Kayttaja '
                 . 'SET kayttajaTunnus = :kayttajatunnus, nimi = :nimi, '
@@ -94,6 +101,7 @@ class Kayttaja extends BaseModel {
         return $tulos['kayttajaid'];
     }
 
+    /* Poistetaan käyttäjä */
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE kayttajaid = :kayttajaid');
         $query->execute(array('kayttajaid' => $this->kayttajaid));

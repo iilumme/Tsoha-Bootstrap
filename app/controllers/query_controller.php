@@ -22,14 +22,14 @@ class QueryController extends BaseController {
     }
 
     /* Kyselyjen suorittaminen */
-    public static function queryAccepted($id) {
-        Kyselyehdotus::execute($id);
+    public static function queryAccepted($ryhmaid) {
+        Kyselyryhma::execute($ryhmaid);
         Redirect::to('/maintenance', array('message' => 'Kysely onnistui! :)'));
     }
 
     /* Kyselyjen poistaminen */
-    public static function queryDenied($id) {
-        Kyselyehdotus::destroy($id);
+    public static function queryDenied($ryhmaid) {
+        Kyselyryhma::destroy($ryhmaid);
         Redirect::to('/maintenance', array('message' => 'Kysely hylätty ja poistettu! :)'));
     }
 

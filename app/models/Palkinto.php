@@ -1,5 +1,7 @@
 <?php
 
+/* Malli palkinnolle */
+
 class Palkinto extends BaseModel {
 
     public $palkintoid, $palkintonimi;
@@ -15,12 +17,13 @@ class Palkinto extends BaseModel {
         ));
     }
 
-    public static function findPalkinnotForElokuva($id) {
+    /* Haetaan palkinnot elokuvalle */
+    public static function findPalkinnotForElokuva($leffaid) {
         $query = DB::connection()->prepare('SELECT P.palkintoID, P.palkintoNimi '
                 . 'FROM Elokuva E, LeffaPalkintoLaari L, Palkinto P '
                 . 'WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.palkintoID=P.palkintoID '
                 . 'ORDER BY P.palkintonimi');
-        $query->execute(array('leffaid' => $id));
+        $query->execute(array('leffaid' => $leffaid));
         $tulokset = $query->fetchAll();
 
         $palkinnot = array();
@@ -43,9 +46,9 @@ class Palkinto extends BaseModel {
         return $palkinnot;
     }
 
-    public static function findOne($id) {
+    public static function findOne($palkintoid) {
         $query = DB::connection()->prepare('SELECT * FROM Palkinto WHERE palkintoid = :palkintoid LIMIT 1');
-        $query->execute(array('palkintoid' => $id));
+        $query->execute(array('palkintoid' => $palkintoid));
         $tulos = $query->fetch();
 
         if ($tulos) {

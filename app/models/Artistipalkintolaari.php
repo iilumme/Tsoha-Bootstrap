@@ -1,5 +1,7 @@
 <?php
 
+//EI VIELÄ KÄYTÖSSÄ :)
+
 class Artistipalkintolaari extends BaseModel {
 
     public $palkintoid, $artistiid, $voitettu;

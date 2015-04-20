@@ -1,5 +1,7 @@
 <?php
 
+/* Malli sarjalle */
+
 class Sarja extends BaseModel {
 
     public $sarjaid, $sarjanimi;
@@ -27,9 +29,9 @@ class Sarja extends BaseModel {
         return $sarjat;
     }
 
-    public static function findOne($id) {
+    public static function findOne($sarjaid) {
         $query = DB::connection()->prepare('SELECT * FROM Sarja WHERE sarjaid = :sarjaid LIMIT 1');
-        $query->execute(array('sarjaid' => $id));
+        $query->execute(array('sarjaid' => $sarjaid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -52,6 +54,7 @@ class Sarja extends BaseModel {
         return $this->sarjaid;
     }
 
+    /* Tallennetaan uusi sarjaehdotus */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO Sarja (sarjaNimi) '
                 . 'VALUES (:sarjanimi) RETURNING sarjaid;');

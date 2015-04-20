@@ -121,15 +121,24 @@
                     </ul>
                 </li>
                 {% endif %}
-                {%if sarjanelokuvat %}
-                <li><strong>Sarja:</strong>
+                
+                {%if sarjatAndMovies %}
+                <li><strong>Sarjat:</strong>
                     <ul>
-                        {% for selokuva in sarjanelokuvat %}
-                        {% if selokuva.leffaid==elokuva.leffaid %}
-                        <li> {{selokuva.leffanimi}}</li>
-                        {% else %}
-                        <li><a href="{{base_path}}/movie/{{selokuva.leffaid}}"> {{selokuva.leffanimi}}</a></li>
-                        {% endif %}
+                        {% for sarja in sarjatAndElokuvat %}
+                        <li>{{sarja.sarjanimi}}
+                            <ul>
+                                {% for elokuvat in sarja %}
+                                {% for movie in elokuvat %}
+                                {% if movie.leffaid == elokuva.leffaid %}
+                                <li> {{movie.leffanimi}}</li>
+                                {% else %}
+                                <li><a href="{{base_path}}/movie/{{movie.leffaid}}"> {{movie.leffanimi}}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </li>
                         {%endfor%}
                     </ul>
                 </li>

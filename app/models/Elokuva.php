@@ -293,7 +293,7 @@ class Elokuva extends BaseModel {
     }
 
     /* Elokuvan poistaminen - ylläpitäjä tekee */
-    public static function destroy() {
+    public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Elokuva WHERE leffaid = :leffaid');
         $query->execute(array('leffaid' => $this->leffaid));
     }

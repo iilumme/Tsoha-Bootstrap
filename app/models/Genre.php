@@ -1,5 +1,7 @@
 <?php
 
+/* Malli genrelle */
+
 class Genre extends BaseModel {
 
     public $genreid, $genrenimi;
@@ -15,6 +17,7 @@ class Genre extends BaseModel {
         ));
     }
 
+    /* Haetaan kaikki genret */
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Genre ORDER BY genrenimi');
         $query->execute();
@@ -27,9 +30,10 @@ class Genre extends BaseModel {
         return $genret;
     }
 
-    public static function findOne($id) {
+    /* Haetaan tietty genre IDllä */
+    public static function findOne($genreid) {
         $query = DB::connection()->prepare('SELECT * FROM Genre WHERE genreid = :genreid LIMIT 1');
-        $query->execute(array('genreid' => $id));
+        $query->execute(array('genreid' => $genreid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -40,9 +44,13 @@ class Genre extends BaseModel {
         return null;
     }
 
-    public static function findGenretForElokuva($id) {
-        $query = DB::connection()->prepare('SELECT G.genreID, G.genreNimi FROM Elokuva E, GenreLaari L, Genre G WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.genreID=G.genreID ORDER BY G.genrenimi');
-        $query->execute(array('leffaid' => $id));
+    /* Haetaan genret elokuvalle */
+    public static function findGenretForElokuva($leffaid) {
+        $query = DB::connection()->prepare('SELECT G.genreID, G.genreNimi '
+                . 'FROM Elokuva E, GenreLaari L, Genre G '
+                . 'WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.genreID=G.genreID '
+                . 'ORDER BY G.genrenimi');
+        $query->execute(array('leffaid' => $leffaid));
         $tulokset = $query->fetchAll();
 
         $genret = array();
@@ -52,6 +60,7 @@ class Genre extends BaseModel {
         return $genret;
     }
 
+    /* Tallennetaan uudsi genre-ehdotus */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO Genre (genrenimi) '
                 . 'VALUES (:genrenimi) RETURNING genreid;');
@@ -68,6 +77,7 @@ class Genre extends BaseModel {
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
+    /* Tallennetaan uusi genre */
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Genre (genrenimi) '
                 . 'VALUES (:genrenimi) RETURNING genreid;');

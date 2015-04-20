@@ -1,46 +1,54 @@
 <?php
 
+/* Malli elokuvan sarjojen tallentamiselle elokuvakohtaisesti */
+
 class Sarjalaari extends BaseModel {
 
-    public $sarjaid, $leffaid, $sarjanimi, $leffanimi;
+    public $sarjaid, $leffaid;
 
     public function __construct($attribuutit) {
         parent::__construct($attribuutit);
     }
 
-    private static function createSarjaLaari($tulos) {
-        return new Sarjalaari(array(
-            'sarjaid' => $tulos['sarjaid'],
-            'leffaid' => $tulos['leffaid'],
-            'sarjanimi' => $tulos['sarjanimi'],
-            'leffanimi' => $tulos['leffanimi']
-        ));
-    }
-
-    public static function findSarjanElokuvat($lid) {
-        $query = DB::connection()->prepare('SELECT L.sarjaid, L.leffaid, S.sarjanimi, E.leffanimi '
-                . 'FROM SarjaLaari L, Sarja S, Elokuva E '
-                . 'WHERE L.sarjaid=S.sarjaid AND L.leffaid=E.leffaid '
-                . 'AND L.sarjaid in (SELECT sarjaid FROM SarjaLaari WHERE leffaid= :leffaid) '
-                . 'ORDER BY E.vuosi');
-        $query->execute(array('leffaid' => $lid));
+    public static function findSarjatForElokuva($leffaid) {
+        $query = DB::connection()->prepare('SELECT S.sarjaID, sarjaNimi '
+                . 'FROM Sarja S, SarjaLaari L '
+                . 'WHERE S.sarjaID=L.sarjaID AND L.leffaID = :leffaid');
+        $query->execute(array('leffaid' => $leffaid));
         $tulokset = $query->fetchAll();
 
         $sarjat = array();
         foreach ($tulokset as $tulos) {
             $sarjat[] = new Sarjalaari(array(
                 'sarjaid' => $tulos['sarjaid'],
-                'leffaid' => $tulos['leffaid'],
-                'sarjanimi' => $tulos['sarjanimi'],
-                'leffanimi' => $tulos['leffanimi']
+                'sarjanimi' => $tulos['sarjanimi']
             ));
         }
         return $sarjat;
     }
-    
+
+    public static function findSarjanElokuvat($sarjaid) {
+        $query = DB::connection()->prepare('SELECT L.sarjaid, L.leffaid, E.leffanimi '
+                . 'FROM SarjaLaari L, Elokuva E '
+                . 'WHERE L.leffaID=E.leffaID AND sarjaID = :sarjaid '
+                . 'ORDER BY E.vuosi');
+        $query->execute(array('sarjaid' => $sarjaid));
+        $tulokset = $query->fetchAll();
+
+        $sarjanelokuvat = array();
+        foreach ($tulokset as $tulos) {
+            $sarjanelokuvat[] = new Elokuva(array(
+                'leffaid' => $tulos['leffaid'],
+                'leffanimi' => $tulos['leffanimi']
+            ));
+        }
+        return $sarjanelokuvat;
+    }
+
+    /* Tallennetaan uusi ehdotus */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO SarjaLaari (sarjaid, leffaid) '
-                . 'VALUES (:sarjaid, :leffaid) RETURNING sarjaid');         
+                . 'VALUES (:sarjaid, :leffaid) RETURNING sarjaid');
         $sijoituspaikat = array(":sarjaid", ":leffaid");
         $parametrit = array($this->sarjaid, $this->leffaid);
         $uusi = str_replace($sijoituspaikat, $parametrit, $query);
@@ -52,7 +60,6 @@ class Sarjalaari extends BaseModel {
         $kysely->save();
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
-    
 
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO SarjaLaari (sarjaid, leffaid) '

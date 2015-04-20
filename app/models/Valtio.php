@@ -1,5 +1,7 @@
 <?php
 
+/* Malli valtiolle */
+
 class Valtio extends BaseModel {
 
     public $valtioid, $valtionimi, $valtiobio, $lippu;
@@ -30,9 +32,9 @@ class Valtio extends BaseModel {
         return $valtiot;
     }
 
-    public static function findOne($id) {
+    public static function findOne($valtioid) {
         $query = DB::connection()->prepare('SELECT * FROM Valtiot WHERE valtioid = :valtioid LIMIT 1');
-        $query->execute(array('valtioid' => $id));
+        $query->execute(array('valtioid' => $valtioid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -43,6 +45,7 @@ class Valtio extends BaseModel {
         return null;
     }
 
+    /* Haetaan valtio elokuvalle */
     public static function findValtioForElokuva($leffaid) {
         $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu '
                 . 'FROM Valtiot, Elokuva '
@@ -58,6 +61,7 @@ class Valtio extends BaseModel {
         return null;
     }
 
+    /* Haetaan valtio artistille */
     public static function findValtioForArtisti($id) {
         $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu '
                 . 'FROM Valtiot, Artisti '
@@ -73,6 +77,7 @@ class Valtio extends BaseModel {
         return null;
     }
 
+    /* Tallennetaan muokkausehdotus */
     public function updateSuggestion() {
         $query = ('UPDATE Valtiot '
                 . 'SET valtiobio = :valtiobio '
@@ -91,6 +96,7 @@ class Valtio extends BaseModel {
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
+    /* Tallennetaan muokkaus */
     public function update() {
         $query = DB::connection()->prepare('UPDATE Valtiot '
                 . 'SET valtiobio = :valtiobio '

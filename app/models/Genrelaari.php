@@ -1,5 +1,7 @@
 <?php
 
+/* Malli elokuvan genrejen tallentamiselle elokuvakohtaisesti */
+
 class Genrelaari extends BaseModel {
 
     public $genreid, $leffaid;
@@ -8,6 +10,7 @@ class Genrelaari extends BaseModel {
         parent::__construct($attribuutit);
     }
     
+    /* Tallennetaan uusi ehdotus */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO GenreLaari (genreid, leffaid) '
                 . 'VALUES (:genreid, :leffaid) RETURNING genreid');         
@@ -23,6 +26,7 @@ class Genrelaari extends BaseModel {
         $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
+    /* Tallennetaan elokuvalle genre */
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO GenreLaari (genreid, leffaid) '
                 . 'VALUES (:genreid, :leffaid) RETURNING genreid');
