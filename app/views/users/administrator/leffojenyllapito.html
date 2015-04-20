@@ -24,7 +24,8 @@
                     <tr>
                         <td style="font-family: monospace"><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></td> 
                         <td>
-                            <form class="destroy-form" data-confirm="Haluatko varmasti poistaa tämän elokuvan? :)"
+                            <form class="destroy-form" 
+                                  data-confirm="Haluatko varmasti poistaa elokuvan: {{elokuva.leffanimi}}?"
                                   method="post" action="{{base_path}}/movie/destroymaintenance/{{elokuva.leffaid}}">
                                 <button class="btn btn-danger" type="submit">Poista</button>
                             </form>

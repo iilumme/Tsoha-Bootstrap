@@ -24,7 +24,8 @@
                     <tr>
                         <td style="font-family: monospace"><a href="{{base_path}}/artist/{{artisti.artistiid}}">{{artisti.etunimi}} {{artisti.sukunimi}}</a></td>
                         <td>
-                            <form class="destroy-form" data-confirm="Haluatko varmasti poistaa tämän tekijän? :)"
+                            <form class="destroy-form" 
+                                  data-confirm="Haluatko varmasti poistaa tekijän: {{artisti.etunimi}} {{artisti.sukunimi}}?"
                                   method="post" action="{{base_path}}/artist/destroymaintenance/{{artisti.artistiid}}">
                                 <button class="btn btn-danger" type="submit">Poista</button>
                             </form>

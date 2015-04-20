@@ -28,7 +28,8 @@
                         <td>
                             {% if kayttaja.kayttajaid == 2 %}
                             {% else %}
-                            <form class="destroy-form" data-confirm="Haluatko varmasti poistaa tämän käyttajän? :)"
+                            <form class="destroy-form" 
+                                  data-confirm="Haluatko varmasti poistaa käyttajän: {{kayttaja.kayttajatunnus}}?"
                                   method="post" action="{{base_path}}/user/destroymaintenance/{{kayttaja.kayttajaid}}">
                                 <button class="btn btn-danger" type="submit">Poista</button>
                             </form>

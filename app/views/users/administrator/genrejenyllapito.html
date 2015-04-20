@@ -30,7 +30,8 @@
                     <tr>
                         <td style="font-family: monospace">{{genre.genrenimi}}</a></td>
                         <td>
-                            <form class="destroy-form" data-confirm="Haluatko varmasti poistaa tämän genren? :)"
+                            <form class="destroy-form" 
+                                  data-confirm="Haluatko varmasti poistaa genren: {{genre.genrenimi}}?"
                                   method="post" action="{{base_path}}/genre/destroymaintenance/{{genre.genreid}}">
                                 <button class="btn btn-danger" type="submit">Poista</button>
                             </form>
