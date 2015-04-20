@@ -276,6 +276,13 @@ $routes->get('/seriemaintenance', 'check_logged_in', function() {
         BasisController::firstPage();
     }
 });
+$routes->get('/genremaintenance', 'check_logged_in', function() {
+    if (BaseController::isAdministrator() == TRUE) {
+        UserController::genreMaintenance();
+    } else {
+        BasisController::firstPage();
+    }
+});
 
 
 //DESTROY - MAINTENANCE
@@ -299,6 +306,12 @@ $routes->post('/serie/destroymaintenance/:id', function($id) {
         SarjaController::destroyMaintenance($id);
     }
 });
+$routes->post('/genre/destroymaintenance/:id', function($id) {
+    if (BaseController::isAdministrator() == TRUE) {
+        GenreController::destroyMaintenance($id);
+    }
+});
+
 
 
 //DESTROY

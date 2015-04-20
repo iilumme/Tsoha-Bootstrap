@@ -90,4 +90,16 @@ class Genre extends BaseModel {
         return $this->genreid;
     }
 
+    /* Genren poistaminen - ylläpitäjä tekee */
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM Genre WHERE genreid = :genreid RETURNING genreid');
+        $query->execute(array('genreid' => $this->genreid));
+        $tulos = $query->fetch();
+
+        if ($tulos) {
+            return 1;
+        }
+        return 0;
+    }
+
 }

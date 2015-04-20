@@ -23,4 +23,15 @@ class GenreController extends BaseController {
         LaariController::genrelaariSaveAdministrator($param, $leffaid);
     }
 
+    /* Genren poistaminen ylläpitosivulla */
+    public static function destroyMaintenance($genreid) {
+        $genre = new Genre(array('genreid' => $genreid));
+        $onnistuiko = $genre->destroy();
+        if ($onnistuiko == 1) {
+            Redirect::to('/genremaintenance', array('message' => 'Genren poistaminen onnistui'));
+        } else {
+            Redirect::to('/genremaintenance', array('message' => 'Genren poistaminen ei onnistunut. Genre on jonkun käyttäjän lempigenre.'));
+        }
+        
+    }
 }

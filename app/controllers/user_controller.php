@@ -345,5 +345,11 @@ class UserController extends BaseController {
         $sarjat = Sarja::all();
         View::make('users/administrator/sarjojenyllapito.html', array('sarjat' => $sarjat));
     }
+    
+    /* Genrejen ylläpitosivu */
+    public static function genreMaintenance() {
+        $genret = Genre::all();
+        View::make('users/administrator/genrejenyllapito.html', array('genret' => $genret));
+    }
 
 }

@@ -10,6 +10,7 @@ class Sarjalaari extends BaseModel {
         parent::__construct($attribuutit);
     }
 
+    /* Haetaan elokuvalle sarjat */
     public static function findSarjatForElokuva($leffaid) {
         $query = DB::connection()->prepare('SELECT S.sarjaID, sarjaNimi '
                 . 'FROM Sarja S, SarjaLaari L '
@@ -27,6 +28,7 @@ class Sarjalaari extends BaseModel {
         return $sarjat;
     }
 
+    /* Haetaan elokuvat sarjalle */
     public static function findSarjanElokuvat($sarjaid) {
         $query = DB::connection()->prepare('SELECT L.sarjaid, L.leffaid, E.leffanimi '
                 . 'FROM SarjaLaari L, Elokuva E '
