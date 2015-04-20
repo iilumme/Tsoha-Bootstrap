@@ -29,11 +29,11 @@ class MovieController extends BaseController {
         $arviot = Arviolaari::findArviotForElokuva($leffaid);
         $kommentit = Kommentti::findKommentitForElokuva($leffaid);
         $dvdt = DVDlista::findDVDTForElokuva($leffaid);
-
+        
         $arvioitu = 0;
         if (BaseController::get_user_logged_in() != NULL) {
-            if (Arviolaari::hasAddedStars($leffaid) == TRUE) {
-                $arvioitu = 1;
+            if (Arviolaari::hasAddedStars($leffaid) > 0) {
+                $arvioitu = Arviolaari::hasAddedStars($leffaid);
             }
         }
 
@@ -97,6 +97,12 @@ class MovieController extends BaseController {
         $parametri = $_POST;
         $tahti = $parametri['tahti'];
         Arviolaari::addStarForMovie($leffaid, $tahti);
+        Redirect::to('/movie/' . $leffaid);
+    }
+    
+    /* Arvion lisääminen elokuvalle */
+    public static function deleteStar($leffaid) {
+        Arviolaari::deleteStarFromMovie($leffaid);
         Redirect::to('/movie/' . $leffaid);
     }
     

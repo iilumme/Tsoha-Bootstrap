@@ -23,7 +23,6 @@ $routes->get('/allobjects', function() {
 
 
 //KÄYTTÄJÄ
-
 //Rekisteröityminen
 $routes->get('/register', function() {
     UserController::register();
@@ -150,6 +149,11 @@ $routes->post('/addmovie/addpeople', 'check_logged_in', function() {
 $routes->post('/arviopostisivu/:id', function($id) {
     MovieController::addStar($id);
 });
+//Elokuvalta pois tähtiä
+$routes->post('/arviopoistosivu/:id', function($id) {
+    MovieController::deleteStar($id);
+});
+
 
 //ARTISTI
 $routes->get('/artist/:id', function($id) {
@@ -186,7 +190,7 @@ $routes->post('/countryeditpage/:id', 'check_logged_in', function($id) {
 
 
 
-/*LAARIT*/
+/* LAARIT */
 //Tekijät, sarjat ja genret elokuvalle
 $routes->post('/testisivu', function() {
     if (BaseController::isAdministrator() == TRUE) {
@@ -229,7 +233,7 @@ $routes->get('/hiekkalaatikko', function() {
 
 
 
-/*ADMINISTRATOR*/
+/* ADMINISTRATOR */
 
 
 //Kyselyt

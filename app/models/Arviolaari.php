@@ -31,13 +31,21 @@ class Arviolaari extends BaseModel {
         }
         return $arviot;
     }
-    
+
     /* Lisätään arvio */
     public static function addStarForMovie($leffaid, $tahti) {
         $query = DB::connection()->prepare('INSERT INTO ArvioLaari (kayttajaID, leffaID, tahti, lisatty) '
                 . 'VALUES (:kayttajaid, :leffaid, :tahti, NOW())');
         $query->execute(array('kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
             'leffaid' => $leffaid, 'tahti' => $tahti));
+    }
+
+    /* Poistetaan arvio */
+    public static function deleteStarFromMovie($leffaid) {
+        $query = DB::connection()->prepare('DELETE FROM ArvioLaari '
+                . 'WHERE leffaID = :leffaid AND kayttajaID = :kayttajaid;');
+        $query->execute(array('kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
+            'leffaid' => $leffaid));
     }
 
     /* Onko jo arvioinut elokuvan? */
@@ -50,12 +58,11 @@ class Arviolaari extends BaseModel {
         $tulos = $query->fetch();
 
         if ($tulos) {
-            return TRUE;
+            return $tulos['tahti'];
         }
-        return FALSE;
-    }  
-   
-    
+        return 0;
+    }
+
 //    public static function findOne($id) {
 //        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID AND leffaid = :leffaid');
 //        $query->execute(array('leffaid' => $id));
@@ -74,7 +81,6 @@ class Arviolaari extends BaseModel {
 //
 //        return null;
 //    }
-
 //    public static function all() {
 //        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty '
 //                . 'FROM ArvioLaari A, Kayttaja K '
@@ -94,5 +100,4 @@ class Arviolaari extends BaseModel {
 //        }
 //        return $arviot;
 //    }
-
 }
