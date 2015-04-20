@@ -121,7 +121,7 @@
                     </ul>
                 </li>
                 {% endif %}
-                
+
                 {%if sarjatAndElokuvat %}
                 <li><strong>Sarjat:</strong>
                     <ul>
@@ -165,21 +165,25 @@
             {% endif %}
         </div>
     </div>
-
-    <br>
+    <br>   
     <div class="row">
-        <div class="col-md-6" id="arviointilaatikko">
-            <h5>Arviot ja kommentit</h5>
+        <div class="col-md-4" id="arviointilaatikko">
+            <h5>Arviot</h5>
             <ul>
                 {% for arvio in arviot %}
                 <li>Käyttäjä <i>{{arvio.kayttajatunnus}}</i> antoi <b>{{arvio.tahti}}</b> tähteä</li>
                 {%endfor%}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5>Kommentit</h5>
+            <ul>
                 {% for kommentti in kommentit %}
                 <li>Käyttäjä <i>{{kommentti.kayttajatunnus}}</i>: <b>{{kommentti.teksti}}</b></li>
                 {%endfor%}
             </ul>
         </div>
-        <div class="col-md-6" id="dvdlistaus">
+        <div class="col-md-4" id="dvdlistaus">
             {% if user_logged_in %}
             <h5>Käyttäjät, jotka omistavat DVD:nä</h5>
             <ul>
