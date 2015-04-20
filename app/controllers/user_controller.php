@@ -342,7 +342,7 @@ class UserController extends BaseController {
     
     /* Sarjojen ylläpitosivu */
     public static function serieMaintenance() {
-        $sarjat = Kayttaja::all();
+        $sarjat = Sarja::all();
         View::make('users/administrator/sarjojenyllapito.html', array('sarjat' => $sarjat));
     }
 

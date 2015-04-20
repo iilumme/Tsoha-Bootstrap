@@ -19,7 +19,7 @@ class Sarjalaari extends BaseModel {
 
         $sarjat = array();
         foreach ($tulokset as $tulos) {
-            $sarjat[] = new Sarjalaari(array(
+            $sarjat[] = new Sarja(array(
                 'sarjaid' => $tulos['sarjaid'],
                 'sarjanimi' => $tulos['sarjanimi']
             ));
