@@ -53,22 +53,7 @@
                             {%endfor%}
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Palkinto</label>
-                    <div class="dropdown">
-                        <select class="form-control haku" name="palkinto">
-                            <option>...</option>
-                            {% for palkinto in palkinnot%}
-                            {% if palkinto.palkintoid == valinnat.palkinto %}
-                            <option value="{{palkinto.palkintoid}}" selected="">{{palkinto.palkintonimi}}</option>
-                            {% else %}
-                            <option value="{{palkinto.palkintoid}}">{{palkinto.palkintonimi}}</option>
-                            {% endif %}  
-                            {%endfor%}
-                        </select>
-                    </div>
-                </div>
+                </div>               
                 <div class="form-group">
                     <label>Sarja</label>
                     <div class="dropdown">
@@ -121,7 +106,7 @@
         <div class="col-md-5">
             <h4 class="text-center">Hakutulokset</h4>
             {% if tulokset %}
-            <table class="table table-striped table-bordered bg-warning">
+            <table class="table table-striped table-bordered bg-success">
                 <thead>
                     <tr>
                         <th>Nimi</th>

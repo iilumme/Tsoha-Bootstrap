@@ -2,7 +2,11 @@
 {% block content %}
 
 <div class="bg">
+    {% if user_logged_in.kayttajaid == 2 %}
     <h2>Lisää elokuva</h2>
+    {% else %}
+    <h2>Lisää ehdotus elokuvasta</h2>
+    {% endif %}
     <br>
 
     {% if errors %}

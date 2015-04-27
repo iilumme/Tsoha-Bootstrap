@@ -12,6 +12,15 @@ class GenreController extends BaseController {
         $genre->saveSuggestion($ryhmaid);
         LaariController::genrelaariSaveSuggestionWithoutGenreID($ryhmaid);
     }
+    
+    /* Uuden genre-ehdotuksen tallentaminen */
+    public static function storeSuggestionUpdate($leffaid) {
+        $param = $_POST;
+        $genre = new Genre(array('genrenimi' => $param['genrenimi']));
+
+        $ryhmaid = $genre->saveSuggestionOwnGroup();
+        LaariController::genrelaariSaveSuggestionWithoutGenreIDWithLeffaid($leffaid, $ryhmaid);
+    }
 
     /* Uuden genren tallentaminen - ylläpitäjä tekee */
     public static function administratorStore($leffaid) {

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-info"  style="text-shadow: none">
+    {{message}}
+</div>
+{% endif %}
+
+<div class="bg">
+    <div class="row">
+        <div class="col-md-9">
+            <h2 style="font-family: sans-serif">Tietojen ylläpitosivut</h2>      
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{{base_path}}/queryadd">
+                <textarea style="font-family: monospace" name="kysely" id="synopsisteksti"></textarea>
+                <button class="btn btn-danger" type="submit">Suorita</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -60,7 +60,7 @@ class Genre extends BaseModel {
         return $genret;
     }
 
-    /* Tallennetaan uudsi genre-ehdotus */
+    /* Tallennetaan uusi genre-ehdotus */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO Genre (genrenimi) '
                 . 'VALUES (:genrenimi) RETURNING genreid;');
@@ -74,7 +74,27 @@ class Genre extends BaseModel {
             'kysely' => $uusi
         ));
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+
+    /* Tallennetaan uudsi genre-ehdotus */
+    public function saveSuggestionOwnGroup() {
+        $query = ('INSERT INTO Genre (genrenimi) '
+                . 'VALUES (:genrenimi) RETURNING genreid;');
+
+        $sijoituspaikat = array(":genrenimi");
+        $parametrit = array("'$this->genrenimi'");
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+        $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+
+        return $ryhmaid;
     }
 
     /* Tallennetaan uusi genre */

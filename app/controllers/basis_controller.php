@@ -31,15 +31,6 @@ class BasisController extends BaseController {
 //        $arvio = Arviolaari::findOne(1, 1);
 //        $arviot = Arviolaari::all();
 //
-//        $palkinto = Palkinto::findOne(1);
-//        $palkinnot = Palkinto::all();
-//
-//        $leffapalkinto = Leffapalkintolaari::findOne(1, 1);
-//        $leffapalkinnot = Leffapalkintolaari::all();
-//
-//        $apalkinto = Artistipalkintolaari::findOne(1, 1);
-//        $apalkinnot = Artistipalkintolaari::all();
-//
 //        Kint::dump($elokuva);
 //        Kint::dump($elokuvat);
 //
@@ -63,15 +54,6 @@ class BasisController extends BaseController {
 //
 //        Kint::dump($arvio);
 //        Kint::dump($arviot);
-//
-//        Kint::dump($palkinto);
-//        Kint::dump($palkinnot);
-//
-//        Kint::dump($leffapalkinto);
-//        Kint::dump($leffapalkinnot);
-//
-//        Kint::dump($apalkinto);
-//        Kint::dump($apalkinnot);
 //
 //        $sa = Sarjalaari::findSarjanElokuvat(1);
 //        Kint::dump($sa);

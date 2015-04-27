@@ -55,12 +55,9 @@ class Sarjalaari extends BaseModel {
         $parametrit = array($this->sarjaid, $this->leffaid);
         $uusi = str_replace($sijoituspaikat, $parametrit, $query);
 
-        $kyselyryhma = new Kyselyryhma(array());
-        $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
-        ));
+        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
     public function save() {

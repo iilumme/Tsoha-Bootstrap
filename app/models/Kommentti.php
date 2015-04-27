@@ -19,6 +19,22 @@ class Kommentti extends BaseModel {
             'lisatty' => $tulos['lisatty']
         ));
     }
+    
+    /* Haetaan kaikki kommentit */
+    public static function all() {
+        $query = DB::connection()->prepare('SELECT K.leffaid, K.kayttajaid, K.lisatty, K.teksti, T.kayttajatunnus '
+                . 'FROM Kommentti K, Kayttaja T '
+                . 'WHERE K.kayttajaid = T.kayttajaid');
+        $query->execute();
+        $tulokset = $query->fetchAll();
+
+        $kommentit = array();
+
+        foreach ($tulokset as $tulos) {
+            $kommentit[] = Kommentti::createKommentti($tulos);
+        }
+        return $kommentit;
+    }
 
     /* Etsitään elokuvalle kommentit */
     public static function findKommentitForElokuva($leffaid) {
@@ -83,4 +99,10 @@ class Kommentti extends BaseModel {
         return 0;
     }
 
+    /* Kommentin poistaminen - ylläpitäjä tekee */
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM Kommentti '
+                . 'WHERE leffaid = :leffaid AND kayttajaid = :kayttajaid');
+        $query->execute(array('leffaid' => $this->leffaid, 'kayttajaid' => $this->kayttajaid));
+    }
 }

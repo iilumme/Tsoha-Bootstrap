@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Genre.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/genre_controller.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/artist_controller.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Artisti.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/users/administrator/kayttajienyllapito.html</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/leffaetusivu.html</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/movie/leffamuokkaus.html</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/assets/js/site.js</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Genrelaari.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/config/routes.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/views/macros/modals.html</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/movie_controller.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/controllers/laari_controller.php</file>
+            <file>file:/Users/iina/CodeProjects/Tsoha-Bootstrap/app/models/Kyselyryhma.php</file>
+        </group>
     </open-files>
 </project-private>

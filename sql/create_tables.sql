@@ -77,10 +77,6 @@ CREATE TABLE Artisti (
   FOREIGN KEY (valtio) REFERENCES Valtiot (valtioID) ON DELETE SET NULL
 );
 
-CREATE TABLE Palkinto (
-  palkintoID   SERIAL PRIMARY KEY,
-  palkintoNimi VARCHAR(100) NOT NULL
-);
 
 CREATE TABLE Kommentti (
   kayttajaID INT           NOT NULL,
@@ -103,22 +99,6 @@ CREATE TABLE ArtistiLaari (
   leffaID   INT NOT NULL,
   FOREIGN KEY (artistiID) REFERENCES Artisti (artistiID) ON DELETE CASCADE,
   FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
-);
-
-CREATE TABLE LeffaPalkintoLaari (
-  palkintoID INT  NOT NULL,
-  leffaID    INT  NOT NULL,
-  voitettu   CHAR NOT NULL,
-  FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID) ON DELETE CASCADE,
-  FOREIGN KEY (leffaID) REFERENCES Elokuva (leffaID) ON DELETE CASCADE
-);
-
-CREATE TABLE ArtistiPalkintoLaari (
-  palkintoID INT  NOT NULL,
-  artistitID INT  NOT NULL,
-  voitettu   CHAR NOT NULL,
-  FOREIGN KEY (palkintoID) REFERENCES Palkinto (palkintoID) ON DELETE CASCADE,
-  FOREIGN KEY (artistitID) REFERENCES Artisti (artistiID) ON DELETE CASCADE
 );
 
 CREATE TABLE ArvioLaari (

@@ -16,6 +16,15 @@ class SarjaController extends BaseController {
         LaariController::sarjalaariSaveSuggestionWithoutSarjaID($ryhmaid);
     }
     
+    /* Uuden sarjaehdotuksen tallentaminen */
+    public static function storeSuggestionWithLeffaID($leffaid) {
+        $param = $_POST;
+        $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
+
+        $ryhmaid = $sarja->saveSuggestionOwnGroup();
+        LaariController::sarjalaariSaveSuggestionWithoutSarjaIDWithLeffaID($leffaid, $ryhmaid);
+    }
+    
     
     
     /* YLLÄPITÄJÄN METODIT*/

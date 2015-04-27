@@ -115,8 +115,31 @@ class Artisti extends BaseModel {
             'kysely' => $uusi
         ));
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
         
+    }
+    
+    /* Uuden artistiehdotuksen tallentaminen */
+    public function saveSuggestionOwnGroup() {
+        $query = ('INSERT INTO Artisti '
+                . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
+                . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
+                . 'RETURNING artistiid');
+
+        $sijoituspaikat = array(":artistityyppi", ":etunimi", ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
+        $parametrit = array("'$this->artistityyppi'", "'$this->etunimi'", "'$this->sukunimi'",
+            "'$this->bio'", $this->syntymavuosi, $this->valtio);
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        
+        $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
+        $kysely = new Kyselyehdotus(array(
+            'kysely' => $uusi
+        ));
+        $kysely->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+
+        return $ryhmaid;
     }
 
     /* Artistinmuokkausehdotuksen tallentaminen */
@@ -139,7 +162,9 @@ class Artisti extends BaseModel {
             'kysely' => $uusi
         ));               
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+        
+        return $ryhmaid;
     }
     
     /* Uuden artistin tallentaminen - ylläpitäjä tekee */

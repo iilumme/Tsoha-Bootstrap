@@ -351,5 +351,18 @@ class UserController extends BaseController {
         $genret = Genre::all();
         View::make('users/administrator/genrejenyllapito.html', array('genret' => $genret));
     }
+    
+    /* Kommenttien ylläpitosivu */
+    public static function commentMaintenance() {
+        $kommentit = Kommentti::all();
+        View::make('users/administrator/kommenttienyllapito.html', array('kommentit' => $kommentit));
+    }
+    
+    /* Kommentin poistaminen ylläpitosivuilla */
+    public static function destroyCommentMaintenance($kayttajaid, $leffaid) {
+        $kommentti = new Kommentti(array('kayttajaid' => $kayttajaid,'leffaid' => $leffaid));
+        $kommentti->destroy();
+        Redirect::to('/commentmaintenance', array('message' => 'Kommentin poistaminen onnistui'));
+    }
 
 }

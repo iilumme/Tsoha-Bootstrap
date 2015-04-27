@@ -25,10 +25,12 @@ class ArtistController extends BaseController {
         $valtiot = Valtio::all();
         $tamanhetkinenvaltio = Valtio::findValtioForArtisti($artistiid)->valtioid;
         $leffat = Elokuva::findElokuvatForArtisti($artistiid);
-
+        $elokuvatALL = Elokuva::all();
+        
         View::make('artist/artistimuokkaus.html', array(
             'artisti' => $artisti, 'valtiot' => $valtiot,
-            'elokuvat' => $leffat, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio
+            'elokuvat' => $leffat, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
+            'elokuvatALL' => $elokuvatALL
         ));
     }
 
@@ -56,6 +58,31 @@ class ArtistController extends BaseController {
             //mieti tämä
         }
     }
+    
+    /* Uuden artistiehdotuksen tallentaminen */
+    //HUOMIO ITSELLE!
+    public static function storeSuggestionUpdate($leffaid) {
+        $parametrit = $_POST;
+
+        $attribuutit = array(
+            'artistityyppi' => $parametrit['artistityyppi'],
+            'etunimi' => $parametrit['etunimi'],
+            'sukunimi' => $parametrit['sukunimi'],
+            'bio' => $parametrit['bio'],
+            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
+            'valtio' => (int) $parametrit['valtio']
+        );
+
+        $artisti = new Artisti($attribuutit);
+        $errors = $artisti->errors();
+
+        if (count($errors) == 0) {
+            $ryhmaid = $artisti->saveSuggestionOwnGroup();
+            LaariController::artistilaariSaveSuggestionWithoutArtistiIDWithLeffaID($leffaid, $ryhmaid);
+        } else {
+            //mieti tämä
+        }
+    }
 
     /* Artistin muokkauksehdotuksen tallentaminen */
     public static function updateSuggestion($artistiid) {
@@ -72,7 +99,8 @@ class ArtistController extends BaseController {
         $errors = $artist->errors();
 
         if (count($errors) == 0) {
-            $artist->updateSuggestion();
+            $ryhmaid = $artist->updateSuggestion();
+            LaariController::artistilaariUpdateSuggestionMovies($parametrit, $artistiid, $ryhmaid);
             Redirect::to('/artist/' . $artistiid, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle :)'));
         } else {
             $valtiot = Valtio::all();
@@ -139,6 +167,7 @@ class ArtistController extends BaseController {
 
         if (count($errors) == 0) {
             $artist->update();
+            LaariController::artistilaariUpdateMoviesAdministrator($parametrit, $artistiid);
             Redirect::to('/artist/' . $artistiid, array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
             $valtiot = Valtio::all();

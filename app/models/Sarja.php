@@ -45,9 +45,7 @@ class Sarja extends BaseModel {
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Sarja (sarjaNimi) '
                 . 'VALUES (:sarjanimi) RETURNING sarjaid;');
-        $query->execute(array(
-            'sarjanimi' => $this->sarjanimi
-        ));
+        $query->execute(array('sarjanimi' => $this->sarjanimi));
 
         $tulos = $query->fetch();
         $this->sarjaid = $tulos['sarjaid'];
@@ -63,14 +61,34 @@ class Sarja extends BaseModel {
         $parametrit = array("'$this->sarjanimi'");
         $uusi = str_replace($sijoituspaikat, $parametrit, $query);
 
+        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
+        $kysely->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+    
+    
+    /* Tallennetaan uusi sarja-ehdotus */
+    public function saveSuggestionOwnGroup() {
+        $query = ('INSERT INTO Sarja (sarjaNimi) '
+                . 'VALUES (:sarjanimi) RETURNING sarjaid;');
+
+        $sijoituspaikat = array(":sarjanimi");
+        $parametrit = array("'$this->sarjanimi'");
+        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+
+
         $kyselyryhma = new Kyselyryhma(array());
+        $ryhmaid = $kyselyryhma->save();
         $kysely = new Kyselyehdotus(array(
             'kysely' => $uusi
         ));
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+
+        return $ryhmaid;
     }
-    
+
+
     /* Sarjan poistaminen - ylläpitäjä tekee */
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Sarja WHERE sarjaid = :sarjaid');

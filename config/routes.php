@@ -126,6 +126,7 @@ $routes->get('/movie/edit/:id', 'check_logged_in', function($id) {
 $routes->post('/movieeditpage/:id', 'check_logged_in', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
         MovieController::administratorUpdate($id);
+        LaariController::administratorUpdate($id);
     } else {
         MovieController::updateSuggestion($id);
     }
@@ -214,6 +215,13 @@ $routes->post('/genrepostisivu/:id', function($id) {
         GenreController::storeSuggestion($id);
     }
 });
+$routes->post('/muokkausuusigenre/:id', function($id) {
+    if (BaseController::isAdministrator() == TRUE) {
+        GenreController::administratorStore($id);
+    } else {
+        GenreController::storeSuggestionUpdate($id);
+    }
+});
 $routes->post('/sarjapostisivu/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
         SarjaController::administratorStore($id);
@@ -221,11 +229,25 @@ $routes->post('/sarjapostisivu/:id', function($id) {
         SarjaController::storeSuggestion($id);
     }
 });
+$routes->post('/muokkausuusisarja/:id', function($id) {
+    if (BaseController::isAdministrator() == TRUE) {
+        SarjaController::administratorStore($id);
+    } else {
+        SarjaController::storeSuggestionWithLeffaID($id);
+    }
+});
 $routes->post('/artistipostisivu/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
         ArtistController::administratorStore($id);
     } else {
         ArtistController::storeSuggestion($id);
+    }
+});
+$routes->post('/artistipostisivumuokkaus/:id', function($id) {
+    if (BaseController::isAdministrator() == TRUE) {
+        ArtistController::administratorStore($id);
+    } else {
+        ArtistController::storeSuggestionUpdate($id);
     }
 });
 
@@ -258,6 +280,17 @@ $routes->post('/kyselylisays/:id', function($id) {
 $routes->post('/kyselypoisto/:id', function($id) {
     QueryController::queryDenied($id);
 });
+$routes->get('/addquery', 'check_logged_in', function() {
+    if (BaseController::isAdministrator() == TRUE) {
+        QueryController::queryAddPage();
+    } else {
+        BasisController::firstPage();
+    }
+});
+$routes->post('/queryadd', function() {
+    QueryController::addQuery();
+});
+
 
 //MAINTENANCE
 $routes->get('/moviemaintenance', 'check_logged_in', function() {
@@ -295,7 +328,13 @@ $routes->get('/genremaintenance', 'check_logged_in', function() {
         BasisController::firstPage();
     }
 });
-
+$routes->get('/commentmaintenance', 'check_logged_in', function() {
+    if (BaseController::isAdministrator() == TRUE) {
+        UserController::commentMaintenance();
+    } else {
+        BasisController::firstPage();
+    }
+});
 
 //DESTROY - MAINTENANCE
 $routes->post('/movie/destroymaintenance/:id', function($id) {
@@ -323,7 +362,11 @@ $routes->post('/genre/destroymaintenance/:id', function($id) {
         GenreController::destroyMaintenance($id);
     }
 });
-
+$routes->post('/comment/destroymaintenance/:kayttajaid/:leffaid', function($kayttajaid, $leffaid) {
+    if (BaseController::isAdministrator() == TRUE) {
+        UserController::destroyCommentMaintenance($kayttajaid, $leffaid);
+    }
+});
 
 
 //DESTROY

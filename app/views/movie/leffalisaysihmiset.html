@@ -21,142 +21,140 @@
     <h3>Lisää elokuvan ohjaajat, kuvaajat, käsikirjoittajat, näyttelijät, genret ja sarjat</h3>
     <br>
 
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="dropdown">
-                    <label>Ohjaajat</label>
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
-                        {% for ohjaaja in ohjaajat%}
-                        <option value="{{ohjaaja.artistiid}}">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-success lisaaartisti">Lisää</button>
-                <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Ohjaaja">Uusi</button>
-            </div>   
-        </div>
-        <br>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="dropdown">
-                    <label>Kuvaajat</label>
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
-                        {% for kuvaaja in kuvaajat%}
-                        <option value="{{kuvaaja.artistiid}}">{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-success lisaaartisti">Lisää</button>
-                <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Kuvaaja">Uusi</button>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dropdown">
+                <label>Ohjaajat</label>
+                <select class="form-control artistivalinta">
+                    <option>...</option>
+                    {% for ohjaaja in ohjaajat%}
+                    <option value="{{ohjaaja.artistiid}}">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</option>
+                    {%endfor%}
+                </select>
             </div>
         </div>
-        <br>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="dropdown">
-                    <label>Käsikirjoittajat</label>
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
-                        {% for kassari in kasikirjoittajat%}
-                        <option value="{{kassari.artistiid}}">{{kassari.etunimi}} {{kassari.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-success lisaaartisti">Lisää</button>
-                <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Käsikirjoittaja">Uusi</button>
-            </div>
-        </div>
-        <br>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="dropdown">
-                    <label>Näyttelijät</label>
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
-                        {% for nayttelija in nayttelijat%}
-                        <option value="{{nayttelija.artistiid}}">{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-success lisaaartisti">Lisää</button>
-                <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Näyttelijä">Uusi</button>
-            </div>
-        </div>
-        <br>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="dropdown">
-                    <label>Genret</label>
-                    <select class="form-control genrevalinta">
-                        <option>...</option>
-                        {%for genre in genret%}
-                        <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-success lisaagenre">Lisää</button>
-                <button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali">Uusi</button>
-            </div>
-        </div>
-        <br>
-
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" data-toggle="collapse" data-target="#sarjanvalintamenu,#buttons" >
-                Kuuluu sarjaan
-            </label>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <div class="dropdown collapse" id="sarjanvalintamenu">
-                    <label>Sarjat</label>
-                    <select class="form-control sarjavalinta">
-                        <option>...</option>
-                        {% for sarja in sarjat %}
-                        <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
-                        {%endfor%}
-                    </select>                  
-                </div>
-            </div>
-
-            <div class="col-md-3 collapse" id="buttons">
-                <button class="btn btn-success lisaasarja">Lisää</button>
-                <button class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali">Uusi</button>
-            </div>
-
-        </div>
-        <br>
-
-        <form method="post" action="{{base_path}}/testisivu">
-            <input type="hidden" name="artistilista" id="hidd"/>
-            <input type="hidden" name="genrelista" id="hiddgenre"/>
-            <input type="hidden" name="sarjalista" id="hiddsarja"/>
-            <input type="hidden" name="leffaid" id="lid" value="{{lid}}"/>
-            {% if ryhmaid %}
-            <input type="hidden" name="ryhmaid" id="ryhmaid" value="{{ryhmaid}}"/>
-            {% endif %}
-            <button type="submit" class="btn btn-success">Lisää elokuva</button>
-        </form>
+        <div class="col-md-3">
+            <button class="btn btn-success lisaaartisti">Lisää</button>
+            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Ohjaaja">Uusi</button>
+        </div>   
     </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dropdown">
+                <label>Kuvaajat</label>
+                <select class="form-control artistivalinta">
+                    <option>...</option>
+                    {% for kuvaaja in kuvaajat%}
+                    <option value="{{kuvaaja.artistiid}}">{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-success lisaaartisti">Lisää</button>
+            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Kuvaaja">Uusi</button>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dropdown">
+                <label>Käsikirjoittajat</label>
+                <select class="form-control artistivalinta">
+                    <option>...</option>
+                    {% for kassari in kasikirjoittajat%}
+                    <option value="{{kassari.artistiid}}">{{kassari.etunimi}} {{kassari.sukunimi}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-success lisaaartisti">Lisää</button>
+            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Käsikirjoittaja">Uusi</button>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dropdown">
+                <label>Näyttelijät</label>
+                <select class="form-control artistivalinta">
+                    <option>...</option>
+                    {% for nayttelija in nayttelijat%}
+                    <option value="{{nayttelija.artistiid}}">{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-success lisaaartisti">Lisää</button>
+            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Näyttelijä">Uusi</button>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dropdown">
+                <label>Genret</label>
+                <select class="form-control genrevalinta">
+                    <option>...</option>
+                    {%for genre in genret%}
+                    <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-success lisaagenre">Lisää</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali">Uusi</button>
+        </div>
+    </div>
+    <br>
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" data-toggle="collapse" data-target="#sarjanvalintamenu,#buttons" >
+            Kuuluu sarjaan
+        </label>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="dropdown collapse" id="sarjanvalintamenu">
+                <label>Sarjat</label>
+                <select class="form-control sarjavalinta">
+                    <option>...</option>
+                    {% for sarja in sarjat %}
+                    <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
+                    {%endfor%}
+                </select>                  
+            </div>
+        </div>
+
+        <div class="col-md-3 collapse" id="buttons">
+            <button class="btn btn-success lisaasarja">Lisää</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali">Uusi</button>
+        </div>
+
+    </div>
+    <br>
+
+    <form method="post" action="{{base_path}}/testisivu">
+        <input type="hidden" name="artistilista" id="hidd"/>
+        <input type="hidden" name="genrelista" id="hiddgenre"/>
+        <input type="hidden" name="sarjalista" id="hiddsarja"/>
+        <input type="hidden" name="leffaid" id="lid" value="{{lid}}"/>
+        {% if ryhmaid %}
+        <input type="hidden" name="ryhmaid" id="ryhmaid" value="{{ryhmaid}}"/>
+        {% endif %}
+        <button type="submit" class="btn btn-success">Lisää elokuva</button>
+    </form>
 </div>
 {% endblock %}
 

@@ -37,7 +37,7 @@ class Kyselyryhma extends BaseModel {
     }
 
     /* Tallennetaan kysely kyselyryhmään */
-    public function saveToLaari($ryhmaid, $kyselyid) {
+    public static function saveToLaari($ryhmaid, $kyselyid) {
         $query = DB::connection()->prepare('INSERT INTO KyselyryhmaLaari (ryhmaID, kyselyID) '
                 . 'VALUES (:ryhmaid, :kyselyid) RETURNING ryhmaID');
         $query->execute(array('ryhmaid' => $ryhmaid, 'kyselyid' => $kyselyid));

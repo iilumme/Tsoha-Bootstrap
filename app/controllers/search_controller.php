@@ -56,9 +56,6 @@ class SearchController extends BaseController {
         if (isset($parametrit['genre']) && $parametrit['genre'] !== '...') {
             $valinnat['genre'] = (int) $parametrit['genre'];
         }
-        if (isset($parametrit['palkinto']) && $parametrit['palkinto'] !== '...') {
-            $valinnat['palkinto'] = (int) $parametrit['palkinto'];
-        }
         if (isset($parametrit['sarja']) && $parametrit['sarja'] !== '...') {
             $valinnat['sarja'] = (int) $parametrit['sarja'];
         }
@@ -75,13 +72,11 @@ class SearchController extends BaseController {
 
         $valtiot = Valtio::all();
         $genret = Genre::all();
-        $palkinnot = Palkinto::all();
         $sarjat = Sarja::all();
 
         View::make('basis/haku.html', array(
-            'valtiot' => $valtiot, 'genret' => $genret, 'palkinnot' => $palkinnot,
-            'sarjat' => $sarjat, 'tulokset' => $tulokset, 'valinnat' => $valinnat,
-            'kuvanpaikka' => $kuvanpaikka
+            'valtiot' => $valtiot, 'genret' => $genret,'sarjat' => $sarjat,
+            'tulokset' => $tulokset, 'valinnat' => $valinnat, 'kuvanpaikka' => $kuvanpaikka
         ));
     }
 

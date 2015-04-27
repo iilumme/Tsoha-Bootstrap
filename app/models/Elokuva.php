@@ -218,11 +218,9 @@ class Elokuva extends BaseModel {
 
         $kyselyryhma = new Kyselyryhma(array());
         $ryhmaid = $kyselyryhma->save();
-        $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
-        ));
+        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
 
         return $ryhmaid;
     }
@@ -238,19 +236,20 @@ class Elokuva extends BaseModel {
             ":valtio", ":kieli", ":synopsis", ":traileriurl");
         $parametrit = array($this->leffaid, "'$this->leffanimi'", $this->vuosi, $this->valtio,
             "'$this->kieli'", "'$this->synopsis'", "'$this->traileriurl'");
-
         $uusi = str_replace($sijoituspaikat, $parametrit, $query);
 
         $kyselyryhma = new Kyselyryhma(array());
         $ryhmaid = $kyselyryhma->save();
-
-        $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
-        ));
+        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
         $kysely->save();
-
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+        
+        return $ryhmaid;
     }
+    
+    
+    /* YLLÄPITÄJÄ */
+    
 
     /* Uuden elokuvan tallentaminen - ylläpitäjä tekee */
     public function save() {
@@ -301,7 +300,7 @@ class Elokuva extends BaseModel {
     /* Haku */
     public static function search($valinnat) {
         $query = 'SELECT DISTINCT E.leffaID, E.leffaNimi '
-                . 'FROM Elokuva E, ArtistiLaari A, GenreLaari G, LeffaPalkintoLaari L, SarjaLaari S '
+                . 'FROM Elokuva E, ArtistiLaari A, GenreLaari G, SarjaLaari S '
                 . 'WHERE ';
 
         $first = TRUE;
@@ -470,16 +469,6 @@ class Elokuva extends BaseModel {
             }
 
             $valinta['genre'] = $valinnat['genre'];
-        }
-        if (isset($valinnat['palkinto'])) {
-            if ($first) {
-                $first = FALSE;
-                $query .= ' :palkinto IN (SELECT palkintoid FROM LeffaPalkintoLaari WHERE leffaID = E.leffaID) ';
-            } else {
-                $query .= ' AND :palkinto IN (SELECT palkintoid FROM LeffaPalkintoLaari WHERE leffaID = E.leffaID) ';
-            }
-
-            $valinta['palkinto'] = $valinnat['palkinto'];
         }
         if (isset($valinnat['sarja'])) {
             if ($first) {

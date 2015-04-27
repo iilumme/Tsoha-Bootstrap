@@ -330,6 +330,104 @@ $(document).ready(function () {
             }
         });
 
+        var $poistettavatartistit = new Array();
+        var $poistettavatgenret = new Array();
+        var $poistettavatelokuvat = new Array();
+        
+
+        $('.closeartisti').click(function (event) {
+            console.log("moi :D");
+            var $this = $(this);
+            console.log($this.val());
+            if ($this.text() === 'Lisää') {
+                $this.text('Poista');
+                $idx = $poistettavatartistit.indexOf($this.val());
+                $poistettavatartistit.splice($idx, 1);
+            } else {
+                $this.text('Lisää');
+                $poistettavatartistit[$poistettavatartistit.length] = $this.val();
+            }
+            $('#poistettavatartistit').val($poistettavatartistit);
+            console.log($poistettavatartistit);
+        }).change();
+
+        $('.closegenre').click(function (event) {
+            console.log("moi :D");
+            var $this = $(this);
+            console.log($this.val());
+            if ($this.text() === 'Lisää') {
+                $this.text('Poista');
+                $idx = $poistettavatgenret.indexOf($this.val());
+                $poistettavatgenret.splice($idx, 1);
+            } else {
+                $this.text('Lisää');
+                $poistettavatgenret[$poistettavatgenret.length] = $this.val();
+            }
+            $('#poistettavatgenret').val($poistettavatgenret);
+            console.log($poistettavatgenret);
+        }).change();
+
+
+        $('.closeelokuva').click(function (event) {
+            console.log("moi :D");
+            var $this = $(this);
+            console.log($this.val());
+            if ($this.text() === 'Lisää') {
+                $this.text('Poista');
+                $idx = $poistettavatelokuvat.indexOf($this.val());
+                $poistettavatelokuvat.splice($idx, 1);
+            } else {
+                $this.text('Lisää');
+                $poistettavatelokuvat[$poistettavatelokuvat.length] = $this.val();
+            }
+            $('#poistettavatelokuvat').val($poistettavatelokuvat);
+            console.log($poistettavatelokuvat);
+        }).change();
+
+        var $leffalista = new Array();
+
+        var $leffavalintakandidaatti;
+
+        $('.lisaaleffa').click(function (event) {
+            console.log("leffa");
+            var $this = $(this);
+            console.log($this.value);
+            if ($leffavalintakandidaatti !== 0 && $leffavalintakandidaatti !== '...') {
+                $leffalista[$leffalista.length] = $leffavalintakandidaatti;
+                $('#leffalista').val($leffalista);
+                console.log($leffalista);
+                $leffavalintakandidaatti = 0;
+            }
+        }).change();
+
+        $('.leffavalinta').change(function () {
+            console.log("kalakissa");
+            var $this = $(this);
+            $leffavalintakandidaatti = $this.val();
+            console.log($this.val());
+        });
+
+
+        //LEFFAN MUOKKAUS -SARJAT
+        var $poistettavatsarjat = new Array();
+
+        $('.closesarja').click(function (event) {
+            console.log("sarja");
+            var $this = $(this);
+            console.log($this.val());
+            if ($this.text() === 'Lisää') {
+                $this.text('Poista');
+                $idx = $poistettavatsarjat.indexOf($this.val());
+                $poistettavatsarjat.splice($idx, 1);
+            } else {
+                $this.text('Lisää');
+                $poistettavatsarjat[$poistettavatsarjat.length] = $this.val();
+            }
+            $('#poistettavatsarjat').val($poistettavatsarjat);
+            console.log($poistettavatsarjat);
+        }).change();
+
+
     });
 });
 

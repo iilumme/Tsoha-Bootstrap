@@ -62,11 +62,11 @@ class Valtio extends BaseModel {
     }
 
     /* Haetaan valtio artistille */
-    public static function findValtioForArtisti($id) {
+    public static function findValtioForArtisti($artistiid) {
         $query = DB::connection()->prepare('SELECT valtioid, valtionimi, valtiobio, lippu '
                 . 'FROM Valtiot, Artisti '
                 . 'WHERE Artisti.artistiid = :artistiid and Artisti.valtio = Valtiot.valtioid LIMIT 1');
-        $query->execute(array('artistiid' => $id));
+        $query->execute(array('artistiid' => $artistiid));
         $tulos = $query->fetch();
 
         if ($tulos) {
@@ -81,7 +81,7 @@ class Valtio extends BaseModel {
     public function updateSuggestion() {
         $query = ('UPDATE Valtiot '
                 . 'SET valtiobio = :valtiobio '
-                . 'WHERE valtioid = :valtioid RETURNING valtioid;');
+                . 'WHERE valtioid = :valtioid RETURNING valtioid');
 
         $sijoituspaikat = array(":valtiobio", ":valtioid");
         $parametrit = array("'$this->valtiobio'", $this->valtioid);
@@ -93,7 +93,7 @@ class Valtio extends BaseModel {
             'kysely' => $uusi
         ));
         $kysely->save();
-        $kyselyryhma->saveToLaari($ryhmaid, $kysely->kyselyid);
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
     }
 
     /* Tallennetaan muokkaus */

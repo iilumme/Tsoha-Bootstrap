@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="bg">
+{% import "macros/modals.html" as modals %}
+{{modals.artist_modal(valtiot, "#{elokuva.leffaid}", "#{base_path}/artistipostisivumuokkaus")}}
+{{modals.genre_modal("#{elokuva.leffaid}", "#{base_path}/muokkausuusigenre")}}
+{{modals.sarja_modal("#{elokuva.leffaid}", "#{base_path}/muokkausuusisarja")}}
 
+<div class="bg">
     {% if errors %}
     <div class="alert alert-danger"  style="text-shadow: none">
         <ul>
@@ -40,7 +44,6 @@
                         {%endfor%}
                     </select>
                 </div>
-                <br>
                 <div class="form-group">
                     <label>Julkaisuvuosi</label>
                     <input type="text" class="form-control" value="{{elokuva.vuosi}}" name="vuosi">
@@ -55,27 +58,41 @@
                     <div class="input-group">
                         <div class="input-group-addon" id="poistettava">{{genre.genrenimi}}</div>
                         <div class="input-group-addon" id="poistettava">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;
-                                </span>
+                            <button  type="button" class="close btn btn-success closegenre" 
+                                     aria-label="Close" value="{{genre.genreid}}">Poista
                             </button>
                         </div>
                     </div>
-                    {%endfor%}               
+                    {%endfor%}
+                    <select class="form-control genrevalinta">
+                        <option>...</option>
+                        {%for genre in genretALL %}
+                        <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
+                        {%endfor%}
+                    </select>
+                    <button class="btn btn-success lisaagenre" type="button">Lisää</button>
+                    <button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali" type="button">Uusi Genre</button>
                 </div>
                 <div class="form-group">
                     <label>Ohjaajat</label>
                     {%for ohjaaja in ohjaajat%}
                     <div class="input-group">
-                        <div class="input-group-addon" id="poistettava">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</div>
+                        <div class="input-group-addon pari" id="poistettava">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</div>
                         <div class="input-group-addon" id="poistettava">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;
-                                </span>
+                            <button  type="button" class="close btn btn-success closeartisti" 
+                                     aria-label="Close" value="{{ohjaaja.artistiid}}">Poista
                             </button>
                         </div>
                     </div>
-                    {%endfor%} 
+                    {%endfor%}
+                    <select class="form-control artistivalinta">
+                        <option>...</option>
+                        {% for ohjaaja in ohjaajatALL %}
+                        <option value="{{ohjaaja.artistiid}}">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
+                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Ohjaaja" type="button">Uusi</button>
                 </div>
 
                 <div class="form-group">
@@ -84,13 +101,20 @@
                     <div class="input-group">
                         <div class="input-group-addon" id="poistettava">{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</div>
                         <div class="input-group-addon" id="poistettava">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;
-                                </span>
+                            <button  type="button" class="close btn btn-success closeartisti" 
+                                     aria-label="Close" value="{{kuvaaja.artistiid}}">Poista
                             </button>
                         </div>
                     </div>
-                    {%endfor%} 
+                    {%endfor%}
+                    <select class="form-control artistivalinta">
+                        <option>...</option>
+                        {% for kuvaaja in kuvaajatALL %}
+                        <option value="{{kuvaaja.artistiid}}">{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
+                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Kuvaaja" type="button">Uusi</button>
                 </div>
 
                 <div class="form-group">
@@ -99,13 +123,21 @@
                     <div class="input-group">
                         <div class="input-group-addon" id="poistettava">{{kassari.etunimi}} {{kassari.sukunimi}}</div>
                         <div class="input-group-addon" id="poistettava">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;
-                                </span>
+                            <button  type="button" class="close btn btn-success closeartisti" 
+                                     aria-label="Close" value="{{kassari.artistiid}}">Poista
                             </button>
                         </div>
                     </div>
                     {%endfor%} 
+                    <select class="form-control artistivalinta">
+                        <option>...</option>
+                        {% for kassari in kasikirjoittajatALL %}
+                        <option value="{{kassari.artistiid}}">{{kassari.etunimi}} {{kassari.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
+                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" 
+                            data-target="#lisaysmodaali" value="Käsikirjoittaja" type="button">Uusi</button>
                 </div>
 
                 <div class="form-group">
@@ -114,27 +146,42 @@
                     <div class="input-group">
                         <div class="input-group-addon" id="poistettava">{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</div>
                         <div class="input-group-addon" id="poistettava">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;
-                                </span>
+                            <button  type="button" class="close btn btn-success closeartisti" 
+                                     aria-label="Close" value="{{nayttelija.artistiid}}">Poista
                             </button>
                         </div>
                     </div>
                     {%endfor%} 
+                    <select class="form-control artistivalinta">
+                        <option>...</option>
+                        {% for nayttelija in nayttelijatALL %}
+                        <option value="{{nayttelija.artistiid}}">{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</option>
+                        {%endfor%}
+                    </select>
+                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
+                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" 
+                            value="Näyttelijä" type="button">Uusi</button>
                 </div>
                 <div class="form-group">
-                    <label>Palkinnot</label> 
-                    {% for palkinto in palkinnot%}
+                    <label>Sarjat</label> 
+                    {% for sarja in sarjat%}
                     <div class="input-group">
-                        <div class="input-group-addon" id="poistettava">{{palkinto.palkintonimi}}</div>
+                        <div class="input-group-addon" id="poistettava">{{sarja.sarjanimi}}</div>
                         <div class="input-group-addon" id="poistettava">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;
-                                </span>
+                            <button  type="button" class="close btn btn-success closesarja" 
+                                     aria-label="Close" value="{{sarja.sarjaid}}">Poista
                             </button>
                         </div>
                     </div>
                     {% endfor %}
+                    <select class="form-control sarjavalinta">
+                        <option>...</option>
+                        {% for sarja in sarjatALL %}
+                        <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
+                        {%endfor%}
+                    </select>  
+                    <button type="button" class="btn btn-success lisaasarja">Lisää</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali">Uusi</button>
                 </div>
                 <div class="form-group">
                     <label>Traileri</label>
@@ -142,11 +189,17 @@
                 </div>
                 <div class="form-group">
                     <label>Synopsis</label>
-                    <textarea class="form-group" style="font-family: monospace" id="synopsisteksti" name="synopsis">{{elokuva.synopsis}}
-                    </textarea>
+                    <textarea class="form-group" style="font-family: monospace" 
+                              id="synopsisteksti" name="synopsis">{{elokuva.synopsis}}</textarea>
                 </div>
             </div>
         </div>
+        <input type="hidden" id="poistettavatartistit" name="poistettavatartistit">
+        <input type="hidden" id="poistettavatgenret" name="poistettavatgenret">
+        <input type="hidden" id="poistettavatsarjat" name="poistettavatsarjat">
+        <input type="hidden" name="artistilista" id="hidd"/>
+        <input type="hidden" name="genrelista" id="hiddgenre"/>
+        <input type="hidden" name="sarjalista" id="hiddsarja"/>
     </form>
 </div>
 {% endblock %}

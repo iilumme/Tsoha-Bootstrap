@@ -39,7 +39,9 @@
                 <a role="button" class="btn btn-success" href="{{base_path}}/movie/edit/{{elokuva.leffaid}}">Muokkaa</a>
                 {% if user_logged_in.kayttajaid == 2 %}
                 <div class="btn-group">
-                    <form method="post" action="{{base_path}}/movie/destroy/{{elokuva.leffaid}}">
+                    <form class="destroy-form" 
+                          data-confirm="Haluatko varmasti poistaa tämän elokuvan?"
+                                  method="post" action="{{base_path}}/movie/destroy/{{elokuva.leffaid}}">
                         <button class="btn btn-danger" type="submit" >Poista</button>
                     </form>
                 </div>
@@ -111,17 +113,7 @@
                         {%endfor%}
                     </ul>
                 </li>
-                {% endif %}
-
-                {%if palkinnot %}
-                <li><strong>Palkinnot/Ehdokkuudet:</strong> 
-                    <ul>
-                        {% for palkinto in palkinnot %}
-                        <li>{{palkinto.palkintonimi}}</li>
-                        {%endfor%}
-                    </ul>
-                </li>
-                {% endif %}
+                {% endif %}               
 
                 {%if sarjatAndElokuvat %}
                 <li><strong>Sarjat:</strong>
