@@ -8,10 +8,10 @@ class ValtioController extends BaseController {
     public static function showOne($valtioid) {
 
         $valtio = Valtio::findOne($valtioid);
-        $nayttelijat = Artisti::findArtistitForValtio($valtioid, 'Näyttelijä');
-        $ohjaajat = Artisti::findArtistitForValtio($valtioid, 'Ohjaaja');
-        $kassarit = Artisti::findArtistitForValtio($valtioid, 'Käsikirjoittaja');
-        $kuvaajat = Artisti::findArtistitForValtio($valtioid, 'Kuvaaja');
+        $nayttelijat = Artisti::findArtistsForCountry($valtioid, 'Näyttelijä');
+        $ohjaajat = Artisti::findArtistsForCountry($valtioid, 'Ohjaaja');
+        $kassarit = Artisti::findArtistsForCountry($valtioid, 'Käsikirjoittaja');
+        $kuvaajat = Artisti::findArtistsForCountry($valtioid, 'Kuvaaja');
         $elokuvat = Elokuva::findElokuvatForValtiot($valtioid);
 
         View::make('/country/valtioetusivu.html', array(
@@ -32,12 +32,12 @@ class ValtioController extends BaseController {
 
     /* Valtion muokkausehdotuksen tallentaminen */
     public static function updateSuggestion($valtioid) {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
+        $attributes = array(
             'valtioid' => $valtioid,
-            'valtiobio' => $parametrit['valtiobio']);
-        $valtio = new Valtio($attribuutit);
+            'valtiobio' => $params['valtiobio']);
+        $valtio = new Valtio($attributes);
 
         $valtio->updateSuggestion();
         Redirect::to('/country/' . $valtioid, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle :)'));
@@ -45,12 +45,12 @@ class ValtioController extends BaseController {
     
     /* Valtion muokkaaminen */
     public static function administratorUpdate($id) {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
+        $attributes = array(
             'valtioid' => $id,
-            'valtiobio' => $parametrit['valtiobio']);
-        $valtio = new Valtio($attribuutit);
+            'valtiobio' => $params['valtiobio']);
+        $valtio = new Valtio($attributes);
 
         $valtio->update();
         Redirect::to('/country/' . $id, array('message' => 'Tietojen päivittäminen onnistui! :)'));

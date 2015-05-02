@@ -113,6 +113,9 @@ $routes->post('/katsottulisays/:id', function($id) {
 $routes->post('/mastardelisays/:id', function($id) {
     UserController::addMastardeMovie($id);
 });
+$routes->post('/dvdlisays/:id', function($id) {
+    UserController::addDVDMovie($id);
+});
 
 
 //ELOKUVA

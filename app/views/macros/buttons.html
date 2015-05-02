@@ -1,0 +1,36 @@
+{% macro add_directors() %}
+<button class="btn btn-success lisaaartisti" type="button">Lisää ohjaajat</button>
+<button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" 
+        value="Ohjaaja" type="button">Uusi ohjaaja</button>
+{% endmacro %}
+
+{% macro add_cinematographers() %}
+<button class="btn btn-success lisaaartisti" type="button">Lisää kuvaajat</button>
+<button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" 
+        value="Kuvaaja" type="button">Uusi kuvaaja</button>
+{% endmacro %}
+
+{% macro add_screenwriters() %}
+<button class="btn btn-success lisaaartisti" type="button">Lisää käsikirjoittajat</button>
+<button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" 
+        value="Käsikirjoittaja" type="button">Uusi käsikirjoittaja</button>
+{% endmacro %}
+
+{% macro add_actors() %}
+<button class="btn btn-success lisaaartisti" type="button">Lisää näyttelijät</button>
+<button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" 
+        value="Näyttelijä" type="button">Uusi näyttelijä</button>
+{% endmacro %}
+
+{% macro add_genres() %}
+<button class="btn btn-success lisaagenre" type="button">Lisää genret</button>
+<button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali" 
+        type="button">Uusi genre</button>
+{% endmacro %}
+
+
+{% macro add_series() %}
+<button class="btn btn-success lisaasarja" type="button">Lisää sarjat</button>
+<button class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali" 
+        type="button">Uusi sarja</button>
+{% endmacro %}

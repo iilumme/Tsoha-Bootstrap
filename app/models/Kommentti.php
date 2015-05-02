@@ -6,17 +6,17 @@ class Kommentti extends BaseModel {
 
     public $kayttajaid, $kayttajatunnus, $leffaid, $teksti, $lisatty;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
-    private static function createKommentti($tulos) {
+    private static function createKommentti($row) {
         return new Kommentti(array(
-            'kayttajaid' => $tulos['kayttajaid'],
-            'kayttajatunnus' => $tulos['kayttajatunnus'],
-            'leffaid' => $tulos['leffaid'],
-            'teksti' => $tulos['teksti'],
-            'lisatty' => $tulos['lisatty']
+            'kayttajaid' => $row['kayttajaid'],
+            'kayttajatunnus' => $row['kayttajatunnus'],
+            'leffaid' => $row['leffaid'],
+            'teksti' => $row['teksti'],
+            'lisatty' => $row['lisatty']
         ));
     }
     
@@ -26,12 +26,12 @@ class Kommentti extends BaseModel {
                 . 'FROM Kommentti K, Kayttaja T '
                 . 'WHERE K.kayttajaid = T.kayttajaid');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $kommentit = array();
 
-        foreach ($tulokset as $tulos) {
-            $kommentit[] = Kommentti::createKommentti($tulos);
+        foreach ($rows as $row) {
+            $kommentit[] = Kommentti::createKommentti($row);
         }
         return $kommentit;
     }
@@ -42,11 +42,11 @@ class Kommentti extends BaseModel {
                 . 'FROM Kommentti K, Kayttaja T, Elokuva E '
                 . 'WHERE K.kayttajaid=T.kayttajaid AND K.leffaid=E.leffaid AND E.leffaid= :leffaid');
         $query->execute(array('leffaid' => $leffaid));
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $kommentit = array();
-        foreach ($tulokset as $tulos) {
-            $kommentit[] = Kommentti::createKommentti($tulos);
+        foreach ($rows as $row) {
+            $kommentit[] = Kommentti::createKommentti($row);
         }
         return $kommentit;
     }
@@ -58,10 +58,10 @@ class Kommentti extends BaseModel {
                 . 'WHERE K.kayttajaid=T.kayttajaid AND K.leffaid=E.leffaid '
                 . 'AND E.leffaid= :leffaid AND K.kayttajaid= :kayttajaid LIMIT 1');
         $query->execute(array('kayttajaid' => $kayttajaid, 'leffaid' => $leffaid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $kommentti = Kommentti::createKommentti($tulos);
+        if ($row) {
+            $kommentti = Kommentti::createKommentti($row);
             return $kommentti;
         }
 
@@ -91,10 +91,10 @@ class Kommentti extends BaseModel {
                 . 'WHERE O.kayttajaID = K.kayttajaID AND leffaid = :leffaid AND K.kayttajaID = :kayttajaid');
         $query->execute(array('leffaid' => $leffaid,
             'kayttajaid' => BaseController::get_user_logged_in()->kayttajaid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            return $tulos['teksti'];
+        if ($row) {
+            return $row['teksti'];
         }
         return 0;
     }

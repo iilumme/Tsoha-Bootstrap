@@ -10,23 +10,23 @@ class Valtio extends BaseModel {
         parent::__construct($attributes);
     }
 
-    private static function createValtio($tulos) {
+    private static function createValtio($row) {
         return new Valtio(array(
-            'valtioid' => $tulos['valtioid'],
-            'valtionimi' => $tulos['valtionimi'],
-            'valtiobio' => $tulos['valtiobio'],
-            'lippu' => $tulos['lippu']
+            'valtioid' => $row['valtioid'],
+            'valtionimi' => $row['valtionimi'],
+            'valtiobio' => $row['valtiobio'],
+            'lippu' => $row['lippu']
         ));
     }
 
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Valtiot ORDER BY valtionimi');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $valtiot = array();
-        foreach ($tulokset as $tulos) {
-            $valtiot[] = Valtio::createValtio($tulos);
+        foreach ($rows as $row) {
+            $valtiot[] = Valtio::createValtio($row);
         }
 
         return $valtiot;
@@ -35,10 +35,10 @@ class Valtio extends BaseModel {
     public static function findOne($valtioid) {
         $query = DB::connection()->prepare('SELECT * FROM Valtiot WHERE valtioid = :valtioid LIMIT 1');
         $query->execute(array('valtioid' => $valtioid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $valtio = Valtio::createValtio($tulos);
+        if ($row) {
+            $valtio = Valtio::createValtio($row);
             return $valtio;
         }
 
@@ -51,10 +51,10 @@ class Valtio extends BaseModel {
                 . 'FROM Valtiot, Elokuva '
                 . 'WHERE Elokuva.leffaid = :leffaid and Elokuva.valtio = Valtiot.valtioid LIMIT 1');
         $query->execute(array('leffaid' => $leffaid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $valtio = Valtio::createValtio($tulos);
+        if ($row) {
+            $valtio = Valtio::createValtio($row);
             return $valtio;
         }
 
@@ -67,10 +67,10 @@ class Valtio extends BaseModel {
                 . 'FROM Valtiot, Artisti '
                 . 'WHERE Artisti.artistiid = :artistiid and Artisti.valtio = Valtiot.valtioid LIMIT 1');
         $query->execute(array('artistiid' => $artistiid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $valtio = Valtio::createValtio($tulos);
+        if ($row) {
+            $valtio = Valtio::createValtio($row);
             return $valtio;
         }
 
@@ -83,14 +83,14 @@ class Valtio extends BaseModel {
                 . 'SET valtiobio = :valtiobio '
                 . 'WHERE valtioid = :valtioid RETURNING valtioid');
 
-        $sijoituspaikat = array(":valtiobio", ":valtioid");
-        $parametrit = array("'$this->valtiobio'", $this->valtioid);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":valtiobio", ":valtioid");
+        $params = array("'$this->valtiobio'", $this->valtioid);
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kyselyryhma = new Kyselyryhma(array());
-        $ryhmaid = $kyselyryhma->save();
+        $queryGroup = new Kyselyryhma(array());
+        $ryhmaid = $queryGroup->save();
         $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+            'kysely' => $newQuery
         ));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
@@ -106,8 +106,8 @@ class Valtio extends BaseModel {
             'valtiobio' => $this->valtiobio
         ));
 
-        $tulos = $query->fetch();
-        return $tulos['valtioid'];
+        $row = $query->fetch();
+        return $row['valtioid'];
     }
 
 }

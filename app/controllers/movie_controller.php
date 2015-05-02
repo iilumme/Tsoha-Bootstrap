@@ -3,18 +3,19 @@
 /* Elokuvien kontrollointi */
 
 class MovieController extends BaseController {
-    
+
+
     /* Elokuvan esittelysivulle tiedot */
     public static function showOne($leffaid) {
 
         $elokuva = Elokuva::findOne($leffaid);
         $valtio = Valtio::findValtioForElokuva($leffaid);
-        $nayttelijat = Artisti::findArtistitForElokuva($leffaid, "Näyttelijä");
-        $ohjaajat = Artisti::findArtistitForElokuva($leffaid, "Ohjaaja");
-        $kuvaajat = Artisti::findArtistitForElokuva($leffaid, "Kuvaaja");
-        $kassarit = Artisti::findArtistitForElokuva($leffaid, "Käsikirjoittaja");
+        $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+        $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+        $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+        $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
         $genret = Genre::findGenretForElokuva($leffaid);
-        $dvdt = DVDlista::findDVDTForElokuva($leffaid);
+        $dvdt = DVDlista::findDVDSForMovie($leffaid);
         $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
 
         $sarjatAndElokuvat = array();
@@ -26,7 +27,7 @@ class MovieController extends BaseController {
             $sarjatAndElokuvat[] = $sarja;
         }
 
-        $arviot = Arviolaari::findArviotForElokuva($leffaid);
+        $arviot = Arviolaari::findStarsForMovie($leffaid);
         $arvioitu = 0;
         if (BaseController::get_user_logged_in() != NULL) {
             if (Arviolaari::hasAddedStars($leffaid) > 0) {
@@ -45,13 +46,47 @@ class MovieController extends BaseController {
             }
         }
 
+        $onkosuosikki = 0;
+
+        if (BaseController::get_user_logged_in() != NULL) {
+            $onkosuosikki = Suosikkilista::isFavourite($leffaid);
+        }
+
+        $onkokatsottu = 0;
+
+        if (BaseController::get_user_logged_in() != NULL) {
+            $onkokatsottu = Katsotutlista::isWatched($leffaid);
+        }
+
+        $onkodvd = 0;
+
+        if (BaseController::get_user_logged_in() != NULL) {
+            $onkodvd = DVDlista::hasDVD($leffaid);
+        }
+
+        $onkomastarde = 0;
+
+        if (BaseController::get_user_logged_in() != NULL) {
+            $onkomastarde = Mastardelista::isMasTarde($leffaid);
+        }
+
+        $kaikillalistoilla = 0;
+
+        if ($onkodvd == 1 && $onkokatsottu == 1 && $onkomastarde == 1 && $onkosuosikki == 1) {
+            $kaikillalistoilla = 1;
+        }
+
+        $averagestar = Arviolaari::averageStar($leffaid);
+
+
         View::make('movie/leffaetusivu.html', array(
-            'elokuva' => $elokuva, 'valtio' => $valtio,
-            'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
-            'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
+            'elokuva' => $elokuva, 'valtio' => $valtio, 'nayttelijat' => $nayttelijat,
+            'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
             'genret' => $genret, 'arviot' => $arviot, 'kommentit' => $kommentit,
-            'dvdt' => $dvdt, 'sarjatAndElokuvat' => $sarjatAndElokuvat,
-            'arvioitu' => $arvioitu, 'kommentoitu' => $kommentoitu, 'kommentti' => $kommentti
+            'dvdt' => $dvdt, 'sarjatAndElokuvat' => $sarjatAndElokuvat, 'arvioitu' => $arvioitu,
+            'kommentoitu' => $kommentoitu, 'kommentti' => $kommentti, 'onkosuosikki' => $onkosuosikki,
+            'onkokatsottu' => $onkokatsottu, 'onkodvd' => $onkodvd, 'onkomastarde' => $onkomastarde,
+            'kaikillalistoilla' => $kaikillalistoilla, 'keskiarvo' => $averagestar
         ));
     }
 
@@ -64,10 +99,10 @@ class MovieController extends BaseController {
     /* Elokuvan artistien-, genrejen- ja sarjojenlisäyssivulle tiedot */
     public static function addArtistsPage() {
 
-        $nayttelijat = Artisti::findAllArtistitByTyyppi("Näyttelijä");
-        $ohjaajat = Artisti::findAllArtistitByTyyppi("Ohjaaja");
-        $kuvaajat = Artisti::findAllArtistitByTyyppi("Kuvaaja");
-        $kassarit = Artisti::findAllArtistitByTyyppi("Käsikirjoittaja");
+        $nayttelijat = Artisti::findAllArtistsByType("Näyttelijä");
+        $ohjaajat = Artisti::findAllArtistsByType("Ohjaaja");
+        $kuvaajat = Artisti::findAllArtistsByType("Kuvaaja");
+        $kassarit = Artisti::findAllArtistsByType("Käsikirjoittaja");
         $genret = Genre::all();
         $sarjat = Sarja::all();
         $valtiot = Valtio::all();
@@ -84,19 +119,19 @@ class MovieController extends BaseController {
         $elokuva = Elokuva::findOne($leffaid);
         $valtiot = Valtio::all();
         $tamanhetkinenvaltio = Valtio::findValtioForElokuva($leffaid)->valtioid;
-        $nayttelijat = Artisti::findArtistitForElokuva($leffaid, "Näyttelijä");
-        $ohjaajat = Artisti::findArtistitForElokuva($leffaid, "Ohjaaja");
-        $kuvaajat = Artisti::findArtistitForElokuva($leffaid, "Kuvaaja");
-        $kassarit = Artisti::findArtistitForElokuva($leffaid, "Käsikirjoittaja");
+        $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+        $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+        $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+        $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
         $genret = Genre::findGenretForElokuva($leffaid);
         $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
 
-        $nayttelijatALL = Artisti::findAllArtistitByTyyppi("Näyttelijä");
-        $ohjaajatALL = Artisti::findAllArtistitByTyyppi("Ohjaaja");
-        $kuvaajatALL = Artisti::findAllArtistitByTyyppi("Kuvaaja");
-        $kassaritALL = Artisti::findAllArtistitByTyyppi("Käsikirjoittaja");
-        $genretALL = Genre::all();
-        $sarjatALL = Sarja::all();
+        $nayttelijatALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
+        $ohjaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
+        $kuvaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
+        $kassaritALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
+        $genretALL = Genre::findAllGenresNotInTheMovie($leffaid);
+        $sarjatALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
 
         View::make('movie/leffamuokkaus.html', array(
             'elokuva' => $elokuva, 'valtiot' => $valtiot, 'nayttelijat' => $nayttelijat,
@@ -112,13 +147,13 @@ class MovieController extends BaseController {
         $parametri = $_POST;
         $tahti = $parametri['tahti'];
         Arviolaari::addStarForMovie($leffaid, $tahti);
-        Redirect::to('/movie/' . $leffaid);
+        Redirect::to('/movie/' . $leffaid, array('starMessage' => 'Arvio lisätty! :) '));
     }
 
     /* Arvion poistaminen elokuvalta */
     public static function deleteStar($leffaid) {
         Arviolaari::deleteStarFromMovie($leffaid);
-        Redirect::to('/movie/' . $leffaid);
+        Redirect::to('/movie/' . $leffaid, array('starMessage' => 'Arvio poistettu! :) '));
     }
 
     /* Kommentin lisääminen elokuvalle */
@@ -126,33 +161,32 @@ class MovieController extends BaseController {
         $parametri = $_POST;
         $kommentti = $parametri['kommentti'];
         Kommentti::addCommentForMovie($leffaid, $kommentti);
-        Redirect::to('/movie/' . $leffaid);
+        Redirect::to('/movie/' . $leffaid, array('commentMessage' => 'Kommentti lisätty! :) '));
     }
 
     /* Kommentin poistaminen elokuvalta */
     public static function deleteComment($leffaid) {
         Kommentti::deleteCommentFromMovie($leffaid);
-        Redirect::to('/movie/' . $leffaid);
+        Redirect::to('/movie/' . $leffaid, array('commentMessage' => 'Kommentti poistettu! :) '));
     }
 
-    
     /* REKISTERÖITYNEEN KÄYTTÄJÄN METODIT */
 
 
     /* Uuden elokuvaehdotuksen tallentaminen */
     public static function storeSuggestion() {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
-            'leffanimi' => $parametrit['leffanimi'],
-            'vuosi' => $parametrit['vuosi'],
-            'valtio' => $parametrit['valtio'],
-            'kieli' => $parametrit['kieli'],
-            'synopsis' => $parametrit['synopsis'],
-            'traileriurl' => $parametrit['traileriurl']
+        $attributes = array(
+            'leffanimi' => $params['leffanimi'],
+            'vuosi' => $params['vuosi'],
+            'valtio' => $params['valtio'],
+            'kieli' => $params['kieli'],
+            'synopsis' => $params['synopsis'],
+            'traileriurl' => $params['traileriurl']
         );
 
-        $movie = new Elokuva($attribuutit);
+        $movie = new Elokuva($attributes);
         $errors = $movie->errors();
 
         if (count($errors) == 0) {
@@ -160,20 +194,20 @@ class MovieController extends BaseController {
             Redirect::to('/addmovie/addpeople', array('message' => 'Ehdotus elokuvasta lisätty, lisää tekijät :)', 'ryhmaid' => $ryhmaid, 'lid' => $ryhmaid));
         } else {
             $valtiot = Valtio::all();
-            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attribuutit, 'valtiot' => $valtiot));
+            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attributes, 'valtiot' => $valtiot));
         }
     }
 
     /* Elokuvan muokkausehdotuksen tallentaminen */
     public static function updateSuggestion($leffaid) {
-        $parametrit = $_POST;
-        $attribuutit = array(
-            'leffaid' => $leffaid, 'leffanimi' => $parametrit['leffanimi'], 'vuosi' => $parametrit['vuosi'],
-            'valtio' => $parametrit['valtio'], 'kieli' => $parametrit['kieli'],
-            'synopsis' => $parametrit['synopsis'], 'traileriurl' => $parametrit['traileriurl']
+        $params = $_POST;
+        $attributes = array(
+            'leffaid' => $leffaid, 'leffanimi' => $params['leffanimi'], 'vuosi' => $params['vuosi'],
+            'valtio' => $params['valtio'], 'kieli' => $params['kieli'],
+            'synopsis' => $params['synopsis'], 'traileriurl' => $params['traileriurl']
         );
 
-        $movie = new Elokuva($attribuutit);
+        $movie = new Elokuva($attributes);
         $errors = $movie->errors();
 
         if (count($errors) == 0) {
@@ -181,17 +215,17 @@ class MovieController extends BaseController {
             LaariController::updateSuggestion($leffaid, $ryhmaid);
         } else {
             $valtiot = Valtio::all();
-            $nayttelijat = Artisti::findArtistitForElokuva($leffaid, "Näyttelijä");
-            $ohjaajat = Artisti::findArtistitForElokuva($leffaid, "Ohjaaja");
-            $kuvaajat = Artisti::findArtistitForElokuva($leffaid, "Kuvaaja");
-            $kassarit = Artisti::findArtistitForElokuva($leffaid, "Käsikirjoittaja");
+            $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+            $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+            $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+            $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
             $genret = Genre::findGenretForElokuva($leffaid);
-            $tamanhetkinenvaltio = $attribuutit['valtio'];
+            $tamanhetkinenvaltio = $attributes['valtio'];
 
             View::make('/movie/leffamuokkaus.html', array(
                 'valtiot' => $valtiot, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
                 'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat,
-                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'errors' => $errors, 'elokuva' => $attribuutit
+                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'errors' => $errors, 'elokuva' => $attributes
             ));
         }
     }
@@ -201,56 +235,56 @@ class MovieController extends BaseController {
 
     /* Uuden elokuvan tallentaminen - ylläpitäjä tekee */
     public static function administratorStore() {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
-            'leffanimi' => $parametrit['leffanimi'],
-            'vuosi' => $parametrit['vuosi'],
-            'valtio' => $parametrit['valtio'],
-            'kieli' => $parametrit['kieli'],
-            'synopsis' => $parametrit['synopsis'],
-            'traileriurl' => $parametrit['traileriurl']
+        $attributes = array(
+            'leffanimi' => $params['leffanimi'],
+            'vuosi' => $params['vuosi'],
+            'valtio' => $params['valtio'],
+            'kieli' => $params['kieli'],
+            'synopsis' => $params['synopsis'],
+            'traileriurl' => $params['traileriurl']
         );
 
-        $movie = new Elokuva($attribuutit);
+        $movie = new Elokuva($attributes);
         $errors = $movie->errors();
 
         if (count($errors) == 0) {
             $movieid = $movie->save();
-            Redirect::to('/addmovie/addpeople', array('message' => 'Elokuvan tiedot lisätty onnistuneesti', 'lid' => $movieid));
+            Redirect::to('/addmovie/addpeople', array('message' => 'Elokuvan tiedot lisätty onnistuneesti! :)', 'lid' => $movieid));
         } else {
             $valtiot = Valtio::all();
-            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attribuutit, 'valtiot' => $valtiot));
+            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attributes, 'valtiot' => $valtiot));
         }
     }
 
     /* Elokuvan muokkaus - ylläpitäjä tekee */
     public static function administratorUpdate($leffaid) {
-        $parametrit = $_POST;
-        $attribuutit = array(
-            'leffaid' => $leffaid, 'leffanimi' => $parametrit['leffanimi'], 'vuosi' => $parametrit['vuosi'],
-            'valtio' => $parametrit['valtio'], 'kieli' => $parametrit['kieli'],
-            'synopsis' => $parametrit['synopsis'], 'traileriurl' => $parametrit['traileriurl']
+        $params = $_POST;
+        $attributes = array(
+            'leffaid' => $leffaid, 'leffanimi' => $params['leffanimi'], 'vuosi' => $params['vuosi'],
+            'valtio' => $params['valtio'], 'kieli' => $params['kieli'],
+            'synopsis' => $params['synopsis'], 'traileriurl' => $params['traileriurl']
         );
 
-        $movie = new Elokuva($attribuutit);
+        $movie = new Elokuva($attributes);
         $errors = $movie->errors();
 
         if (count($errors) == 0) {
             $movie->update();
         } else {
             $valtiot = Valtio::all();
-            $nayttelijat = Artisti::findArtistitForElokuva($leffaid, "Näyttelijä");
-            $ohjaajat = Artisti::findArtistitForElokuva($leffaid, "Ohjaaja");
-            $kuvaajat = Artisti::findArtistitForElokuva($leffaid, "Kuvaaja");
-            $kassarit = Artisti::findArtistitForElokuva($leffaid, "Käsikirjoittaja");
+            $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+            $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+            $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+            $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
             $genret = Genre::findGenretForElokuva($leffaid);
-            $tamanhetkinenvaltio = $attribuutit['valtio'];
+            $tamanhetkinenvaltio = $attributes['valtio'];
 
             View::make('/movie/leffamuokkaus.html', array(
                 'valtiot' => $valtiot, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
                 'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat,
-                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'errors' => $errors, 'elokuva' => $attribuutit
+                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'errors' => $errors, 'elokuva' => $attributes
             ));
         }
     }
@@ -259,14 +293,14 @@ class MovieController extends BaseController {
     public static function destroy($leffaid) {
         $movie = new Elokuva(array('leffaid' => $leffaid));
         $movie->destroy();
-        Redirect::to('/', array('message' => 'Elokuvan poistaminen onnistui'));
+        Redirect::to('/', array('deleteMessage' => 'Elokuvan poistaminen onnistui! :)'));
     }
 
     /* Elokuvan poistaminen ylläpitosivuilla - ylläpitäjä tekee */
     public static function destroyMaintenance($leffaid) {
         $movie = new Elokuva(array('leffaid' => $leffaid));
         $movie->destroy();
-        Redirect::to('/moviemaintenance', array('message' => 'Elokuvan poistaminen onnistui'));
+        Redirect::to('/moviemaintenance', array('deleteMessage' => 'Elokuvan poistaminen onnistui! :)'));
     }
 
 }

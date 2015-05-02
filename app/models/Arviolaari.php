@@ -6,38 +6,38 @@ class Arviolaari extends BaseModel {
 
     public $kayttajaid, $kayttajatunnus, $leffaid, $tahti, $lisatty;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
     /* Haetaan elokuvalle arviot */
-    public static function findArviotForElokuva($leffaid) {
+    public static function findStarsForMovie($leffaid) {
         $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, A.leffaID, A.tahti, A.lisatty '
                 . 'FROM Elokuva E, ArvioLaari A, Kayttaja K '
                 . 'WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid '
                 . 'AND A.kayttajaID=K.kayttajaID ORDER BY A.lisatty');
         $query->execute(array('leffaid' => $leffaid));
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
-        $arviot = array();
-        foreach ($tulokset as $tulos) {
-            $arviot[] = new Arviolaari(array(
-                'kayttajaid' => $tulos['kayttajaid'],
-                'kayttajatunnus' => $tulos['kayttajatunnus'],
-                'leffaid' => $tulos['leffaid'],
-                'tahti' => $tulos['tahti'],
-                'lisatty' => $tulos['lisatty']
+        $stars = array();
+        foreach ($rows as $row) {
+            $stars[] = new Arviolaari(array(
+                'kayttajaid' => $row['kayttajaid'],
+                'kayttajatunnus' => $row['kayttajatunnus'],
+                'leffaid' => $row['leffaid'],
+                'tahti' => $row['tahti'],
+                'lisatty' => $row['lisatty']
             ));
         }
-        return $arviot;
+        return $stars;
     }
 
     /* Lisätään arvio */
-    public static function addStarForMovie($leffaid, $tahti) {
+    public static function addStarForMovie($leffaid, $star) {
         $query = DB::connection()->prepare('INSERT INTO ArvioLaari (kayttajaID, leffaID, tahti, lisatty) '
                 . 'VALUES (:kayttajaid, :leffaid, :tahti, NOW())');
         $query->execute(array('kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
-            'leffaid' => $leffaid, 'tahti' => $tahti));
+            'leffaid' => $leffaid, 'tahti' => $star));
     }
 
     /* Poistetaan arvio */
@@ -55,49 +55,28 @@ class Arviolaari extends BaseModel {
                 . 'AND K.kayttajaID = :kayttajaid');
         $query->execute(array('leffaid' => $leffaid,
             'kayttajaid' => BaseController::get_user_logged_in()->kayttajaid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            return $tulos['tahti'];
+        if ($row) {
+            return $row['tahti'];
         }
         return 0;
     }
 
-//    public static function findOne($id) {
-//        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty FROM ArvioLaari A, Kayttaja K WHERE A.kayttajaID=K.kayttajaID AND leffaid = :leffaid');
-//        $query->execute(array('leffaid' => $id));
-//        $tulos = $query->fetch();
-//
-//        if ($tulos) {
-//            $arvio = new Arviolaari(array(
-//                'kayttajaid' => $tulos['kayttajaid'],
-//                'kayttajatunnus' => $tulos['kayttajatunnus'],
-//                'leffaid' => $tulos['leffaid'],
-//                'tahti' => $tulos['tahti'],
-//                'lisatty' => $tulos['lisatty']
-//            ));
-//            return $arvio;
-//        }
-//
-//        return null;
-//    }
-//    public static function all() {
-//        $query = DB::connection()->prepare('SELECT A.kayttajaID, K.kayttajaTunnus, leffaID, tahti, A.lisatty '
-//                . 'FROM ArvioLaari A, Kayttaja K '
-//                . 'WHERE A.kayttajaID=K.kayttajaID');
-//        $query->execute();
-//        $tulokset = $query->fetchAll();
-//
-//        $arviot = array();
-//        foreach ($tulokset as $tulos) {
-//            $arviot[] = new Arviolaari(array(
-//                'kayttajaid' => $tulos['kayttajaid'],
-//                'kayttajatunnus' => $tulos['kayttajatunnus'],
-//                'leffaid' => $tulos['leffaid'],
-//                'tahti' => $tulos['tahti'],
-//                'lisatty' => $tulos['lisatty']
-//            ));
-//        }
-//        return $arviot;
-//    }
+    /* Elokuvan arvioiden keskiarvo */
+    public static function averageStar($leffaid) {
+        $stars = Arviolaari::findStarsForMovie($leffaid);
+
+        if ($stars != NULL) {
+            $sum = 0.0;
+
+            foreach ($stars as $star) {
+                $sum+= $star->tahti;
+            }
+            return $sum / sizeof($stars);
+        }
+        
+        return null;
+    }
+
 }

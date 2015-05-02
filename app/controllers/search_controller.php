@@ -7,57 +7,57 @@ class SearchController extends BaseController {
     /* Hakusivu ja hakeminen */
     public static function searchpage() {
 
-        $parametrit = $_GET;
+        $params = $_GET;
         $kuvanpaikka = 0;
         $valinnat = array();
 
-        if (isset($parametrit['nayttelijalista']) && $parametrit['nayttelijalista'][0] !== '') {
-            $input = $parametrit['nayttelijalista'][0];
+        if (isset($params['nayttelijalista']) && $params['nayttelijalista'][0] !== '') {
+            $input = $params['nayttelijalista'][0];
             $output = explode(',', $input);
 
             foreach ($output as $n) {
                 $valinnat['nayttelijalista'][] = $n;
             }
         }
-        if (isset($parametrit['ohjaajalista']) && $parametrit['ohjaajalista'][0] !== '') {
-            $input = $parametrit['ohjaajalista'][0];
+        if (isset($params['ohjaajalista']) && $params['ohjaajalista'][0] !== '') {
+            $input = $params['ohjaajalista'][0];
             $output = explode(',', $input);
 
             foreach ($output as $n) {
                 $valinnat['ohjaajalista'][] = $n;
             }
         }
-        if (isset($parametrit['kuvaajalista']) && $parametrit['kuvaajalista'][0] !== '') {
-            $input = $parametrit['kuvaajalista'][0];
+        if (isset($params['kuvaajalista']) && $params['kuvaajalista'][0] !== '') {
+            $input = $params['kuvaajalista'][0];
             $output = explode(',', $input);
             foreach ($output as $n) {
                 $valinnat['kuvaajalista'][] = $n;
             }
         }
-        if (isset($parametrit['kasikirjoittajalista']) && $parametrit['kasikirjoittajalista'][0] !== '') {
-            $input = $parametrit['kasikirjoittajalista'][0];
+        if (isset($params['kasikirjoittajalista']) && $params['kasikirjoittajalista'][0] !== '') {
+            $input = $params['kasikirjoittajalista'][0];
             $output = explode(',', $input);
             foreach ($output as $n) {
                 $valinnat['kasikirjoittajalista'][] = $n;
             }
         }
-        if (isset($parametrit['valtio']) && $parametrit['valtio'] !== '...') {
-            $valinnat['valtio'] = (int) $parametrit['valtio'];
+        if (isset($params['valtio']) && $params['valtio'] !== '...') {
+            $valinnat['valtio'] = (int) $params['valtio'];
         }
-        if (isset($parametrit['alkuvuosi']) && $parametrit['alkuvuosi'] !== '') {
-            $valinnat['alkuvuosi'] = (int) $parametrit['alkuvuosi'];
+        if (isset($params['alkuvuosi']) && $params['alkuvuosi'] !== '') {
+            $valinnat['alkuvuosi'] = (int) $params['alkuvuosi'];
         }
-        if (isset($parametrit['loppuvuosi']) && $parametrit['loppuvuosi'] !== '') {
-            $valinnat['loppuvuosi'] = (int) $parametrit['loppuvuosi'];
+        if (isset($params['loppuvuosi']) && $params['loppuvuosi'] !== '') {
+            $valinnat['loppuvuosi'] = (int) $params['loppuvuosi'];
         }
-        if (isset($parametrit['kieli']) && $parametrit['kieli'] !== '') {
-            $valinnat['kieli'] = $parametrit['kieli'];
+        if (isset($params['kieli']) && $params['kieli'] !== '') {
+            $valinnat['kieli'] = $params['kieli'];
         }
-        if (isset($parametrit['genre']) && $parametrit['genre'] !== '...') {
-            $valinnat['genre'] = (int) $parametrit['genre'];
+        if (isset($params['genre']) && $params['genre'] !== '...') {
+            $valinnat['genre'] = (int) $params['genre'];
         }
-        if (isset($parametrit['sarja']) && $parametrit['sarja'] !== '...') {
-            $valinnat['sarja'] = (int) $parametrit['sarja'];
+        if (isset($params['sarja']) && $params['sarja'] !== '...') {
+            $valinnat['sarja'] = (int) $params['sarja'];
         }
 
 

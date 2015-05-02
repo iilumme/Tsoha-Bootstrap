@@ -6,7 +6,10 @@
 {{modals.genre_modal("#{elokuva.leffaid}", "#{base_path}/muokkausuusigenre")}}
 {{modals.sarja_modal("#{elokuva.leffaid}", "#{base_path}/muokkausuusisarja")}}
 
+{% import "macros/buttons.html" as buttons %}
+
 <div class="bg">
+    
     {% if errors %}
     <div class="alert alert-danger"  style="text-shadow: none">
         <ul>
@@ -64,14 +67,12 @@
                         </div>
                     </div>
                     {%endfor%}
-                    <select class="form-control genrevalinta">
-                        <option>...</option>
+                    <select class="form-control genrevalinta" multiple="">
                         {%for genre in genretALL %}
                         <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
                         {%endfor%}
                     </select>
-                    <button class="btn btn-success lisaagenre" type="button">Lisää</button>
-                    <button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali" type="button">Uusi Genre</button>
+                    {{buttons.add_genres()}}
                 </div>
                 <div class="form-group">
                     <label>Ohjaajat</label>
@@ -85,14 +86,12 @@
                         </div>
                     </div>
                     {%endfor%}
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
+                    <select class="form-control artistivalinta" multiple="">
                         {% for ohjaaja in ohjaajatALL %}
                         <option value="{{ohjaaja.artistiid}}">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</option>
                         {%endfor%}
                     </select>
-                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
-                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Ohjaaja" type="button">Uusi</button>
+                    {{buttons.add_directors()}}
                 </div>
 
                 <div class="form-group">
@@ -107,14 +106,12 @@
                         </div>
                     </div>
                     {%endfor%}
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
+                    <select class="form-control artistivalinta" multiple="">
                         {% for kuvaaja in kuvaajatALL %}
                         <option value="{{kuvaaja.artistiid}}">{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</option>
                         {%endfor%}
                     </select>
-                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
-                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Kuvaaja" type="button">Uusi</button>
+                    {{buttons.add_cinematographers()}}
                 </div>
 
                 <div class="form-group">
@@ -129,15 +126,12 @@
                         </div>
                     </div>
                     {%endfor%} 
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
+                    <select class="form-control artistivalinta" multiple="">
                         {% for kassari in kasikirjoittajatALL %}
                         <option value="{{kassari.artistiid}}">{{kassari.etunimi}} {{kassari.sukunimi}}</option>
                         {%endfor%}
                     </select>
-                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
-                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" 
-                            data-target="#lisaysmodaali" value="Käsikirjoittaja" type="button">Uusi</button>
+                    {{buttons.add_screenwriters()}}
                 </div>
 
                 <div class="form-group">
@@ -152,15 +146,12 @@
                         </div>
                     </div>
                     {%endfor%} 
-                    <select class="form-control artistivalinta">
-                        <option>...</option>
+                    <select class="form-control artistivalinta" multiple="">
                         {% for nayttelija in nayttelijatALL %}
                         <option value="{{nayttelija.artistiid}}">{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</option>
                         {%endfor%}
                     </select>
-                    <button class="btn btn-success lisaaartisti" type="button">Lisää</button>
-                    <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" 
-                            value="Näyttelijä" type="button">Uusi</button>
+                    {{buttons.add_actors()}}
                 </div>
                 <div class="form-group">
                     <label>Sarjat</label> 
@@ -174,17 +165,18 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <select class="form-control sarjavalinta">
-                        <option>...</option>
+                    <select class="form-control sarjavalinta" multiple="">
                         {% for sarja in sarjatALL %}
                         <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
                         {%endfor%}
                     </select>  
-                    <button type="button" class="btn btn-success lisaasarja">Lisää</button>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali">Uusi</button>
+                    {{buttons.add_series()}}
                 </div>
                 <div class="form-group">
-                    <label>Traileri</label>
+                    <label>Traileri 
+                        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" 
+                              data-placement="top" title="Osoite upotettavassa (embed) muodossa"></span>
+                    </label>
                     <input type="text" class="form-control" value="{{elokuva.traileriurl}}" name="traileriurl">
                 </div>
                 <div class="form-group">

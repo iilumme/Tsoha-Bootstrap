@@ -5,35 +5,84 @@
 {{modals.arvio_modal("#{arvioitu}","#{elokuva.leffaid}", "#{base_path}/arviopostisivu", "#{base_path}/arviopoistosivu")}}
 {{modals.kommentti_modal("#{kommentoitu}", "#{kommentti}", "#{elokuva.leffaid}", "#{base_path}/kommenttipostisivu", "#{base_path}/kommenttipoistosivu")}}
 
+<div class="bg">
+
 {% if message %}
 <div class="alert alert-success"  style="text-shadow: none">
     {{message}}
 </div>
 {% endif %}
-<div class="bg">
+
+{% if starMessage %}
+<div class="alert alert-success"  style="text-shadow: none">
+    <span class="glyphicon glyphicon-star-empty"></span> {{starMessage}}
+</div>
+{% endif %}
+
+{% if commentMessage %}
+<div class="alert alert-success"  style="text-shadow: none">
+    <span class="glyphicon glyphicon-pencil"></span> {{commentMessage}}
+</div>
+{% endif %}
+
+{% if editMessage %}
+<div class="alert alert-success"  style="text-shadow: none">
+    <span class="glyphicon glyphicon-send"></span> {{editMessage}}
+</div>
+{% endif %}
+
+{% if newMovieMessage %}
+<div class="alert alert-success" style="text-shadow: none">
+    <span class="glyphicon glyphicon-film"></span> {{newMovieMessage}}
+</div>
+{% endif %}
+
+
     <div class="row ">
-        <div class="col-md-6"><h2>{{elokuva.leffanimi}}</h2></div>
+        <div class="col-md-6"><h2>{{elokuva.leffanimi}} {% if keskiarvo != null %}<small>{{keskiarvo}} {% if keskiarvo == 1 %}tähti{% else %}tähteä{% endif %}</small>{% endif %}</h2></div>
         <div class="col-md-6">
             {% if user_logged_in %}
             <div class="btn-group">
+                {% if kaikillalistoilla == 0 %}
                 <div class="btn-group">
                     <button class="btn btn-warning dropdown-toggle" type="button" id="listaMenu" data-toggle="dropdown">
                         Lisää listalle
                         <span class="caret">
                         </span>
                     </button>
+
                     <ul class="dropdown-menu" role="menu" aria-labelledby="listaMenu" id="listamenubuttons">
+                        {% if onkosuosikki == 0%}
                         <form method="post" action="{{base_path}}/suosikkilisays/{{elokuva.leffaid}}">
-                            <li role="presentation"><a class="lisaysbutton" role="menuitem" tabindex="-1" onclick="$(this).closest('form').submit()">Lisää suosikkeihin</a></li>
+                            <li role="presentation">
+                                <a class="lisaysbutton" role="menuitem" tabindex="-1" 
+                                   onclick="$(this).closest('form').submit()">Lisää suosikkeihin</a></li>
                         </form> 
+                        {% endif %}
+                        {% if onkokatsottu == 0%}
                         <form method="post" action="{{base_path}}/katsottulisays/{{elokuva.leffaid}}">
-                            <li role="presentation"><a class="lisaysbutton" role="menuitem" tabindex="-1" onclick="$(this).closest('form').submit()">Lisää katsottuihin</a></li>
+                            <li role="presentation">
+                                <a class="lisaysbutton" role="menuitem" tabindex="-1" 
+                                   onclick="$(this).closest('form').submit()">Lisää katsottuihin</a></li>
                         </form> 
+                        {% endif %}
+                        {% if onkomastarde == 0%}
                         <form method="post" action="{{base_path}}/mastardelisays/{{elokuva.leffaid}}">
-                            <li role="presentation"><a class="lisaysbutton" role="menuitem" tabindex="-1" onclick="$(this).closest('form').submit()">Lisää MásTarde</a></li>
+                            <li role="presentation">
+                                <a class="lisaysbutton" role="menuitem" tabindex="-1" 
+                                   onclick="$(this).closest('form').submit()">Lisää MásTarde</a></li>
                         </form> 
+                        {% endif %}
+                        {% if onkodvd == 0%}
+                        <form method="post" action="{{base_path}}/dvdlisays/{{elokuva.leffaid}}">
+                            <li role="presentation">
+                                <a class="lisaysbutton" role="menuitem" tabindex="-1" 
+                                   onclick="$(this).closest('form').submit()">Lisää DVD:hin</a></li>
+                        </form> 
+                        {% endif %}
                     </ul>
                 </div>
+                {% endif %}
                 <a role="button" class="btn btn-info" data-toggle="modal" data-target="#arviolisaysmodaali" >Arvioi</a>
                 <a role="button" class="btn btn-info" data-toggle="modal" data-target="#kommenttilisaysmodaali" >Kommentoi</a>
                 <a role="button" class="btn btn-success" href="{{base_path}}/movie/edit/{{elokuva.leffaid}}">Muokkaa</a>
@@ -41,7 +90,7 @@
                 <div class="btn-group">
                     <form class="destroy-form" 
                           data-confirm="Haluatko varmasti poistaa tämän elokuvan?"
-                                  method="post" action="{{base_path}}/movie/destroy/{{elokuva.leffaid}}">
+                          method="post" action="{{base_path}}/movie/destroy/{{elokuva.leffaid}}">
                         <button class="btn btn-danger" type="submit" >Poista</button>
                     </form>
                 </div>
@@ -158,35 +207,48 @@
             {% endif %}
         </div>
     </div>
-    <br>   
+    <br> 
+    {% if user_logged_in %}
     <div class="row">
         <div class="col-md-4" id="arviointilaatikko">
             <h5>Arviot</h5>
+            {% if arviot %}
             <ul>
                 {% for arvio in arviot %}
                 <li>Käyttäjä <i>{{arvio.kayttajatunnus}}</i> antoi <b>{{arvio.tahti}}</b> tähteä</li>
                 {%endfor%}
             </ul>
+            {% else %}
+            <h6>Kukaan ei ole arvioinut</h6>
+            {% endif %}
         </div>
         <div class="col-md-4">
             <h5>Kommentit</h5>
+            {% if kommentit %}
             <ul>
                 {% for kommentti in kommentit %}
                 <li>Käyttäjä <i>{{kommentti.kayttajatunnus}}</i>: <b>{{kommentti.teksti}}</b></li>
                 {%endfor%}
             </ul>
+            {% else %}
+            <h6>Kukaan ei ole kommentoinut</h6>
+            {% endif %}
         </div>
         <div class="col-md-4" id="dvdlistaus">
-            {% if user_logged_in %}
             <h5>Käyttäjät, jotka omistavat DVD:nä</h5>
+            {% if dvdt %}
             <ul>
                 {% for dvd in dvdt %}
                 <li>{{dvd.kayttajatunnus}}</li>
                 {%endfor%}
             </ul>
+            {% else %}
+            <h6>Kukaan ei omista DVD:tä</h6>
             {% endif %}
+
         </div>
     </div>
+    {% endif %}
 </div>
 
 {% endblock %}

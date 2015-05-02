@@ -2,6 +2,11 @@
 * Based on Cover by https://twitter.com/mdo"  @mdo
 */
 
+label, th, td, li {
+    text-shadow: none;
+}
+
+
 #synopsis {
     background-color: #dff0d8;
     padding: 10px;
@@ -36,6 +41,7 @@ ul {
     background-color: #c1e2b3;
     color: darkgreen;
     border-color: seagreen;
+    text-shadow: none;
 }
 
 
@@ -61,6 +67,7 @@ ul {
 }
 
 .lisaysbutton {
+    padding-left: 20px;
     text-decoration: none;
     cursor: pointer;
     color: #000;
@@ -261,10 +268,14 @@ body {
     font-weight: bold;
 }
 
+/*
+ * Footer
+ */
 
 .mastfoot {
-    color: #000; /* IE8 proofing */
-    color: rgba(0,0,0,.5);
+  color: #000; /* IE8 proofing */
+  color: rgba(0,0,0,.85);
+  text-shadow: none;
 }
 
 @media (min-width: 768px) {
@@ -273,7 +284,6 @@ body {
         top: 0;
     }
     .mastfoot {
-        position: fixed;
         bottom: 0;
     }
     /* Start the vertical centering */

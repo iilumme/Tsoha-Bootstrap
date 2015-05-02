@@ -12,9 +12,9 @@
                 <div class="form-group">
                     <label>Miltä vuosilta</label>
                     <div>
-                        <input class="haku" type="number" style="width: 70px" name="alkuvuosi" value="{{valinnat.alkuvuosi}}">
+                        <input class="haku" type="number" style="width: 70px" name="alkuvuosi" value="{{valinnat.alkuvuosi}}" min="1801" max="2100">
                         <label>-</label>
-                        <input class="haku" type="number" style="width: 70px" name="loppuvuosi" value="{{valinnat.loppuvuosi}}">
+                        <input class="haku" type="number" style="width: 70px" name="loppuvuosi" value="{{valinnat.loppuvuosi}}" min="1801" max="2100">
                     </div>
                 </div>
                 <div class="form-group">
@@ -98,9 +98,10 @@
                 <input type="hidden" name="kuvaajalista[]" id="kulista">
                 <input type="hidden" name="kasikirjoittajalista[]" id="kalista">
                 <button class="btn btn-warning" type="submit">Hae</button>
+                <button class="btn btn-warning" type="button"><a href="{{base_path}}/search" style="text-decoration: none; color: #fff">Tyhjennä haku</a></button>
                 <br>
                 <br>
-                <div class="alert alert-success" data-dismiss="alert" style="text-shadow: none" id="viesti"></div>
+                <div class="alert alert-success" style="text-shadow: none" id="viesti"></div>
             </div>
         </form>
         <div class="col-md-5">

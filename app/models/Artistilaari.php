@@ -6,24 +6,35 @@ class Artistilaari extends BaseModel {
 
     public $artistiid, $leffaid;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
     
     /* Ehdotuksen tallentaminen */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO ArtistiLaari (artistiid, leffaid) '
-                . 'VALUES (:artistiid, :leffaid) RETURNING artistiid');        
-        
-        $sijoituspaikat = array(":artistiid", ":leffaid");
-        $parametrit = array($this->artistiid, $this->leffaid);
+                . 'VALUES (:artistiid, :leffaid) RETURNING artistiid');              
+        $locations = array(":artistiid", ":leffaid");
+        $params = array($this->artistiid, $this->leffaid);
+        $newQuery = str_replace($locations, $params, $query);
 
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $querySuggestion = new Kyselyehdotus(array('kysely' => $newQuery));
+        $querySuggestion->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $querySuggestion->kyselyid);
+    } 
+    
+    /* Poistamisehdotus */
+    public function destroySuggestion($ryhmaid) {
+        $query = ('DELETE FROM ArtistiLaari '
+                . 'WHERE artistiID = :artistiid AND leffaID = :leffaid');             
+        $locations = array(":artistiid", ":leffaid");
+        $params = array($this->artistiid, $this->leffaid);
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
-        $kysely->save();
-        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
-    }    
+        $querySuggestion = new Kyselyehdotus(array('kysely' => $newQuery));
+        $querySuggestion->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $querySuggestion->kyselyid);        
+    }
     
     /* Tallentaminen */
     public function save() {
@@ -45,19 +56,6 @@ class Artistilaari extends BaseModel {
         ));
     }
     
-    /* Poistamisehdotus */
-    public function destroySuggestion($ryhmaid) {
-        $query = ('DELETE FROM ArtistiLaari '
-                . 'WHERE artistiID = :artistiid AND leffaID = :leffaid');       
-        
-        $sijoituspaikat = array(":artistiid", ":leffaid");
-        $parametrit = array($this->artistiid, $this->leffaid);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
-
-        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
-        $kysely->save();
-        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
-        
-    }
+    
 
 }

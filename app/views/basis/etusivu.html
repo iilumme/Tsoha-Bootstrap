@@ -4,10 +4,23 @@
 <div class="inner cover">
 
     {% if message %}
-    <div class="alert alert-success" style="text-shadow: none">
+    <div class="alert alert-success" data-dismiss="alert" style="text-shadow: none">
         {{message}}
     </div>
     {% endif %}
+
+    {% if deleteMessage %}
+    <div class="alert alert-success" data-dismiss="alert" style="text-shadow: none">
+        <span class="glyphicon glyphicon-trash"></span> {{deleteMessage}}
+    </div>
+    {% endif %}
+
+    {% if newMovieMessage %}
+    <div class="alert alert-success" data-dismiss="alert" style="text-shadow: none">
+        <span class="glyphicon glyphicon-film"></span> {{newMovieMessage}}
+    </div>
+    {% endif %}
+
 
     <h1 class="cover-heading">LATLeffaLaari</h1>
     <p class="lead" id="etusivuteksti">LATLeffaLaari on paikka sinulle, joka tykkäät Latinalaisen Amerikan elokuvista. 
@@ -22,6 +35,10 @@
     </p>
     {% endif %}
 </div>
-
+<div class="mastfoot">
+    <div class="inner">
+        <a href="https://github.com/iilumme/Tsoha-Bootstrap/">GitHub</a>
+    </div>
+</div>
 
 {% endblock %}

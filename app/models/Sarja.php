@@ -6,25 +6,40 @@ class Sarja extends BaseModel {
 
     public $sarjaid, $sarjanimi;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
-    private static function createSarja($tulos) {
+    private static function createSarja($row) {
         return new Sarja(array(
-            'sarjaid' => $tulos['sarjaid'],
-            'sarjanimi' => $tulos['sarjanimi']
+            'sarjaid' => $row['sarjaid'],
+            'sarjanimi' => $row['sarjanimi']
         ));
     }
 
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Sarja');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $sarjat = array();
-        foreach ($tulokset as $tulos) {
-            $sarjat[] = Sarja::createSarja($tulos);
+        foreach ($rows as $row) {
+            $sarjat[] = Sarja::createSarja($row);
+        }
+        return $sarjat;
+    }
+    
+    /* Haetaan kaikki sarjat, joissa ei ole annettua elokuvaa */
+    public static function findAllSeriesNotInTheMovie($leffaid) {
+        $query = DB::connection()->prepare('SELECT * FROM Sarja '
+                . 'WHERE sarjaID NOT IN (SELECT sarjaID FROM SarjaLaari WHERE leffaID = :leffaid)  '
+                . 'ORDER BY sarjaNimi');
+        $query->execute(array('leffaid' => $leffaid));
+        $rows = $query->fetchAll();
+
+        $sarjat = array();
+        foreach ($rows as $row) {
+            $sarjat[] = Sarja::createSarja($row);
         }
         return $sarjat;
     }
@@ -32,10 +47,10 @@ class Sarja extends BaseModel {
     public static function findOne($sarjaid) {
         $query = DB::connection()->prepare('SELECT * FROM Sarja WHERE sarjaid = :sarjaid LIMIT 1');
         $query->execute(array('sarjaid' => $sarjaid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $sarja = Sarja::createSarja($tulos);
+        if ($row) {
+            $sarja = Sarja::createSarja($row);
             return $sarja;
         }
 
@@ -47,8 +62,8 @@ class Sarja extends BaseModel {
                 . 'VALUES (:sarjanimi) RETURNING sarjaid;');
         $query->execute(array('sarjanimi' => $this->sarjanimi));
 
-        $tulos = $query->fetch();
-        $this->sarjaid = $tulos['sarjaid'];
+        $row = $query->fetch();
+        $this->sarjaid = $row['sarjaid'];
         return $this->sarjaid;
     }
 
@@ -57,11 +72,11 @@ class Sarja extends BaseModel {
         $query = ('INSERT INTO Sarja (sarjaNimi) '
                 . 'VALUES (:sarjanimi) RETURNING sarjaid;');
 
-        $sijoituspaikat = array(":sarjanimi");
-        $parametrit = array("'$this->sarjanimi'");
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":sarjanimi");
+        $params = array("'$this->sarjanimi'");
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
+        $kysely = new Kyselyehdotus(array('kysely' => $newQuery));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
     }
@@ -72,15 +87,15 @@ class Sarja extends BaseModel {
         $query = ('INSERT INTO Sarja (sarjaNimi) '
                 . 'VALUES (:sarjanimi) RETURNING sarjaid;');
 
-        $sijoituspaikat = array(":sarjanimi");
-        $parametrit = array("'$this->sarjanimi'");
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":sarjanimi");
+        $params = array("'$this->sarjanimi'");
+        $newQuery = str_replace($locations, $params, $query);
 
 
-        $kyselyryhma = new Kyselyryhma(array());
-        $ryhmaid = $kyselyryhma->save();
+        $queryGroup = new Kyselyryhma(array());
+        $ryhmaid = $queryGroup->save();
         $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+            'kysely' => $newQuery
         ));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);

@@ -17,8 +17,8 @@ class UserController extends BaseController {
 
     /* Kirjautumisen tarkistus */
     public static function handleLogin() {
-        $parametrit = $_POST;
-        $kayttaja = Kayttaja::authenticate($parametrit['kayttajatunnus'], $parametrit['salasana']);
+        $params = $_POST;
+        $kayttaja = Kayttaja::authenticate($params['kayttajatunnus'], $params['salasana']);
 
         if (!$kayttaja) {
             View::make('users/kirjautuminen.html', array('message' => 'Väärä käyttäjätunnus tai salasana'));
@@ -107,25 +107,25 @@ class UserController extends BaseController {
     
     /* Käyttäjän muokkaaminen */
     public static function update($kayttajaid) {
-        $parametrit = $_POST;
-        $attribuutit = array(
+        $params = $_POST;
+        $attributes = array(
             'kayttajaid' => $kayttajaid,
-            'nimi' => $parametrit['nimi'],
-            'kayttajatunnus' => $parametrit['kayttajatunnus'],
-            'salasana' => $parametrit['salasana'],
-            'lempigenre' => $parametrit['lempigenre']
+            'nimi' => $params['nimi'],
+            'kayttajatunnus' => $params['kayttajatunnus'],
+            'salasana' => $params['salasana'],
+            'lempigenre' => $params['lempigenre']
         );
 
-        $user = new Kayttaja($attribuutit);
+        $user = new Kayttaja($attributes);
         $errors = $user->errors();
         if (count($errors) == 0) {
             $user->update();
             Redirect::to('/mypage', array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
             $genret = Genre::all();
-            $tamanhetkinengenre = $attribuutit['lempigenre'];
+            $tamanhetkinengenre = $attributes['lempigenre'];
             View::make('users/registered_user/kayttajamuokkaus.html', array(
-                'errors' => $errors, 'kayttaja' => $attribuutit,
+                'errors' => $errors, 'kayttaja' => $attributes,
                 'genret' => $genret, 'tamanhetkinengenre' => $tamanhetkinengenre
             ));
         }
@@ -133,15 +133,15 @@ class UserController extends BaseController {
 
     /* Uuden käyttäjän tallentaminen */
     public static function store() {
-        $parametrit = $_POST;
-        $attribuutit = array(
-            'nimi' => $parametrit['nimi'],
-            'kayttajatunnus' => $parametrit['kayttajatunnus'],
-            'salasana' => $parametrit['salasana'],
-            'lempigenre' => $parametrit['lempigenre']
+        $params = $_POST;
+        $attributes = array(
+            'nimi' => $params['nimi'],
+            'kayttajatunnus' => $params['kayttajatunnus'],
+            'salasana' => $params['salasana'],
+            'lempigenre' => $params['lempigenre']
         );
 
-        $user = new Kayttaja($attribuutit);
+        $user = new Kayttaja($attributes);
         $errors = $user->errors();
 
         if (count($errors) == 0) {
@@ -150,7 +150,7 @@ class UserController extends BaseController {
         } else {
             $genret = Genre::all();
             View::make('users/rekisteroityminen.html', array(
-                'genret' => $genret, 'errors' => $errors, 'attribuutit' => $attribuutit
+                'genret' => $genret, 'errors' => $errors, 'attribuutit' => $attributes
             ));
         }
     }
@@ -166,14 +166,14 @@ class UserController extends BaseController {
     public static function destroyMaintenance($kayttajaid) {
         $user = new Kayttaja(array('kayttajaid' => $kayttajaid));
         $user->destroy();
-        Redirect::to('/usermaintenance', array('message' => 'Tilin poistaminen onnistui'));
+        Redirect::to('/usermaintenance', array('deleteMessage' => 'Tilin poistaminen onnistui'));
     }
 
     /* Listoille lisääminen ja poistaminen listoilta */
     
     public static function addFavourites() {
-        $parametrit = $_POST;
-        $input = $parametrit['lisayslista'];
+        $params = $_POST;
+        $input = $params['lisayslista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -185,8 +185,8 @@ class UserController extends BaseController {
     }
     
     public static function removeFavourites() {
-        $parametrit = $_POST;
-        $input = $parametrit['poistolista'];
+        $params = $_POST;
+        $input = $params['poistolista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -198,8 +198,8 @@ class UserController extends BaseController {
     }
     
     public static function addDVDs() {
-        $parametrit = $_POST;
-        $input = $parametrit['lisayslista'];
+        $params = $_POST;
+        $input = $params['lisayslista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -211,8 +211,8 @@ class UserController extends BaseController {
     }
 
     public static function removeDVDs() {
-        $parametrit = $_POST;
-        $input = $parametrit['poistolista'];
+        $params = $_POST;
+        $input = $params['poistolista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -224,8 +224,8 @@ class UserController extends BaseController {
     }
 
     public static function addWatched() {
-        $parametrit = $_POST;
-        $input = $parametrit['lisayslista'];
+        $params = $_POST;
+        $input = $params['lisayslista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -237,8 +237,8 @@ class UserController extends BaseController {
     }
 
     public static function removeWatched() {
-        $parametrit = $_POST;
-        $input = $parametrit['poistolista'];
+        $params = $_POST;
+        $input = $params['poistolista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -250,8 +250,8 @@ class UserController extends BaseController {
     }
 
     public static function addMasTarde() {
-        $parametrit = $_POST;
-        $input = $parametrit['lisayslista'];
+        $params = $_POST;
+        $input = $params['lisayslista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -263,8 +263,8 @@ class UserController extends BaseController {
     }
 
     public static function removeMasTarde() {
-        $parametrit = $_POST;
-        $input = $parametrit['poistolista'];
+        $params = $_POST;
+        $input = $params['poistolista'];
         $output = explode(',', $input);
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
 
@@ -296,6 +296,12 @@ class UserController extends BaseController {
 
         $kayttajaid = self::get_user_logged_in()->kayttajaid;
         Mastardelista::save($kayttajaid, $leffaid);
+        Redirect::to('/movie/' . $leffaid);
+    }
+     public static function addDVDMovie($leffaid) {
+
+        $kayttajaid = self::get_user_logged_in()->kayttajaid;
+        DVDlista::save($kayttajaid, $leffaid);
         Redirect::to('/movie/' . $leffaid);
     }
 
@@ -362,7 +368,7 @@ class UserController extends BaseController {
     public static function destroyCommentMaintenance($kayttajaid, $leffaid) {
         $kommentti = new Kommentti(array('kayttajaid' => $kayttajaid,'leffaid' => $leffaid));
         $kommentti->destroy();
-        Redirect::to('/commentmaintenance', array('message' => 'Kommentin poistaminen onnistui'));
+        Redirect::to('/commentmaintenance', array('deleteMessage' => 'Kommentin poistaminen onnistui'));
     }
 
 }

@@ -7,52 +7,52 @@ class ArtistController extends BaseController {
     /* Artistin esittelysivulle tiedot */
     public static function showOne($artistiid) {
 
-        $artisti = Artisti::findOne($artistiid);
-        $valtio = Valtio::findValtioForArtisti($artistiid);
-        $leffat = Elokuva::findElokuvatForArtisti($artistiid);
+        $artist = Artisti::findOne($artistiid);
+        $country = Valtio::findValtioForArtisti($artistiid);
+        $movies = Elokuva::findElokuvatForArtisti($artistiid);
 
         View::make('artist/artistietusivu.html', array(
-            'artisti' => $artisti,
-            'valtio' => $valtio,
-            'elokuvat' => $leffat
+            'artisti' => $artist,
+            'valtio' => $country,
+            'elokuvat' => $movies
         ));
     }
 
     /* Artistin muokkaussivulle tiedot */
     public static function artistEditPage($artistiid) {
 
-        $artisti = Artisti::findOne($artistiid);
-        $valtiot = Valtio::all();
-        $tamanhetkinenvaltio = Valtio::findValtioForArtisti($artistiid)->valtioid;
-        $leffat = Elokuva::findElokuvatForArtisti($artistiid);
-        $elokuvatALL = Elokuva::all();
+        $artist = Artisti::findOne($artistiid);
+        $countries = Valtio::all();
+        $countryATM = Valtio::findValtioForArtisti($artistiid)->valtioid;
+        $movies = Elokuva::findElokuvatForArtisti($artistiid);
+        $moviesALL = Elokuva::all();
         
         View::make('artist/artistimuokkaus.html', array(
-            'artisti' => $artisti, 'valtiot' => $valtiot,
-            'elokuvat' => $leffat, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
-            'elokuvatALL' => $elokuvatALL
+            'artisti' => $artist, 'valtiot' => $countries,
+            'elokuvat' => $movies, 'tamanhetkinenvaltio' => $countryATM,
+            'elokuvatALL' => $moviesALL
         ));
     }
 
     /* Uuden artistiehdotuksen tallentaminen */
     //HUOMIO ITSELLE!
     public static function storeSuggestion($ryhmaid) {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
-            'artistityyppi' => $parametrit['artistityyppi'],
-            'etunimi' => $parametrit['etunimi'],
-            'sukunimi' => $parametrit['sukunimi'],
-            'bio' => $parametrit['bio'],
-            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
-            'valtio' => (int) $parametrit['valtio']
+        $attributes = array(
+            'artistityyppi' => $params['artistityyppi'],
+            'etunimi' => $params['etunimi'],
+            'sukunimi' => $params['sukunimi'],
+            'bio' => $params['bio'],
+            'syntymavuosi' => (int) $params['syntymavuosi'],
+            'valtio' => (int) $params['valtio']
         );
 
-        $artisti = new Artisti($attribuutit);
-        $errors = $artisti->errors();
+        $artist = new Artisti($attributes);
+        $errors = $artist->errors();
 
         if (count($errors) == 0) {
-            $artisti->saveSuggestion($ryhmaid);
+            $artist->saveSuggestion($ryhmaid);
             LaariController::artistilaariSaveSuggestionWithoutArtistiID($ryhmaid);
         } else {
             //mieti tämä
@@ -62,18 +62,18 @@ class ArtistController extends BaseController {
     /* Uuden artistiehdotuksen tallentaminen */
     //HUOMIO ITSELLE!
     public static function storeSuggestionUpdate($leffaid) {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
-            'artistityyppi' => $parametrit['artistityyppi'],
-            'etunimi' => $parametrit['etunimi'],
-            'sukunimi' => $parametrit['sukunimi'],
-            'bio' => $parametrit['bio'],
-            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
-            'valtio' => (int) $parametrit['valtio']
+        $attributes = array(
+            'artistityyppi' => $params['artistityyppi'],
+            'etunimi' => $params['etunimi'],
+            'sukunimi' => $params['sukunimi'],
+            'bio' => $params['bio'],
+            'syntymavuosi' => (int) $params['syntymavuosi'],
+            'valtio' => (int) $params['valtio']
         );
 
-        $artisti = new Artisti($attribuutit);
+        $artisti = new Artisti($attributes);
         $errors = $artisti->errors();
 
         if (count($errors) == 0) {
@@ -86,27 +86,28 @@ class ArtistController extends BaseController {
 
     /* Artistin muokkauksehdotuksen tallentaminen */
     public static function updateSuggestion($artistiid) {
-        $parametrit = $_POST;
-        $attribuutit = array('artistiid' => $artistiid,
-            'artistityyppi' => $parametrit['artistityyppi'],
-            'etunimi' => $parametrit['etunimi'],
-            'sukunimi' => $parametrit['sukunimi'],
-            'bio' => $parametrit['bio'],
-            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
-            'valtio' => (int) $parametrit['valtio']);
+        $params = $_POST;
+        
+        $attributes = array('artistiid' => $artistiid,
+            'artistityyppi' => $params['artistityyppi'],
+            'etunimi' => $params['etunimi'],
+            'sukunimi' => $params['sukunimi'],
+            'bio' => $params['bio'],
+            'syntymavuosi' => (int) $params['syntymavuosi'],
+            'valtio' => (int) $params['valtio']);
 
-        $artist = new Artisti($attribuutit);
+        $artist = new Artisti($attributes);
         $errors = $artist->errors();
 
         if (count($errors) == 0) {
             $ryhmaid = $artist->updateSuggestion();
-            LaariController::artistilaariUpdateSuggestionMovies($parametrit, $artistiid, $ryhmaid);
-            Redirect::to('/artist/' . $artistiid, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle :)'));
+            LaariController::artistilaariUpdateMoviesSuggestion($params, $artistiid, $ryhmaid);
+            Redirect::to('/artist/' . $artistiid, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle! :)'));
         } else {
-            $valtiot = Valtio::all();
-            $tamanhetkinenvaltio = $attribuutit['valtio'];
-            View::make('/artist/artistimuokkaus.html', array('valtiot' => $valtiot,
-                'tamanhetkinenvaltio' => $tamanhetkinenvaltio, 'artisti' => $attribuutit, 'errors' => $errors
+            $countries = Valtio::all();
+            $countryATM = $attributes['valtio'];
+            View::make('/artist/artistimuokkaus.html', array('valtiot' => $countries,
+                'tamanhetkinenvaltio' => $countryATM, 'artisti' => $attributes, 'errors' => $errors
             ));
         }
     }
@@ -115,36 +116,36 @@ class ArtistController extends BaseController {
     public static function destroy($artistiid) {
         $artist = new Artisti(array('artistiid' => $artistiid));
         $artist->destroy();
-        Redirect::to('/', array('message' => 'Artistin poistaminen onnistui! :)'));
+        Redirect::to('/', array('deleteMessage' => 'Artistin poistaminen onnistui! :) '));
     }
 
     /* Artistin poistaminen ylläpitosivuilla */
     public static function destroyMaintenance($artistiid) {
         $artist = new Artisti(array('artistiid' => $artistiid));
         $artist->destroy();
-        Redirect::to('/artistmaintenance', array('message' => 'Artistin poistaminen onnistui! :)'));
+        Redirect::to('/artistmaintenance', array('deleteMessage' => 'Artistin poistaminen onnistui! :)'));
     }
 
     /* Uuden artistin lisäys - ylläpitäjä tekee */
     //HUOMIO ITSELLE!!
     public static function administratorStore($leffaid) {
-        $parametrit = $_POST;
+        $params = $_POST;
 
-        $attribuutit = array(
-            'artistityyppi' => $parametrit['artistityyppi'],
-            'etunimi' => $parametrit['etunimi'],
-            'sukunimi' => $parametrit['sukunimi'],
-            'bio' => $parametrit['bio'],
-            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
-            'valtio' => (int) $parametrit['valtio']
+        $attributes = array(
+            'artistityyppi' => $params['artistityyppi'],
+            'etunimi' => $params['etunimi'],
+            'sukunimi' => $params['sukunimi'],
+            'bio' => $params['bio'],
+            'syntymavuosi' => (int) $params['syntymavuosi'],
+            'valtio' => (int) $params['valtio']
         );
 
-        $artisti = new Artisti($attribuutit);
-        $errors = $artisti->errors();
+        $artist = new Artisti($attributes);
+        $errors = $artist->errors();
 
         if (count($errors) == 0) {
-            $id = $artisti->save();
-            $param['artistilista'] = $id;
+            $artistiid = $artist->save();
+            $param['artistilista'] = $artistiid;
             LaariController::artistilaariSaveAdministrator($param, $leffaid);
         } else {
             //mieti tämä
@@ -153,27 +154,27 @@ class ArtistController extends BaseController {
 
     /* Artistin muokkaus - ylläpitäjä tekee */
     public static function administratorUpdate($artistiid) {
-        $parametrit = $_POST;
-        $attribuutit = array('artistiid' => $artistiid,
-            'artistityyppi' => $parametrit['artistityyppi'],
-            'etunimi' => $parametrit['etunimi'],
-            'sukunimi' => $parametrit['sukunimi'],
-            'bio' => $parametrit['bio'],
-            'syntymavuosi' => (int) $parametrit['syntymavuosi'],
-            'valtio' => (int) $parametrit['valtio']);
+        $params = $_POST;
+        $attributes = array('artistiid' => $artistiid,
+            'artistityyppi' => $params['artistityyppi'],
+            'etunimi' => $params['etunimi'],
+            'sukunimi' => $params['sukunimi'],
+            'bio' => $params['bio'],
+            'syntymavuosi' => (int) $params['syntymavuosi'],
+            'valtio' => (int) $params['valtio']);
 
-        $artist = new Artisti($attribuutit);
+        $artist = new Artisti($attributes);
         $errors = $artist->errors();
 
         if (count($errors) == 0) {
             $artist->update();
-            LaariController::artistilaariUpdateMoviesAdministrator($parametrit, $artistiid);
+            LaariController::artistilaariUpdateMoviesAdministrator($params, $artistiid);
             Redirect::to('/artist/' . $artistiid, array('message' => 'Tietojen päivittäminen onnistui! :)'));
         } else {
-            $valtiot = Valtio::all();
-            $tamanhetkinenvaltio = $attribuutit['valtio'];
-            View::make('/artist/artistimuokkaus.html', array('valtiot' => $valtiot,
-                'tamanhetkinenvaltio' => $tamanhetkinenvaltio, 'artisti' => $attribuutit, 'errors' => $errors
+            $countries = Valtio::all();
+            $countryATM = $attributes['valtio'];
+            View::make('/artist/artistimuokkaus.html', array('valtiot' => $countries,
+                'tamanhetkinenvaltio' => $countryATM, 'artisti' => $attributes, 'errors' => $errors
             ));
         }
     }

@@ -6,14 +6,14 @@ class Genre extends BaseModel {
 
     public $genreid, $genrenimi;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
-    private static function createGenre($tulos) {
+    private static function createGenre($row) {
         return new Genre(array(
-            'genreid' => $tulos['genreid'],
-            'genrenimi' => $tulos['genrenimi']
+            'genreid' => $row['genreid'],
+            'genrenimi' => $row['genrenimi']
         ));
     }
 
@@ -21,11 +21,26 @@ class Genre extends BaseModel {
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Genre ORDER BY genrenimi');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $genret = array();
-        foreach ($tulokset as $tulos) {
-            $genret[] = Genre::createGenre($tulos);
+        foreach ($rows as $row) {
+            $genret[] = Genre::createGenre($row);
+        }
+        return $genret;
+    }
+    
+    /* Haetaan kaikki genret, jotka eivät kuulu annetuun elokuvaan */
+    public static function findAllGenresNotInTheMovie($leffaid) {
+        $query = DB::connection()->prepare('SELECT * FROM Genre '
+                . 'WHERE genreID NOT IN (SELECT genreID FROM GenreLaari WHERE leffaID = :leffaid)'
+                . ' ORDER BY genrenimi');
+        $query->execute(array('leffaid' => $leffaid));
+        $rows = $query->fetchAll();
+
+        $genret = array();
+        foreach ($rows as $row) {
+            $genret[] = Genre::createGenre($row);
         }
         return $genret;
     }
@@ -34,10 +49,10 @@ class Genre extends BaseModel {
     public static function findOne($genreid) {
         $query = DB::connection()->prepare('SELECT * FROM Genre WHERE genreid = :genreid LIMIT 1');
         $query->execute(array('genreid' => $genreid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $genre = Genre::createGenre($tulos);
+        if ($row) {
+            $genre = Genre::createGenre($row);
             return $genre;
         }
 
@@ -51,11 +66,11 @@ class Genre extends BaseModel {
                 . 'WHERE E.leffaid = :leffaid AND E.leffaid=L.leffaid AND L.genreID=G.genreID '
                 . 'ORDER BY G.genrenimi');
         $query->execute(array('leffaid' => $leffaid));
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $genret = array();
-        foreach ($tulokset as $tulos) {
-            $genret[] = Genre::createGenre($tulos);
+        foreach ($rows as $row) {
+            $genret[] = Genre::createGenre($row);
         }
         return $genret;
     }
@@ -65,13 +80,13 @@ class Genre extends BaseModel {
         $query = ('INSERT INTO Genre (genrenimi) '
                 . 'VALUES (:genrenimi) RETURNING genreid;');
 
-        $sijoituspaikat = array(":genrenimi");
-        $parametrit = array("'$this->genrenimi'");
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":genrenimi");
+        $params = array("'$this->genrenimi'");
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kyselyryhma = new Kyselyryhma(array());
+        $queryGroup = new Kyselyryhma(array());
         $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+            'kysely' => $newQuery
         ));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
@@ -82,14 +97,14 @@ class Genre extends BaseModel {
         $query = ('INSERT INTO Genre (genrenimi) '
                 . 'VALUES (:genrenimi) RETURNING genreid;');
 
-        $sijoituspaikat = array(":genrenimi");
-        $parametrit = array("'$this->genrenimi'");
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":genrenimi");
+        $params = array("'$this->genrenimi'");
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kyselyryhma = new Kyselyryhma(array());
-        $ryhmaid = $kyselyryhma->save();
+        $queryGroup = new Kyselyryhma(array());
+        $ryhmaid = $queryGroup->save();
         $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+            'kysely' => $newQuery
         ));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
@@ -105,8 +120,8 @@ class Genre extends BaseModel {
             'genrenimi' => $this->genrenimi
         ));
 
-        $tulos = $query->fetch();
-        $this->genreid = $tulos['genreid'];
+        $row = $query->fetch();
+        $this->genreid = $row['genreid'];
         return $this->genreid;
     }
 
@@ -114,9 +129,9 @@ class Genre extends BaseModel {
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Genre WHERE genreid = :genreid RETURNING genreid');
         $query->execute(array('genreid' => $this->genreid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
+        if ($row) {
             return 1;
         }
         return 0;

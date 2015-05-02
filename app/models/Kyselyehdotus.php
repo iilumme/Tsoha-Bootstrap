@@ -6,8 +6,8 @@ class Kyselyehdotus extends BaseModel {
 
     public $kyselyid, $kysely, $lisatty;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
     /* Haetaan ryhmän kyselyt */
@@ -15,15 +15,15 @@ class Kyselyehdotus extends BaseModel {
         $query = DB::connection()->prepare('SELECT * FROM KyselyryhmaLaari L, Kyselyehdotus E '
                 . 'WHERE L.kyselyID=E.kyselyID AND ryhmaID = :ryhmaid ORDER BY E.kyselyid');
         $query->execute(array('ryhmaid' => $ryhmaid));
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $kyselyt = array();
 
-        foreach ($tulokset as $tulos) {
+        foreach ($rows as $row) {
             $kyselyt[] = new Kyselyehdotus(array(
-                'kyselyid' => $tulos['kyselyid'],
-                'kysely' => $tulos['kysely'],
-                'lisatty' => $tulos['lisatty']
+                'kyselyid' => $row['kyselyid'],
+                'kysely' => $row['kysely'],
+                'lisatty' => $row['lisatty']
             ));
         }
         return $kyselyt;
@@ -37,8 +37,8 @@ class Kyselyehdotus extends BaseModel {
             'kysely' => $this->kysely
         ));
 
-        $tulos = $query->fetch();
-        $this->kyselyid = $tulos['kyselyid'];
+        $row = $query->fetch();
+        $this->kyselyid = $row['kyselyid'];
     }
 
     /* Poistetaan kysely */
@@ -55,15 +55,15 @@ class Kyselyehdotus extends BaseModel {
 //    public static function all() {
 //        $query = DB::connection()->prepare('SELECT * FROM Kyselyehdotus ORDER BY lisatty');
 //        $query->execute();
-//        $tulokset = $query->fetchAll();
+//        $rows = $query->fetchAll();
 //
 //        $kyselyt = array();
 //
-//        foreach ($tulokset as $tulos) {
+//        foreach ($rows as $row) {
 //            $kyselyt[] = new Kyselyehdotus(array(
-//                'kyselyid' => $tulos['kyselyid'],
-//                'kysely' => $tulos['kysely'],
-//                'lisatty' => $tulos['lisatty']
+//                'kyselyid' => $row['kyselyid'],
+//                'kysely' => $row['kysely'],
+//                'lisatty' => $row['lisatty']
 //            ));
 //        }
 //        return $kyselyt;
@@ -71,13 +71,13 @@ class Kyselyehdotus extends BaseModel {
 //    public static function findOne($ryhmaid, $id) {
 //        $query = DB::connection()->prepare('SELECT * FROM Kyselyehdotus WHERE kyselyID = :kyselyid LIMIT 1');
 //        $query->execute(array('kyselyid' => $id));
-//        $tulos = $query->fetch();
+//        $row = $query->fetch();
 //
-//        if ($tulos) {
+//        if ($row) {
 //            $kysely = new Kyselyehdotus(array(
-//                'kyselyid' => $tulos['kyselyid'],
-//                'kysely' => $tulos['kysely'],
-//                'lisatty' => $tulos['lisatty']
+//                'kyselyid' => $row['kyselyid'],
+//                'kysely' => $row['kysely'],
+//                'lisatty' => $row['lisatty']
 //            ));
 //            return $kysely;
 //        }

@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% if message %}
-<div class="alert alert-info"  style="text-shadow: none">
-    {{message}}
-</div>
-{% endif %}
-
 <div class="bg">
+
+    {% if deleteMessage %}
+    <div class="alert alert-info"  style="text-shadow: none" data-dismiss="alert">
+        <span class="glyphicon glyphicon-trash"></span> {{deleteMessage}}
+    </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-md-9">
             <h2 style="font-family: sans-serif">Kommenttien ylläpitosivut</h2>      

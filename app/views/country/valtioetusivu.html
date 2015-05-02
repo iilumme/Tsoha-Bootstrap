@@ -3,8 +3,8 @@
 
 <div class="bg">
     {% if message %}
-    <div class="alert alert-success"  style="text-shadow: none">
-        {{message}}
+    <div class="alert alert-success" data-dismiss="alert" style="text-shadow: none">
+        <span class="glyphicon glyphicon-send"></span> {{message}}
     </div>
     {% endif %}
 

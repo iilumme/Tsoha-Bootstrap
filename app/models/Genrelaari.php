@@ -6,19 +6,19 @@ class Genrelaari extends BaseModel {
 
     public $genreid, $leffaid;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
     /* Tallennetaan uusi ehdotus */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO GenreLaari (genreid, leffaid) '
                 . 'VALUES (:genreid, :leffaid) RETURNING genreid');
-        $sijoituspaikat = array(":genreid", ":leffaid");
-        $parametrit = array($this->genreid, $this->leffaid);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":genreid", ":leffaid");
+        $params = array($this->genreid, $this->leffaid);
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
+        $kysely = new Kyselyehdotus(array('kysely' => $newQuery));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
     }
@@ -48,11 +48,11 @@ class Genrelaari extends BaseModel {
         $query = ('DELETE FROM GenreLaari '
                 . 'WHERE genreid = :genreid AND leffaID = :leffaid');
 
-        $sijoituspaikat = array(":genreid", ":leffaid");
-        $parametrit = array($this->genreid, $this->leffaid);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":genreid", ":leffaid");
+        $params = array($this->genreid, $this->leffaid);
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
+        $kysely = new Kyselyehdotus(array('kysely' => $newQuery));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
     }

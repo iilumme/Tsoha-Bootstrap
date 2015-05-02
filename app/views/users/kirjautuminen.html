@@ -3,13 +3,13 @@
 
 <div class="bg">
     {% if message %}
-    <div class="alert alert-warning"  style="text-shadow: none">
+    <div class="alert alert-warning"  style="text-shadow: none" data-dismiss="alert">
         {{message}}
     </div>
     {% endif %}
 
     {% if messagehappy %}
-    <div class="alert alert-success"  style="text-shadow: none">
+    <div class="alert alert-success"  style="text-shadow: none" data-dismiss="alert">
         {{messagehappy}}
     </div>
     {% endif %}
@@ -19,7 +19,7 @@
     <form method="post" action="{{base_path}}/login">
         <div class="form-group">
             <label>Käyttäjätunnuksesi</label>
-            <input type="text" class="form-control" name="kayttajatunnus">
+            <input type="text" class="form-control" name="kayttajatunnus" autofocus="">
         </div>
         <div class="form-group">
             <label>Salasanasi</label>

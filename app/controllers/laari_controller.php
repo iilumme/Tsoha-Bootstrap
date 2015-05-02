@@ -3,8 +3,12 @@
 /* Eri -Laareihin liittyvien asioiden kontrollointi */
 
 class LaariController extends BaseController {
+
+
     /* REKISTERÖITYNEEN KÄYTTÄJÄN METODIT */
 
+
+    /* UUSI ELOKUVA */
 
     /* Uuden elokuvan artistien, genrejen ja sarjojen ehdotusten tallentaminen */
     public static function storeSuggestion() {
@@ -18,7 +22,7 @@ class LaariController extends BaseController {
             LaariController::sarjalaariSaveSuggestion($param, $ryhmaid);
         }
 
-        Redirect::to('/', array('message' => "Ehdotus elokuvasta tekijöineen lähetetty ylläpitäjälle :)"));
+        Redirect::to('/', array('newMovieMessage' => "Ehdotus elokuvasta tekijöineen lähetetty ylläpitäjälle! :)"));
     }
 
     /* Uuden elokuvan artistiehdotusten tallentaminen */
@@ -55,40 +59,6 @@ class LaariController extends BaseController {
         }
     }
 
-    /* Elokuvan artistiehdotusten tallentaminen */
-    public static function artistilaariSaveSuggestionUpdate($param, $leffaid, $ryhmaid) {
-
-        $input = $param['artistilista'];
-        $output = explode(',', $input);
-
-        foreach ($output as $artistiid) {
-            if ($artistiid != 0) {
-                $artistilaari = new Artistilaari(array(
-                    'artistiid' => (int) $artistiid,
-                    'leffaid' => $leffaid
-                ));
-                $artistilaari->saveSuggestion($ryhmaid);
-            }
-        }
-    }
-
-    /* Elokuvan genreehdotusten tallentaminen */
-    public static function genrelaariSaveSuggestionUpdate($param, $leffaid, $ryhmaid) {
-
-        $input = $param['genrelista'];
-        $output = explode(',', $input);
-
-        foreach ($output as $genreid) {
-            if ($genreid != 0) {
-                $genrelaari = new Genrelaari(array(
-                    'genreid' => (int) $genreid,
-                    'leffaid' => $leffaid
-                ));
-                $genrelaari->saveSuggestion($ryhmaid);
-            }
-        }
-    }
-
     /* Uuden elokuvan sarjaehdotusten tallentaminen */
     public static function sarjalaariSaveSuggestion($param, $ryhmaid) {
 
@@ -116,16 +86,6 @@ class LaariController extends BaseController {
         $artistilaari->saveSuggestion($ryhmaid);
     }
 
-    /* Elokuvan uusien artistiehdotusten tallentaminen - muokkaus */
-    public static function artistilaariSaveSuggestionWithoutArtistiIDWithLeffaID($leffaid, $ryhmaid) {
-
-        $artistilaari = new Artistilaari(array(
-            'artistiid' => ':artistiid',
-            'leffaid' => $leffaid
-        ));
-        $artistilaari->saveSuggestion($ryhmaid);
-    }
-
     /* Uuden elokuvan uusien genreehdotusten tallentaminen */
     public static function genrelaariSaveSuggestionWithoutGenreID($ryhmaid) {
 
@@ -133,17 +93,6 @@ class LaariController extends BaseController {
             'genreid' => ':genreid',
             'leffaid' => ':leffaid'
         ));
-        $genrelaari->saveSuggestion($ryhmaid);
-    }
-
-    /* Elokuvan uusien genreehdotusten tallentaminen - muokkaus */
-    public static function genrelaariSaveSuggestionWithoutGenreIDWithLeffaid($leffaid, $ryhmaid) {
-
-        $genrelaari = new Genrelaari(array(
-            'genreid' => ':genreid',
-            'leffaid' => $leffaid
-        ));
-
         $genrelaari->saveSuggestion($ryhmaid);
     }
 
@@ -156,31 +105,28 @@ class LaariController extends BaseController {
         ));
         $sarjalaari->saveSuggestion($ryhmaid);
     }
-    
-    /* Uuden elokuvan uusien sarjaehdotusten tallentaminen */
-    public static function sarjalaariSaveSuggestionWithoutSarjaIDWithLeffaID($leffaid, $ryhmaid) {
 
-        $sarjalaari = new Sarjalaari(array(
-            'sarjaid' => ':sarjaid',
-            'leffaid' => $leffaid
-        ));
-        $sarjalaari->saveSuggestion($ryhmaid);
-    }
+    
+    /* ELOKUVAN MUOKKAUS */
+
 
     /* Elokuvan artistien, genrejen ja sarjojen muokkausehdotusten tallentaminen */
     public static function updateSuggestion($leffaid, $ryhmaid) {
         $param = $_POST;
 
-        LaariController::artistilaariUpdateSuggestion($param, $leffaid, $ryhmaid);
-        LaariController::genrelaariUpdateSuggestion($param, $leffaid, $ryhmaid);
-        LaariController::artistilaariSaveSuggestionUpdate($param, $leffaid, $ryhmaid);
-        LaariController::genrelaariSaveSuggestionUpdate($param, $leffaid, $ryhmaid);
+        LaariController::artistilaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+        LaariController::genrelaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+        LaariController::sarjalaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid);
 
-        Redirect::to('/movie/' . $leffaid, array('message' => "Ehdotus muokkauksesta lähetetty ylläpitäjälle :)"));
+        LaariController::artistilaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+        LaariController::genrelaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+        LaariController::sarjalaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+
+        Redirect::to('/movie/' . $leffaid, array('editMessage' => "Ehdotus muokkauksesta lähetetty ylläpitäjälle! :) "));
     }
 
-    /* Uuden elokuvan artistiehdotusten tallentaminen */
-    public static function artistilaariUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    /* Elokuvan artistiehdotusten tallentaminen - MUOKKAUS */
+    public static function artistilaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
 
         $input = $param['poistettavatartistit'];
         $output = explode(',', $input);
@@ -196,8 +142,8 @@ class LaariController extends BaseController {
         }
     }
 
-    /* Uuden elokuvan genreehdotusten tallentaminen */
-    public static function genrelaariUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    /* Elokuvan genreehdotusten tallentaminen - MUOKKAUS */
+    public static function genrelaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
 
         $input = $param['poistettavatgenret'];
         $output = explode(',', $input);
@@ -212,9 +158,108 @@ class LaariController extends BaseController {
             }
         }
     }
-    
+
+    /* Elokuvan genreehdotusten tallentaminen - MUOKKAUS */
+    public static function sarjalaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+
+        $input = $param['poistettavatsarjat'];
+        $output = explode(',', $input);
+
+        foreach ($output as $sarjaid) {
+            if ($sarjaid != 0) {
+                $sarjalaari = new Sarjalaari(array(
+                    'sarjaid' => (int) $sarjaid,
+                    'leffaid' => $leffaid
+                ));
+                $sarjalaari->destroySuggestion($ryhmaid);
+            }
+        }
+    }
+
+    /* Elokuvan artistiehdotusten tallentaminen */
+    public static function artistilaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+
+        $input = $param['artistilista'];
+        $output = explode(',', $input);
+
+        foreach ($output as $artistiid) {
+            if ($artistiid != 0) {
+                $artistilaari = new Artistilaari(array(
+                    'artistiid' => (int) $artistiid,
+                    'leffaid' => $leffaid
+                ));
+                $artistilaari->saveSuggestion($ryhmaid);
+            }
+        }
+    }
+
+    /* Elokuvan genreehdotusten tallentaminen */
+    public static function genrelaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+
+        $input = $param['genrelista'];
+        $output = explode(',', $input);
+
+        foreach ($output as $genreid) {
+            if ($genreid != 0) {
+                $genrelaari = new Genrelaari(array(
+                    'genreid' => (int) $genreid,
+                    'leffaid' => $leffaid
+                ));
+                $genrelaari->saveSuggestion($ryhmaid);
+            }
+        }
+    }
+
+    /* Elokuvan sarjaehdotusten tallentaminen */
+    public static function sarjalaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+
+        $input = $param['sarjalista'];
+        $output = explode(',', $input);
+
+        foreach ($output as $sarjaid) {
+            if ($sarjaid != 0) {
+                $sarjalaari = new Sarjalaari(array(
+                    'sarjaid' => (int) $sarjaid,
+                    'leffaid' => $leffaid
+                ));
+                $sarjalaari->saveSuggestion($ryhmaid);
+            }
+        }
+    }
+
+    /* Elokuvan uusien artistiehdotusten tallentaminen - muokkaus */
+    public static function artistilaariSaveSuggestionWithoutArtistiIDWithLeffaID($leffaid, $ryhmaid) {
+
+        $artistilaari = new Artistilaari(array(
+            'artistiid' => ':artistiid',
+            'leffaid' => $leffaid
+        ));
+        $artistilaari->saveSuggestion($ryhmaid);
+    }
+
+    /* Elokuvan uusien genreehdotusten tallentaminen - muokkaus */
+    public static function genrelaariSaveSuggestionWithoutGenreIDWithLeffaid($leffaid, $ryhmaid) {
+
+        $genrelaari = new Genrelaari(array(
+            'genreid' => ':genreid',
+            'leffaid' => $leffaid
+        ));
+
+        $genrelaari->saveSuggestion($ryhmaid);
+    }
+
+    /* Elokuvan uusien sarjaehdotusten tallentaminen - muokkaus */
+    public static function sarjalaariSaveSuggestionWithoutSarjaIDWithLeffaID($leffaid, $ryhmaid) {
+
+        $sarjalaari = new Sarjalaari(array(
+            'sarjaid' => ':sarjaid',
+            'leffaid' => $leffaid
+        ));
+        $sarjalaari->saveSuggestion($ryhmaid);
+    }
+
     /* Artistin elokuvaehdotusten tallentaminen */
-    public static function artistilaariUpdateSuggestionMovies($param, $artistiid, $ryhmaid) {
+    public static function artistilaariUpdateMoviesSuggestion($param, $artistiid, $ryhmaid) {
 
         $input = $param['poistettavatelokuvat'];
         $output = explode(',', $input);
@@ -227,7 +272,7 @@ class LaariController extends BaseController {
                 $artistilaari->destroySuggestion($ryhmaid);
             }
         }
-        
+
         $in = $param['leffalista'];
         $out = explode(',', $in);
 
@@ -257,7 +302,7 @@ class LaariController extends BaseController {
             LaariController::sarjalaariSaveAdministrator($param, $leffaid);
         }
 
-        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuva kokonaisuudessaan lisätty! :)"));
+        Redirect::to('/movie/' . $leffaid, array('newMovieMessage' => "Elokuva kokonaisuudessaan lisätty! :)"));
     }
 
     /* Uuden elokuvan artistien tallentaminen - ylläpitäjä tekee */
@@ -309,20 +354,19 @@ class LaariController extends BaseController {
     public static function administratorUpdate($leffaid) {
         $param = $_POST;
 
-        LaariController::artistilaariUpdateAdministrator($param, $leffaid);
-        LaariController::genrelaariUpdateAdministrator($param, $leffaid);
+        LaariController::artistilaariDeleteAdministrator($param, $leffaid);
+        LaariController::genrelaariDeleteAdministrator($param, $leffaid);
+        LaariController::sarjalaariDeleteAdministrator($param, $leffaid);
+
         LaariController::artistilaariSaveAdministrator($param, $leffaid);
         LaariController::genrelaariSaveAdministrator($param, $leffaid);
+        LaariController::sarjalaariSaveAdministrator($param, $leffaid);
 
-//        if (isset($param['sarjalista'])) {
-//            LaariController::sarjalaariSaveAdministrator($param, $leffaid);
-//        }
-
-        Redirect::to('/movie/' . $leffaid, array('message' => "Elokuvan muokkaaminen onnistui! :)"));
+        Redirect::to('/movie/' . $leffaid, array('newMovieMessage' => "Elokuvan muokkaaminen onnistui! :) "));
     }
 
     /* Elokuvan artistien muokkaaminen - ylläpitäjä tekee */
-    public static function artistilaariUpdateAdministrator($param, $leffaid) {
+    public static function artistilaariDeleteAdministrator($param, $leffaid) {
 
         $input = $param['poistettavatartistit'];
         $output = explode(',', $input);
@@ -337,7 +381,7 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan genrejen muokkaaminen - ylläpitäjä tekee */
-    public static function genrelaariUpdateAdministrator($param, $leffaid) {
+    public static function genrelaariDeleteAdministrator($param, $leffaid) {
 
         $input = $param['poistettavatgenret'];
         $output = explode(',', $input);
@@ -350,7 +394,22 @@ class LaariController extends BaseController {
             $genrelaari->destroy();
         }
     }
-    
+
+    /* Elokuvan genrejen muokkaaminen - ylläpitäjä tekee */
+    public static function sarjalaariDeleteAdministrator($param, $leffaid) {
+
+        $input = $param['poistettavatsarjat'];
+        $output = explode(',', $input);
+
+        foreach ($output as $sarjaid) {
+            $sarjalaari = new Sarjalaari(array(
+                'sarjaid' => (int) $sarjaid,
+                'leffaid' => $leffaid
+            ));
+            $sarjalaari->destroy();
+        }
+    }
+
     /* Artistin elokuvien tallentaminen */
     public static function artistilaariUpdateMoviesAdministrator($param, $artistiid) {
 
@@ -365,7 +424,7 @@ class LaariController extends BaseController {
                 $artistilaari->destroy();
             }
         }
-        
+
         $in = $param['leffalista'];
         $out = explode(',', $in);
 
@@ -378,6 +437,5 @@ class LaariController extends BaseController {
             }
         }
     }
-
 
 }

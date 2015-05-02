@@ -6,8 +6,8 @@ class Mastardelista extends BaseModel {
 
     public $kayttajaid, $leffaid;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
     
     /* Tallennetaan käyttäjän listalle uusi elokuva */
@@ -22,5 +22,23 @@ class Mastardelista extends BaseModel {
                 . 'WHERE kayttajaID = :kayttajaid AND leffaID = :leffaid');
         $query->execute(array('kayttajaid' => $kayttajaid, 'leffaid' => $leffaid));
     }
+    
+    /* Onko elokuva jo mastardelistassa? */
+    public static function isMasTarde($leffaid) {
+        $query = DB::connection()->prepare('SELECT * FROM MasTardeLista '
+                . 'WHERE kayttajaID = :kayttajaid AND leffaID = :leffaid');
+        $query->execute(array(
+            'kayttajaid' => BaseController::get_user_logged_in()->kayttajaid,
+            'leffaid' => $leffaid
+        ));
+        $row = $query->fetch();
+
+        if ($row) {
+            return 1;
+        }
+
+        return 0;
+    }
+
 
 }

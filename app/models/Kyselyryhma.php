@@ -6,20 +6,20 @@ class Kyselyryhma extends BaseModel {
 
     public $ryhmaid;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
     /* Haetaan kaikki kyselyryhmät */
     public static function allGroups() {
         $query = DB::connection()->prepare('SELECT * FROM Kyselyryhma ORDER BY ryhmaid');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $ryhmat = array();
-        foreach ($tulokset as $tulos) {
+        foreach ($rows as $row) {
             $ryhmat[] = new Kyselyryhma(array(
-                'ryhmaid' => $tulos['ryhmaid']
+                'ryhmaid' => $row['ryhmaid']
             ));
         }
         return $ryhmat;
@@ -30,8 +30,8 @@ class Kyselyryhma extends BaseModel {
         $query = DB::connection()->prepare('INSERT INTO Kyselyryhma VALUES (DEFAULT) RETURNING ryhmaID');
         $query->execute();
 
-        $tulos = $query->fetch();
-        $this->ryhmaid = $tulos['ryhmaid'];
+        $row = $query->fetch();
+        $this->ryhmaid = $row['ryhmaid'];
 
         return $this->ryhmaid;
     }
@@ -100,22 +100,22 @@ class Kyselyryhma extends BaseModel {
 
                 $query = DB::connection()->prepare($kysely->kysely);
                 $query->execute();
-                $tulos = $query->fetch();
+                $row = $query->fetch();
 
-                if (isset($tulos['leffaid'])) {
-                    $leffaid = $tulos['leffaid'];
+                if (isset($row['leffaid'])) {
+                    $leffaid = $row['leffaid'];
                 }
 
-                if (isset($tulos['artistiid'])) {
-                    $artistiid = $tulos['artistiid'];
+                if (isset($row['artistiid'])) {
+                    $artistiid = $row['artistiid'];
                 }
 
-                if (isset($tulos['genreid'])) {
-                    $genreid = $tulos['genreid'];
+                if (isset($row['genreid'])) {
+                    $genreid = $row['genreid'];
                 }
 
-                if (isset($tulos['sarjaid'])) {
-                    $sarjaid = $tulos['sarjaid'];
+                if (isset($row['sarjaid'])) {
+                    $sarjaid = $row['sarjaid'];
                 }
             }
         }

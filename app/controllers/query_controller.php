@@ -31,27 +31,27 @@ class QueryController extends BaseController {
         
         $param = $_POST;
         
-        $kyselyryhma = new Kyselyryhma(array());
-        $ryhmaid = $kyselyryhma->save();
+        $queryGroup = new Kyselyryhma(array());
+        $ryhmaid = $queryGroup->save();
         $kysely = new Kyselyehdotus(array('kysely' => $param['kysely']));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);      
         Kyselyryhma::execute($ryhmaid);
         
-        Redirect::to('/addquery', array('message' => 'Onnistui'));
+        Redirect::to('/addquery', array('message' => 'Onnistui! :)'));
     }
 
 
     /* Kyselyjen suorittaminen */
     public static function queryAccepted($ryhmaid) {
         Kyselyryhma::execute($ryhmaid);
-        Redirect::to('/querymaintenance', array('message' => 'Kysely onnistui! :)'));
+        Redirect::to('/querymaintenance', array('successMessage' => 'Kysely onnistui! :)'));
     }
 
     /* Kyselyjen poistaminen */
     public static function queryDenied($ryhmaid) {
         Kyselyryhma::destroy($ryhmaid);
-        Redirect::to('/querymaintenance', array('message' => 'Kysely hylätty ja poistettu! :)'));
+        Redirect::to('/querymaintenance', array('deleteMessage' => 'Kysely hylätty ja poistettu! :)'));
     }
 
 }

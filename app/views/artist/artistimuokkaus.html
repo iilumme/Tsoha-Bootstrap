@@ -68,13 +68,12 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <select class="form-control leffavalinta">
-                        <option>...</option>
+                    <select class="form-control leffavalinta" multiple="">
                         {% for movie in elokuvatALL %}
                         <option value="{{movie.leffaid}}">{{movie.leffanimi}}</option>
                         {%endfor%}
                     </select>
-                    <button class="btn btn-success lisaaleffa" type="button">Lisää</button>                   
+                    <button class="btn btn-success lisaaleffa" type="button">Lisää elokuvat</button>                   
                 </div>
             </div>
             <div class="col-md-6">

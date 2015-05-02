@@ -6,10 +6,11 @@
 {{modals.genre_modal(lid, "#{base_path}/genrepostisivu")}}
 {{modals.sarja_modal(lid, "#{base_path}/sarjapostisivu")}}
 
+{% import "macros/buttons.html" as buttons %}
 
 
 {% if message %}
-<div class="alert alert-success"  style="text-shadow: none">
+<div class="alert alert-success"  style="text-shadow: none" data-dismiss="alert">
     {{message}}
 </div>
 {% endif %}
@@ -25,8 +26,7 @@
         <div class="col-md-6">
             <div class="dropdown">
                 <label>Ohjaajat</label>
-                <select class="form-control artistivalinta">
-                    <option>...</option>
+                <select class="form-control artistivalinta" multiple="">
                     {% for ohjaaja in ohjaajat%}
                     <option value="{{ohjaaja.artistiid}}">{{ohjaaja.etunimi}} {{ohjaaja.sukunimi}}</option>
                     {%endfor%}
@@ -34,8 +34,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Ohjaaja">Uusi</button>
+        {{buttons.add_directors()}}
         </div>   
     </div>
     <br>
@@ -44,8 +43,7 @@
         <div class="col-md-6">
             <div class="dropdown">
                 <label>Kuvaajat</label>
-                <select class="form-control artistivalinta">
-                    <option>...</option>
+                <select class="form-control artistivalinta"  multiple="">
                     {% for kuvaaja in kuvaajat%}
                     <option value="{{kuvaaja.artistiid}}">{{kuvaaja.etunimi}} {{kuvaaja.sukunimi}}</option>
                     {%endfor%}
@@ -53,8 +51,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Kuvaaja">Uusi</button>
+            {{buttons.add_cinematographers()}}
         </div>
     </div>
     <br>
@@ -63,8 +60,7 @@
         <div class="col-md-6">
             <div class="dropdown">
                 <label>Käsikirjoittajat</label>
-                <select class="form-control artistivalinta">
-                    <option>...</option>
+                <select class="form-control artistivalinta"  multiple="">
                     {% for kassari in kasikirjoittajat%}
                     <option value="{{kassari.artistiid}}">{{kassari.etunimi}} {{kassari.sukunimi}}</option>
                     {%endfor%}
@@ -72,8 +68,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Käsikirjoittaja">Uusi</button>
+            {{buttons.add_screenwriters()}}
         </div>
     </div>
     <br>
@@ -82,8 +77,7 @@
         <div class="col-md-6">
             <div class="dropdown">
                 <label>Näyttelijät</label>
-                <select class="form-control artistivalinta">
-                    <option>...</option>
+                <select class="form-control artistivalinta" multiple="">
                     {% for nayttelija in nayttelijat%}
                     <option value="{{nayttelija.artistiid}}">{{nayttelija.etunimi}} {{nayttelija.sukunimi}}</option>
                     {%endfor%}
@@ -91,8 +85,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success lisaaartisti">Lisää</button>
-            <button class="btn btn-info lisaatyyppi" data-toggle="modal" data-target="#lisaysmodaali" value="Näyttelijä">Uusi</button>
+            {{buttons.add_actors()}}
         </div>
     </div>
     <br>
@@ -101,8 +94,7 @@
         <div class="col-md-6">
             <div class="dropdown">
                 <label>Genret</label>
-                <select class="form-control genrevalinta">
-                    <option>...</option>
+                <select class="form-control genrevalinta" multiple="">
                     {%for genre in genret%}
                     <option value="{{genre.genreid}}">{{genre.genrenimi}}</option>
                     {%endfor%}
@@ -110,8 +102,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success lisaagenre">Lisää</button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#genrelisaysmodaali">Uusi</button>
+            {{buttons.add_genres()}}
         </div>
     </div>
     <br>
@@ -128,8 +119,7 @@
         <div class="col-md-6">
             <div class="dropdown collapse" id="sarjanvalintamenu">
                 <label>Sarjat</label>
-                <select class="form-control sarjavalinta">
-                    <option>...</option>
+                <select class="form-control sarjavalinta" multiple="">
                     {% for sarja in sarjat %}
                     <option value="{{sarja.sarjaid}}">{{sarja.sarjanimi}}</option>
                     {%endfor%}
@@ -138,8 +128,7 @@
         </div>
 
         <div class="col-md-3 collapse" id="buttons">
-            <button class="btn btn-success lisaasarja">Lisää</button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#sarjalisaysmodaali">Uusi</button>
+            {{buttons.add_series()}}
         </div>
 
     </div>

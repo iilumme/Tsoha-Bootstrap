@@ -123,16 +123,12 @@
                 <div class="modal-body">                   
                     <div class="dropdown">
                         <label>Elokuvat</label>
-                        <select class="form-control lisaysvalinta" style="width: 80%">
-                            <option value="0">...</option>
+                        <select class="form-control lisaysvalinta" multiple="" style="width: 80%">
                             {%for elokuva in elokuvat%}
                             <option value="{{elokuva.leffaid}}">{{elokuva.leffanimi}}</option>
                             {%endfor%}
-                        </select>
-                        <button class="btn btn-success lisaaelokuva" type="button">Lisää</button>  
-                    </div> 
-                    <br>
-                    <div class="alert alert-success" id="viestilisataan" style="text-shadow: none; text-align: center; width: 60%"></div>
+                        </select>                        
+                    </div>                     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default peruutalisays" data-dismiss="modal">Peruuta</button>
@@ -160,16 +156,14 @@
                 <div class="modal-body">
                     <div class="dropdown" style="width: 80%">
                         <label>Elokuvat</label>
-                        <select class="form-control poistovalinta" style="width: 80%">
-                            <option value="0">...</option>
+                        <select class="form-control poistovalinta" multiple="" style="width: 80%">
                             {%for elokuva in elokuvat%}
                             <option value="{{elokuva.leffaid}}">{{elokuva.leffanimi}}</option>
                             {%endfor%}
-                        </select>              
-                        <button class="btn btn-success poistaelokuva" type="button">Lisää</button>         
+                        </select>                       
                     </div> 
                     <br>
-                    <div class="alert alert-success" id="viestipoistetaan" style="text-shadow: none; text-align: center; width: 60%"></div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default peruutapoisto" data-dismiss="modal">Peruuta</button>
@@ -269,7 +263,7 @@
         <div class="modal-content">
             <div class="modal-header"><h4>Olet jo kommentoinut</h4></div>
             <div class="modal-body">
-                <h4>Sanoit: {{kommentti}}</h4>
+                <h5 style="font-style: italic">Sanoit: {{kommentti}}</h5>
             </div>
             <div class="modal-footer">
                 <form method="post" action="{{actiondelete}}/{{lid}}">

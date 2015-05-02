@@ -12,6 +12,11 @@ $(document).ready(function () {
         var $sarjavalintakandidaatti;
 
 
+        $('.artistivalinta').change(function () {
+            var $this = $(this);
+            $valintakandidaatti = $this.val();
+            console.log($this.val());
+        });
         $('.lisaaartisti').click(function (event) {
             console.log("kissakala");
             var $this = $(this);
@@ -19,13 +24,18 @@ $(document).ready(function () {
             if ($valintakandidaatti !== 0 && $valintakandidaatti !== undefined) {
                 $artistilista[$artistilista.length] = $valintakandidaatti;
                 $('#hidd').val($artistilista);
-                $('#lisatty').text('Artisti lisätty!');
+                $('#lisatty').text('Artistit lisätty!');
                 console.log($artistilista);
                 $valintakandidaatti = 0;
             }
-
         }).change();
 
+
+        $('.genrevalinta').change(function () {
+            var $this = $(this);
+            $genrevalintakandidaatti = $this.val();
+            console.log($this.val());
+        });
         $('.lisaagenre').click(function (event) {
             console.log("genre");
             var $this = $(this);
@@ -33,12 +43,18 @@ $(document).ready(function () {
             if ($genrevalintakandidaatti !== 0 && $genrevalintakandidaatti !== '...') {
                 $genrelista[$genrelista.length] = $genrevalintakandidaatti;
                 $('#hiddgenre').val($genrelista);
-                $('#lisatty').text('Genre lisätty!');
+                $('#lisatty').text('Genret lisätty!');
                 console.log($genrelista);
                 $genrevalintakandidaatti = 0;
             }
         }).change();
 
+
+        $('.sarjavalinta').change(function () {
+            var $this = $(this);
+            $sarjavalintakandidaatti = $this.val();
+            console.log($this.val());
+        });
         $('.lisaasarja').click(function (event) {
             console.log("sarja");
             var $this = $(this);
@@ -46,43 +62,15 @@ $(document).ready(function () {
             if ($sarjavalintakandidaatti !== 0 && $sarjavalintakandidaatti !== '...') {
                 $sarjalista[$sarjalista.length] = $sarjavalintakandidaatti;
                 $('#hiddsarja').val($sarjalista);
-                $('#lisatty').text('Sarja lisätty!');
+                $('#lisatty').text('Sarjat lisätty!');
                 console.log($sarjalista);
                 $sarjavalintakandidaatti = 0;
             }
-
         }).change();
-
-        //valinnat
-
-        $('.artistivalinta').change(function () {
-            $('#lisatty').text('');
-            console.log("kalakissa");
-            var $this = $(this);
-            $valintakandidaatti = $this.val();
-            console.log($this.val());
-        });
-
-        $('.genrevalinta').change(function () {
-            $('#lisatty').text('');
-            console.log("kalakissa");
-            var $this = $(this);
-            $genrevalintakandidaatti = $this.val();
-            console.log($this.val());
-        });
-
-        $('.sarjavalinta').change(function () {
-            $('#lisatty').text('');
-            console.log("kalakissa");
-            var $this = $(this);
-            $sarjavalintakandidaatti = $this.val();
-            console.log($this.val());
-        });
 
 
         //ARTISTITYYPPI
         $('.lisaatyyppi').click(function (event) {
-            console.log("tyyppi");
             var $this = $(this);
             console.log($this.val());
             var $tyyppi = $this.val();
@@ -105,11 +93,13 @@ $(document).ready(function () {
                     })
                     .fail(function (data) {
                         console.log('fail' + data.status);
+
                         $('#lisatty').text('Uusi artisti lisätty!');
                         $('#lisaysmodaali').modal('hide');
-                        $('body').on('hidden.bs.modal', '.modal', function (event) {
-                            $(this).removeData('bs.modal');
-                        });
+//                        $('.modal-body').on('hidden.bs.modal', '.modal', function (e) {
+//                            $('.modal-body').removeData('bs.modal');
+//                        });
+
                     });
         });
 
@@ -225,102 +215,56 @@ $(document).ready(function () {
         //LISTOJEN MUOKKAUS
 
         //LISÄYS
-        $('#leffanlisaysmodaali').on('show.bs.modal', function (e) {
-            $('#viestilisataan').hide();
-        });
-
         var $lisattavat = new Array();
         var $liskandidaatti;
 
-        //OPTION VALINTA
+        //OPTIONS VALINTA
         $('.lisaysvalinta').change(function () {
-            $('#viestilisataan').hide();
-            $('#viestilisataan').text('');
             var $this = $(this);
             $liskandidaatti = $this.val();
+            $lisattavat[0] = $liskandidaatti;
+            $('#lisataan').val($lisattavat);
+            console.log($lisattavat);
             console.log($this.val());
         });
 
-        //LISATTY ELOKUVA
-        $('.lisaaelokuva').click(function (event) {
-            var $this = $(this);
-            console.log($this.value);
-            if ($liskandidaatti !== 0 && $liskandidaatti !== undefined) {
-                if ($.inArray($liskandidaatti, $lisattavat) === -1) {
-                    $lisattavat[$lisattavat.length] = $liskandidaatti;
-                    $('#lisataan').val($lisattavat);
-                    $('#viestilisataan').text('Elokuva lisätty!');
-                    $('#viestilisataan').show();
-                    console.log($lisattavat);
-                    $liskandidaatti = 0;
-                }
-            }
-        }).change();
-
         //PERUUTTAMINEN
         $('.peruutalisays').click(function (event) {
-            console.log("peruutetaan");
-            $('#viestilisataan').hide();
-            $('#viestilisataan').text('');
             $('.lisaysvalinta').val("0");
             $lisattavat = new Array();
         }).change();
-
         $('#leffanlisaysmodaali').on('hide.bs.modal', function (e) {
-            console.log("per");
-            $('#viestilisataan').text('');
-            $('#viestilisataan').hide();
             $('.lisaysvalinta').val("0");
             $lisattavat = new Array();
         });
 
 
         //POISTO
-        $('#leffanpoistomodaali').on('show.bs.modal', function (e) {
-            $('#viestipoistetaan').hide();
-        });
-
         var $poistettavat = new Array();
         var $kandidaatti;
 
-        //OPTION VALINTA
+        //OPTIONS VALINTA
         $('.poistovalinta').change(function () {
-            $('#viestipoistetaan').text('');
             var $this = $(this);
             $kandidaatti = $this.val();
+            $poistettavat[0] = $kandidaatti;
+            $('#poistetaan').val($poistettavat);
             console.log($this.val());
+            console.log($poistettavat);
         });
-
-        //POISTETAAN ELOKUVA
-        $('.poistaelokuva').click(function (event) {
-            var $this = $(this);
-            console.log($this.value);
-            if ($kandidaatti !== 0 && $kandidaatti !== undefined) {
-                if ($.inArray($kandidaatti, $poistettavat) === -1) {
-                    $poistettavat[$poistettavat.length] = $kandidaatti;
-                    $('#poistetaan').val($poistettavat);
-                    $('#viestipoistetaan').text('Elokuva lisätty!');
-                    $('#viestipoistetaan').show();
-                    console.log($poistettavat);
-                    $kandidaatti = 0;
-                }
-            }
-        }).change();
 
         //PERUUTTAMINEN
         $('.peruutapoisto').click(function (event) {
-            console.log("peruutetaan");
-            $('#viestipoistetaan').text('');
             $('.poistovalinta').val("0");
             $poistettavat = new Array();
         }).change();
-
         $('#leffanpoistomodaali').on('hide.bs.modal', function (e) {
-            console.log("per");
-            $('#viestipoistetaan').text('');
             $('.poistovalinta').val("0");
             $poistettavat = new Array();
         });
+
+
+
 
         $('form.destroy-form').on('submit', function (submit) {
             var $this = $(this);
@@ -333,7 +277,7 @@ $(document).ready(function () {
         var $poistettavatartistit = new Array();
         var $poistettavatgenret = new Array();
         var $poistettavatelokuvat = new Array();
-        
+
 
         $('.closeartisti').click(function (event) {
             console.log("moi :D");
@@ -430,5 +374,3 @@ $(document).ready(function () {
 
     });
 });
-
-

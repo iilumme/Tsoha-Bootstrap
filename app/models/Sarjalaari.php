@@ -6,8 +6,8 @@ class Sarjalaari extends BaseModel {
 
     public $sarjaid, $leffaid;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
     }
 
     /* Haetaan elokuvalle sarjat */
@@ -16,13 +16,13 @@ class Sarjalaari extends BaseModel {
                 . 'FROM Sarja S, SarjaLaari L '
                 . 'WHERE S.sarjaID=L.sarjaID AND L.leffaID = :leffaid');
         $query->execute(array('leffaid' => $leffaid));
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $sarjat = array();
-        foreach ($tulokset as $tulos) {
+        foreach ($rows as $row) {
             $sarjat[] = new Sarja(array(
-                'sarjaid' => $tulos['sarjaid'],
-                'sarjanimi' => $tulos['sarjanimi']
+                'sarjaid' => $row['sarjaid'],
+                'sarjanimi' => $row['sarjanimi']
             ));
         }
         return $sarjat;
@@ -35,13 +35,13 @@ class Sarjalaari extends BaseModel {
                 . 'WHERE L.leffaID=E.leffaID AND sarjaID = :sarjaid '
                 . 'ORDER BY E.vuosi');
         $query->execute(array('sarjaid' => $sarjaid));
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $sarjanelokuvat = array();
-        foreach ($tulokset as $tulos) {
+        foreach ($rows as $row) {
             $sarjanelokuvat[] = new Elokuva(array(
-                'leffaid' => $tulos['leffaid'],
-                'leffanimi' => $tulos['leffanimi']
+                'leffaid' => $row['leffaid'],
+                'leffanimi' => $row['leffanimi']
             ));
         }
         return $sarjanelokuvat;
@@ -51,11 +51,11 @@ class Sarjalaari extends BaseModel {
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO SarjaLaari (sarjaid, leffaid) '
                 . 'VALUES (:sarjaid, :leffaid) RETURNING sarjaid');
-        $sijoituspaikat = array(":sarjaid", ":leffaid");
-        $parametrit = array($this->sarjaid, $this->leffaid);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $locations = array(":sarjaid", ":leffaid");
+        $params = array($this->sarjaid, $this->leffaid);
+        $newQuery = str_replace($locations, $params, $query);
 
-        $kysely = new Kyselyehdotus(array('kysely' => $uusi));
+        $kysely = new Kyselyehdotus(array('kysely' => $newQuery));
         $kysely->save();
         Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
     }
@@ -68,5 +68,28 @@ class Sarjalaari extends BaseModel {
             'leffaid' => $this->leffaid
         ));
     }
+    
+    /* Poistamisehdotus */
+    public function destroySuggestion($ryhmaid) {
+        $query = ('DELETE FROM SarjaLaari '
+                . 'WHERE sarjaid = :sarjaid AND leffaID = :leffaid');
 
+        $locations = array(":sarjaid", ":leffaid");
+        $params = array($this->sarjaid, $this->leffaid);
+        $newQuery = str_replace($locations, $params, $query);
+
+        $kysely = new Kyselyehdotus(array('kysely' => $newQuery));
+        $kysely->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+    }
+
+    /* Poistaminen */
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM SarjaLaari '
+                . 'WHERE sarjaid = :sarjaid AND leffaID = :leffaid');
+        $query->execute(array(
+            'sarjaid' => $this->sarjaid,
+            'leffaid' => $this->leffaid
+        ));
+    }
 }

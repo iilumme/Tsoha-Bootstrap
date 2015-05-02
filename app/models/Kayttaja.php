@@ -7,20 +7,20 @@ class Kayttaja extends BaseModel {
     public $kayttajaid, $kayttajatunnus, $nimi, $salasana,
             $lempigenre, $rekisteroitynyt, $viimeksimuutettu;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
         $this->validators = array('validateNameForUser', 'validateUsername', 'validatePassword');
     }
 
-    private static function createKayttaja($tulos) {
+    private static function createKayttaja($row) {
         return new Kayttaja(array(
-            'kayttajaid' => $tulos['kayttajaid'],
-            'kayttajatunnus' => $tulos['kayttajatunnus'],
-            'nimi' => $tulos['nimi'],
-            'salasana' => $tulos['salasana'],
-            'lempigenre' => $tulos['lempigenre'],
-            'rekisteroitynyt' => $tulos['rekisteroitynyt'],
-            'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            'kayttajaid' => $row['kayttajaid'],
+            'kayttajatunnus' => $row['kayttajatunnus'],
+            'nimi' => $row['nimi'],
+            'salasana' => $row['salasana'],
+            'lempigenre' => $row['lempigenre'],
+            'rekisteroitynyt' => $row['rekisteroitynyt'],
+            'viimeksimuutettu' => $row['viimeksimuutettu']
         ));
     }
 
@@ -28,12 +28,12 @@ class Kayttaja extends BaseModel {
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
         $kayttajat = array();
 
-        foreach ($tulokset as $tulos) {
-            $kayttajat[] = Kayttaja::createKayttaja($tulos);
+        foreach ($rows as $row) {
+            $kayttajat[] = Kayttaja::createKayttaja($row);
         }
         return $kayttajat;
     }
@@ -42,10 +42,10 @@ class Kayttaja extends BaseModel {
     public static function findOne($kayttajaid) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE kayttajaid = :kayttajaid LIMIT 1');
         $query->execute(array('kayttajaid' => $kayttajaid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $kayttaja = Kayttaja::createKayttaja($tulos);
+        if ($row) {
+            $kayttaja = Kayttaja::createKayttaja($row);
             return $kayttaja;
         }
 
@@ -56,10 +56,10 @@ class Kayttaja extends BaseModel {
     public static function authenticate($kayttajatunnus, $salasana) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE kayttajaTunnus = :kayttajatunnus AND salasana = :salasana LIMIT 1;');
         $query->execute(array('kayttajatunnus' => $kayttajatunnus, 'salasana' => $salasana));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $kayttaja = Kayttaja::createKayttaja($tulos);
+        if ($row) {
+            $kayttaja = Kayttaja::createKayttaja($row);
             return $kayttaja;
         }
 
@@ -79,8 +79,8 @@ class Kayttaja extends BaseModel {
             'lempigenre' => $this->lempigenre
         ));
 
-        $tulos = $query->fetch();
-        $this->kayttajaid = $tulos['kayttajaid'];
+        $row = $query->fetch();
+        $this->kayttajaid = $row['kayttajaid'];
     }
 
     /* Päivitetään käyttäjän tietoja */
@@ -97,8 +97,8 @@ class Kayttaja extends BaseModel {
             'lempigenre' => $this->lempigenre
         ));
 
-        $tulos = $query->fetch();
-        return $tulos['kayttajaid'];
+        $row = $query->fetch();
+        return $row['kayttajaid'];
     }
 
     /* Poistetaan käyttäjä */

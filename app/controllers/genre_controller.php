@@ -37,9 +37,9 @@ class GenreController extends BaseController {
         $genre = new Genre(array('genreid' => $genreid));
         $onnistuiko = $genre->destroy();
         if ($onnistuiko == 1) {
-            Redirect::to('/genremaintenance', array('message' => 'Genren poistaminen onnistui'));
+            Redirect::to('/genremaintenance', array('deleteMessage' => 'Genren poistaminen onnistui! :)'));
         } else {
-            Redirect::to('/genremaintenance', array('message' => 'Genren poistaminen ei onnistunut. Genre on jonkun käyttäjän lempigenre.'));
+            Redirect::to('/genremaintenance', array('message' => 'Genren poistaminen ei onnistunut. Genre on jonkun käyttäjän lempigenre. :)'));
         }
         
     }

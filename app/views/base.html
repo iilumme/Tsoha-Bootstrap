@@ -29,7 +29,7 @@
         <div class="site-wrapper">
             <div class="site-wrapper-inner">
                 <div class="cover-container">
-                    
+
                     <div class="masthead clearfix">
                         <div class="inner">
                             <nav class="navbar navbar-default" role="navigation">
@@ -48,18 +48,18 @@
                                     <div class="collapse navbar-collapse" id="navigation">
                                         <ul class="nav masthead-nav">                             
                                             {% if user_logged_in %}
-                                            <li><a href="{{base_path}}/addmovie">Lisää elokuva</a></li>
-                                            <li><a href="{{base_path}}/search">Haku</a></li>
-                                            <li><a href="{{base_path}}/allobjects">Kaikki</a></li>
-                                            <li><a href="{{base_path}}/mypage">Oma sivu</a></li>
+                                            <li><a href="{{base_path}}/addmovie"><span class="glyphicon glyphicon-film"></span> Lisää elokuva</a></li>
+                                            <li><a href="{{base_path}}/search"><span class="glyphicon glyphicon-search"></span> Haku</a></li>
+                                            <li><a href="{{base_path}}/allobjects"><span class="glyphicon glyphicon-th"></span> Kaikki</a></li>
+                                            <li><a href="{{base_path}}/mypage"><span class="glyphicon glyphicon-user"></span> {{user_logged_in.nimi}}</a></li>
                                             <form class="navbar-form navbar-right" method="post" action="{{base_path}}/logout">
-                                                <li><a type="submit" onclick="$(this).closest('form').submit()">Kirjaudu ulos</a></li>
+                                                <li><a type="submit" onclick="$(this).closest('form').submit()"><span class="glyphicon glyphicon-log-out"></span> Kirjaudu ulos</a></li>
                                             </form>
                                             {% else %}
-                                            <li><a href="{{base_path}}/search">Haku</a></li>
-                                            <li><a href="{{base_path}}/allobjects">Kaikki</a></li>
-                                            <li><a href="{{base_path}}/register">Rekisteröidy</a></li>
-                                            <li><a href="{{base_path}}/login">Kirjaudu</a></li>
+                                            <li><a href="{{base_path}}/search"><span class="glyphicon glyphicon-search"></span> Haku</a></li>
+                                            <li><a href="{{base_path}}/allobjects"><span class="glyphicon glyphicon-th"></span> Kaikki</a></li>
+                                            <li><a href="{{base_path}}/register"><span class="glyphicon glyphicon-heart"></span> Rekisteröidy</a></li>
+                                            <li><a href="{{base_path}}/login"><span class="glyphicon glyphicon-log-in"></span> Kirjaudu</a></li>
                                             {% endif %}
                                         </ul>
                                     </div>
@@ -67,11 +67,11 @@
                             </nav>
                         </div>
                     </div>
-                    
+
                     <div id="main-container">
                         <!-- Dynaaminen sisältö tulee tähän -->
-                        {% block content %}{% endblock %}
-                    </div>
+                        {% block content %}{% endblock %}                        
+                    </div>                   
                 </div>
             </div>
         </div>

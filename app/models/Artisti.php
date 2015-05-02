@@ -7,23 +7,23 @@ class Artisti extends BaseModel {
     public $artistiid, $artistityyppi, $etunimi, $sukunimi, $bio,
             $kuva, $syntymavuosi, $valtio, $lisatty, $viimeksimuutettu;
 
-    public function __construct($attribuutit) {
-        parent::__construct($attribuutit);
+    public function __construct($attributes) {
+        parent::__construct($attributes);
         $this->validators = array('validateFirstName', 'validateLastName', 'validateBirthYear');
     }
 
-    private static function createArtisti($tulos) {
+    private static function createArtisti($row) {
         return new Artisti(array(
-            'artistiid' => $tulos['artistiid'],
-            'artistityyppi' => $tulos['artistityyppi'],
-            'etunimi' => $tulos['etunimi'],
-            'sukunimi' => $tulos['sukunimi'],
-            'bio' => $tulos['bio'],
-            'kuva' => $tulos['kuva'],
-            'syntymavuosi' => $tulos['syntymavuosi'],
-            'valtio' => $tulos['valtio'],
-            'lisatty' => $tulos['lisatty'],
-            'viimeksimuutettu' => $tulos['viimeksimuutettu']
+            'artistiid' => $row['artistiid'],
+            'artistityyppi' => $row['artistityyppi'],
+            'etunimi' => $row['etunimi'],
+            'sukunimi' => $row['sukunimi'],
+            'bio' => $row['bio'],
+            'kuva' => $row['kuva'],
+            'syntymavuosi' => $row['syntymavuosi'],
+            'valtio' => $row['valtio'],
+            'lisatty' => $row['lisatty'],
+            'viimeksimuutettu' => $row['viimeksimuutettu']
         ));
     }
 
@@ -31,73 +31,95 @@ class Artisti extends BaseModel {
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Artisti ORDER BY sukunimi');
         $query->execute();
-        $tulokset = $query->fetchAll();
+        $rows = $query->fetchAll();
 
-        $artistit = array();
-        foreach ($tulokset as $tulos) {
-            $artistit[] = Artisti::createArtisti($tulos);
+        $artists = array();
+        foreach ($rows as $row) {
+            $artists[] = Artisti::createArtisti($row);
         }
-        return $artistit;
+        return $artists;
     }
 
     /* Haetaan artisti IDllä */
     public static function findOne($artistiid) {
         $query = DB::connection()->prepare('SELECT * FROM Artisti WHERE artistiid = :artistiid LIMIT 1');
         $query->execute(array('artistiid' => $artistiid));
-        $tulos = $query->fetch();
+        $row = $query->fetch();
 
-        if ($tulos) {
-            $artisti = Artisti::createArtisti($tulos);
-            return $artisti;
+        if ($row) {
+            $artist = Artisti::createArtisti($row);
+            return $artist;
         }
 
         return null;
     }
 
     /* Haetaan kaikki artistit tyypeittäin */
-    public static function findAllArtistitByTyyppi($tyyppi) {
+    public static function findAllArtistsByType($type) {
         $query = DB::connection()->prepare('SELECT * FROM Artisti R '
                 . 'WHERE R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
-        $query->execute(array('tyyppi' => $tyyppi));
-        $tulokset = $query->fetchAll();
+        $query->execute(array('tyyppi' => $type));
+        $rows = $query->fetchAll();
 
-        $artistit = array();
-        foreach ($tulokset as $tulos) {
-            $artistit[] = Artisti::createArtisti($tulos);
+        $artists = array();
+        foreach ($rows as $row) {
+            $artists[] = Artisti::createArtisti($row);
         }
-        return $artistit;
+        return $artists;
     }
+    
+    /* Haetaan kaikki artistit, jotka eivät ole annetussa elokuvassa, tyypeittäin */
+    public static function findAllArtistsNotInTheMovieByType($type, $leffaid) {
+        $query = DB::connection()->prepare('SELECT * '
+                . 'FROM Artisti WHERE artistityyppi= :tyyppi '
+                . 'AND artistiID NOT IN (SELECT artistiID FROM ArtistiLaari WHERE leffaID = :leffaid) '
+                . 'ORDER BY sukunimi;');
+        $query->execute(array('tyyppi' => $type, 'leffaid' => $leffaid));
+        $rows = $query->fetchAll();
+
+        $artists = array();
+        foreach ($rows as $row) {
+            $artists[] = Artisti::createArtisti($row);
+        }
+        return $artists;
+    }
+    
+    
+    
+    
 
     /* Haetaan elokuvalle artistit tyypeittäin */
-    public static function findArtistitForElokuva($leffaid, $tyyppi) {
+    public static function findArtistsForMovie($leffaid, $type) {
         $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu '
                 . 'FROM Elokuva E, ArtistiLaari A, Artisti R '
                 . 'WHERE E.leffaid = :leffaid AND E.leffaid=A.leffaid AND A.artistiID=R.artistiID AND R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
-        $query->execute(array('leffaid' => $leffaid, 'tyyppi' => $tyyppi));
-        $tulokset = $query->fetchAll();
+        $query->execute(array('leffaid' => $leffaid, 'tyyppi' => $type));
+        $rows = $query->fetchAll();
 
-        $artistit = array();
-        foreach ($tulokset as $tulos) {
-            $artistit[] = Artisti::createArtisti($tulos);
+        $artists = array();
+        foreach ($rows as $row) {
+            $artists[] = Artisti::createArtisti($row);
         }
-        return $artistit;
+        return $artists;
     }
     
     /* Haetaan valtiolle artistit tyypeittäin */
-    public static function findArtistitForValtio($valtioid, $tyyppi) {
+    public static function findArtistsForCountry($valtioid, $type) {
         $query = DB::connection()->prepare('SELECT R.artistiID, R.artistityyppi, R.etunimi, R.sukunimi, R.bio, R.kuva, R.syntymavuosi, R.valtio, R.lisatty, R.viimeksimuutettu '
                 . 'FROM Valtiot V, Artisti R '
                 . 'WHERE V.valtioid = :valtio AND V.valtioid=R.valtio AND R.artistityyppi= :tyyppi ORDER BY R.sukunimi');
-        $query->execute(array('valtio' => $valtioid, 'tyyppi' => $tyyppi));
-        $tulokset = $query->fetchAll();
+        $query->execute(array('valtio' => $valtioid, 'tyyppi' => $type));
+        $rows = $query->fetchAll();
 
-        $artistit = array();
-        foreach ($tulokset as $tulos) {
-            $artistit[] = Artisti::createArtisti($tulos);
+        $artists = array();
+        foreach ($rows as $row) {
+            $artists[] = Artisti::createArtisti($row);
         }
-        return $artistit;
+        return $artists;
     }
 
+    
+    
     /* Uuden artistiehdotuksen tallentaminen */
     public function saveSuggestion($ryhmaid) {
         $query = ('INSERT INTO Artisti '
@@ -105,39 +127,37 @@ class Artisti extends BaseModel {
                 . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
                 . 'RETURNING artistiid');
 
-        $sijoituspaikat = array(":artistityyppi", ":etunimi", ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
-        $parametrit = array("'$this->artistityyppi'", "'$this->etunimi'", "'$this->sukunimi'",
+        $locations = array(":artistityyppi", ":etunimi", ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
+        $params = array("'$this->artistityyppi'", "'$this->etunimi'", "'$this->sukunimi'",
             "'$this->bio'", $this->syntymavuosi, $this->valtio);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $newQuery = str_replace($locations, $params, $query);
         
-        $kyselyryhma = new Kyselyryhma(array());
-        $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+        $querySuggestion = new Kyselyehdotus(array(
+            'kysely' => $newQuery
         ));
-        $kysely->save();
-        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
-        
+        $querySuggestion->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $querySuggestion->kyselyid);       
     }
     
-    /* Uuden artistiehdotuksen tallentaminen */
+    /* Uuden artistiehdotuksen tallentaminen ilman elokuvaa */
     public function saveSuggestionOwnGroup() {
         $query = ('INSERT INTO Artisti '
                 . '(artistiTyyppi, etuNimi, sukuNimi, bio, syntymavuosi, valtio, lisatty, viimeksiMuutettu) '
                 . 'VALUES  (:artistityyppi, :etunimi, :sukunimi, :bio, :syntymavuosi, :valtio, NOW(), NOW()) '
                 . 'RETURNING artistiid');
 
-        $sijoituspaikat = array(":artistityyppi", ":etunimi", ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
-        $parametrit = array("'$this->artistityyppi'", "'$this->etunimi'", "'$this->sukunimi'",
+        $locations = array(":artistityyppi", ":etunimi", ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
+        $params = array("'$this->artistityyppi'", "'$this->etunimi'", "'$this->sukunimi'",
             "'$this->bio'", $this->syntymavuosi, $this->valtio);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $newQuery = str_replace($locations, $params, $query);
         
-        $kyselyryhma = new Kyselyryhma(array());
-        $ryhmaid = $kyselyryhma->save();
-        $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+        $queryGroup = new Kyselyryhma(array());
+        $ryhmaid = $queryGroup->save();
+        $querySuggestion = new Kyselyehdotus(array(
+            'kysely' => $newQuery
         ));
-        $kysely->save();
-        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+        $querySuggestion->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $querySuggestion->kyselyid);
 
         return $ryhmaid;
     }
@@ -150,22 +170,23 @@ class Artisti extends BaseModel {
                 . 'valtio = :valtio, viimeksiMuutettu = NOW() '
                 . 'WHERE artistiid = :artistiid RETURNING artistiid;');
 
-        $sijoituspaikat = array(":artistiid", ":artistityyppi", ":etunimi",
+        $locations = array(":artistiid", ":artistityyppi", ":etunimi",
             ":sukunimi", ":bio", ":syntymavuosi", ":valtio");
-        $parametrit = array($this->artistiid, "'$this->artistityyppi'", "'$this->etunimi'",
+        $params = array($this->artistiid, "'$this->artistityyppi'", "'$this->etunimi'",
             "'$this->sukunimi'", "'$this->bio'", $this->syntymavuosi, $this->valtio);
-        $uusi = str_replace($sijoituspaikat, $parametrit, $query);
+        $newQuery = str_replace($locations, $params, $query);
         
-        $kyselyryhma = new Kyselyryhma(array());
-        $ryhmaid = $kyselyryhma->save();
-        $kysely = new Kyselyehdotus(array(
-            'kysely' => $uusi
+        $queryGroup = new Kyselyryhma(array());
+        $ryhmaid = $queryGroup->save();
+        $querySuggestion = new Kyselyehdotus(array(
+            'kysely' => $newQuery
         ));               
-        $kysely->save();
-        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);
+        $querySuggestion->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $querySuggestion->kyselyid);
         
         return $ryhmaid;
     }
+    
     
     /* Uuden artistin tallentaminen - ylläpitäjä tekee */
     public function save() {
@@ -182,8 +203,8 @@ class Artisti extends BaseModel {
             'valtio' => $this->valtio
         ));
 
-        $tulos = $query->fetch();
-        $this->artistiid = $tulos['artistiid'];
+        $row = $query->fetch();
+        $this->artistiid = $row['artistiid'];
         return $this->artistiid;
     }
 
@@ -204,8 +225,8 @@ class Artisti extends BaseModel {
             'bio' => $this->bio
         ));
 
-        $tulos = $query->fetch();
-        return $tulos['artistiid'];
+        $row = $query->fetch();
+        return $row['artistiid'];
     }
 
     /* Artistin poistaminen - ylläpitäjä tekee */

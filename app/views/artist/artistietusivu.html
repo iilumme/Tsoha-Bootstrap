@@ -4,8 +4,8 @@
 
 <div class="bg">
     {% if message %}
-    <div class="alert alert-success" style="text-shadow: none">
-        {{message}}
+    <div class="alert alert-success" style="text-shadow: none" data-dismiss="alert">
+        <span class="glyphicon glyphicon-send"></span> {{message}}
     </div>
     {% endif %}
 
@@ -18,13 +18,15 @@
             <a class="btn btn-success" role="button" href="{{base_path}}/artist/edit/{{artisti.artistiid}}" >Muokkaa</a>
             {% endif %}
             {% if user_logged_in.kayttajaid == 2 %}
-            <form class="form-inline" method="post" action="{{base_path}}/artist/destroy/{{artisti.artistiid}}">
+            <form class="destroy-form" 
+                  data-confirm="Haluatko varmasti poistaa tekijän: {{artisti.etunimi}} {{artisti.sukunimi}}?"
+                  method="post" action="{{base_path}}/artist/destroy/{{artisti.artistiid}}">
                 <button class="btn btn-danger" type="submit">Poista</button>
             </form>
             {% endif %}
         </div>
     </div>
-
+    <br>
     <div class="row">
         <div class="col-md-6">
             <ul>
