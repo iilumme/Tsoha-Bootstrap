@@ -21,7 +21,7 @@ Tunnus: ohjaaja Salasana: tsoha1
 Ylläpitäjä: Tunnus: admin Salasana: administrator
 Osa funktioista toimii/näkyy vain, jos on kirjautunut ja osa vain, jos on ylläpitäjä.
 
-![GitHub Logo](/images/logo.png)
+![Cactus](/images/isocactus.png)
 
 
 ## Työn aihe
