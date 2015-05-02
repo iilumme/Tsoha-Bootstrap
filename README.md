@@ -32,6 +32,9 @@ Ylläpitäjä:
 
 Osa funktioista toimii/näkyy vain, jos on kirjautunut ja osa vain, jos on ylläpitäjä.
 
+## Lisenssi
 
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons -lisenssi" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">LATLeffaLaari</span>, jonka tekijä on <a xmlns:cc="http://creativecommons.org/ns#" href="http://iilumme.users.cs.helsinki.fi/tsoha" property="cc:attributionName" rel="cc:attributionURL">Iina Lumme</a>, on lisensoitu <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Nimeä-EiKaupallinen-EiMuutoksia 4.0 Kansainvälinen -lisenssillä</a>.<br />Perustuu teokseen osoitteessa <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/Tsoha/Tsoha-Bootstrap" rel="dct:source">https://github.com/Tsoha/Tsoha-Bootstrap</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+<img alt="Creative Commons -lisenssi" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
+<br />
+<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">LATLeffaLaari</span>, jonka tekijä on <a xmlns:cc="http://creativecommons.org/ns#" href="http://iilumme.users.cs.helsinki.fi/tsoha" property="cc:attributionName" rel="cc:attributionURL">Iina Lumme</a>, on lisensoitu <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Nimeä-EiKaupallinen-EiMuutoksia 4.0 Kansainvälinen -lisenssillä</a>.<br />Perustuu teokseen osoitteessa <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/Tsoha/Tsoha-Bootstrap" rel="dct:source">https://github.com/Tsoha/Tsoha-Bootstrap</a>.
