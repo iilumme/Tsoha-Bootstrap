@@ -21,6 +21,9 @@ Tunnus: ohjaaja Salasana: tsoha1
 Ylläpitäjä: Tunnus: admin Salasana: administrator
 Osa funktioista toimii/näkyy vain, jos on kirjautunut ja osa vain, jos on ylläpitäjä.
 
+![GitHub Logo](/images/logo.png)
+
+
 ## Työn aihe
 
 **LATLeffaLaari** on Latinalaisen Amerikan elokuvien tietokanta, jossa voi selailla katsottavia elokuvia monien eri attribuuttien perusteella, mm. näyttelijöiden, ohjaajien, palkintojen ja arvioiden. 
