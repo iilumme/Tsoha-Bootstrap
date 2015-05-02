@@ -1,5 +1,5 @@
 # Tietokantasovelluksen esittelysivu
-/play tada
+
 Yleisiä linkkejä:
 
 * [Linkki sovellukseeni/etusivu](http://iilumme.users.cs.helsinki.fi/tsoha/)
