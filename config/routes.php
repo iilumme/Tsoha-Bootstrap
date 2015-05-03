@@ -254,7 +254,7 @@ $routes->post('/muokkausuusigenre/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
         GenreController::administratorStore($id);
     } else {
-        GenreController::storeSuggestionUpdate($id);
+        GenreController::storeSuggestionOnMovieUpdate($id);
     }
 });
 $routes->post('/sarjapostisivu/:id', function($id) {

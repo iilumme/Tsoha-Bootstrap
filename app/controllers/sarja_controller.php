@@ -9,40 +9,39 @@ class SarjaController extends BaseController {
     
     /* Uuden sarjaehdotuksen tallentaminen */
     public static function storeSuggestion($ryhmaid) {
-        $param = $_POST;
-        $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
+        $params = $_POST;
+        $serie = new Sarja(array('sarjanimi' => $params['sarjanimi']));
 
-        $sarja->saveSuggestion($ryhmaid);
+        $serie->saveSuggestion($ryhmaid);
         LaariController::sarjalaariSaveSuggestionWithoutSarjaID($ryhmaid);
     }
     
-    /* Uuden sarjaehdotuksen tallentaminen */
+    /* Uuden sarjaehdotuksen tallentaminen, elokuvan muokkauksen yhteydessä */
     public static function storeSuggestionWithLeffaID($leffaid) {
-        $param = $_POST;
-        $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
+        $params = $_POST;
+        $serie = new Sarja(array('sarjanimi' => $params['sarjanimi']));
 
-        $ryhmaid = $sarja->saveSuggestionOwnGroup();
+        $ryhmaid = $serie->saveSuggestionOwnGroup();
         LaariController::sarjalaariSaveSuggestionWithoutSarjaIDWithLeffaID($leffaid, $ryhmaid);
     }
-    
     
     
     /* YLLÄPITÄJÄN METODIT*/
 
     /* Uuden sarjan tallentaminen */
     public static function administratorStore($leffaid) {
-        $param = $_POST;
-        $sarja = new Sarja(array('sarjanimi' => $param['sarjanimi']));
+        $params = $_POST;
+        $serie = new Sarja(array('sarjanimi' => $params['sarjanimi']));
 
-        $id = $sarja->save();
-        $param['sarjalista'] = $id;
-        LaariController::sarjalaariSaveAdministrator($param, $leffaid);
+        $sarjaid = $serie->save();
+        $params['sarjalista'] = $sarjaid;
+        LaariController::sarjalaariSaveAdministrator($params, $leffaid);
     }
     
     /* Sarjan poistaminen ylläpitosivulla */
     public static function destroyMaintenance($sarjaid) {
-        $sarja = new Sarja(array('sarjaid' => $sarjaid));
-        $sarja->destroy();
+        $serie = new Sarja(array('sarjaid' => $sarjaid));
+        $serie->destroy();
         Redirect::to('/seriemaintenance', array('message' => 'Sarjan poistaminen onnistui'));
     }
 

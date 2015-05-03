@@ -35,6 +35,10 @@ class ArtistController extends BaseController {
         ));
     }
 
+    
+    /* REKISTERÖITYNEEN KÄYTTÄJÄN METODIT */
+
+
     /* Uusi ehdotus uudesta artistista ja sen tallentaminen */
     public static function storeSuggestion($ryhmaid) {
         $params = $_POST;
@@ -115,20 +119,6 @@ class ArtistController extends BaseController {
         }
     }
 
-    /* Artistin poistaminen */
-    public static function destroy($artistiid) {
-        $artist = new Artisti(array('artistiid' => $artistiid));
-        $artist->destroy();
-        Redirect::to('/', array('deleteMessage' => 'Artistin poistaminen onnistui! :) '));
-    }
-
-    /* Artistin poistaminen ylläpitosivuilla */
-    public static function destroyMaintenance($artistiid) {
-        $artist = new Artisti(array('artistiid' => $artistiid));
-        $artist->destroy();
-        Redirect::to('/artistmaintenance', array('deleteMessage' => 'Artistin poistaminen onnistui! :)'));
-    }
-
     
     /* YLLÄPITÄJÄN METODIT */
 
@@ -176,7 +166,7 @@ class ArtistController extends BaseController {
             $artist->update();
             LaariController::artistilaariUpdateMoviesAdministrator($params, $artistiid);
             Redirect::to('/artist/' . $artistiid, array('message' => 'Tietojen päivittäminen onnistui! :)'));
-        } else {         
+        } else {
             $attributes['kuva'] = Artisti::findOne($artistiid)->kuva;
             $countries = Valtio::all();
             $countryATM = $attributes['valtio'];
@@ -187,6 +177,20 @@ class ArtistController extends BaseController {
                 'elokuvat' => $movies, 'elokuvatALL' => $moviesALL
             ));
         }
+    }
+
+    /* Artistin poistaminen */
+    public static function destroy($artistiid) {
+        $artist = new Artisti(array('artistiid' => $artistiid));
+        $artist->destroy();
+        Redirect::to('/', array('deleteMessage' => 'Artistin poistaminen onnistui! :) '));
+    }
+
+    /* Artistin poistaminen ylläpitosivuilla */
+    public static function destroyMaintenance($artistiid) {
+        $artist = new Artisti(array('artistiid' => $artistiid));
+        $artist->destroy();
+        Redirect::to('/artistmaintenance', array('deleteMessage' => 'Artistin poistaminen onnistui! :)'));
     }
 
 }

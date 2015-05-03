@@ -5,8 +5,7 @@
 class BasisController extends BaseController {
 
     /* Testaus hiekkalaatikko */
-    public static function sandbox() {
-        // Testaa koodiasi täällä        
+    public static function sandbox() {  
         Kint::dump(Viesti::all());
     }
 

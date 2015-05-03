@@ -8,144 +8,144 @@ class MovieController extends BaseController {
     /* Elokuvan esittelysivulle tiedot */
     public static function showOne($leffaid) {
 
-        $elokuva = Elokuva::findOne($leffaid);
-        $valtio = Valtio::findValtioForElokuva($leffaid);
-        $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
-        $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
-        $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
-        $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
-        $genret = Genre::findGenretForElokuva($leffaid);
-        $dvdt = DVDlista::findDVDSForMovie($leffaid);
-        $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
+        $movie = Elokuva::findOne($leffaid);
+        $country = Valtio::findValtioForElokuva($leffaid);
+        $actors = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+        $directors = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+        $cinematographers = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+        $screenwriters = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
+        $genres = Genre::findGenretForElokuva($leffaid);
+        $dvds = DVDlista::findDVDSForMovie($leffaid);
+        $series = Sarjalaari::findSarjatForElokuva($leffaid);
 
-        $sarjatAndElokuvat = array();
-        foreach ($sarjat as $s) {
-            $sarja = array();
-            $sarja['sarjanimi'] = $s->sarjanimi;
-            $sarjanelokuvat = Sarjalaari::findSarjanElokuvat($s->sarjaid);
-            $sarja[] = $sarjanelokuvat;
-            $sarjatAndElokuvat[] = $sarja;
+        $seriesAndMovies = array();
+        foreach ($series as $s) {
+            $serie = array();
+            $serie['sarjanimi'] = $s->sarjanimi;
+            $moviesOfSerie = Sarjalaari::findSarjanElokuvat($s->sarjaid);
+            $serie[] = $moviesOfSerie;
+            $seriesAndMovies[] = $serie;
         }
 
-        $arviot = Arviolaari::findStarsForMovie($leffaid);
-        $arvioitu = 0;
+        $stars = Arviolaari::findStarsForMovie($leffaid);
+        $starred = 0;
         if (BaseController::get_user_logged_in() != NULL) {
             if (Arviolaari::hasAddedStars($leffaid) > 0) {
-                $arvioitu = Arviolaari::hasAddedStars($leffaid);
+                $starred = Arviolaari::hasAddedStars($leffaid);
             }
         }
 
-        $kommentit = Kommentti::findKommentitForElokuva($leffaid);
-        $kommentoitu = 0;
-        $kommentti = NULL;
+        $comments = Kommentti::findKommentitForElokuva($leffaid);
+        $commented = 0;
+        $comment = NULL;
 
         if (BaseController::get_user_logged_in() != NULL) {
             if (is_string(Kommentti::hasCommented($leffaid))) {
-                $kommentoitu = 1;
-                $kommentti = Kommentti::hasCommented($leffaid);
+                $commented = 1;
+                $comment = Kommentti::hasCommented($leffaid);
             }
         }
 
-        $onkosuosikki = 0;
+        $isfavourite = 0;
 
         if (BaseController::get_user_logged_in() != NULL) {
-            $onkosuosikki = Suosikkilista::isFavourite($leffaid);
+            $isfavourite = Suosikkilista::isFavourite($leffaid);
         }
 
-        $onkokatsottu = 0;
+        $iswatched = 0;
 
         if (BaseController::get_user_logged_in() != NULL) {
-            $onkokatsottu = Katsotutlista::isWatched($leffaid);
+            $iswatched = Katsotutlista::isWatched($leffaid);
         }
 
-        $onkodvd = 0;
+        $isdvd = 0;
 
         if (BaseController::get_user_logged_in() != NULL) {
-            $onkodvd = DVDlista::hasDVD($leffaid);
+            $isdvd = DVDlista::hasDVD($leffaid);
         }
 
-        $onkomastarde = 0;
+        $ismastarde = 0;
 
         if (BaseController::get_user_logged_in() != NULL) {
-            $onkomastarde = Mastardelista::isMasTarde($leffaid);
+            $ismastarde = Mastardelista::isMasTarde($leffaid);
         }
 
-        $kaikillalistoilla = 0;
+        $inAllLists = 0;
 
-        if ($onkodvd == 1 && $onkokatsottu == 1 && $onkomastarde == 1 && $onkosuosikki == 1) {
-            $kaikillalistoilla = 1;
+        if ($isdvd == 1 && $iswatched == 1 && $ismastarde == 1 && $isfavourite == 1) {
+            $inAllLists = 1;
         }
 
         $averagestar = Arviolaari::averageStar($leffaid);
 
 
         View::make('movie/leffaetusivu.html', array(
-            'elokuva' => $elokuva, 'valtio' => $valtio, 'nayttelijat' => $nayttelijat,
-            'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
-            'genret' => $genret, 'arviot' => $arviot, 'kommentit' => $kommentit,
-            'dvdt' => $dvdt, 'sarjatAndElokuvat' => $sarjatAndElokuvat, 'arvioitu' => $arvioitu,
-            'kommentoitu' => $kommentoitu, 'kommentti' => $kommentti, 'onkosuosikki' => $onkosuosikki,
-            'onkokatsottu' => $onkokatsottu, 'onkodvd' => $onkodvd, 'onkomastarde' => $onkomastarde,
-            'kaikillalistoilla' => $kaikillalistoilla, 'keskiarvo' => $averagestar
+            'elokuva' => $movie, 'valtio' => $country, 'nayttelijat' => $actors,
+            'ohjaajat' => $directors, 'kuvaajat' => $cinematographers, 'kasikirjoittajat' => $screenwriters,
+            'genret' => $genres, 'arviot' => $stars, 'kommentit' => $comments,
+            'dvdt' => $dvds, 'sarjatAndElokuvat' => $seriesAndMovies, 'arvioitu' => $starred,
+            'kommentoitu' => $commented, 'kommentti' => $comment, 'onkosuosikki' => $isfavourite,
+            'onkokatsottu' => $iswatched, 'onkodvd' => $isdvd, 'onkomastarde' => $ismastarde,
+            'kaikillalistoilla' => $inAllLists, 'keskiarvo' => $averagestar
         ));
     }
 
     /* Elokuvan lisäyssivulle tiedot */
     public static function addMoviePage() {
-        $valtiot = Valtio::all();
-        View::make('movie/leffalisays.html', array('valtiot' => $valtiot));
+        $countries = Valtio::all();
+        View::make('movie/leffalisays.html', array('valtiot' => $countries));
     }
 
     /* Elokuvan artistien-, genrejen- ja sarjojenlisäyssivulle tiedot */
     public static function addArtistsPage() {
 
-        $nayttelijat = Artisti::findAllArtistsByType("Näyttelijä");
-        $ohjaajat = Artisti::findAllArtistsByType("Ohjaaja");
-        $kuvaajat = Artisti::findAllArtistsByType("Kuvaaja");
-        $kassarit = Artisti::findAllArtistsByType("Käsikirjoittaja");
-        $genret = Genre::all();
-        $sarjat = Sarja::all();
-        $valtiot = Valtio::all();
+        $actors = Artisti::findAllArtistsByType("Näyttelijä");
+        $directors = Artisti::findAllArtistsByType("Ohjaaja");
+        $cinematographers = Artisti::findAllArtistsByType("Kuvaaja");
+        $screenwriters = Artisti::findAllArtistsByType("Käsikirjoittaja");
+        $genres = Genre::all();
+        $series = Sarja::all();
+        $countries = Valtio::all();
         View::make('movie/leffalisaysihmiset.html', array(
-            'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat,
-            'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
-            'genret' => $genret, 'sarjat' => $sarjat,
-            'valtiot' => $valtiot
+            'nayttelijat' => $actors, 'ohjaajat' => $directors,
+            'kuvaajat' => $cinematographers, 'kasikirjoittajat' => $screenwriters,
+            'genret' => $genres, 'sarjat' => $series,
+            'valtiot' => $countries
         ));
     }
 
     /* Elokuvan muokkaussivulle tiedot */
     public static function movieEditPage($leffaid) {
-        $elokuva = Elokuva::findOne($leffaid);
-        $valtiot = Valtio::all();
-        $tamanhetkinenvaltio = Valtio::findValtioForElokuva($leffaid)->valtioid;
-        $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
-        $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
-        $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
-        $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
-        $genret = Genre::findGenretForElokuva($leffaid);
-        $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
+        $movie = Elokuva::findOne($leffaid);
+        $countries = Valtio::all();
+        $countryATM = Valtio::findValtioForElokuva($leffaid)->valtioid;
+        $actors = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+        $directors = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+        $cinematographers = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+        $screenwriters = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
+        $genres = Genre::findGenretForElokuva($leffaid);
+        $series = Sarjalaari::findSarjatForElokuva($leffaid);
 
-        $nayttelijatALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
-        $ohjaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
-        $kuvaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
-        $kassaritALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
-        $genretALL = Genre::findAllGenresNotInTheMovie($leffaid);
-        $sarjatALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
+        $actorsALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
+        $directorsALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
+        $cinematographersALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
+        $screenwritersALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
+        $genresALL = Genre::findAllGenresNotInTheMovie($leffaid);
+        $seriesALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
 
         View::make('movie/leffamuokkaus.html', array(
-            'elokuva' => $elokuva, 'valtiot' => $valtiot, 'nayttelijat' => $nayttelijat,
-            'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat, 'kasikirjoittajat' => $kassarit,
-            'genret' => $genret, 'sarjat' => $sarjat, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
-            'nayttelijatALL' => $nayttelijatALL, 'ohjaajatALL' => $ohjaajatALL, 'kuvaajatALL' => $kuvaajatALL,
-            'kasikirjoittajatALL' => $kassaritALL, 'genretALL' => $genretALL, 'sarjatALL' => $sarjatALL
+            'elokuva' => $movie, 'valtiot' => $countries, 'nayttelijat' => $actors,
+            'ohjaajat' => $directors, 'kuvaajat' => $cinematographers, 'kasikirjoittajat' => $screenwriters,
+            'genret' => $genres, 'sarjat' => $series, 'tamanhetkinenvaltio' => $countryATM,
+            'nayttelijatALL' => $actorsALL, 'ohjaajatALL' => $directorsALL, 'kuvaajatALL' => $cinematographersALL,
+            'kasikirjoittajatALL' => $screenwritersALL, 'genretALL' => $genresALL, 'sarjatALL' => $seriesALL
         ));
     }
 
     /* Arvion lisääminen elokuvalle */
     public static function addStar($leffaid) {
-        $parametri = $_POST;
-        $tahti = $parametri['tahti'];
+        $params = $_POST;
+        $tahti = $params['tahti'];
         Arviolaari::addStarForMovie($leffaid, $tahti);
         Redirect::to('/movie/' . $leffaid, array('starMessage' => 'Arvio lisätty! :) '));
     }
@@ -158,9 +158,9 @@ class MovieController extends BaseController {
 
     /* Kommentin lisääminen elokuvalle */
     public static function addComment($leffaid) {
-        $parametri = $_POST;
-        $kommentti = $parametri['kommentti'];
-        Kommentti::addCommentForMovie($leffaid, $kommentti);
+        $params = $_POST;
+        $comment = $params['kommentti'];
+        Kommentti::addCommentForMovie($leffaid, $comment);
         Redirect::to('/movie/' . $leffaid, array('commentMessage' => 'Kommentti lisätty! :) '));
     }
 
@@ -193,8 +193,8 @@ class MovieController extends BaseController {
             $ryhmaid = $movie->saveSuggestion();
             Redirect::to('/addmovie/addpeople', array('message' => 'Ehdotus elokuvasta lisätty, lisää tekijät :)', 'ryhmaid' => $ryhmaid, 'lid' => $ryhmaid));
         } else {
-            $valtiot = Valtio::all();
-            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attributes, 'valtiot' => $valtiot));
+            $countries = Valtio::all();
+            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attributes, 'valtiot' => $countries));
         }
     }
 
@@ -214,29 +214,29 @@ class MovieController extends BaseController {
             $ryhmaid = $movie->updateSuggestion();
             LaariController::updateSuggestion($leffaid, $ryhmaid);
         } else {
-            $valtiot = Valtio::all();
-            $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
-            $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
-            $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
-            $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
-            $genret = Genre::findGenretForElokuva($leffaid);
-            $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
-            $tamanhetkinenvaltio = $attributes['valtio'];
+            $countries = Valtio::all();
+            $actors = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+            $directors = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+            $cinematographers = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+            $screenwriters = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
+            $genres = Genre::findGenretForElokuva($leffaid);
+            $series = Sarjalaari::findSarjatForElokuva($leffaid);
+            $countryATM = $attributes['valtio'];
 
-            $nayttelijatALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
-            $ohjaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
-            $kuvaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
-            $kassaritALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
-            $genretALL = Genre::findAllGenresNotInTheMovie($leffaid);
-            $sarjatALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
+            $actorsALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
+            $directorsALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
+            $cinematographersALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
+            $screenwritersALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
+            $genresALL = Genre::findAllGenresNotInTheMovie($leffaid);
+            $seriesALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
 
             View::make('/movie/leffamuokkaus.html', array(
-                'valtiot' => $valtiot, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
-                'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat,
-                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'sarjat' => $sarjat,
+                'valtiot' => $countries, 'tamanhetkinenvaltio' => $countryATM,
+                'nayttelijat' => $actors, 'ohjaajat' => $directors, 'kuvaajat' => $cinematographers,
+                'kasikirjoittajat' => $screenwriters, 'genret' => $genres, 'sarjat' => $series,
                 'errors' => $errors, 'elokuva' => $attributes,
-                'nayttelijatALL' => $nayttelijatALL, 'ohjaajatALL' => $ohjaajatALL, 'kuvaajatALL' => $kuvaajatALL,
-                'kasikirjoittajatALL' => $kassaritALL, 'genretALL' => $genretALL, 'sarjatALL' => $sarjatALL
+                'nayttelijatALL' => $actorsALL, 'ohjaajatALL' => $directorsALL, 'kuvaajatALL' => $cinematographersALL,
+                'kasikirjoittajatALL' => $screenwritersALL, 'genretALL' => $genresALL, 'sarjatALL' => $seriesALL
             ));
         }
     }
@@ -264,8 +264,8 @@ class MovieController extends BaseController {
             $movieid = $movie->save();
             Redirect::to('/addmovie/addpeople', array('message' => 'Elokuvan tiedot lisätty onnistuneesti! :)', 'lid' => $movieid));
         } else {
-            $valtiot = Valtio::all();
-            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attributes, 'valtiot' => $valtiot));
+            $countries = Valtio::all();
+            View::make('/movie/leffalisays.html', array('errors' => $errors, 'attribuutit' => $attributes, 'valtiot' => $countries));
         }
     }
 
@@ -284,29 +284,30 @@ class MovieController extends BaseController {
         if (count($errors) == 0) {
             $movie->update();
         } else {
-            $valtiot = Valtio::all();
-            $nayttelijat = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
-            $ohjaajat = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
-            $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
-            $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
-            $genret = Genre::findGenretForElokuva($leffaid);
-            $tamanhetkinenvaltio = $attributes['valtio'];
-            $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
 
-            $nayttelijatALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
-            $ohjaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
-            $kuvaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
-            $kassaritALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
-            $genretALL = Genre::findAllGenresNotInTheMovie($leffaid);
-            $sarjatALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
+            $countries = Valtio::all();
+            $actors = Artisti::findArtistsForMovie($leffaid, "Näyttelijä");
+            $directors = Artisti::findArtistsForMovie($leffaid, "Ohjaaja");
+            $cinematographers = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
+            $screenwriters = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
+            $genres = Genre::findGenretForElokuva($leffaid);
+            $countryATM = $attributes['valtio'];
+            $series = Sarjalaari::findSarjatForElokuva($leffaid);
+
+            $actorsALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
+            $directorsALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
+            $cinematographersALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
+            $screenwritersALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
+            $genresALL = Genre::findAllGenresNotInTheMovie($leffaid);
+            $seriesALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
 
             View::make('/movie/leffamuokkaus.html', array(
-                'valtiot' => $valtiot, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
-                'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat,
-                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'errors' => $errors,
-                'elokuva' => $attributes, 'sarjat' => $sarjat,
-                'nayttelijatALL' => $nayttelijatALL, 'ohjaajatALL' => $ohjaajatALL, 'kuvaajatALL' => $kuvaajatALL,
-                'kasikirjoittajatALL' => $kassaritALL, 'genretALL' => $genretALL, 'sarjatALL' => $sarjatALL
+                'valtiot' => $countries, 'tamanhetkinenvaltio' => $countryATM,
+                'nayttelijat' => $actors, 'ohjaajat' => $directors, 'kuvaajat' => $cinematographers,
+                'kasikirjoittajat' => $screenwriters, 'genret' => $genres, 'errors' => $errors,
+                'elokuva' => $attributes, 'sarjat' => $series,
+                'nayttelijatALL' => $actorsALL, 'ohjaajatALL' => $directorsALL, 'kuvaajatALL' => $cinematographersALL,
+                'kasikirjoittajatALL' => $screenwritersALL, 'genretALL' => $genresALL, 'sarjatALL' => $seriesALL
             ));
         }
     }

@@ -8,17 +8,17 @@ class QueryController extends BaseController {
     /* Ylläpito-sivulle tiedot */
     public static function queryMaintenancePage() {
 
-        $ryhmat = Kyselyryhma::allGroups();
-        $ryhmatAndKyselyt = array();
-        foreach ($ryhmat as $ryhma) {
-            $kyselyryhmat = array();
-            $kyselyryhmat['ryhmaid'] = $ryhma->ryhmaid;
-            $ryhmankyselyt = Kyselyehdotus::allGroup_s_queries($ryhma->ryhmaid);
-            $kyselyryhmat[] = $ryhmankyselyt;
-            $ryhmatAndKyselyt[] = $kyselyryhmat;
+        $groups = Kyselyryhma::allGroups();
+        $groupsAndQueries = array();
+        foreach ($groups as $group) {
+            $querygroup = array();
+            $querygroup['ryhmaid'] = $group->ryhmaid;
+            $queriesOfGroup = Kyselyehdotus::allGroup_s_queries($group->ryhmaid);
+            $querygroup[] = $queriesOfGroup;
+            $groupsAndQueries[] = $querygroup;
         }
 
-        View::make('users/administrator/kyselyjenyllapito.html', array('ryhmat' => $ryhmatAndKyselyt));
+        View::make('users/administrator/kyselyjenyllapito.html', array('ryhmat' => $groupsAndQueries));
     }
     
     /* Tietojen lisäyssivu */
@@ -29,13 +29,13 @@ class QueryController extends BaseController {
     /* Tietojen lisäys */
     public static function addQuery() {
         
-        $param = $_POST;
+        $params = $_POST;
         
         $queryGroup = new Kyselyryhma(array());
         $ryhmaid = $queryGroup->save();
-        $kysely = new Kyselyehdotus(array('kysely' => $param['kysely']));
-        $kysely->save();
-        Kyselyryhma::saveToLaari($ryhmaid, $kysely->kyselyid);      
+        $query = new Kyselyehdotus(array('kysely' => $params['kysely']));
+        $query->save();
+        Kyselyryhma::saveToLaari($ryhmaid, $query->kyselyid);      
         Kyselyryhma::execute($ryhmaid);
         
         Redirect::to('/addquery', array('message' => 'Onnistui! :)'));

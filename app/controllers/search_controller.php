@@ -8,15 +8,15 @@ class SearchController extends BaseController {
     public static function searchpage() {
 
         $params = $_GET;
-        $kuvanpaikka = 0;
-        $valinnat = array();
+        $timeOfPicture = 0;
+        $options = array();
 
         if (isset($params['nayttelijalista']) && $params['nayttelijalista'][0] !== '') {
             $input = $params['nayttelijalista'][0];
             $output = explode(',', $input);
 
             foreach ($output as $n) {
-                $valinnat['nayttelijalista'][] = $n;
+                $options['nayttelijalista'][] = $n;
             }
         }
         if (isset($params['ohjaajalista']) && $params['ohjaajalista'][0] !== '') {
@@ -24,50 +24,50 @@ class SearchController extends BaseController {
             $output = explode(',', $input);
 
             foreach ($output as $n) {
-                $valinnat['ohjaajalista'][] = $n;
+                $options['ohjaajalista'][] = $n;
             }
         }
         if (isset($params['kuvaajalista']) && $params['kuvaajalista'][0] !== '') {
             $input = $params['kuvaajalista'][0];
             $output = explode(',', $input);
             foreach ($output as $n) {
-                $valinnat['kuvaajalista'][] = $n;
+                $options['kuvaajalista'][] = $n;
             }
         }
         if (isset($params['kasikirjoittajalista']) && $params['kasikirjoittajalista'][0] !== '') {
             $input = $params['kasikirjoittajalista'][0];
             $output = explode(',', $input);
             foreach ($output as $n) {
-                $valinnat['kasikirjoittajalista'][] = $n;
+                $options['kasikirjoittajalista'][] = $n;
             }
         }
         if (isset($params['valtio']) && $params['valtio'] !== '...') {
-            $valinnat['valtio'] = (int) $params['valtio'];
+            $options['valtio'] = (int) $params['valtio'];
         }
         if (isset($params['alkuvuosi']) && $params['alkuvuosi'] !== '') {
-            $valinnat['alkuvuosi'] = (int) $params['alkuvuosi'];
+            $options['alkuvuosi'] = (int) $params['alkuvuosi'];
         }
         if (isset($params['loppuvuosi']) && $params['loppuvuosi'] !== '') {
-            $valinnat['loppuvuosi'] = (int) $params['loppuvuosi'];
+            $options['loppuvuosi'] = (int) $params['loppuvuosi'];
         }
         if (isset($params['kieli']) && $params['kieli'] !== '') {
-            $valinnat['kieli'] = $params['kieli'];
+            $options['kieli'] = $params['kieli'];
         }
         if (isset($params['genre']) && $params['genre'] !== '...') {
-            $valinnat['genre'] = (int) $params['genre'];
+            $options['genre'] = (int) $params['genre'];
         }
         if (isset($params['sarja']) && $params['sarja'] !== '...') {
-            $valinnat['sarja'] = (int) $params['sarja'];
+            $options['sarja'] = (int) $params['sarja'];
         }
 
 
-        if (sizeof($valinnat) > 0) {
-            $tulokset = Elokuva::search($valinnat);
-            if (sizeof($tulokset) === 0) {
-                $kuvanpaikka = 1;
+        if (sizeof($options) > 0) {
+            $results = Elokuva::search($options);
+            if (sizeof($results) === 0) {
+                $timeOfPicture = 1;
             }
         } else {
-            $tulokset = null;
+            $results = null;
         }
 
         $valtiot = Valtio::all();
@@ -76,7 +76,7 @@ class SearchController extends BaseController {
 
         View::make('basis/haku.html', array(
             'valtiot' => $valtiot, 'genret' => $genret,'sarjat' => $sarjat,
-            'tulokset' => $tulokset, 'valinnat' => $valinnat, 'kuvanpaikka' => $kuvanpaikka
+            'tulokset' => $results, 'valinnat' => $options, 'kuvanpaikka' => $timeOfPicture
         ));
     }
 

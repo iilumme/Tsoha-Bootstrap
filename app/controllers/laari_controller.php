@@ -2,6 +2,8 @@
 
 /* Eri -Laareihin liittyvien asioiden kontrollointi */
 
+/* Varaudu pahimpaan :D */
+
 class LaariController extends BaseController {
 
 
@@ -12,23 +14,23 @@ class LaariController extends BaseController {
 
     /* Uuden elokuvan artistien, genrejen ja sarjojen ehdotusten tallentaminen */
     public static function storeSuggestion() {
-        $param = $_POST;
-        $ryhmaid = (int) $param['ryhmaid'];
+        $params = $_POST;
+        $ryhmaid = (int) $params['ryhmaid'];
 
-        LaariController::artistilaariSaveSuggestion($param, $ryhmaid);
-        LaariController::genrelaariSaveSuggestion($param, $ryhmaid);
+        LaariController::artistilaariSaveSuggestion($params, $ryhmaid);
+        LaariController::genrelaariSaveSuggestion($params, $ryhmaid);
 
-        if (isset($param['sarjalista'])) {
-            LaariController::sarjalaariSaveSuggestion($param, $ryhmaid);
+        if (isset($params['sarjalista'])) {
+            LaariController::sarjalaariSaveSuggestion($params, $ryhmaid);
         }
 
         Redirect::to('/', array('newMovieMessage' => "Ehdotus elokuvasta tekijöineen lähetetty ylläpitäjälle! :)"));
     }
 
     /* Uuden elokuvan artistiehdotusten tallentaminen */
-    public static function artistilaariSaveSuggestion($param, $ryhmaid) {
+    public static function artistilaariSaveSuggestion($params, $ryhmaid) {
 
-        $input = $param['artistilista'];
+        $input = $params['artistilista'];
         $output = explode(',', $input);
 
         foreach ($output as $artistiid) {
@@ -43,9 +45,9 @@ class LaariController extends BaseController {
     }
 
     /* Uuden elokuvan genreehdotusten tallentaminen */
-    public static function genrelaariSaveSuggestion($param, $ryhmaid) {
+    public static function genrelaariSaveSuggestion($params, $ryhmaid) {
 
-        $input = $param['genrelista'];
+        $input = $params['genrelista'];
         $output = explode(',', $input);
 
         foreach ($output as $genreid) {
@@ -60,9 +62,9 @@ class LaariController extends BaseController {
     }
 
     /* Uuden elokuvan sarjaehdotusten tallentaminen */
-    public static function sarjalaariSaveSuggestion($param, $ryhmaid) {
+    public static function sarjalaariSaveSuggestion($params, $ryhmaid) {
 
-        $input = $param['sarjalista'];
+        $input = $params['sarjalista'];
         $output = explode(',', $input);
 
         foreach ($output as $sarjaid) {
@@ -112,23 +114,23 @@ class LaariController extends BaseController {
 
     /* Elokuvan artistien, genrejen ja sarjojen muokkausehdotusten tallentaminen */
     public static function updateSuggestion($leffaid, $ryhmaid) {
-        $param = $_POST;
+        $params = $_POST;
 
-        LaariController::artistilaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid);
-        LaariController::genrelaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid);
-        LaariController::sarjalaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+        LaariController::artistilaariDeleteOnUpdateSuggestion($params, $leffaid, $ryhmaid);
+        LaariController::genrelaariDeleteOnUpdateSuggestion($params, $leffaid, $ryhmaid);
+        LaariController::sarjalaariDeleteOnUpdateSuggestion($params, $leffaid, $ryhmaid);
 
-        LaariController::artistilaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid);
-        LaariController::genrelaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid);
-        LaariController::sarjalaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid);
+        LaariController::artistilaariSaveOnUpdateSuggestion($params, $leffaid, $ryhmaid);
+        LaariController::genrelaariSaveOnUpdateSuggestion($params, $leffaid, $ryhmaid);
+        LaariController::sarjalaariSaveOnUpdateSuggestion($params, $leffaid, $ryhmaid);
 
         Redirect::to('/movie/' . $leffaid, array('editMessage' => "Ehdotus muokkauksesta lähetetty ylläpitäjälle! :) "));
     }
 
     /* Elokuvan artistiehdotusten tallentaminen - MUOKKAUS */
-    public static function artistilaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    public static function artistilaariDeleteOnUpdateSuggestion($params, $leffaid, $ryhmaid) {
 
-        $input = $param['poistettavatartistit'];
+        $input = $params['poistettavatartistit'];
         $output = explode(',', $input);
 
         foreach ($output as $artistiid) {
@@ -143,9 +145,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan genreehdotusten tallentaminen - MUOKKAUS */
-    public static function genrelaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    public static function genrelaariDeleteOnUpdateSuggestion($params, $leffaid, $ryhmaid) {
 
-        $input = $param['poistettavatgenret'];
+        $input = $params['poistettavatgenret'];
         $output = explode(',', $input);
 
         foreach ($output as $genreid) {
@@ -160,9 +162,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan genreehdotusten tallentaminen - MUOKKAUS */
-    public static function sarjalaariDeleteOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    public static function sarjalaariDeleteOnUpdateSuggestion($params, $leffaid, $ryhmaid) {
 
-        $input = $param['poistettavatsarjat'];
+        $input = $params['poistettavatsarjat'];
         $output = explode(',', $input);
 
         foreach ($output as $sarjaid) {
@@ -177,9 +179,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan artistiehdotusten tallentaminen */
-    public static function artistilaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    public static function artistilaariSaveOnUpdateSuggestion($params, $leffaid, $ryhmaid) {
 
-        $input = $param['artistilista'];
+        $input = $params['artistilista'];
         $output = explode(',', $input);
 
         foreach ($output as $artistiid) {
@@ -194,9 +196,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan genreehdotusten tallentaminen */
-    public static function genrelaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    public static function genrelaariSaveOnUpdateSuggestion($params, $leffaid, $ryhmaid) {
 
-        $input = $param['genrelista'];
+        $input = $params['genrelista'];
         $output = explode(',', $input);
 
         foreach ($output as $genreid) {
@@ -211,9 +213,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan sarjaehdotusten tallentaminen */
-    public static function sarjalaariSaveOnUpdateSuggestion($param, $leffaid, $ryhmaid) {
+    public static function sarjalaariSaveOnUpdateSuggestion($params, $leffaid, $ryhmaid) {
 
-        $input = $param['sarjalista'];
+        $input = $params['sarjalista'];
         $output = explode(',', $input);
 
         foreach ($output as $sarjaid) {
@@ -259,9 +261,9 @@ class LaariController extends BaseController {
     }
 
     /* Artistin elokuvaehdotusten tallentaminen */
-    public static function artistilaariUpdateMoviesSuggestion($param, $artistiid, $ryhmaid) {
+    public static function artistilaariUpdateMoviesSuggestion($params, $artistiid, $ryhmaid) {
 
-        $input = $param['poistettavatelokuvat'];
+        $input = $params['poistettavatelokuvat'];
         $output = explode(',', $input);
 
         foreach ($output as $leffaid) {
@@ -273,7 +275,7 @@ class LaariController extends BaseController {
             }
         }
 
-        $in = $param['leffalista'];
+        $in = $params['leffalista'];
         $out = explode(',', $in);
 
         foreach ($out as $leffaid) {
@@ -292,23 +294,23 @@ class LaariController extends BaseController {
 
     /* Uuden elokuvan artistien, genrejen ja sarjojen tallentaminen - ylläpitäjä tekee */
     public static function administratorStore() {
-        $param = $_POST;
-        $leffaid = (int) $param['leffaid'];
+        $params = $_POST;
+        $leffaid = (int) $params['leffaid'];
 
-        LaariController::artistilaariSaveAdministrator($param, $leffaid);
-        LaariController::genrelaariSaveAdministrator($param, $leffaid);
+        LaariController::artistilaariSaveAdministrator($params, $leffaid);
+        LaariController::genrelaariSaveAdministrator($params, $leffaid);
 
-        if (isset($param['sarjalista'])) {
-            LaariController::sarjalaariSaveAdministrator($param, $leffaid);
+        if (isset($params['sarjalista'])) {
+            LaariController::sarjalaariSaveAdministrator($params, $leffaid);
         }
 
         Redirect::to('/movie/' . $leffaid, array('newMovieMessage' => "Elokuva kokonaisuudessaan lisätty! :)"));
     }
 
     /* Uuden elokuvan artistien tallentaminen - ylläpitäjä tekee */
-    public static function artistilaariSaveAdministrator($param, $leffaid) {
+    public static function artistilaariSaveAdministrator($params, $leffaid) {
 
-        $input = $param['artistilista'];
+        $input = $params['artistilista'];
         $output = explode(',', $input);
 
         foreach ($output as $artistiid) {
@@ -321,9 +323,9 @@ class LaariController extends BaseController {
     }
 
     /* Uuden elokuvan genrejen tallentaminen - ylläpitäjä tekee */
-    public static function genrelaariSaveAdministrator($param, $leffaid) {
+    public static function genrelaariSaveAdministrator($params, $leffaid) {
 
-        $input = $param['genrelista'];
+        $input = $params['genrelista'];
         $output = explode(',', $input);
 
         foreach ($output as $genreid) {
@@ -336,9 +338,9 @@ class LaariController extends BaseController {
     }
 
     /* Uuden elokuvan sarjojen tallentaminen - ylläpitäjä tekee */
-    public static function sarjalaariSaveAdministrator($param, $leffaid) {
+    public static function sarjalaariSaveAdministrator($params, $leffaid) {
 
-        $input = $param['sarjalista'];
+        $input = $params['sarjalista'];
         $output = explode(',', $input);
 
         foreach ($output as $sarjaid) {
@@ -352,23 +354,23 @@ class LaariController extends BaseController {
 
     /* Elokuvan artistien, genrejen ja sarjojen muokkaaminen - ylläpitäjä tekee */
     public static function administratorUpdate($leffaid) {
-        $param = $_POST;
+        $params = $_POST;
 
-        LaariController::artistilaariDeleteAdministrator($param, $leffaid);
-        LaariController::genrelaariDeleteAdministrator($param, $leffaid);
-        LaariController::sarjalaariDeleteAdministrator($param, $leffaid);
+        LaariController::artistilaariDeleteAdministrator($params, $leffaid);
+        LaariController::genrelaariDeleteAdministrator($params, $leffaid);
+        LaariController::sarjalaariDeleteAdministrator($params, $leffaid);
 
-        LaariController::artistilaariSaveAdministrator($param, $leffaid);
-        LaariController::genrelaariSaveAdministrator($param, $leffaid);
-        LaariController::sarjalaariSaveAdministrator($param, $leffaid);
+        LaariController::artistilaariSaveAdministrator($params, $leffaid);
+        LaariController::genrelaariSaveAdministrator($params, $leffaid);
+        LaariController::sarjalaariSaveAdministrator($params, $leffaid);
 
         Redirect::to('/movie/' . $leffaid, array('newMovieMessage' => "Elokuvan muokkaaminen onnistui! :) "));
     }
 
     /* Elokuvan artistien muokkaaminen - ylläpitäjä tekee */
-    public static function artistilaariDeleteAdministrator($param, $leffaid) {
+    public static function artistilaariDeleteAdministrator($params, $leffaid) {
 
-        $input = $param['poistettavatartistit'];
+        $input = $params['poistettavatartistit'];
         $output = explode(',', $input);
 
         foreach ($output as $artistiid) {
@@ -381,9 +383,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan genrejen muokkaaminen - ylläpitäjä tekee */
-    public static function genrelaariDeleteAdministrator($param, $leffaid) {
+    public static function genrelaariDeleteAdministrator($params, $leffaid) {
 
-        $input = $param['poistettavatgenret'];
+        $input = $params['poistettavatgenret'];
         $output = explode(',', $input);
 
         foreach ($output as $genreid) {
@@ -396,9 +398,9 @@ class LaariController extends BaseController {
     }
 
     /* Elokuvan genrejen muokkaaminen - ylläpitäjä tekee */
-    public static function sarjalaariDeleteAdministrator($param, $leffaid) {
+    public static function sarjalaariDeleteAdministrator($params, $leffaid) {
 
-        $input = $param['poistettavatsarjat'];
+        $input = $params['poistettavatsarjat'];
         $output = explode(',', $input);
 
         foreach ($output as $sarjaid) {
@@ -411,9 +413,9 @@ class LaariController extends BaseController {
     }
 
     /* Artistin elokuvien tallentaminen */
-    public static function artistilaariUpdateMoviesAdministrator($param, $artistiid) {
+    public static function artistilaariUpdateMoviesAdministrator($params, $artistiid) {
 
-        $input = $param['poistettavatelokuvat'];
+        $input = $params['poistettavatelokuvat'];
         $output = explode(',', $input);
 
         foreach ($output as $leffaid) {
@@ -425,7 +427,7 @@ class LaariController extends BaseController {
             }
         }
 
-        $in = $param['leffalista'];
+        $in = $params['leffalista'];
         $out = explode(',', $in);
 
         foreach ($out as $leffaid) {

@@ -5,23 +5,26 @@
 class MessageController extends BaseController {
 
 
+    /* Postilaatikkosivulle tiedot */
     public static function mailbox() {
-        $saapuneet = Viesti::arrived();
-        $lahetetyt = Viesti::sent();
-        $kayttajat = Kayttaja::all();
+        $arrived = Viesti::arrived();
+        $sent = Viesti::sent();
+        $users = Kayttaja::all();
         $coA = Viesti::countOfArrived();
         $coS = Viesti::countOfSent();
         View::make('users/registered_user/postilaatikko.html', array(
-            'saapuneet' => $saapuneet, 'lahetetyt' => $lahetetyt,
-            'kayttajat' => $kayttajat, 'countOfArrived' => $coA,
+            'saapuneet' => $arrived, 'lahetetyt' => $sent,
+            'kayttajat' => $users, 'countOfArrived' => $coA,
             'countOfSent' => $coS));
     }
 
+    /* Viesti luetuksi */
     public static function read($viestiid) {
         Viesti::read($viestiid);
         Redirect::to('/mailbox');
     }
 
+    /* Tallennetaan uusi viesti */
     public static function store($location) {
         $params = $_POST;
 
@@ -40,6 +43,7 @@ class MessageController extends BaseController {
         }
     }
 
+    /* Muokataan viestiä */
     public static function update() {
         $params = $_POST;
 
@@ -54,18 +58,18 @@ class MessageController extends BaseController {
         Redirect::to('/mailbox');
     }
     
+    /* Poistetaan viesti */
     public static function destroy() {
         $params = $_POST;
-
         $message = new Viesti(array(
             'viestiid' => $params['viestiid']
         ));
 
         $message->destroy();
-
         Redirect::to('/mailbox');
     }
     
+    /* Poistetaan kaikki saapuneet/lähetetyt viestit */
     public static function destroyAll() {
         $params = $_POST;
 
