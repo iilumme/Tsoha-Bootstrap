@@ -1,4 +1,4 @@
-# LATLeffaLaarin esittelysivu ![Cactus](/images/isocactus.png)
+# ![Taco](/images/taco.png) LATLeffaLaarin esittelysivu ![Cactus](/images/isocactus.png)
 
 Yleisiä linkkejä:
 
