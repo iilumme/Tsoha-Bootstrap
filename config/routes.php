@@ -282,7 +282,7 @@ $routes->post('/artistipostisivumuokkaus/:id', function($id) {
     if (BaseController::isAdministrator() == TRUE) {
         ArtistController::administratorStore($id);
     } else {
-        ArtistController::storeSuggestionUpdate($id);
+        ArtistController::storeSuggestionOnMovieUpdate($id);
     }
 });
 

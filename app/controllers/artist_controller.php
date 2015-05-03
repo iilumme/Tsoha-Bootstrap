@@ -35,8 +35,7 @@ class ArtistController extends BaseController {
         ));
     }
 
-    /* Uuden artistiehdotuksen tallentaminen */
-    //HUOMIO ITSELLE!
+    /* Uusi ehdotus uudesta artistista ja sen tallentaminen */
     public static function storeSuggestion($ryhmaid) {
         $params = $_POST;
 
@@ -60,9 +59,8 @@ class ArtistController extends BaseController {
         }
     }
 
-    /* Uuden artistiehdotuksen tallentaminen */
-    //HUOMIO ITSELLE!
-    public static function storeSuggestionUpdate($leffaid) {
+    /* Uusi ehdotus uudesta artistista, elokuvan päivittämisen yhteydessä */
+    public static function storeSuggestionOnMovieUpdate($leffaid) {
         $params = $_POST;
 
         $attributes = array(
@@ -131,8 +129,11 @@ class ArtistController extends BaseController {
         Redirect::to('/artistmaintenance', array('deleteMessage' => 'Artistin poistaminen onnistui! :)'));
     }
 
+    
+    /* YLLÄPITÄJÄN METODIT */
+
+
     /* Uuden artistin lisäys - ylläpitäjä tekee */
-    //HUOMIO ITSELLE!!
     public static function administratorStore($leffaid) {
         $params = $_POST;
 
@@ -175,11 +176,15 @@ class ArtistController extends BaseController {
             $artist->update();
             LaariController::artistilaariUpdateMoviesAdministrator($params, $artistiid);
             Redirect::to('/artist/' . $artistiid, array('message' => 'Tietojen päivittäminen onnistui! :)'));
-        } else {
+        } else {         
+            $attributes['kuva'] = Artisti::findOne($artistiid)->kuva;
             $countries = Valtio::all();
             $countryATM = $attributes['valtio'];
+            $movies = Elokuva::findElokuvatForArtisti($artistiid);
+            $moviesALL = Elokuva::all();
             View::make('/artist/artistimuokkaus.html', array('valtiot' => $countries,
-                'tamanhetkinenvaltio' => $countryATM, 'artisti' => $attributes, 'errors' => $errors
+                'tamanhetkinenvaltio' => $countryATM, 'artisti' => $attributes, 'errors' => $errors,
+                'elokuvat' => $movies, 'elokuvatALL' => $moviesALL
             ));
         }
     }
