@@ -4,7 +4,8 @@
 
 class Arviolaari extends BaseModel {
 
-    public $kayttajaid, $kayttajatunnus, $leffaid, $tahti, $lisatty;
+
+    public $kayttajaid, $kayttajatunnus, $leffaid, $leffanimi, $tahti, $lisatty;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -75,8 +76,29 @@ class Arviolaari extends BaseModel {
             }
             return $sum / sizeof($stars);
         }
-        
+
         return null;
+    }
+
+    //SELECT * FROM ArvioLaari A, Elokuva E WHERE A.leffaID=E.leffaID AND kayttajaID = 1 ORDER BY tahti DESC, leffaNimi 
+
+    public static function findUsersStarredMovies($kayttajaid) {
+        $query = DB::connection()->prepare('SELECT * '
+                . 'FROM ArvioLaari A, Elokuva E '
+                . 'WHERE A.leffaID=E.leffaID AND kayttajaID = :kayttajaid ORDER BY tahti DESC, leffaNimi ');
+        $query->execute(array('kayttajaid' => $kayttajaid));
+        $rows = $query->fetchAll();
+
+        $starredmovies = array();
+        foreach ($rows as $row) {
+            $starredmovies[] = new Arviolaari(array(
+                'leffaid' => $row['leffaid'],
+                'leffanimi' => $row['leffanimi'],
+                'tahti' => $row['tahti']
+            ));
+        }
+
+        return $starredmovies;
     }
 
 }

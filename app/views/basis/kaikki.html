@@ -7,7 +7,7 @@
         <h2 style="text-align: center">Kaikki elokuvat, tekijät ja valtiot</h2>
         <br>
         <div class="row kaikki">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label style="text-align: center"><strong>Elokuvat</strong></label>
                 <br>
                 <ul>
@@ -16,7 +16,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label style="text-align: center"><strong>Tekijät</strong></label>
                 <br>
                 <ul>
@@ -25,7 +25,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label style="text-align: center"><strong>Valtiot</strong></label>
                 <br>
                 <ul>
@@ -34,6 +34,17 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% if user_logged_in %}
+            <div class="col-md-3">
+                <label style="text-align: center"><strong>Käyttäjät</strong></label>
+                <br>
+                <ul>
+                    {% for kayttaja in kayttajat %}
+                    <li><a href="{{base_path}}/userpage/{{kayttaja.kayttajaid}}">{{kayttaja.kayttajatunnus}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
         <br>
     </div>

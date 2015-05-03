@@ -9,6 +9,7 @@ CREATE TABLE Kayttaja (
   nimi             VARCHAR(20) NOT NULL,
   salasana         VARCHAR(20) NOT NULL,
   lempiGenre       INT         NOT NULL,
+  kuva             INT         NOT NULL,
   rekisteroitynyt  TIMESTAMP   NOT NULL,
   viimeksiMuutettu TIMESTAMP   NOT NULL,
   FOREIGN KEY (lempiGenre) REFERENCES Genre (genreID) ON DELETE RESTRICT
@@ -140,4 +141,15 @@ CREATE TABLE KyselyryhmaLaari (
   kyselyID INT,
   FOREIGN KEY (ryhmaID) REFERENCES Kyselyryhma (ryhmaID) ON DELETE CASCADE,
   FOREIGN KEY (kyselyID) REFERENCES Kyselyehdotus (kyselyID) ON DELETE CASCADE
+);
+
+CREATE TABLE Viesti (
+  viestiID      SERIAL PRIMARY KEY,
+  lahettaja     INT NOT NULL,
+  vastaanottaja INT NOT NULL,
+  teksti        VARCHAR(2000),
+  luettu        BOOLEAN,
+  lahetetty     TIMESTAMP,
+  FOREIGN KEY (lahettaja) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE,
+  FOREIGN KEY (vastaanottaja) REFERENCES Kayttaja (kayttajaID) ON DELETE CASCADE
 );

@@ -13,11 +13,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Artistin etunimi</label>
-                        <input type="text" name="etunimi" class="form-control">
+                        <input type="text" name="etunimi" class="form-control" id="artistietunimi">
                     </div>
                     <div class="form-group">
                         <label>Artistin sukunimi</label>
-                        <input type="text" name="sukunimi" class="form-control">
+                        <input type="text" name="sukunimi" class="form-control" id="artistisukunimi">
                     </div>
                     <div class="form-group">
                         <label>Artistin "tyyppi"</label>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label>Syntymävuosi</label>
-                        <input type="number" name="syntymavuosi" class="form-control">
+                        <input type="number" name="syntymavuosi" class="form-control" id="vuosi">
                     </div>
                     <div class="dropdown">
                         <label>Maa</label>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label>Bio</label>
-                        <input type="text" name="bio" class="form-control">
+                        <input type="text" name="bio" class="form-control" id="bio">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -163,7 +163,7 @@
                         </select>                       
                     </div> 
                     <br>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default peruutapoisto" data-dismiss="modal">Peruuta</button>
@@ -276,3 +276,102 @@
 </div>
 {% endmacro %}
 
+
+<!--UUDEN VIESTIN LÄHETTÄMINEN-->
+
+{% macro message_modal(lahettaja, vastaanottaja, action) %}
+<div class="modal fade" id="viestimodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="viestimodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Viesti</h4>
+            </div>
+            <form method="post" action="{{action}}">
+                <div class="modal-body">                  
+                    <div class="form-group">  
+                        <textarea id="tekstiboxi" class="form-group viestiteksti" name="teksti" maxlength="2000"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="lahettaja" value="{{lahettaja}}" id="lahettaja">
+                <input type="hidden" name="vastaanottaja" value="{{vastaanottaja}}" id="vastaanottaja">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default hups" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lähetä</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+<!--VIESTIN MUOKKAAMINEN-->
+
+{% macro messageupdate_modal(kayttajat, action) %}
+<div class="modal fade" id="viestimuokkausmodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="viestimuokkausmodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Viestin muokkaaminen</h4>
+            </div>
+            <form method="post" action="{{action}}">
+                <div class="modal-body"> 
+                    <div class="form-group">  
+                        <label>Vastaanottaja</label>
+                        <select class="form-control" name="vastaanottaja">
+                            {% for kayttaja in kayttajat %}
+                            <option value="{{kayttaja.kayttajaid}}">{{kayttaja.kayttajatunnus}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">  
+                        <textarea id="viestiboksi" class="form-group" name="teksti"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="viestiid" id="viestiid">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lähetä</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+<!--UUDEN VIESTIN LÄHETTÄMINEN POSTILAATIKOSSA-->
+
+{% macro messagebox_modal(lahettaja, kayttajat, action) %}
+<div class="modal fade" id="viestilaatikkomodaali" tabindex="-1" role="dialog" 
+     aria-labelledby="viestilaatikkomodaaliLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Viesti</h4>
+            </div>
+            <form method="post" action="{{action}}">
+                <div class="modal-body">
+                    <div class="form-group">  
+                        <label>Vastaanottaja</label>
+                        <select class="form-control" name="vastaanottaja">
+                            {% for kayttaja in kayttajat %}
+                            <option value="{{kayttaja.kayttajaid}}">{{kayttaja.kayttajatunnus}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">  
+                        <textarea id="tekstiboxi" class="form-group viestiteksti" name="teksti" maxlength="2000"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="lahettaja" value="{{lahettaja}}" id="lahettaja">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default hups" data-dismiss="modal">Peruuta</button>
+                    <button type="submit" class="btn btn-info">Lähetä</button>
+                </div>
+            </form>           
+        </div>
+    </div>
+</div>
+{% endmacro %}

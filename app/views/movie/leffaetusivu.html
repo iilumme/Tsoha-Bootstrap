@@ -239,7 +239,7 @@
             {% if dvdt %}
             <ul>
                 {% for dvd in dvdt %}
-                <li>{{dvd.kayttajatunnus}}</li>
+                <li><a href="{{base_path}}/userpage/{{dvd.kayttajaid}}">{{dvd.kayttajatunnus}}</a></li>
                 {%endfor%}
             </ul>
             {% else %}

@@ -51,6 +51,8 @@
                                             <li><a href="{{base_path}}/addmovie"><span class="glyphicon glyphicon-film"></span> Lisää elokuva</a></li>
                                             <li><a href="{{base_path}}/search"><span class="glyphicon glyphicon-search"></span> Haku</a></li>
                                             <li><a href="{{base_path}}/allobjects"><span class="glyphicon glyphicon-th"></span> Kaikki</a></li>
+                                            <li><a href="{{base_path}}/mailbox"><span class="glyphicon glyphicon-envelope"></span>
+                                                    Postilaatikko <span class="badge badge-nav">{{count_of_arrived}}</span></a></li>
                                             <li><a href="{{base_path}}/mypage"><span class="glyphicon glyphicon-user"></span> {{user_logged_in.nimi}}</a></li>
                                             <form class="navbar-form navbar-right" method="post" action="{{base_path}}/logout">
                                                 <li><a type="submit" onclick="$(this).closest('form').submit()"><span class="glyphicon glyphicon-log-out"></span> Kirjaudu ulos</a></li>

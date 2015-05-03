@@ -48,6 +48,18 @@
                         {%endfor%}
                     </select>           
                 </div>
+                <div class="form-group">
+                    <label>Kaktus vai taco?</label>
+                    <select class="form-control" name="kuva">
+                        {% if kayttaja.kuva == 1 %}
+                        <option value="1" selected="">Kaktus</option>
+                        <option value="0">Taco</option>
+                        {%else%}
+                        <option value="1">Kaktus</option>
+                        <option value="0" selected="">Taco</option>
+                        {%endif%}
+                    </select>
+                </div>
             </div>
         </div>
     </form>

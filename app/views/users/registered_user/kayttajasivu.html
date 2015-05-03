@@ -1,19 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% import "macros/modals.html" as modals %}
+{{modals.message_modal(lahettaja, "#{kayttaja.kayttajaid}", "#{base_path}/viestipostisivu")}}
+
 <div class="bg">
     <div class="row">
-        <div class="col-md-9">
-            <h2 style="font-family: sans-serif">{{kayttaja.nimi}}</h2>    
+        <div class="col-md-8">
+                {% if kayttaja.kuva == 1%}
+                <img src="{{base_path}}/images/isocactus.png" alt="WIKIMEDIA COMMONS" style="float:left;">
+                {% else %}
+                <img src="{{base_path}}/images/taco.png" alt="WIKIMEDIA COMMONS" style="float:left;">
+                {% endif %}
+                <br>
+                <h2 style="font-family: sans-serif">{{kayttaja.kayttajatunnus}}</h2>
         </div>
-
-        <div class="col-md-3">
-            <a class="btn btn-success" role="button" href="#">Lähetä viesti</a>
+        <div class="col-md-4">
+            <button class="btn btn-success" data-toggle="modal" data-target="#viestimodaali">Lähetä viesti</button>
         </div>
     </div>
     <br>
     <div class="row">
-        
+        <div class="col-md-4">
+            <label>Suosikkielokuvat</label>
+            {% if suosikit %}
+            <table class="table table-striped">
+                <tbody>
+                    {% for elokuva in suosikit %}
+                    <tr><td><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h6 style="text-shadow: none">Käyttäjällä ei ole suosikkeja</h6>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <label>DVDt</label>
+            {% if dvdt %}
+            <table class="table table-striped">
+                <tbody>
+                    {% for elokuva in dvdt %}
+                    <tr><td><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h6 style="text-shadow: none">Käyttäjällä ei ole DVDitä</h6>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <label>Arviot</label>
+            {% if arviot %}
+            <table class="table table-striped">
+                <tbody>
+                    {% for elokuva in arviot %}
+                    <tr>
+                        <td><a href="{{base_path}}/movie/{{elokuva.leffaid}}">{{elokuva.leffanimi}}</a></td>
+                        <td>{{elokuva.tahti}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h6 style="text-shadow: none">Käyttäjällä ei ole arvioinut elokuvia</h6>
+            {% endif %}
+        </div>
     </div>
 </div>
 

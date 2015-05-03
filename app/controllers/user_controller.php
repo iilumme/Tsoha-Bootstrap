@@ -39,6 +39,17 @@ class UserController extends BaseController {
         View::make('users/registered_user/omasivu.html');
     }
     
+    /* Käyttäjän sivu */
+    public static function userPage($kayttajaid) {
+        $kayttaja = Kayttaja::findOne($kayttajaid);
+        $suosikit = Elokuva::findSuosikkiElokuvat($kayttajaid);
+        $dvdt = Elokuva::findDVDTForKayttaja($kayttajaid);
+        $arviot = Arviolaari::findUsersStarredMovies($kayttajaid);
+        View::make('users/registered_user/kayttajasivu.html', array(
+            'kayttaja' => $kayttaja, 'suosikit' => $suosikit,
+            'dvdt' => $dvdt, 'arviot' => $arviot, 'lahettaja' => self::get_user_logged_in()->kayttajaid));
+    }
+    
     /* Käyttäjän tietojen muokkaussivu */
     public static function profileEdit() {
         $kayttaja = self::get_user_logged_in();
@@ -113,7 +124,8 @@ class UserController extends BaseController {
             'nimi' => $params['nimi'],
             'kayttajatunnus' => $params['kayttajatunnus'],
             'salasana' => $params['salasana'],
-            'lempigenre' => $params['lempigenre']
+            'lempigenre' => $params['lempigenre'],
+            'kuva' => $params['kuva']
         );
 
         $user = new Kayttaja($attributes);
@@ -138,7 +150,8 @@ class UserController extends BaseController {
             'nimi' => $params['nimi'],
             'kayttajatunnus' => $params['kayttajatunnus'],
             'salasana' => $params['salasana'],
-            'lempigenre' => $params['lempigenre']
+            'lempigenre' => $params['lempigenre'],
+            'kuva' => $params['kuva']
         );
 
         $user = new Kayttaja($attributes);

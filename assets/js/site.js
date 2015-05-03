@@ -96,12 +96,10 @@ $(document).ready(function () {
 
                         $('#lisatty').text('Uusi artisti lisätty!');
                         $('#lisaysmodaali').modal('hide');
-//                        $('.modal-body').on('hidden.bs.modal', '.modal', function (e) {
-//                            $('.modal-body').removeData('bs.modal');
-//                        });
-
                     });
+
         });
+
 
         $("form[data-submit-type='ajax genre']").submit(function (ev) {
             ev.preventDefault();
@@ -371,6 +369,38 @@ $(document).ready(function () {
             console.log($poistettavatsarjat);
         }).change();
 
+        $('#arrived a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('#sent a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('.viestivastaus').click(function (e) {
+            var $this = $(this);
+            console.log($this);
+            $('#vastaanottaja').val($this.val());
+            console.log($('#lahettaja').val());
+            console.log($('#vastaanottaja').val());
+        }).change();
+
+
+        $('.hups').click(function (event) {
+            $('.viestiteksti').val('');
+        }).change();
+        $('#viestimodaali').on('hide.bs.modal', function (e) {
+            $('.viestiteksti').val('');
+        });
+
+        $('.viestimuokkaus').click(function (e) {
+            var $this = $(this);
+            console.log($this);
+            $('#viestiid').val($this.val());
+            console.log($('#viestiid').val());
+        }).change();
 
     });
 });

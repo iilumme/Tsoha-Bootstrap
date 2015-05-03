@@ -16,7 +16,7 @@ class DVDlista extends BaseModel {
     //
 
     public static function findDVDSForMovie($leffaid) {
-        $query = DB::connection()->prepare('SELECT K.kayttajaTunnus '
+        $query = DB::connection()->prepare('SELECT K.kayttajaTunnus, K.kayttajaID '
                 . 'FROM DVDLista D, Kayttaja K '
                 . 'WHERE D.kayttajaID=K.kayttajaID AND leffaid = :leffaid '
                 . 'ORDER BY K.kayttajatunnus');
@@ -26,6 +26,7 @@ class DVDlista extends BaseModel {
         $users = array();
         foreach ($rows as $row) {
             $users[] = new DVDlista(array(
+                'kayttajaid' => $row['kayttajaid'],
                 'kayttajatunnus' => $row['kayttajatunnus']
             ));
         }

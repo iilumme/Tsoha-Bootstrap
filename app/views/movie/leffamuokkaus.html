@@ -19,6 +19,8 @@
         </ul>
     </div>
     {% endif %}
+    
+    <div class="alert alert-success" id="lisatty" style="text-shadow: none"></div>
 
     <form method="post" action="{{base_path}}/movieeditpage/{{elokuva.leffaid}}" >
         <div class="row">
@@ -182,7 +184,7 @@
                 <div class="form-group">
                     <label>Synopsis</label>
                     <textarea class="form-group" style="font-family: monospace" 
-                              id="synopsisteksti" name="synopsis">{{elokuva.synopsis}}</textarea>
+                              id="tekstiboxi" name="synopsis">{{elokuva.synopsis}}</textarea>
                 </div>
             </div>
         </div>

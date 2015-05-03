@@ -63,6 +63,38 @@ $routes->get('/mypage/edit', 'check_logged_in', function() {
 $routes->post('/usereditpage', function() {
     UserController::update(BaseController::get_user_logged_in()->kayttajaid);
 });
+//Käyttäjä sivu
+$routes->get('/userpage/:id', 'check_logged_in', function($id) {
+    UserController::userPage($id);
+});
+
+//Viestipostisivut
+$routes->post('/viestipostisivu', function() {
+    MessageController::store('/userpage/');
+});
+$routes->post('/viestiposti', function() {
+    MessageController::store('/mailbox');
+});
+
+$routes->post('/viestipoisto', function() {
+    MessageController::destroy();
+});
+
+$routes->post('/viestipoistokaikki', function() {
+    MessageController::destroyAll();
+});
+
+$routes->post('/viestipaivityssivu', function() {
+    MessageController::update();
+});
+
+//Postilaatikko
+$routes->get('/mailbox', function() {
+    MessageController::mailbox();
+});
+$routes->post('/luettu/:id', function($id) {
+    MessageController::read($id);
+});
 
 //Listat
 $routes->get('/favourites', 'check_logged_in', function() {

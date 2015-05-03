@@ -16,6 +16,11 @@ class View {
             if (method_exists('BaseController', 'get_user_logged_in')) {
                 $content['user_logged_in'] = BaseController::get_user_logged_in();
             }
+            
+            // Asetetaan näkymään saapuneiden ei-luettujen viestien määrä
+            if (method_exists('Viesti', 'countOfArrived') && BaseController::get_user_logged_in()) {
+                $content['count_of_arrived'] = Viesti::countOfArrived();
+            }
 
             // Tulostetaan Twig:n renderöimä näkymä
             echo $twig->render($view, $content);

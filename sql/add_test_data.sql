@@ -120,19 +120,30 @@ INSERT INTO SarjaLaari VALUES ((SELECT sarjaID FROM Sarja WHERE sarjaNimi='la Tr
 
 
 
-INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
-VALUES ('iilumme', 'Iina', 'hehe1995', (SELECT genreID FROM Genre WHERE genreNimi='Draama'), NOW(), NOW());
-INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
-VALUES ('admin', 'Admin', 'administrator', (SELECT genreID FROM Genre WHERE genreNimi='Draama'), NOW(), NOW());
-INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
-VALUES ('talumme', 'Tapani', 'hauska', (SELECT genreID FROM Genre WHERE genreNimi='Komedia'), NOW(), NOW());
-INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
-VALUES ('kselantaus', 'Kristiina', 'rucola', (SELECT genreID FROM Genre WHERE genreNimi='Draama'), NOW(), NOW());
-INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
-VALUES ('sapez', 'Sampo', 'huuhkaja', (SELECT genreID FROM Genre WHERE genreNimi='Komedia'), NOW(), NOW());
-INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu)
-VALUES ('ohjaaja', 'Ohjaaja', 'tsoha1', (SELECT genreID FROM Genre WHERE genreNimi='Musikaali'), NOW(), NOW());
-
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('iilumme', 'Iina', 'hehe1995', (SELECT genreID
+                                        FROM Genre
+                                        WHERE genreNimi = 'Draama'), 1, NOW(), NOW());
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('admin', 'Admin', 'administrator', (SELECT genreID
+                                            FROM Genre
+                                            WHERE genreNimi = 'Draama'), 1, NOW(), NOW());
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('talumme', 'Tapani', 'hauska', (SELECT genreID
+                                        FROM Genre
+                                        WHERE genreNimi = 'Komedia'), 0, NOW(), NOW());
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('kselantaus', 'Kristiina', 'rucola', (SELECT genreID
+                                              FROM Genre
+                                              WHERE genreNimi = 'Draama'), 0, NOW(), NOW());
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('sapez', 'Sampo', 'huuhkaja', (SELECT genreID
+                                       FROM Genre
+                                       WHERE genreNimi = 'Komedia'), 1, NOW(), NOW());
+INSERT INTO Kayttaja (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu)
+VALUES ('ohjaaja', 'Ohjaaja', 'tsoha1', (SELECT genreID
+                                         FROM Genre
+                                         WHERE genreNimi = 'Musikaali'), 0, NOW(), NOW());
 
 INSERT INTO Suosikkilista VALUES ((SELECT kayttajaID FROM Kayttaja WHERE kayttajaTunnus='iilumme'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Amores perros'));
 INSERT INTO Suosikkilista VALUES ((SELECT kayttajaID FROM Kayttaja WHERE kayttajaTunnus='iilumme'),(SELECT leffaID FROM Elokuva WHERE leffaNimi='Hermano'));

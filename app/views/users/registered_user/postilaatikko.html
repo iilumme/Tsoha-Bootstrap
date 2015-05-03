@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% import "macros/modals.html" as modals %}
+{{modals.message_modal("#{user_logged_in.kayttajaid}", 0, "#{base_path}/viestiposti")}}
+{{modals.messagebox_modal("#{user_logged_in.kayttajaid}", kayttajat, "#{base_path}/viestiposti")}}
+{{modals.messageupdate_modal(kayttajat, "#{base_path}/viestipaivityssivu")}}
+
+<div class="bg">  
+    <div class="row">
+        <div role="tabpanel">
+            <ul class="nav nav-tabs">
+                <li role="presentation" id="arrived" class="active"><a href="#arrivedmessages">Saapuneet viestit  <span class="badge badge-modified">{{countOfArrived}}</span></a></li>
+                <li role="presentation" id="sent"><a href="#sentmessages">Lähetetyt viestit  <span class="badge badge-modified">{{countOfSent}}</span></a></li>
+                <li role="presentation"><button class="btn btn-info viestivastaus" data-toggle="modal" 
+                                                data-target="#viestilaatikkomodaali" style="float: right">Lähetä viesti</button></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="arrivedmessages">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Lähettäjä</th>
+                                <th>Viesti</th>
+                                <th>Status</th>
+                                <th>Lähetetty</th>
+                                <th>Lue</th>
+                                <th>Vastaa</th>
+                                <th>Poista 
+                        <form method="post" action="{{base_path}}/viestipoistokaikki">
+                            <input type="hidden" name="kayttajaid" value="{{user_logged_in.kayttajaid}}">
+                            <input type="hidden" name="tyyppi" value="arrived">
+                            <span class="glyphicon glyphicon-trash deleteallmessages" onclick="$(this).closest('form').submit()"></span>
+                        </form>
+                        </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for viesti in saapuneet %}
+                            <tr>
+                                <th>
+                                    {% for kayttaja in kayttajat %}
+                                    {% if kayttaja.kayttajaid == viesti.lahettaja %}
+                                    <a href="{{base_path}}/userpage/{{viesti.lahettaja}}">{{kayttaja.kayttajatunnus}}</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </th>
+                                <th>{{viesti.teksti}}</th>
+                                <th>
+                                    {% if viesti.luettu == TRUE %}
+                                    <label class="label label-success">Luettu</label>
+                                    {% else %}
+                                    <label class="label label-danger">Ei luettu</label>
+                                    {% endif %}
+                                </th>
+                                <th>{{viesti.lahetetty}}</th>
+                                <th>
+                                    {% if viesti.luettu == FALSE %}
+                        <form method="post" action="{{base_path}}/luettu/{{viesti.viestiid}}">
+                            <button class="btn btn-default btn-sm">Lue</button>
+                        </form>
+                        {% endif %}
+                        </th>
+                        <th>
+                            <button class="btn btn-success btn-sm btn-modified viestivastaus" data-toggle="modal" 
+                                    data-target="#viestimodaali" value="{{viesti.lahettaja}}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </th>
+                        <th>
+                        <form method="post" action="{{base_path}}/viestipoisto">
+                            <input type="hidden" value="{{viesti.viestiid}}" name="viestiid">
+                            <button class="btn btn-danger btn-sm" type="submit">Poista</button>                  
+                        </form>
+                        </th>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="sentmessages">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Vastaanottaja</th>
+                                <th>Viesti</th>
+                                <th>Status</th>
+                                <th>Lähetetty</th>
+                                <th>Muokkaa</th>
+                                <th>Poista 
+                        <form method="post" action="{{base_path}}/viestipoistokaikki">
+                            <input type="hidden" name="kayttajaid" value="{{user_logged_in.kayttajaid}}">
+                            <input type="hidden" name="tyyppi" value="sent">
+                            <span class="glyphicon glyphicon-trash deleteallmessages" onclick="$(this).closest('form').submit()"></span>
+                        </form>
+                        </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for viesti in lahetetyt %}
+                            <tr>
+                                <th>              
+                                    {% for kayttaja in kayttajat %}
+                                    {% if kayttaja.kayttajaid == viesti.vastaanottaja %}
+                                    <a href="{{base_path}}/userpage/{{viesti.vastaanottaja}}">{{kayttaja.kayttajatunnus}}</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </th>
+                                <th>{{viesti.teksti}}</th>
+                                <th>
+                                    {% if viesti.luettu == TRUE %}
+                                    <label class="label label-success">Luettu</label>
+                                    {% else %}
+                                    <label class="label label-danger">Ei luettu</label>
+                                    {% endif %}
+                                </th>
+                                <th>{{viesti.lahetetty}}</th>
+                                <th>
+                                    <button class="btn btn-modified btn-sm viestimuokkaus" data-toggle="modal" 
+                                            data-target="#viestimuokkausmodaali" value="{{viesti.viestiid}}">
+                                        <span class="glyphicon glyphicon-italic"></span>
+                                    </button>
+                                </th>
+                                <th>
+                        <form method="post" action="{{base_path}}/viestipoisto">
+                            <input type="hidden" value="{{viesti.viestiid}}" name="viestiid">
+                            <button class="btn btn-danger btn-sm" type="submit">Poista</button>                  
+                        </form>
+                        </th>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

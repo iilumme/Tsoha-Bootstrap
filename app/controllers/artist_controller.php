@@ -55,7 +55,7 @@ class ArtistController extends BaseController {
             $artist->saveSuggestion($ryhmaid);
             LaariController::artistilaariSaveSuggestionWithoutArtistiID($ryhmaid);
         } else {
-            //mieti tämä
+            //LISÄOMINAISUUS
         }
     }
     
@@ -80,7 +80,7 @@ class ArtistController extends BaseController {
             $ryhmaid = $artisti->saveSuggestionOwnGroup();
             LaariController::artistilaariSaveSuggestionWithoutArtistiIDWithLeffaID($leffaid, $ryhmaid);
         } else {
-            //mieti tämä
+            //LISÄOMINAISUUS
         }
     }
 
@@ -148,7 +148,7 @@ class ArtistController extends BaseController {
             $param['artistilista'] = $artistiid;
             LaariController::artistilaariSaveAdministrator($param, $leffaid);
         } else {
-            //mieti tämä
+            //LISÄOMINAISUUS
         }
     }
 

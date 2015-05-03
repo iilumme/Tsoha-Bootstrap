@@ -145,11 +145,11 @@ class Elokuva extends BaseModel {
 
     /* Haetaan elokuvat listoille */
     
-    public static function findSuosikkiElokuvat($kid) {
+    public static function findSuosikkiElokuvat($kayttajaid) {
         $query = DB::connection()->prepare('SELECT * FROM Suosikkilista S, Elokuva E '
                 . 'WHERE kayttajaID= :kayttajaid AND S.leffaID=E.leffaID '
                 . 'ORDER BY E.leffanimi');
-        $query->execute(array('kayttajaid' => $kid));
+        $query->execute(array('kayttajaid' => $kayttajaid));
         $rows = $query->fetchAll();
 
         $elokuvat = array();

@@ -5,7 +5,7 @@
 class Kayttaja extends BaseModel {
 
     public $kayttajaid, $kayttajatunnus, $nimi, $salasana,
-            $lempigenre, $rekisteroitynyt, $viimeksimuutettu;
+            $lempigenre, $kuva, $rekisteroitynyt, $viimeksimuutettu;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -19,6 +19,7 @@ class Kayttaja extends BaseModel {
             'nimi' => $row['nimi'],
             'salasana' => $row['salasana'],
             'lempigenre' => $row['lempigenre'],
+            'kuva' => $row['kuva'],
             'rekisteroitynyt' => $row['rekisteroitynyt'],
             'viimeksimuutettu' => $row['viimeksimuutettu']
         ));
@@ -26,7 +27,7 @@ class Kayttaja extends BaseModel {
 
     /* Haetaan kaikki rekisteröityneet käyttäjät */
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja ORDER BY kayttajatunnus');
         $query->execute();
         $rows = $query->fetchAll();
 
@@ -69,14 +70,15 @@ class Kayttaja extends BaseModel {
     /* Tallennetaan uusi käyttäjä */
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Kayttaja 
-            (kayttajaTunnus, nimi, salasana, lempiGenre, rekisteroitynyt, viimeksiMuutettu) 
-            VALUES (:kayttajatunnus, :nimi, :salasana, :lempigenre, NOW(), NOW()) 
+            (kayttajaTunnus, nimi, salasana, lempiGenre, kuva, rekisteroitynyt, viimeksiMuutettu) 
+            VALUES (:kayttajatunnus, :nimi, :salasana, :lempigenre, :kuva, NOW(), NOW()) 
             RETURNING kayttajaid;');
         $query->execute(array(
             'kayttajatunnus' => $this->kayttajatunnus,
             'nimi' => $this->nimi,
             'salasana' => $this->salasana,
-            'lempigenre' => $this->lempigenre
+            'lempigenre' => $this->lempigenre, 
+            'kuva' => $this->kuva
         ));
 
         $row = $query->fetch();
@@ -87,14 +89,15 @@ class Kayttaja extends BaseModel {
     public function update() {
         $query = DB::connection()->prepare('UPDATE Kayttaja '
                 . 'SET kayttajaTunnus = :kayttajatunnus, nimi = :nimi, '
-                . 'salasana = :salasana, lempiGenre = :lempigenre, viimeksiMuutettu = now() '
+                . 'salasana = :salasana, lempiGenre = :lempigenre, kuva = :kuva, viimeksiMuutettu = now() '
                 . 'WHERE kayttajaID = :kayttajaid RETURNING kayttajaID');
         $query->execute(array(
             'kayttajaid' => $this->kayttajaid,
             'kayttajatunnus' => $this->kayttajatunnus,
             'nimi' => $this->nimi,
             'salasana' => $this->salasana,
-            'lempigenre' => $this->lempigenre
+            'lempigenre' => $this->lempigenre,
+            'kuva' => $this->kuva
         ));
 
         $row = $query->fetch();
