@@ -3,7 +3,8 @@
 /* Kontrolloi artisteihin liittyviä sivuja */
 
 class ArtistController extends BaseController {
-    
+
+
     /* Artistin esittelysivulle tiedot */
     public static function showOne($artistiid) {
 
@@ -26,7 +27,7 @@ class ArtistController extends BaseController {
         $countryATM = Valtio::findValtioForArtisti($artistiid)->valtioid;
         $movies = Elokuva::findElokuvatForArtisti($artistiid);
         $moviesALL = Elokuva::all();
-        
+
         View::make('artist/artistimuokkaus.html', array(
             'artisti' => $artist, 'valtiot' => $countries,
             'elokuvat' => $movies, 'tamanhetkinenvaltio' => $countryATM,
@@ -58,7 +59,7 @@ class ArtistController extends BaseController {
             //LISÄOMINAISUUS
         }
     }
-    
+
     /* Uuden artistiehdotuksen tallentaminen */
     //HUOMIO ITSELLE!
     public static function storeSuggestionUpdate($leffaid) {
@@ -87,7 +88,7 @@ class ArtistController extends BaseController {
     /* Artistin muokkauksehdotuksen tallentaminen */
     public static function updateSuggestion($artistiid) {
         $params = $_POST;
-        
+
         $attributes = array('artistiid' => $artistiid,
             'artistityyppi' => $params['artistityyppi'],
             'etunimi' => $params['etunimi'],
@@ -104,10 +105,14 @@ class ArtistController extends BaseController {
             LaariController::artistilaariUpdateMoviesSuggestion($params, $artistiid, $ryhmaid);
             Redirect::to('/artist/' . $artistiid, array('message' => 'Muokkausehdotus on lähetetty ylläpitäjälle! :)'));
         } else {
+            $attributes['kuva'] = Artisti::findOne($artistiid)->kuva;
             $countries = Valtio::all();
             $countryATM = $attributes['valtio'];
+            $movies = Elokuva::findElokuvatForArtisti($artistiid);
+            $moviesALL = Elokuva::all();
             View::make('/artist/artistimuokkaus.html', array('valtiot' => $countries,
-                'tamanhetkinenvaltio' => $countryATM, 'artisti' => $attributes, 'errors' => $errors
+                'tamanhetkinenvaltio' => $countryATM, 'artisti' => $attributes, 'errors' => $errors,
+                'elokuvat' => $movies, 'elokuvatALL' => $moviesALL
             ));
         }
     }

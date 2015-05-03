@@ -24,7 +24,7 @@ $(document).ready(function () {
             if ($valintakandidaatti !== 0 && $valintakandidaatti !== undefined) {
                 $artistilista[$artistilista.length] = $valintakandidaatti;
                 $('#hidd').val($artistilista);
-                $('#lisatty').text('Artistit lisätty!');
+                $('#lisatty').text('Tekijät lisätty!');
                 console.log($artistilista);
                 $valintakandidaatti = 0;
             }

@@ -39,8 +39,12 @@
                 <label style="text-align: center"><strong>Käyttäjät</strong></label>
                 <br>
                 <ul>
+                    <li><a href="{{base_path}}/userpage/{{administrator.kayttajaid}}"><b>YLLÄPITÄJÄ - lähetä ongelmatilanteissa tänne viestiä</b></a></li>
+                    <br>
                     {% for kayttaja in kayttajat %}
+                    {% if kayttaja.kayttajaid != 2 %}
                     <li><a href="{{base_path}}/userpage/{{kayttaja.kayttajaid}}">{{kayttaja.kayttajatunnus}}</a></li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </div>

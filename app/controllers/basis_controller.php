@@ -21,11 +21,13 @@ class BasisController extends BaseController {
         $artistit = Artisti::all();
         $valtiot = Valtio::all();
         $kayttajat = Kayttaja::all();
+        $administrator = Kayttaja::findOne(2);
         View::make('basis/kaikki.html', array(
             'elokuvat' => $elokuvat,
             'artistit' => $artistit,
             'valtiot' => $valtiot,
-            'kayttajat' => $kayttajat));
+            'kayttajat' => $kayttajat,
+            'administrator' => $administrator));
     }
 
 }

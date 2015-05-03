@@ -39,7 +39,7 @@
         <div class="form-group">
             <label>Lempigenre</label>
             <select class="form-control" name="lempigenre">
-                {%for genre in genret%}
+                {% for genre in genret %}
                 {% if genre.genreid == attribuutit.lempigenre%}
                 <option value="{{genre.genreid}}" selected="">{{genre.genrenimi}}</option>
                 {% else %}
@@ -51,8 +51,18 @@
         <div class="form-group">
             <label>Kaktus vai taco?</label>
             <select class="form-control" name="kuva">
+                {% if attribuutit %}
+                {% if attribuutit.kuva == 1%}
                 <option value="1" selected="">Kaktus</option>
                 <option value="0">Taco</option>
+                {% else %}
+                <option value="1">Kaktus</option>
+                <option value="0" selected="">Taco</option>
+                {% endif%}
+                {% else %}
+                <option value="1" selected="">Kaktus</option>
+                <option value="0">Taco</option>
+                {% endif%}
             </select>
         </div>
         <button type="submit" class="btn btn-default" id="registerbutton">Rekisteröidy</button>

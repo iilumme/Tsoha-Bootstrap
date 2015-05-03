@@ -215,7 +215,7 @@
             {% if arviot %}
             <ul>
                 {% for arvio in arviot %}
-                <li>Käyttäjä <i>{{arvio.kayttajatunnus}}</i> antoi <b>{{arvio.tahti}}</b> tähteä</li>
+                <li>Käyttäjä <a href="{{base_path}}/userpage/{{arvio.kayttajaid}}"><i>{{arvio.kayttajatunnus}}</i></a> antoi <b>{{arvio.tahti}}</b> tähteä</li>
                 {%endfor%}
             </ul>
             {% else %}
@@ -227,7 +227,7 @@
             {% if kommentit %}
             <ul>
                 {% for kommentti in kommentit %}
-                <li>Käyttäjä <i>{{kommentti.kayttajatunnus}}</i>: <b>{{kommentti.teksti}}</b></li>
+                <li>Käyttäjä <a href="{{base_path}}/userpage/{{kommentti.kayttajaid}}"><i>{{kommentti.kayttajatunnus}}</i></a>: <b>{{kommentti.teksti}}</b></li>
                 {%endfor%}
             </ul>
             {% else %}

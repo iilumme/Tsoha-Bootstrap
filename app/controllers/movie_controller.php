@@ -220,12 +220,23 @@ class MovieController extends BaseController {
             $kuvaajat = Artisti::findArtistsForMovie($leffaid, "Kuvaaja");
             $kassarit = Artisti::findArtistsForMovie($leffaid, "Käsikirjoittaja");
             $genret = Genre::findGenretForElokuva($leffaid);
+            $sarjat = Sarjalaari::findSarjatForElokuva($leffaid);
             $tamanhetkinenvaltio = $attributes['valtio'];
+
+            $nayttelijatALL = Artisti::findAllArtistsNotInTheMovieByType("Näyttelijä", $leffaid);
+            $ohjaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Ohjaaja", $leffaid);
+            $kuvaajatALL = Artisti::findAllArtistsNotInTheMovieByType("Kuvaaja", $leffaid);
+            $kassaritALL = Artisti::findAllArtistsNotInTheMovieByType("Käsikirjoittaja", $leffaid);
+            $genretALL = Genre::findAllGenresNotInTheMovie($leffaid);
+            $sarjatALL = Sarja::findAllSeriesNotInTheMovie($leffaid);
 
             View::make('/movie/leffamuokkaus.html', array(
                 'valtiot' => $valtiot, 'tamanhetkinenvaltio' => $tamanhetkinenvaltio,
                 'nayttelijat' => $nayttelijat, 'ohjaajat' => $ohjaajat, 'kuvaajat' => $kuvaajat,
-                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'errors' => $errors, 'elokuva' => $attributes
+                'kasikirjoittajat' => $kassarit, 'genret' => $genret, 'sarjat' => $sarjat,
+                'errors' => $errors, 'elokuva' => $attributes,
+                'nayttelijatALL' => $nayttelijatALL, 'ohjaajatALL' => $ohjaajatALL, 'kuvaajatALL' => $kuvaajatALL,
+                'kasikirjoittajatALL' => $kassaritALL, 'genretALL' => $genretALL, 'sarjatALL' => $sarjatALL
             ));
         }
     }

@@ -28,6 +28,8 @@ class BaseModel {
         $errors = array();
         if ($this->nimi == NULL || $this->nimi == ' ') {
             $errors[] = 'Nimi ei saa olla tyhjä.';
+        } elseif (strlen($this->nimi) > 10) {
+            $errors[] = 'Nimi saa olla maksimissaan 10 merkkiä pitkä.';
         }
         return $errors;
     }
