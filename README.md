@@ -27,9 +27,6 @@ Käyttäjät voivat lainata toisilleen dvd:itä, mikäli haluavat, sovelluksen a
 Tunnukset ohjaajalle:
 > **Tunnus:** ohjaaja **Salasana:** tsoha1
 
-Ylläpitäjä:
-> **Tunnus:** admin **Salasana:** administrator
-
 Osa funktioista toimii/näkyy vain, jos on kirjautunut ja osa vain, jos on ylläpitäjä.
 
 ## Lisenssi
